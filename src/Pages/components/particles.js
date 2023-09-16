@@ -10,16 +10,6 @@ const particlesOptions = {
     size: "",
     opacity: 1
   },
-  backgroundMask: {
-    composite: "destination-out",
-    cover: {
-      color: {
-        value: "#fff"
-      },
-      opacity: 1
-    },
-    enable: false
-  },
   defaultThemes: {},
   delay: 0,
   fullScreen: {
@@ -28,7 +18,7 @@ const particlesOptions = {
   },
   detectRetina: false,
   duration: 0,
-  fpsLimit: 60,
+  fpsLimit: 120,
   interactivity: {
     detectsOn: "window",
     events: {
