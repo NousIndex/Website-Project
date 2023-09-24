@@ -1,18 +1,26 @@
 /* HomePage.css */
 
-/* Container styles */
-.homepage-container {
-    display: flex;
-    align-items: flex-start; /* Adjust alignment as needed */
-    padding: 20px;
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #080016;
+    overflow: hidden;
   }
+
+  /* Container styles */
+  .homepage-container {
+      display: flex;
+      align-items: flex-start; /* Adjust alignment as needed */
+      padding: 1%;
+    }
   
   /* Left Sidebar styles */
   .sidebar {
-    width: 200px;
+    width: 10%;
     background-color: #333;
     color: #fff;
-    padding: 20px;
+    padding: 1%;
   }
   
   .sidebar h2 {
@@ -36,16 +44,80 @@
   /* Main Content styles */
   .content {
     flex: 1;
-    padding: 20px;
-    background-color: #f0f0f0;
+    padding: 1%;
   }
   
-  /* Buttons styles */
-  .buttons {
-    margin-top: 20px;
+  .navigation-title {
+    font-size: clamp(2px, 3vw, 24px);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
-  
-  .buttons button {
-    margin-right: 10px;
+
+  .navigation-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    font-size: clamp(1px, 2vw, 18px);
   }
-  
+
+  .page-main-title {
+    font-size: clamp(10px, 3vw, 128px);
+    font-weight: 700;
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Apply styles to the grid container */
+.grid-container {
+  display: grid; /* Use CSS Grid */
+  grid-template-columns: 70% 30%; /* Create a 70% left and 30% right split */
+  height: 50vh; /* Full height of the viewport */
+}
+
+/* Style the left content */
+.left-content {
+  display: grid; /* Use CSS Grid */
+  grid-template-rows: 20% 80%; /* Split into two rows */
+  padding: 0%;
+}
+
+/* Style the top-left section */
+.top-left {
+  background-color: #008cff; 
+  padding: 0%; 
+}
+
+/* Style the bottom-left section */
+.bottom-left {
+  background-color: #00ff88; 
+  padding: 3%; 
+}
+
+/* Style the right content */
+.right-content {
+  display: grid; /* Use CSS Grid */
+  grid-template-rows: 50% 50%; /* Split into two rows */
+  padding: 0%;
+}
+
+/* Style the top-right section */
+.top-right {
+  background-color: #00ffea; 
+  padding: 0%; 
+}
+
+/* Style the bottom-right section */
+.bottom-right {
+  background-color: #51ff00; 
+  padding: 0%; 
+}

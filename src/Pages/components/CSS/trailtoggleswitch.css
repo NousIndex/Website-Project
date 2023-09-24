@@ -1,0 +1,11 @@
+.trail-toggle-button {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed */
+    left: 20px; /* Adjust as needed */
+    padding: 10px 20px;
+    background-color: #333333a1;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+  }

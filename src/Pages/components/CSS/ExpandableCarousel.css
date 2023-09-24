@@ -1,0 +1,118 @@
+/* ExpandableCarousel.css */
+
+  /* styles.css */
+  .carousel-container {
+    max-width: 80%; /* Adjust the container width as needed */
+    margin: 0 auto;
+  }
+  
+  .slide {
+    position: relative;
+  }
+  
+  .carousel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+    
+  .carousel-wrapper {
+    overflow: hidden; /* Hide the overflow */
+  }
+
+  /* Default styles for carousel items */
+  .carousel-item {
+    position: relative;
+    cursor: pointer;
+    width: 100%; /* Adjust the item width as needed */
+    transition: transform 0.3s ease;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Styles for legends */
+  .legend {
+    text-align: left !important;
+    position: absolute !important;
+    bottom: 5% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    font-size: clamp(5px, 2vw, 14px) !important;
+    border-radius: 5px !important;
+    z-index: 3 !important;
+  }
+  
+  /* Show overlay when item is expanded */
+  .carousel-item.expanded .overlay {
+    display: block;
+  }
+  
+  /* Add styles for modal and overlay */
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0);
+    padding: 20px;
+    z-index: 1002;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 63%;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal img {
+    max-width: 100%; /* Ensure the image scales with its container */
+    max-height: 100vh; /* Set a maximum height for the image relative to the viewport height */
+    object-fit: contain; /* Maintain aspect ratio */
+    width: auto; /* Allow the image to adjust its width */
+    height: auto; /* Allow the image to adjust its height */
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .legend-modal{
+    text-align: left !important;
+    position: absolute !important;
+    bottom: 5% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    font-size: clamp(10px, 2vw, 24px) !important;
+    border-radius: 5px !important;
+    z-index: 3 !important;
+  }
+  
+
