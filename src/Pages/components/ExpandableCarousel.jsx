@@ -12,11 +12,13 @@ const ExpandableCarousel = ({ items }) => {
   const openModal = (index) => {
     setExpandedIndex(index);
     setModalIsOpen(true);
+    document.body.classList.add('fade-in');
   };
 
   const closeModal = () => {
     setExpandedIndex(null);
     setModalIsOpen(false);
+    document.body.classList.remove('fade-in');
   };
 
   return (
@@ -50,12 +52,9 @@ const ExpandableCarousel = ({ items }) => {
         className="modal"
         overlayClassName="overlay"
       >
-        <button className="modal-close-button" onClick={closeModal}>
-          Close
-        </button>
         {expandedIndex !== null && (
           <div className="modal-content">
-            <img src={items[expandedIndex].imageUrl} alt={`Carousel Item ${expandedIndex + 1}`} />
+            <img src={items[expandedIndex].imageUrl} alt={`Carousel Item ${expandedIndex + 1}`} onClick={closeModal} />
             <div className="legend-modal">
               {items[expandedIndex].legend}
             </div>

@@ -25,14 +25,14 @@
     position: relative;
     cursor: pointer;
     width: 100%; /* Adjust the item width as needed */
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in-out;
   }
 
   .carousel-item img {
     width: 100%;
     height: auto;
   }
-  
+
   /* Styles for legends */
   .legend {
     text-align: left !important;
@@ -58,14 +58,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(255, 255, 255, 0);
-    padding: 20px;
+    padding: 0.1%;
     z-index: 1002;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 63%;
+    max-width: 60%;
   }
 
   .modal-content {
@@ -78,6 +78,7 @@
   .modal img {
     max-width: 100%; /* Ensure the image scales with its container */
     max-height: 100vh; /* Set a maximum height for the image relative to the viewport height */
+    scale:calc(1.2);
     object-fit: contain; /* Maintain aspect ratio */
     width: auto; /* Allow the image to adjust its width */
     height: auto; /* Allow the image to adjust its height */
@@ -96,17 +97,10 @@
     align-items: center;
   }
 
-  .modal-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  }
-
   .legend-modal{
     text-align: left !important;
     position: absolute !important;
-    bottom: 5% !important;
+    top: 100% !important;
     background: rgba(0, 0, 0, 0.8) !important;
     color: white !important;
     padding: 5px 10px !important;
@@ -115,4 +109,3 @@
     z-index: 3 !important;
   }
   
-

@@ -1,0 +1,59 @@
+/* Table container styles */
+.table-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  /* Table header styles */
+  .table-header {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  /* Table header cells styles */
+  .table-header th {
+    padding: 12px;
+    text-align: center;
+    font-size: clamp(2px, 1.5vw, 24px);
+  }
+  
+  /* Table row styles */
+  .table-row:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Table cell styles */
+  .table-cell {
+    padding: 8px;
+  }
+  
+  /* Image styles */
+  .table-cell img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+  }
+  
+  /* Text styles */
+  .table-cell .item-name {
+    font-weight: bold;
+  }
+
+  /* Increase width for the Name column */
+    .table-header th:nth-child(3) {
+    width: 30%; /* Adjust the width as needed */
+  }
+
+  /* Time styles */
+  .table-cell .item-time {
+    color: #777;
+  }
+  

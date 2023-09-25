@@ -53,6 +53,7 @@ html, body {
     height: 100%;
     cursor: pointer;
     border-radius: 25px; /* Add rounded corners */
+    transition: transform 0.3s ease; /* Add a smooth transition */
   }
   
   .image-button img {
@@ -87,4 +88,8 @@ html, body {
 
 h1.page-title {
   font-family: 'Intenci', sans-serif; /* Use your custom font and specify fallback fonts */
+}
+
+.image-button:hover {
+  transform: scale(1.05);
 }

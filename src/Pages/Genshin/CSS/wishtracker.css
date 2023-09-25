@@ -1,0 +1,108 @@
+/* WishTracker.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #080016;
+    overflow: hidden;
+  }
+
+  /* Container styles */
+  .wishpage-container {
+      display: flex;
+      align-items: flex-start; /* Adjust alignment as needed */
+      padding: 1%;
+    }
+  
+  /* Main Content styles */
+  .content {
+    flex: 1;
+    padding: 1%;
+    overflow: auto;
+  }
+
+  .wishpage-main-title {
+    font-size: clamp(10px, 3vw, 128px);
+    font-weight: 700;
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Apply styles to the grid container */
+.wish-grid-container {
+    display: grid; /* Use CSS Grid */
+    grid-template-columns: 80% 20%; /* Create a 70% left and 30% right split */
+    height: 50vh; /* Full height of the viewport */
+  }
+  
+  /* Style the left container */
+  .wish-left-grid-container {
+    display: grid; /* Use CSS Grid */
+    grid-template-rows: 25% 75%; /* Split into two rows */
+    padding: 0%;
+  }
+  
+  /* Style the right content */
+  .wish-right-content {
+    background-color: #008cff; 
+    padding: 0%;
+  }
+
+  /* Style the top left content */
+  .wish-top-left {
+    background-color: #51ff00; 
+    display: fl;
+    padding: 0%;
+    max-height: 100%;
+  }
+
+  /* Style the bottom left content */
+  .wish-bottom-left{
+    background-color: #00ffea; 
+    padding: 0%;
+  }
+
+  .genshin-wish-image-button {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 2%;
+    margin-right: 2%;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Add a smooth transition */
+  }
+
+  .genshin-wish-image-button img {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    object-position: center;  
+    flex: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .genshin-wish-image-button p {
+    font-size: clamp(2px, 1.5vw, 24px);
+    font-weight: 700;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .genshin-wish-image-button:hover {
+    transform: scale(1.1);
+  }
+
+  .genshin-wish-image-button:active {
+    transform: scale(1);
+  }

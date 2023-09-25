@@ -15,55 +15,10 @@
       padding: 1%;
     }
   
-  /* Left Sidebar styles */
-  .sidebar {
-    width: 10%;
-    background-color: #333;
-    color: #fff;
-    padding: 1%;
-  }
-  
-  .sidebar h2 {
-    margin-top: 0;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar ul li {
-    margin-bottom: 10px;
-  }
-  
-  .sidebar a {
-    text-decoration: none;
-    color: #fff;
-  }
-  
   /* Main Content styles */
   .content {
     flex: 1;
     padding: 1%;
-  }
-  
-  .navigation-title {
-    font-size: clamp(2px, 3vw, 24px);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #fff;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-
-  .navigation-items {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1rem;
-    font-size: clamp(1px, 2vw, 18px);
   }
 
   .page-main-title {
@@ -77,47 +32,65 @@
     align-items: flex-start;
   }
 
-  /* Apply styles to the grid container */
-.grid-container {
+/* Apply styles to the grid container */
+.home-grid-container {
   display: grid; /* Use CSS Grid */
   grid-template-columns: 70% 30%; /* Create a 70% left and 30% right split */
-  height: 50vh; /* Full height of the viewport */
+  height: 0vh; /* Full height of the viewport */
 }
 
-/* Style the left content */
-.left-content {
+/* Style the left container */
+.home-left-grid-container {
   display: grid; /* Use CSS Grid */
   grid-template-rows: 20% 80%; /* Split into two rows */
   padding: 0%;
 }
 
-/* Style the top-left section */
-.top-left {
-  background-color: #008cff; 
-  padding: 0%; 
-}
-
-/* Style the bottom-left section */
-.bottom-left {
-  background-color: #00ff88; 
-  padding: 3%; 
-}
-
-/* Style the right content */
-.right-content {
+/* Style the right container */
+.home-right-grid-container {
   display: grid; /* Use CSS Grid */
   grid-template-rows: 50% 50%; /* Split into two rows */
   padding: 0%;
 }
 
+/* Style the top-left container */
+.home-top-left-grid-container {
+  display: grid; /* Use CSS Grid */
+  grid-template-columns: 50% 50%;
+  padding: 0%; 
+}
+
+/* Style the top-left first section */
+/* Birthday */
+.home-top-left-first {
+  background-color: #008cff; 
+  padding: 0%; 
+}
+
+/* Style the top-left second section */
+/* Abyss */
+.home-top-left-second {
+  background-color: #00b7ff; 
+  padding: 0%; 
+}
+
+/* Style the bottom-left section */
+/* Banner */
+.home-bottom-left {
+  background-color: #e100ff; 
+  padding: 3%; 
+}
+
 /* Style the top-right section */
-.top-right {
+/* Event */
+.home-top-right {
   background-color: #00ffea; 
   padding: 0%; 
 }
 
 /* Style the bottom-right section */
-.bottom-right {
+/* Code */
+.home-bottom-right {
   background-color: #51ff00; 
-  padding: 0%; 
+  padding-top: 2%; 
 }
