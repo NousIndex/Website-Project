@@ -16,6 +16,7 @@ const TrailToggleButton = ({ isEnabled, onToggle }) => {
     }
   }, [initialLoad, onToggle]);
 
+  // Function to handle toggle of trail
   const handleToggle = () => {
     const updatedState = !isEnabled;
     localStorage.setItem('isTrailEnabled', updatedState.toString());

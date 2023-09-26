@@ -12,6 +12,7 @@ import image3 from '../../../assets/banners/Genshin-Impact-4.0-Banner-3.png';
 
 function HomePage() {
   
+  // Sample carousel data as an array (you can replace it with your data)
   const carouselItems = [
     {
       imageUrl: image1,
@@ -27,6 +28,7 @@ function HomePage() {
     },
   ];
 
+  // Sample code data as an array (you can replace it with your data)
   const codeItems =[
     {
       code: 'TA97CGHDHJTH',

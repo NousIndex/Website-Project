@@ -1,5 +1,6 @@
 import React from 'react';
 
+// ItemTable component to display all items
 const ItemTable = ({ items }) => {
   return (
     <div className="table-container">

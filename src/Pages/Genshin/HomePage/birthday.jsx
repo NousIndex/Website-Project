@@ -4,6 +4,7 @@ import Char2 from '../../../assets/Icons/2.png'
 import BirthdayIcon from '../../../assets/Icons/6.png'
 import './CSS/birthday.css'
 
+// CharacterInfo component to display a single character
 const CharacterInfo = ({ character }) => {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -26,6 +27,7 @@ const CharacterInfo = ({ character }) => {
   );
 };
 
+// CharacterList component to display all characters
 const CharacterList = ({ characters }) => {
   return (
     <div className="character-list">

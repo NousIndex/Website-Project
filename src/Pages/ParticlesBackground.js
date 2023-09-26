@@ -7,7 +7,7 @@ import homeIcon from '../assets/background_component/home.png';
 import './components/CSS/homebutton.css'
 
 export default function ParticleBackground() {
-	const [isTrailEnabled, setIsTrailEnabled] = useState(false);
+	const [isTrailEnabled, setIsTrailEnabled] = useState(false); // State to track if the trail is enabled or not
 
 	useEffect(() => {
 		// Check the initial state from local storage
@@ -27,6 +27,7 @@ export default function ParticleBackground() {
 	const toggleTrail = () => {
 	setIsTrailEnabled(!isTrailEnabled);
 	};
+	
 	return (
 		<div>
 		<Link to="/" className="home-button">

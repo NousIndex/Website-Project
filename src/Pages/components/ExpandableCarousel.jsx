@@ -6,15 +6,17 @@ import './CSS/ExpandableCarousel.css'; // Import your custom CSS file
 import Modal from 'react-modal'; // Import react-modal
 
 const ExpandableCarousel = ({ items }) => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null); // Index of the expanded item
+  const [modalIsOpen, setModalIsOpen] = useState(false); // State to control the modal
 
+  // Function to open modal
   const openModal = (index) => {
     setExpandedIndex(index);
     setModalIsOpen(true);
     document.body.classList.add('fade-in');
   };
 
+  // Function to close modal
   const closeModal = () => {
     setExpandedIndex(null);
     setModalIsOpen(false);

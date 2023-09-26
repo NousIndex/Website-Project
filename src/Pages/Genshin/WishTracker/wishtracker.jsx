@@ -9,6 +9,7 @@ import ItemTable from './wishrecords';
 import './CSS/wishtable.css';
 function WishTracker() {  
   
+  // Sample item data as an array (you can replace it with your data)
   const allItems = [
     {
         number: 1,
@@ -86,8 +87,9 @@ function WishTracker() {
   ];
 
   const [filterType, setFilterType] = useState('all'); // Default filter type is 'all'
-  const [filteredItems, setFilteredItems] = useState(allItems);
+  const [filteredItems, setFilteredItems] = useState(allItems); // Default filtered items is allItems
 
+  // Function to filter items based on type
   const handleFilter = (type) => {
     if (type === 'all') {
       setFilteredItems(allItems);
@@ -98,6 +100,7 @@ function WishTracker() {
     setFilterType(type);
   };
 
+  // Sample image buttons data as an array (you can replace it with your data)
   const imageButtonsArray = [
     {
       imageUrl: banner1,
