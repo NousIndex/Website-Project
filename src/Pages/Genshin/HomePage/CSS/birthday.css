@@ -16,7 +16,7 @@
   }
   
   .character-card:hover {
-    transform: scale(2.2);
+    transform: scale(1.8);
     z-index: 1006; /* Ensure the hovered card appears on top */
     position: relative;
   }
