@@ -67,20 +67,21 @@
 /* Birthday */
 .home-top-left-first {
   background-color: #008cff; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the top-left second section */
 /* Abyss */
 .home-top-left-second {
   background-color: #00b7ff; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the bottom-left section */
 /* Banner */
 .home-bottom-left {
   background-color: #e100ff; 
+  flex: 80; 
   padding: 3%; 
 }
 
@@ -88,12 +89,13 @@
 /* Event */
 .home-top-right {
   background-color: #00ffea; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the bottom-right section */
 /* Code */
 .home-bottom-right {
   background-color: #51ff00; 
+  flex: 50; 
   padding-top: 2%; 
 }

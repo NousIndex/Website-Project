@@ -51,21 +51,20 @@ html, body {
   /* Style the right content */
   .wish-right-content {
     background-color: #008cff; 
+    flex: 20;
     padding: 0%;
   }
 
   /* Style the top left content */
   .wish-top-left {
     background-color: #51ff00; 
-    display: fl;
-    padding: 0%;
-    max-height: 100%;
+    flex: 15;
   }
 
   /* Style the bottom left content */
   .wish-bottom-left{
     background-color: #00ffea; 
-    padding: 0%;
+    flex: 85;
   }
 
   .genshin-wish-image-button {
