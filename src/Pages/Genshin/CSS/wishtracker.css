@@ -35,36 +35,36 @@ html, body {
 
   /* Apply styles to the grid container */
 .wish-grid-container {
-    display: grid; /* Use CSS Grid */
-    grid-template-columns: 80% 20%; /* Create a 70% left and 30% right split */
-    height: 50vh; /* Full height of the viewport */
+    display: flex; 
+    flex-direction: row;
+    height: 80vh; /* Full height of the viewport */
   }
   
   /* Style the left container */
   .wish-left-grid-container {
-    display: grid; /* Use CSS Grid */
-    grid-template-rows: 25% 75%; /* Split into two rows */
+    display: flex; 
+    flex-direction: column;
+    flex: 80;
     padding: 0%;
   }
   
   /* Style the right content */
   .wish-right-content {
     background-color: #008cff; 
+    flex: 20;
     padding: 0%;
   }
 
   /* Style the top left content */
   .wish-top-left {
     background-color: #51ff00; 
-    display: fl;
-    padding: 0%;
-    max-height: 100%;
+    flex: 15;
   }
 
   /* Style the bottom left content */
   .wish-bottom-left{
     background-color: #00ffea; 
-    padding: 0%;
+    flex: 85;
   }
 
   .genshin-wish-image-button {

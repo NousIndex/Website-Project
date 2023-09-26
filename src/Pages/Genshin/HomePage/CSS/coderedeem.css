@@ -1,29 +1,3 @@
-/*CURRENTLY NOT IN USE*/
-.code-redeem-title {
-    font-size: clamp(4px, 2vw, 60px);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    margin: 0;
-    margin-bottom: 1%;
-    display: flex; /* Make it a flex container */
-    align-items: center; /* Center vertically */
-}
-
-/*CURRENTLY NOT IN USE*/
-.code-redeem-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1%;
-    justify-items: center;
-    align-content: center;
-    justify-content: center;
-    justify-self: center;
-    align-self: center;
-}
-
-
 .code-redeem-text {
     font-size: clamp(2px, 1.5vw, 24px);
     font-family: 'Poppins', sans-serif;
@@ -33,12 +7,12 @@
 }
 
 .code-table-container {
-    display: grid;
-    grid-template-columns: 50% 50%; /* Split into two rows */
+    display: flex;
+    justify-content: center;
     background-color: #ff3300; 
 }
   
 .code-table {
     background-color: #ff8a05; 
-    justify-self: center;
+    padding: 2%;
 }

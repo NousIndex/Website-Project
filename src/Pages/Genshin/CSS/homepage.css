@@ -34,50 +34,50 @@
 
 /* Apply styles to the grid container */
 .home-grid-container {
-  display: grid; /* Use CSS Grid */
-  grid-template-columns: 70% 30%; /* Create a 70% left and 30% right split */
-  height: 0vh; /* Full height of the viewport */
+  display: flex;
+  flex-direction: row;
+  height: 80vh; /* Full height of the viewport */
 }
 
 /* Style the left container */
 .home-left-grid-container {
-  display: grid; /* Use CSS Grid */
-  grid-template-rows: 20% 80%; /* Split into two rows */
-  padding: 0%;
+  display: flex;
+  flex-direction: column;
+  flex: 70; 
 }
 
 /* Style the right container */
 .home-right-grid-container {
-  display: grid; /* Use CSS Grid */
-  grid-template-rows: 50% 50%; /* Split into two rows */
-  padding: 0%;
+  display: flex;
+  flex-direction: column;
+  flex: 30; 
 }
 
 /* Style the top-left container */
 .home-top-left-grid-container {
-  display: grid; /* Use CSS Grid */
-  grid-template-columns: 50% 50%;
-  padding: 0%; 
+  display: flex; 
+  flex: 20; 
 }
 
 /* Style the top-left first section */
 /* Birthday */
 .home-top-left-first {
   background-color: #008cff; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the top-left second section */
 /* Abyss */
 .home-top-left-second {
   background-color: #00b7ff; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the bottom-left section */
 /* Banner */
 .home-bottom-left {
   background-color: #e100ff; 
+  flex: 80; 
   padding: 3%; 
 }
 
@@ -85,12 +85,13 @@
 /* Event */
 .home-top-right {
   background-color: #00ffea; 
-  padding: 0%; 
+  flex: 50; 
 }
 
 /* Style the bottom-right section */
 /* Code */
 .home-bottom-right {
   background-color: #51ff00; 
+  flex: 50; 
   padding-top: 2%; 
 }
