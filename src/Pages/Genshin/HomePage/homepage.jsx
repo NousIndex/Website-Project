@@ -48,7 +48,7 @@ function HomePage() {
       <GenshinSidebar />
 
       {/* Main Content */}
-      <div className="content">
+      <div className="homepage-content">
         <h1 className='page-main-title'>Genshin Impact</h1>
         <div class="home-grid-container">
           <div class="home-left-grid-container ">

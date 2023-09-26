@@ -2,21 +2,48 @@
     border: 2px solid #ddd;
     border-radius: 8%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1%;
+    padding: 0.5%;
     text-align: center;
-    margin: 1%;
-    transition: transform 0.3s ease-in-out; /* Add a smooth transition */
+    margin: 0.5%;
+    background-color: #080016;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 20%;
   }
   
   .character-card:hover {
-    transform: translateY(-5px);
+    transform: scale(2.2);
+    z-index: 1006; /* Ensure the hovered card appears on top */
+    position: relative;
   }
   
-  .character-card img {
-    max-width: 20%;
-    height: auto;
+  .birthday-img {
+    width: 40%;
     border-radius: 5%;
     margin-right: 4%;
+    object-fit: cover; /* Adjust the object-fit property */
+  }
+
+  @media screen and (max-width: 1024px) {
+    .birthday-img {
+      width: 30%;
+      border-radius: 5%;
+      margin-right: 4%;
+      object-fit: cover; /* Adjust the object-fit property */
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .birthday-img {
+      width: 20%;
+      border-radius: 5%;
+      margin-right: 4%;
+      object-fit: cover; /* Adjust the object-fit property */
+    }
   }
 
   .birthday-main-title {
@@ -24,22 +51,49 @@
     font-size: clamp(2px, 1.5vw, 60px);
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
+    display: flex; /* Make it a flex container */
+    align-items: center; /* Center vertically */
+    margin-left: 10%;
+  }
+
+  .birthday-main-title img {
+    width: 15%;
+    height: auto;
+    margin-right: 3%;
   }
   
   .birthday-title {
     margin: 0;
-    font-size: clamp(2px, 1.5vw, 24px);
+    font-size: 0px;
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
-    display: flex; /* Make it a flex container */
     align-items: center; /* Center vertically */
+    display: none;
   }
   
+  .birthday-title.show {
+    margin: 0;
+    font-size: clamp(2px, 1vw, 16px);
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    align-items: center; /* Center vertically */
+    display: block;
+  }
+
   .birthday-para {
-    font-size: clamp(1px, 1.5vw, 18px);
+    font-size: 0px;
     color: #ebebeb;
     font-family: 'Poppins', sans-serif;
     margin: 0;
+    display: none;
+  }
+
+  .birthday-para.show {
+    font-size: clamp(1px, 1vw, 12px);
+    color: #ebebeb;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: block;
   }
   
   .character-list {

@@ -5,10 +5,23 @@ import BirthdayIcon from '../../../assets/Icons/6.png'
 import './CSS/birthday.css'
 
 const CharacterInfo = ({ character }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
-    <div className="character-card">
-      <h2 className="birthday-title"><img src={character.image} alt={character.name} className='birthday-img'/>{character.name}</h2>
-      <p className="birthday-para">Birthday: {character.birthday}</p>
+    <div className={`character-card ${isHovered ? 'show' : ''}`}
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+    > <img src={character.image} alt={character.name} className='birthday-img'/>
+      <h2 className={`birthday-title ${isHovered ? 'show' : ''}`}>{character.name}</h2>
+      <p className={`birthday-para ${isHovered ? 'show' : ''}`}>Birthday: {character.birthday}</p>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import homeIcon from '../assets/background_component/home.png';
 import './components/CSS/homebutton.css'
 
 export default function ParticleBackground() {
-	const [isTrailEnabled, setIsTrailEnabled] = useState(true);
+	const [isTrailEnabled, setIsTrailEnabled] = useState(false);
 
 	useEffect(() => {
 		// Check the initial state from local storage

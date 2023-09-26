@@ -36,14 +36,15 @@ html, body {
   /* Apply styles to the grid container */
 .wish-grid-container {
     display: grid; /* Use CSS Grid */
-    grid-template-columns: 80% 20%; /* Create a 70% left and 30% right split */
+    grid-template-columns: minmax(0, auto) minmax(0, auto); /* Create a 70% left and 30% right split */
     height: 50vh; /* Full height of the viewport */
   }
   
   /* Style the left container */
   .wish-left-grid-container {
     display: grid; /* Use CSS Grid */
-    grid-template-rows: 25% 75%; /* Split into two rows */
+    grid-template-rows: minmax(0, auto) minmax(0, auto);
+    height: 100%;
     padding: 0%;
   }
   

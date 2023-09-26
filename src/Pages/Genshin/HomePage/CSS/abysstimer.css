@@ -3,7 +3,8 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     margin: 0;
-    margin-bottom: 1%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
     display: flex; /* Make it a flex container */
     align-items: center; /* Center vertically */
     color: #ffffff;

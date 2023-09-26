@@ -16,7 +16,7 @@
     }
   
   /* Main Content styles */
-  .content {
+  .homepage-content {
     flex: 1;
     padding: 1%;
   }
@@ -35,28 +35,31 @@
 /* Apply styles to the grid container */
 .home-grid-container {
   display: grid; /* Use CSS Grid */
-  grid-template-columns: 70% 30%; /* Create a 70% left and 30% right split */
+  grid-template-columns: minmax(0, auto) minmax(0, auto);
+  width: 100%;
+  padding: 0%;
+  margin: 0;
   height: 0vh; /* Full height of the viewport */
 }
 
 /* Style the left container */
 .home-left-grid-container {
   display: grid; /* Use CSS Grid */
-  grid-template-rows: 20% 80%; /* Split into two rows */
+  grid-template-rows: minmax(0, auto) minmax(0, auto);
   padding: 0%;
 }
 
 /* Style the right container */
 .home-right-grid-container {
   display: grid; /* Use CSS Grid */
-  grid-template-rows: 50% 50%; /* Split into two rows */
+  grid-template-rows: minmax(0, auto) minmax(0, auto);
   padding: 0%;
 }
 
 /* Style the top-left container */
 .home-top-left-grid-container {
   display: grid; /* Use CSS Grid */
-  grid-template-columns: 50% 50%;
+  grid-template-columns: minmax(0, auto) minmax(0, auto);
   padding: 0%; 
 }
 
