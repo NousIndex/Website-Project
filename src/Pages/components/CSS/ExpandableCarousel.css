@@ -34,10 +34,10 @@
   }
 
   /* Styles for legends */
-  .legend {
+  .carousel-legend {
     text-align: left !important;
     position: absolute !important;
-    bottom: 5% !important;
+    bottom: 2% !important;
     background: rgba(0, 0, 0, 0.8) !important;
     color: white !important;
     padding: 5px 10px !important;
@@ -52,7 +52,7 @@
   }
   
   /* Add styles for modal and overlay */
-  .modal {
+  .carousel-modal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -68,23 +68,23 @@
     max-width: 60%;
   }
 
-  .modal-content {
+  .carousel-modal-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    scale: 1.1;
   }
   
-  .modal img {
+  .carousel-modal img {
     max-width: 100%; /* Ensure the image scales with its container */
     max-height: 100vh; /* Set a maximum height for the image relative to the viewport height */
-    scale:calc(1.2);
     object-fit: contain; /* Maintain aspect ratio */
     width: auto; /* Allow the image to adjust its width */
     height: auto; /* Allow the image to adjust its height */
   }
 
-  .overlay {
+  .carousel-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -97,7 +97,7 @@
     align-items: center;
   }
 
-  .legend-modal{
+  .carousel-legend-modal{
     text-align: left !important;
     position: absolute !important;
     top: 100% !important;
@@ -109,3 +109,52 @@
     z-index: 3 !important;
   }
   
+  /* Default styles for carousel items */
+  .carousel-modal-item {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .carousel-modal-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Styles for legends */
+  .carousel-modal-legend {
+    text-align: left !important;
+    position: absolute !important;
+    bottom: 2% !important;
+    left: 1% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    font-size: clamp(5px, 2vw, 24px) !important;
+    border-radius: 5px !important;
+    z-index: 3 !important;
+  }
+
+  .modal-enter {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+
+  .modal-enter-active {
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+
+  .modal-exit {
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+
+  .modal-exit-active {
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }

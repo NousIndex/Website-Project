@@ -38,7 +38,7 @@ const CharacterList = ({ characters }) => {
   );
 };
 
-const App = () => {
+const CharacterBirthday = () => {
   // Sample character data as an array (you can replace it with your data)
   const [characters, setCharacters] = useState([
     {
@@ -83,4 +83,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default CharacterBirthday;

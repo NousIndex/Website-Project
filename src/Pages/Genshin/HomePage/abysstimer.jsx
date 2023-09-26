@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './CSS/abysstimer.css'; // You can create a CSS file for styling
 import AbyssIcon from '../../../assets/Icons/3.png'
 
-const CountdownTimer = () => {
+const AbyssTimer = () => {
   // Abyss Timer Countdown Format
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -127,4 +127,4 @@ const CountdownTimer = () => {
   );
 };
 
-export default CountdownTimer;
+export default AbyssTimer;
