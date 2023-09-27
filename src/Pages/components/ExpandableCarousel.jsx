@@ -53,40 +53,40 @@ const ExpandableCarousel = ({ items }) => {
         classNames="modal"
         unmountOnExit
       >
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Image Modal"
-        className="carousel-modal"
-        overlayClassName="carousel-overlay"
-      >
-          <div className={`carousel-modal-content`}
-          ref={nodeRef}>
-            <Carousel 
-              showThumbs={true} 
-              infiniteLoop={true}
-              swipeable={true}
-              emulateTouch={true}
-              >
-              {items.map((item, index) => (
-                <div
-                  key={index}
-                  className={`carousel-modal-item`}
-                  onClick={() => closeModal(index)}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Image Modal"
+          className="carousel-modal"
+          overlayClassName="carousel-overlay"
+        >
+            <div className={`carousel-modal-content`}
+            ref={nodeRef}>
+              <Carousel 
+                showThumbs={true} 
+                infiniteLoop={true}
+                swipeable={true}
+                emulateTouch={true}
                 >
-                  <img src={item.imageUrl} alt={`Carousel Item ${index + 1}`} />
-                  <div className="carousel-modal-legend">
-                    {item.legend}
+                {items.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`carousel-modal-item`}
+                    onClick={() => closeModal(index)}
+                  >
+                    <img src={item.imageUrl} alt={`Carousel Item ${index + 1}`} />
+                    <div className="carousel-modal-legend">
+                      {item.legend}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Carousel>
-            {/* <img src={items[expandedIndex].imageUrl} alt={`carousel-Carousel Item ${expandedIndex + 1}`} onClick={closeModal} />
-            <div className="carousel-legend-modal">
-              {items[expandedIndex].legend}
-            </div> */}
-          </div>
-      </Modal>
+                ))}
+              </Carousel>
+              {/* <img src={items[expandedIndex].imageUrl} alt={`carousel-Carousel Item ${expandedIndex + 1}`} onClick={closeModal} />
+              <div className="carousel-legend-modal">
+                {items[expandedIndex].legend}
+              </div> */}
+            </div>
+        </Modal>
       </CSSTransition>
     </div>
   );

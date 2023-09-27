@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../CSS/homepage.css'; // You can create a CSS file for styling
 import ExpandableCarousel from '../../components/ExpandableCarousel';
 import GenshinSidebar from '../../components/GenshinSidebar';
@@ -12,12 +12,12 @@ import image3 from '../../../assets/banners/Genshin-Impact-4.0-Banner-3.png';
 
 function HomePage() {
   
-  // Sample carousel data as an array (you can replace it with your data)
-  const carouselItems = [
+  // Define carouselItems and codeItems as state variables
+  const [carouselItems, setCarouselItems] = useState([
     {
       imageUrl: image1,
       legend: 'Legend 1',
-    },  
+    },
     {
       imageUrl: image2,
       legend: 'Legend 2',
@@ -26,23 +26,32 @@ function HomePage() {
       imageUrl: image3,
       legend: 'Legend 3',
     },
-  ];
+  ]);
 
-  // Sample code data as an array (you can replace it with your data)
-  const codeItems =[
+  const [codeItems, setCodeItems] = useState([
     {
       code: 'TA97CGHDHJTH',
-      expiry: ''
+      expiry: '',
     },
     {
       code: 'MT8PCZYVG2T5',
-      expiry: ''
+      expiry: '',
     },
     {
       code: 'NA9NDHHCZKTD',
-      expiry: '05D:10H:20M:30S'
-    }
-  ];
+      expiry: '05D:10H:20M:30S',
+    },
+  ]);
+
+  const handleAddItem = () => {
+    const newItem = {
+      code: 'NEWCODE123',
+      expiry: '10D:5H:30M:15S',
+    };
+
+    // Update codeItems using the setCodeItems function
+    setCodeItems((prevCodeItems) => [...prevCodeItems, newItem]);
+  };
 
   return (
     <div className="homepage-container">
