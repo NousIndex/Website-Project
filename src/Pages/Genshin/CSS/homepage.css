@@ -31,6 +31,33 @@
     justify-content: flex-start;
     align-items: flex-start;
   }
+/* Style for the button with a specific class name */
+.genshin-checkin-button-link-container {
+  text-decoration: none; /* Remove the underline */
+  display: flex;
+  align-self: center; /* Center the button vertically */
+  margin-left: 2%;
+}
+
+.genshin-checkin-button-link {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #008cff; /* Change the background color as needed */
+  color: #fff; /* Text color */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover state for the button */
+.genshin-checkin-button-link:hover {
+  background-color: #0056b3; /* Change the background color on hover */
+  scale: 1.1;
+}
+
+/* Adjust the button size, font size, and other styles as needed */
 
 /* Apply styles to the grid container */
 .home-grid-container {

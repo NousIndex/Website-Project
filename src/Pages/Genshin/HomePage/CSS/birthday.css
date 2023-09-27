@@ -1,6 +1,6 @@
 .character-card {
     border: 2px solid #ddd;
-    border-radius: 8%;
+    border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 0.5%;
     text-align: center;
@@ -27,7 +27,7 @@
   
   .birthday-img {
     width: 40%;
-    border-radius: 5%;
+    border-radius: 20px;
     margin-right: 4%;
     object-fit: cover; /* Adjust the object-fit property */
   }
@@ -35,7 +35,7 @@
   @media screen and (max-width: 1024px) {
     .birthday-img {
       width: 30%;
-      border-radius: 5%;
+      border-radius: 20px;
       margin-right: 4%;
       object-fit: cover; /* Adjust the object-fit property */
     }
@@ -43,7 +43,7 @@
 
   @media screen and (max-width: 768px) {
     .birthday-img {
-      width: 20%;
+      width: 20px;
       border-radius: 5%;
       margin-right: 4%;
       object-fit: cover; /* Adjust the object-fit property */

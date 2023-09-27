@@ -60,7 +60,18 @@ function HomePage() {
 
       {/* Main Content */}
       <div className="homepage-content">
-        <h1 className='page-main-title'>Genshin Impact</h1>
+      <h1 className='page-main-title'>
+        Genshin Impact
+        <a
+          href="https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481"
+          target="_blank"
+          className='genshin-checkin-button-link-container'
+          rel="noopener noreferrer"
+        >
+          <button 
+          className="genshin-checkin-button-link">Check-In</button>
+        </a>
+      </h1>
         <div class="home-grid-container">
           <div class="home-left-grid-container ">
             <div class="home-top-left-grid-container">
