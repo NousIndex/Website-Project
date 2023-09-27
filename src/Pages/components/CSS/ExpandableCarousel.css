@@ -57,10 +57,6 @@
   
   /* Add styles for modal and overlay */
   .carousel-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: rgba(255, 255, 255, 0);
     padding: 0.1%;
     z-index: 1002;
@@ -143,26 +139,9 @@
     z-index: 3 !important;
   }
 
-  .modal-enter {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.5s ease;
+  .animate__zoomIn {
+    --animate-duration: 0.35s;
   }
-
-  .modal-enter-active {
-    transform: scale(1);
-    opacity: 1;
-    transition: all 0.5s ease;
-  }
-
-  .modal-exit {
-    transform: scale(1);
-    opacity: 1;
-    transition: all 0.5s ease;
-  }
-
-  .modal-exit-active {
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.5s ease;
+  .animate__zoomOut {
+    --animate-duration: 0.35s;
   }
