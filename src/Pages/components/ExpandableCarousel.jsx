@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import './CSS/ExpandableCarousel.css';
-import Modal from 'react-modal';
-import 'animate.css/animate.min.css';
+import React, { useState, useEffect } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "./CSS/ExpandableCarousel.css";
+import Modal from "react-modal";
+import "animate.css/animate.min.css";
 
 const ExpandableCarousel = ({ items }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -31,9 +31,9 @@ const ExpandableCarousel = ({ items }) => {
   // Define the modal animation class based on the modal state
   const modalAnimationClass = modalIsOpen
     ? isClosing
-      ? 'animate__zoomOut' // Use a fade-out animation when closing
-      : 'animate__zoomIn'
-    : '';
+      ? "animate__zoomOut" // Use a fade-out animation when closing
+      : "animate__zoomIn"
+    : "";
 
   return (
     <div className="carousel-container">

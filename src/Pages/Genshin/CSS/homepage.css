@@ -1,36 +1,37 @@
 /* HomePage.css */
 
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #080016;
-    overflow: hidden;
-  }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #080016;
+  overflow: hidden;
+}
 
-  /* Container styles */
-  .homepage-container {
-      display: flex;
-      align-items: flex-start; /* Adjust alignment as needed */
-      padding: 1%;
-    }
-  
-  /* Main Content styles */
-  .homepage-content {
-    flex: 1;
-    padding: 1%;
-  }
+/* Container styles */
+.homepage-container {
+  display: flex;
+  align-items: flex-start; /* Adjust alignment as needed */
+  padding: 1%;
+}
 
-  .page-main-title {
-    font-size: clamp(10px, 3vw, 128px);
-    font-weight: 700;
-    margin-top: 0rem;
-    margin-bottom: 1rem;
-    color: #fff;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
+/* Main Content styles */
+.homepage-content {
+  flex: 1;
+  padding: 1%;
+}
+
+.page-main-title {
+  font-size: clamp(10px, 3vw, 128px);
+  font-weight: 700;
+  margin-top: 0rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 /* Style for the button with a specific class name */
 .genshin-checkin-button-link-container {
   text-decoration: none; /* Remove the underline */
@@ -87,42 +88,42 @@
 .home-top-left-grid-container {
   display: grid; /* Use CSS Grid */
   grid-template-columns: minmax(0, auto) minmax(0, auto);
-  padding: 0%; 
+  padding: 0%;
 }
 
 /* Style the top-left first section */
 /* Birthday */
 .home-top-left-first {
-  background-color: #008cff; 
-  flex: 50; 
+  background-color: #008cff;
+  flex: 50;
 }
 
 /* Style the top-left second section */
 /* Abyss */
 .home-top-left-second {
-  background-color: #00b7ff; 
-  flex: 50; 
+  background-color: #00b7ff;
+  flex: 50;
 }
 
 /* Style the bottom-left section */
 /* Banner */
 .home-bottom-left {
-  background-color: #e100ff; 
-  flex: 80; 
-  padding: 3%; 
+  background-color: #e100ff;
+  flex: 80;
+  padding: 3%;
 }
 
 /* Style the top-right section */
 /* Event */
 .home-top-right {
-  background-color: #00ffea; 
-  flex: 50; 
+  background-color: #00ffea;
+  flex: 50;
 }
 
 /* Style the bottom-right section */
 /* Code */
 .home-bottom-right {
-  background-color: #51ff00; 
-  flex: 50; 
-  padding-top: 2%; 
+  background-color: #51ff00;
+  flex: 50;
+  padding-top: 2%;
 }
