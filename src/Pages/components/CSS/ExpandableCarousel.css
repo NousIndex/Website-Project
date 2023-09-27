@@ -4,6 +4,10 @@
   .carousel-container {
     max-width: 80%; /* Adjust the container width as needed */
     margin: 0 auto;
+    -webkit-user-select: none !important; /* Disable text selection for Safari */
+    -moz-user-select: none !important; /* Disable text selection for Firefox */
+    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+    user-select: none !important; /* Disable text selection for modern browsers */
   }
   
   .slide {
@@ -66,6 +70,10 @@
     align-items: center;
     justify-content: center;
     max-width: 60%;
+    -webkit-user-select: none !important; /* Disable text selection for Safari */
+    -moz-user-select: none !important; /* Disable text selection for Firefox */
+    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+    user-select: none !important; /* Disable text selection for modern browsers */
   }
 
   .carousel-modal-content {

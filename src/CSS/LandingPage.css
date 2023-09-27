@@ -54,6 +54,10 @@ html, body {
     cursor: pointer;
     border-radius: 25px; /* Add rounded corners */
     transition: transform 0.3s ease; /* Add a smooth transition */
+    -webkit-user-select: none !important; /* Disable text selection for Safari */
+    -moz-user-select: none !important; /* Disable text selection for Firefox */
+    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+    user-select: none !important; /* Disable text selection for modern browsers */
   }
   
   .image-button img {

@@ -8,4 +8,8 @@
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    -webkit-user-select: none !important; /* Disable text selection for Safari */
+    -moz-user-select: none !important; /* Disable text selection for Firefox */
+    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+    user-select: none !important; /* Disable text selection for modern browsers */
   }
