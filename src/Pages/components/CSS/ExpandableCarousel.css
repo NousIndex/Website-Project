@@ -1,147 +1,147 @@
 /* ExpandableCarousel.css */
 
-  /* styles.css */
-  .carousel-container {
-    max-width: 80%; /* Adjust the container width as needed */
-    margin: 0 auto;
-    -webkit-user-select: none !important; /* Disable text selection for Safari */
-    -moz-user-select: none !important; /* Disable text selection for Firefox */
-    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
-    user-select: none !important; /* Disable text selection for modern browsers */
-  }
-  
-  .slide {
-    position: relative;
-  }
-  
-  .carousel {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-    
-  .carousel-wrapper {
-    overflow: hidden; /* Hide the overflow */
-  }
+/* styles.css */
+.carousel-container {
+  max-width: 80%; /* Adjust the container width as needed */
+  margin: 0 auto;
+  -webkit-user-select: none !important; /* Disable text selection for Safari */
+  -moz-user-select: none !important; /* Disable text selection for Firefox */
+  -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+  user-select: none !important; /* Disable text selection for modern browsers */
+}
 
-  /* Default styles for carousel items */
-  .carousel-item {
-    position: relative;
-    cursor: pointer;
-    width: 100%; /* Adjust the item width as needed */
-    transition: transform 0.3s ease-in-out;
-  }
+.slide {
+  position: relative;
+}
 
-  .carousel-item img {
-    width: 100%;
-    height: auto;
-  }
+.carousel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  /* Styles for legends */
-  .carousel-legend {
-    text-align: left !important;
-    position: absolute !important;
-    bottom: 2% !important;
-    background: rgba(0, 0, 0, 0.8) !important;
-    color: white !important;
-    padding: 5px 10px !important;
-    font-size: clamp(5px, 2vw, 14px) !important;
-    border-radius: 5px !important;
-    z-index: 3 !important;
-  }
-  
-  /* Show overlay when item is expanded */
-  .carousel-item.expanded .overlay {
-    display: block;
-  }
-  
-  /* Add styles for modal and overlay */
-  .carousel-modal {
-    background-color: rgba(255, 255, 255, 0);
-    padding: 0.1%;
-    z-index: 1002;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 60%;
-    -webkit-user-select: none !important; /* Disable text selection for Safari */
-    -moz-user-select: none !important; /* Disable text selection for Firefox */
-    -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
-    user-select: none !important; /* Disable text selection for modern browsers */
-  }
+.carousel-wrapper {
+  overflow: hidden; /* Hide the overflow */
+}
 
-  .carousel-modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    scale: 1.1;
-  }
-  
-  .carousel-modal img {
-    max-width: 100%; /* Ensure the image scales with its container */
-    max-height: 100vh; /* Set a maximum height for the image relative to the viewport height */
-    object-fit: contain; /* Maintain aspect ratio */
-    width: auto; /* Allow the image to adjust its width */
-    height: auto; /* Allow the image to adjust its height */
-  }
+/* Default styles for carousel items */
+.carousel-item {
+  position: relative;
+  cursor: pointer;
+  width: 100%; /* Adjust the item width as needed */
+  transition: transform 0.3s ease-in-out;
+}
 
-  .carousel-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1001;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
 
-  .carousel-legend-modal{
-    text-align: left !important;
-    position: absolute !important;
-    top: 100% !important;
-    background: rgba(0, 0, 0, 0.8) !important;
-    color: white !important;
-    padding: 5px 10px !important;
-    font-size: clamp(10px, 2vw, 24px) !important;
-    border-radius: 5px !important;
-    z-index: 3 !important;
-  }
-  
-  /* Default styles for carousel items */
-  .carousel-modal-item {
-    position: relative;
-    cursor: pointer;
-    width: 100%;
-  }
+/* Styles for legends */
+.carousel-legend {
+  text-align: left !important;
+  position: absolute !important;
+  bottom: 2% !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: clamp(5px, 2vw, 14px) !important;
+  border-radius: 5px !important;
+  z-index: 3 !important;
+}
 
-  .carousel-modal-item img {
-    width: 100%;
-    height: auto;
-  }
+/* Show overlay when item is expanded */
+.carousel-item.expanded .overlay {
+  display: block;
+}
 
-  /* Styles for legends */
-  .carousel-modal-legend {
-    text-align: left !important;
-    position: absolute !important;
-    bottom: 2% !important;
-    left: 1% !important;
-    background: rgba(0, 0, 0, 0.8) !important;
-    color: white !important;
-    padding: 5px 10px !important;
-    font-size: clamp(5px, 2vw, 24px) !important;
-    border-radius: 5px !important;
-    z-index: 3 !important;
-  }
+/* Add styles for modal and overlay */
+.carousel-modal {
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0.1%;
+  z-index: 1002;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 60%;
+  -webkit-user-select: none !important; /* Disable text selection for Safari */
+  -moz-user-select: none !important; /* Disable text selection for Firefox */
+  -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+  user-select: none !important; /* Disable text selection for modern browsers */
+}
 
-  .animate__zoomIn {
-    --animate-duration: 0.35s;
-  }
-  .animate__zoomOut {
-    --animate-duration: 0.35s;
-  }
+.carousel-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scale: 1.1;
+}
+
+.carousel-modal img {
+  max-width: 100%; /* Ensure the image scales with its container */
+  max-height: 100vh; /* Set a maximum height for the image relative to the viewport height */
+  object-fit: contain; /* Maintain aspect ratio */
+  width: auto; /* Allow the image to adjust its width */
+  height: auto; /* Allow the image to adjust its height */
+}
+
+.carousel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-legend-modal {
+  text-align: left !important;
+  position: absolute !important;
+  top: 100% !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: clamp(10px, 2vw, 24px) !important;
+  border-radius: 5px !important;
+  z-index: 3 !important;
+}
+
+/* Default styles for carousel items */
+.carousel-modal-item {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+}
+
+.carousel-modal-item img {
+  width: 100%;
+  height: auto;
+}
+
+/* Styles for legends */
+.carousel-modal-legend {
+  text-align: left !important;
+  position: absolute !important;
+  bottom: 2% !important;
+  left: 1% !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  font-size: clamp(5px, 2vw, 24px) !important;
+  border-radius: 5px !important;
+  z-index: 3 !important;
+}
+
+.animate__zoomIn {
+  --animate-duration: 0.35s;
+}
+.animate__zoomOut {
+  --animate-duration: 0.35s;
+}
