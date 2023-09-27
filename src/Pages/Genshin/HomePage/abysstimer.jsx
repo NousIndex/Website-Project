@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import "./CSS/abysstimer.css"; // You can create a CSS file for styling
-import AbyssIcon from "../../../assets/Icons/3.png";
+import React, { useState, useEffect } from 'react';
+import './CSS/abysstimer.css'; // You can create a CSS file for styling
+import AbyssIcon from '../../../assets/Icons/3.png';
 
 const AbyssTimer = () => {
   // Abyss Timer Countdown Format
@@ -25,13 +25,13 @@ const AbyssTimer = () => {
 
   // Target Dates for different regions
   const [targetDate, setTargetDate] = useState(
-    new Date("2023-09-30T19:59:59Z").getTime()
+    new Date('2023-09-30T19:59:59Z').getTime()
   );
   const [targetDate2, setTargetDate2] = useState(
-    new Date("2023-10-01T02:59:59Z").getTime()
+    new Date('2023-10-01T02:59:59Z').getTime()
   );
   const [targetDate3, setTargetDate3] = useState(
-    new Date("2023-10-01T08:59:59Z").getTime()
+    new Date('2023-10-01T08:59:59Z').getTime()
   );
 
   useEffect(() => {
@@ -148,15 +148,15 @@ const AbyssTimer = () => {
           </h2>
         </div>
         <p className="abyss-timer-paragraph">
-          Asia - {countdown.days} days, {countdown.hours} hrs,{" "}
+          Asia - {countdown.days} days, {countdown.hours} hrs,{' '}
           {countdown.minutes} mins, {countdown.seconds} secs
         </p>
         <p className="abyss-timer-paragraph">
-          EU - {countdown2.days} days, {countdown2.hours} hrs,{" "}
+          EU - {countdown2.days} days, {countdown2.hours} hrs,{' '}
           {countdown2.minutes} mins, {countdown2.seconds} secs
         </p>
         <p className="abyss-timer-paragraph">
-          NA - {countdown3.days} days, {countdown3.hours} hrs,{" "}
+          NA - {countdown3.days} days, {countdown3.hours} hrs,{' '}
           {countdown3.minutes} mins, {countdown3.seconds} secs
         </p>
       </div>

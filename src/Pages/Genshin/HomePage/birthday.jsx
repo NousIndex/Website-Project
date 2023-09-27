@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Char1 from "../../../assets/Icons/1.png";
-import Char2 from "../../../assets/Icons/2.png";
-import BirthdayIcon from "../../../assets/Icons/6.png";
-import "./CSS/birthday.css";
+import React, { useState } from 'react';
+import Char1 from '../../../assets/Icons/1.png';
+import Char2 from '../../../assets/Icons/2.png';
+import BirthdayIcon from '../../../assets/Icons/6.png';
+import './CSS/birthday.css';
 
 // CharacterInfo component to display a single character
 const CharacterInfo = ({ character }) => {
@@ -18,20 +18,19 @@ const CharacterInfo = ({ character }) => {
 
   return (
     <div
-      className={`character-card ${isHovered ? "show" : ""}`}
+      className={`character-card ${isHovered ? 'show' : ''}`}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {" "}
+      onMouseLeave={handleMouseLeave}>
+      {' '}
       <img
         src={character.image}
         alt={character.name}
         className="birthday-img"
       />
-      <h2 className={`birthday-title ${isHovered ? "show" : ""}`}>
+      <h2 className={`birthday-title ${isHovered ? 'show' : ''}`}>
         {character.name}
       </h2>
-      <p className={`birthday-para ${isHovered ? "show" : ""}`}>
+      <p className={`birthday-para ${isHovered ? 'show' : ''}`}>
         Birthday: {character.birthday}
       </p>
     </div>
@@ -43,7 +42,10 @@ const CharacterList = ({ characters }) => {
   return (
     <div className="character-list">
       {characters.map((character, index) => (
-        <CharacterInfo key={index} character={character} />
+        <CharacterInfo
+          key={index}
+          character={character}
+        />
       ))}
     </div>
   );
@@ -53,14 +55,14 @@ const CharacterBirthday = () => {
   // Sample character data as an array (you can replace it with your data)
   const [characters, setCharacters] = useState([
     {
-      name: "Character 1",
+      name: 'Character 1',
       image: Char1,
-      birthday: "January 1",
+      birthday: 'January 1',
     },
     {
-      name: "Character 2",
+      name: 'Character 2',
       image: Char2,
-      birthday: "February 2",
+      birthday: 'February 2',
     },
     // Add more character objects as needed
   ]);
@@ -70,14 +72,14 @@ const CharacterBirthday = () => {
     // Example of changing character data
     setCharacters([
       {
-        name: "Character 1",
+        name: 'Character 1',
         image: Char1,
-        birthday: "January 1",
+        birthday: 'January 1',
       },
       {
-        name: "Character 2",
+        name: 'Character 2',
         image: Char2,
-        birthday: "February 2",
+        birthday: 'February 2',
       },
       // Add more updated character objects as needed
     ]);
@@ -91,8 +93,8 @@ const CharacterBirthday = () => {
             src={BirthdayIcon}
             alt="Spiral Abyss Icon"
             className="abyss-timer-icon"
-          />{" "}
-          Birthdays{" "}
+          />{' '}
+          Birthdays{' '}
         </h1>
       </div>
       <CharacterList characters={characters} />

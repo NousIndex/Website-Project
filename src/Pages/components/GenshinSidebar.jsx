@@ -1,5 +1,5 @@
-import "./CSS/sidebar.css";
-import * as routePaths from "../../routePaths";
+import './CSS/sidebar.css';
+import * as routePaths from '../../routePaths';
 
 const GenshinSideBar = () => {
   return (

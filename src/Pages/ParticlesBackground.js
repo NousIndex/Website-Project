@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
-import TrailToggleButton from "./components/trailtoggleswitch";
-import { Link } from "react-router-dom";
-import homeIcon from "../assets/background_component/home.png";
-import "./components/CSS/homebutton.css";
+import React, { useState, useEffect } from 'react';
+import Particles from 'react-tsparticles';
+import { loadFull } from 'tsparticles';
+import TrailToggleButton from './components/trailtoggleswitch';
+import { Link } from 'react-router-dom';
+import homeIcon from '../assets/background_component/home.png';
+import './components/CSS/homebutton.css';
 
 export default function ParticleBackground() {
   const [isTrailEnabled, setIsTrailEnabled] = useState(false); // State to track if the trail is enabled or not
 
   useEffect(() => {
     // Check the initial state from local storage
-    const savedState = localStorage.getItem("isTrailEnabled");
+    const savedState = localStorage.getItem('isTrailEnabled');
     if (savedState !== null) {
-      setIsTrailEnabled(savedState === "true");
+      setIsTrailEnabled(savedState === 'true');
     }
   }, []);
 
@@ -30,23 +30,32 @@ export default function ParticleBackground() {
 
   return (
     <div>
-      <Link to="/" className="home-button">
-        <img src={homeIcon} alt="Home" />
+      <Link
+        to="/"
+        className="home-button"
+      >
+        <img
+          src={homeIcon}
+          alt="Home"
+        />
       </Link>
 
-      <TrailToggleButton isEnabled={isTrailEnabled} onToggle={toggleTrail} />
+      <TrailToggleButton
+        isEnabled={isTrailEnabled}
+        onToggle={toggleTrail}
+      />
 
       <Particles
         options={{
           autoPlay: isTrailEnabled,
           background: {
             color: {
-              value: "080016",
+              value: '080016',
             },
-            image: "",
-            position: "",
-            repeat: "",
-            size: "",
+            image: '',
+            position: '',
+            repeat: '',
+            size: '',
             opacity: 1,
           },
           defaultThemes: {},
@@ -59,7 +68,7 @@ export default function ParticleBackground() {
           duration: 0,
           fpsLimit: 120,
           interactivity: {
-            detectsOn: "window",
+            detectsOn: 'window',
             events: {
               onClick: {
                 enable: false,
@@ -69,11 +78,11 @@ export default function ParticleBackground() {
                 selectors: [],
                 enable: false,
                 mode: [],
-                type: "circle",
+                type: 'circle',
               },
               onHover: {
                 enable: isTrailEnabled,
-                mode: "trail",
+                mode: 'trail',
                 parallax: {
                   enable: false,
                   force: 2,
@@ -92,7 +101,7 @@ export default function ParticleBackground() {
                 quantity: 5,
                 particles: {
                   color: {
-                    value: "#44004d",
+                    value: '#44004d',
                     animation: {
                       enable: false,
                       speed: 400,
@@ -101,7 +110,7 @@ export default function ParticleBackground() {
                   },
                   collisions: {
                     enable: false,
-                    mode: "bounce",
+                    mode: 'bounce',
                     overlap: {
                       enable: false,
                     },
@@ -111,7 +120,7 @@ export default function ParticleBackground() {
                     triangles: {
                       enable: false,
                       color: {
-                        value: "#000000",
+                        value: '#000000',
                       },
                       frequency: 0,
                     },
@@ -128,7 +137,7 @@ export default function ParticleBackground() {
                   },
                   move: {
                     outModes: {
-                      default: "destroy",
+                      default: 'destroy',
                     },
                     speed: 2,
                   },
@@ -139,8 +148,8 @@ export default function ParticleBackground() {
                       speed: 5,
                       minimumValue: 1,
                       sync: true,
-                      startValue: "min",
-                      destroy: "max",
+                      startValue: 'min',
+                      destroy: 'max',
                     },
                     random: {
                       enable: false,
@@ -170,14 +179,14 @@ export default function ParticleBackground() {
                     },
                   },
                   shape: {
-                    type: "circle",
+                    type: 'circle',
                   },
                 },
               },
               attract: {
                 distance: 200,
                 duration: 0.4,
-                easing: "ease-out-quad",
+                easing: 'ease-out-quad',
                 factor: 1,
                 maxSpeed: 50,
                 speed: 1,
@@ -225,14 +234,14 @@ export default function ParticleBackground() {
                 factor: 100,
                 speed: 1,
                 maxSpeed: 50,
-                easing: "ease-out-quad",
+                easing: 'ease-out-quad',
                 divs: {
                   distance: 200,
                   duration: 0.4,
                   factor: 100,
                   speed: 1,
                   maxSpeed: 50,
-                  easing: "ease-out-quad",
+                  easing: 'ease-out-quad',
                   selectors: [],
                 },
               },
@@ -244,17 +253,17 @@ export default function ParticleBackground() {
                 area: {
                   gradient: {
                     start: {
-                      value: "#ffffff",
+                      value: '#ffffff',
                     },
                     stop: {
-                      value: "#000000",
+                      value: '#000000',
                     },
                   },
                   radius: 1000,
                 },
                 shadow: {
                   color: {
-                    value: "#000000",
+                    value: '#000000',
                   },
                   length: 2000,
                 },
@@ -301,14 +310,14 @@ export default function ParticleBackground() {
               },
               enable: false,
               maxSpeed: 50,
-              mode: "bounce",
+              mode: 'bounce',
               overlap: {
                 enable: true,
                 retries: 0,
               },
             },
             color: {
-              value: "#878787",
+              value: '#878787',
               animation: {
                 h: {
                   count: 0,
@@ -356,12 +365,12 @@ export default function ParticleBackground() {
               center: {
                 x: 50,
                 y: 50,
-                mode: "percent",
+                mode: 'percent',
                 radius: 0,
               },
               decay: 0,
               distance: {},
-              direction: "none",
+              direction: 'none',
               drift: 0,
               enable: true,
               gravity: {
@@ -383,11 +392,11 @@ export default function ParticleBackground() {
                 options: {},
               },
               outModes: {
-                default: "out",
-                bottom: "out",
-                left: "out",
-                right: "out",
-                top: "out",
+                default: 'out',
+                bottom: 'out',
+                left: 'out',
+                right: 'out',
+                top: 'out',
               },
               random: false,
               size: false,
@@ -430,9 +439,9 @@ export default function ParticleBackground() {
                 decay: 0,
                 delay: 0,
                 sync: false,
-                mode: "auto",
-                startValue: "random",
-                destroy: "none",
+                mode: 'auto',
+                startValue: 'random',
+                destroy: 'none',
                 minimumValue: 0.3,
               },
             },
@@ -440,7 +449,7 @@ export default function ParticleBackground() {
             shadow: {
               blur: 0,
               color: {
-                value: "#000",
+                value: '#000',
               },
               enable: false,
               offset: {
@@ -452,7 +461,7 @@ export default function ParticleBackground() {
               close: true,
               fill: true,
               options: {},
-              type: "circle",
+              type: 'circle',
             },
             size: {
               random: {
@@ -470,9 +479,9 @@ export default function ParticleBackground() {
                 decay: 0,
                 delay: 0,
                 sync: false,
-                mode: "auto",
-                startValue: "random",
-                destroy: "none",
+                mode: 'auto',
+                startValue: 'random',
+                destroy: 'none',
                 minimumValue: 1,
               },
             },
@@ -491,7 +500,7 @@ export default function ParticleBackground() {
             },
             destroy: {
               bounds: {},
-              mode: "none",
+              mode: 'none',
               split: {
                 count: 1,
                 factor: {
@@ -525,7 +534,7 @@ export default function ParticleBackground() {
                 enable: false,
                 value: 0,
               },
-              mode: "vertical",
+              mode: 'vertical',
               speed: 25,
             },
             tilt: {
@@ -540,7 +549,7 @@ export default function ParticleBackground() {
                 decay: 0,
                 sync: false,
               },
-              direction: "clockwise",
+              direction: 'clockwise',
               enable: false,
             },
             twinkle: {
@@ -594,7 +603,7 @@ export default function ParticleBackground() {
                 decay: 0,
                 sync: false,
               },
-              direction: "clockwise",
+              direction: 'clockwise',
               path: false,
             },
             orbit: {
@@ -620,7 +629,7 @@ export default function ParticleBackground() {
             links: {
               blink: false,
               color: {
-                value: "random",
+                value: 'random',
               },
               consent: false,
               distance: 100,
@@ -630,7 +639,7 @@ export default function ParticleBackground() {
               shadow: {
                 blur: 5,
                 color: {
-                  value: "#000",
+                  value: '#000',
                 },
                 enable: false,
               },

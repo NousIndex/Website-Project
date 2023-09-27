@@ -3,7 +3,7 @@ import '../fonts/fonts.css';
 import '../CSS/LandingPage.css';
 import genshinImage from '../assets/landing_page/genshin.jpg';
 import starrailImage from '../assets/landing_page/starrail.webp';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 // LandingPage component
 const LandingPage = () => {
@@ -20,22 +20,29 @@ const LandingPage = () => {
     {
       imageUrl: genshinImage,
       onClick: () => {
-        navigate("/genshin");
+        navigate('/genshin');
       },
     },
     {
       imageUrl: starrailImage,
       onClick: () => {
         console.log('Button 2 clicked!');
-      }
+      },
     },
   ];
 
   // Function to generate the HTML for the buttons in a grid format
   function generateButtonsGrid() {
     return imageButtonsArray.map((button, index) => (
-      <button key={index} className="image-button" onClick={button.onClick}>
-        <img src={button.imageUrl} alt={`Button ${index + 1}`} />
+      <button
+        key={index}
+        className="image-button"
+        onClick={button.onClick}
+      >
+        <img
+          src={button.imageUrl}
+          alt={`Button ${index + 1}`}
+        />
       </button>
     ));
   }
@@ -43,9 +50,7 @@ const LandingPage = () => {
   return (
     <div className="container">
       <h1 className="page-title">NousIndex</h1>
-      <div className="buttons-container">
-        {generateButtonsGrid()}
-      </div>
+      <div className="buttons-container">{generateButtonsGrid()}</div>
     </div>
   );
 };

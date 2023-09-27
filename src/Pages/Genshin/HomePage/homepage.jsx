@@ -1,50 +1,50 @@
-import React, { useState } from "react";
-import "../CSS/homepage.css"; // You can create a CSS file for styling
-import ExpandableCarousel from "../../components/ExpandableCarousel";
-import GenshinSidebar from "../../components/GenshinSidebar";
-import AbyssTimer from "./abysstimer";
-import Birthday from "./birthday";
-import CodeRedeem from "./coderedeem";
-import image1 from "../../../assets/banners/Genshin-Impact-4.0-Banner-1.png";
-import image2 from "../../../assets/banners/Genshin-Impact-4.0-Banner-2.png";
-import image3 from "../../../assets/banners/Genshin-Impact-4.0-Banner-3.png";
+import React, { useState } from 'react';
+import '../CSS/homepage.css'; // You can create a CSS file for styling
+import ExpandableCarousel from '../../components/ExpandableCarousel';
+import GenshinSidebar from '../../components/GenshinSidebar';
+import AbyssTimer from './abysstimer';
+import Birthday from './birthday';
+import CodeRedeem from './coderedeem';
+import image1 from '../../../assets/banners/Genshin-Impact-4.0-Banner-1.png';
+import image2 from '../../../assets/banners/Genshin-Impact-4.0-Banner-2.png';
+import image3 from '../../../assets/banners/Genshin-Impact-4.0-Banner-3.png';
 
 function HomePage() {
   // Define carouselItems and codeItems as state variables
   const [carouselItems, setCarouselItems] = useState([
     {
       imageUrl: image1,
-      legend: "Legend 1",
+      legend: 'Legend 1',
     },
     {
       imageUrl: image2,
-      legend: "Legend 2",
+      legend: 'Legend 2',
     },
     {
       imageUrl: image3,
-      legend: "Legend 3",
+      legend: 'Legend 3',
     },
   ]);
 
   const [codeItems, setCodeItems] = useState([
     {
-      code: "TA97CGHDHJTH",
-      expiry: "",
+      code: 'TA97CGHDHJTH',
+      expiry: '',
     },
     {
-      code: "MT8PCZYVG2T5",
-      expiry: "",
+      code: 'MT8PCZYVG2T5',
+      expiry: '',
     },
     {
-      code: "NA9NDHHCZKTD",
-      expiry: "05D:10H:20M:30S",
+      code: 'NA9NDHHCZKTD',
+      expiry: '05D:10H:20M:30S',
     },
   ]);
 
   const handleAddItem = () => {
     const newItem = {
-      code: "NEWCODE123",
-      expiry: "10D:5H:30M:15S",
+      code: 'NEWCODE123',
+      expiry: '10D:5H:30M:15S',
     };
 
     // Update codeItems using the setCodeItems function

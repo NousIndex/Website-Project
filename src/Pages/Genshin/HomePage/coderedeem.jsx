@@ -1,5 +1,5 @@
-import React from "react";
-import "./CSS/coderedeem.css"; // Import your custom CSS file
+import React from 'react';
+import './CSS/coderedeem.css'; // Import your custom CSS file
 
 const StringArrayTable = ({ items }) => {
   // Check if dataArray is empty or undefined
@@ -20,7 +20,7 @@ const StringArrayTable = ({ items }) => {
             {items.map((item, index) => (
               <tr key={index}>
                 <td className="code-redeem-text">{item.code}</td>
-                <td className="code-redeem-text">&#8203;</td>{" "}
+                <td className="code-redeem-text">&#8203;</td>{' '}
                 {/* Zero width character */}
               </tr>
             ))}
@@ -38,7 +38,7 @@ const StringArrayTable = ({ items }) => {
             {items.map((item, index) => (
               <tr key={index}>
                 <td className="code-redeem-text">{item.expiry}</td>
-                <td className="code-redeem-text">&#8203;</td>{" "}
+                <td className="code-redeem-text">&#8203;</td>{' '}
                 {/* Zero width character */}
               </tr>
             ))}
