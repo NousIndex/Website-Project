@@ -6,6 +6,7 @@ import LandingPage from './Pages/LandingPage.jsx';
 import ParticlesBackground from './Pages/ParticlesBackground.js';
 import GenshinHomePage from './Pages/Genshin/HomePage/homepage.jsx';
 import GenshinWishTrackerPage from './Pages/Genshin/WishTracker/wishtracker';
+import GenshinTimeLine from './Pages/Genshin/TimeLine/timeline';
 
 function App() {
   useEffect(() => {
@@ -30,6 +31,10 @@ function App() {
           <Route
             path={routePaths.GENSHIN_WISH_TRACKER_PATH}
             element={<GenshinWishTrackerPage />}
+          />
+          <Route
+            path={routePaths.GENSHIN_TIMELINE_PATH}
+            element={<GenshinTimeLine />}
           />
         </Routes>
       </div>

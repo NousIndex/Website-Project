@@ -1,0 +1,10 @@
+.image-list-container {
+    max-height: 100vh; /* Adjust the height as needed */
+    overflow: auto;
+  }
+
+  .timeline-images {
+    width: 250px;
+    height: auto;
+  }
+  
