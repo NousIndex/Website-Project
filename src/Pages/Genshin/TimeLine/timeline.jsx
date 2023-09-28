@@ -53,7 +53,7 @@ function ImageGallery() {
 
   return (
     <div>
-      <h1>Image Gallery</h1>
+      <h1 style={{color: '#FFFFFF'}}>Image Gallery</h1>
       <div className="image-list-container">
         <div className="image-list">
           {imageUrls.map((imageUrl, index) => (
