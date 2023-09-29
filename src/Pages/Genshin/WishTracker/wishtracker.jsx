@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as routePaths from '../../../routePaths';
 import './CSS/wishtracker.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
 import banner1 from '../../../assets/Icons/genshin-wish-all.png';
@@ -17,7 +18,9 @@ function WishTracker() {
     const userGameId = '812650839';
     async function fetchData() {
       try {
-        const response = await fetch(`http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`);
+        const response = await fetch(
+          `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
+        );
         const data = await response.json();
         setWishAPIData(data);
         setFilteredItems(data);
@@ -91,6 +94,9 @@ function WishTracker() {
     ));
   }
 
+  // handle update wish button click
+  function handleUpdateWish() {}
+
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
@@ -98,14 +104,25 @@ function WishTracker() {
 
       {/* Main Content */}
       <div className="content">
-        <h1 className="wishpage-main-title">Wish Tracker</h1>
+        <h1 className="wishpage-main-title">
+          Wish Tracker
+          <a
+            href={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
+            className="genshin-checkin-button-link-container"
+          >
+            <button
+              className="genshin-checkin-button-link"
+              onClick={handleUpdateWish}
+            >
+              Import Wish
+            </button>
+          </a>
+        </h1>
         <div class="wish-grid-container">
           <div class="wish-left-grid-container">
             <div class="wish-top-left">{generateButtonsGrid()}</div>
             <div class="wish-bottom-left">
-              {filteredItems.length > 0 && (
-                <ItemTable items={filteredItems} />
-              )}
+              {filteredItems.length > 0 && <ItemTable items={filteredItems} />}
             </div>
           </div>
           <div class="wish-right-content">STATS</div>

@@ -85,6 +85,60 @@ app.get('/api/genshin-draw', async (req, res) => {
   }
 });
 
+app.get('/api/genshin-draw-import', async (req, res) => {
+  try {
+    // Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Weapon Event Wish = 302
+    // Object properties: {
+    //   uid: '802199629',
+    //   gacha_type: '301',
+    //   item_id: '',
+    //   count: '1',
+    //   time: '2023-09-30 03:38:45',
+    //   name: 'Harbinger of Dawn',
+    //   lang: 'en-us',
+    //   item_type: 'Weapon',
+    //   rank_type: '3',
+    //   id: '1696014360000464729'
+    // }
+
+    let endid = '0';
+    let banner = 301;
+    let authkey = req.query.authkey;
+
+    const apiUrl =
+      'https://hk4e-api-os.mihoyo.com/event/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
+      banner +
+      '&lang=en&authkey=' +
+      authkey +
+      '&gacha_type=' +
+      banner +
+      '&page=1&size=20&end_id=' +
+      endid;
+    // console.log(apiUrl);
+    // Use the built-in fetch to make the request to Mihoyo API
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse the response body as JSON
+    const responseData = await response.json();
+    const itemList = responseData.data.list;
+    itemList.forEach((item, index) => {
+      console.log(`Item ${index + 1}:`);
+      console.log('Object properties:', item);
+    });
+    
+    // Send a response to the client and close the connection
+    res.json({ success: true });
+
+  } catch (error) {
+    console.error('Fetch error:', error);
+    // Handle errors as needed, but you won't send an error response to the client.
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
