@@ -5,7 +5,7 @@ import './CSS/ExpandableCarousel.css';
 import Modal from 'react-modal';
 import 'animate.css/animate.min.css';
 
-const ExpandableCarousel = ({ items }) => {
+const ExpandableCarousel = ({ items, endtime }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -44,17 +44,26 @@ const ExpandableCarousel = ({ items }) => {
         infiniteLoop={true}
         stopOnHover={true}
         swipeable={true}
-        emulateTouch={true}>
+        emulateTouch={true}
+      >
         {items.map((item, index) => (
           <div
             key={index}
             className={`carousel-item`}
-            onClick={() => openModal(index)}>
+            onClick={() => openModal(index)}
+          >
             <img
               src={item.imageUrl}
               alt={`Carousel Item ${index + 1}`}
             />
-            <div className="carousel-legend">{item.legend}</div>
+            <div className="carousel-legend">
+              {' '}
+              <b>
+                {item.legend} <br />
+                Asia - {endtime.days} days, {endtime.hours} hrs,{' '}
+                {endtime.minutes} mins, {endtime.seconds} secs
+              </b>
+            </div>
           </div>
         ))}
       </Carousel>
@@ -64,7 +73,8 @@ const ExpandableCarousel = ({ items }) => {
         onRequestClose={closeModal}
         contentLabel="Image Modal"
         className={`carousel-modal animate__animated ${modalAnimationClass}`}
-        overlayClassName="carousel-overlay">
+        overlayClassName="carousel-overlay"
+      >
         <div className={`carousel-modal-content`}>
           <Carousel
             showThumbs={true}
@@ -77,12 +87,20 @@ const ExpandableCarousel = ({ items }) => {
               <div
                 key={index}
                 className={`carousel-modal-item`}
-                onClick={() => closeModal(index)}>
+                onClick={() => closeModal(index)}
+              >
                 <img
                   src={item.imageUrl}
                   alt={`Carousel Item ${index + 1}`}
                 />
-                <div className="carousel-modal-legend">{item.legend}</div>
+                <div className="carousel-modal-legend">
+                  {' '}
+                  <b>
+                    {item.legend} <br />
+                    Asia - {endtime.days} days, {endtime.hours} hrs,{' '}
+                    {endtime.minutes} mins, {endtime.seconds} secs
+                  </b>
+                </div>
               </div>
             ))}
           </Carousel>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../CSS/wishtracker.css';
+import React, { useState, useEffect } from 'react';
+import './CSS/wishtracker.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
 import banner1 from '../../../assets/Icons/genshin-wish-all.png';
 import banner2 from '../../../assets/Icons/genshin-wish-character.png';
@@ -8,92 +8,35 @@ import banner4 from '../../../assets/Icons/genshin-wish-standard.png';
 import ItemTable from './wishrecords';
 import './CSS/wishtable.css';
 function WishTracker() {
-  // Sample item data as an array (you can replace it with your data)
-  const allItems = [
-    {
-      number: 1,
-      image1: 'image1.jpg',
-      name: 'Item 1',
-      text: 'Description of Item 1',
-      image2: 'image2.jpg',
-      type: 'character',
-      time: '10:00 AM',
-    },
-    {
-      number: 2,
-      image1: 'image3.jpg',
-      name: 'Item 2',
-      text: 'Description of Item 2',
-      image2: 'image4.jpg',
-      type: 'standard',
-      time: '2:30 PM',
-    },
-    {
-      number: 3,
-      image1: 'image5.jpg',
-      name: 'Item 3',
-      text: 'Description of Item 3',
-      image2: 'image6.jpg',
-      type: 'standard',
-      time: '2:30 PM',
-    },
-    {
-      number: 4,
-      image1: 'image7.jpg',
-      name: 'Item 4',
-      text: 'Description of Item 4',
-      image2: 'image8.jpg',
-      type: 'character',
-      time: '2:30 PM',
-    },
-    {
-      number: 5,
-      image1: 'image9.jpg',
-      name: 'Item 5',
-      text: 'Description of Item 5',
-      image2: 'image10.jpg',
-      type: 'weapon',
-      time: '2:30 PM',
-    },
-    {
-      number: 6,
-      image1: 'image11.jpg',
-      name: 'Item 6',
-      text: 'Description of Item 6',
-      image2: 'image12.jpg',
-      type: 'standard',
-      time: '2:30 PM',
-    },
-    {
-      number: 7,
-      image1: 'image13.jpg',
-      name: 'Item 7',
-      text: 'Description of Item 7',
-      image2: 'image14.jpg',
-      type: 'character',
-      time: '2:30 PM',
-    },
-    {
-      number: 8,
-      image1: 'image15.jpg',
-      name: 'Item 8',
-      text: 'Description of Item 8',
-      image2: 'image16.jpg',
-      type: 'weapon',
-      time: '2:30 PM',
-    },
-    // Add more items as needed
-  ];
-
+  const [wishAPIData, setWishAPIData] = useState([]);
   const [filterType, setFilterType] = useState('all'); // Default filter type is 'all'
-  const [filteredItems, setFilteredItems] = useState(allItems); // Default filtered items is allItems
+  const [filteredItems, setFilteredItems] = useState([]); // Default filtered items is allItems
+  // Sample item data as an array (you can replace it with your data)
+
+  useEffect(() => {
+    const userGameId = '812650839';
+    async function fetchData() {
+      try {
+        const response = await fetch(`http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`);
+        const data = await response.json();
+        setWishAPIData(data);
+        setFilteredItems(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching API usage data:', error);
+      }
+    }
+
+    // Call the fetchData function when the component mounts
+    fetchData();
+  }, []); // Specify an empty dependency array to run only once
 
   // Function to filter items based on type
   const handleFilter = (type) => {
     if (type === 'all') {
-      setFilteredItems(allItems);
+      setFilteredItems(wishAPIData);
     } else {
-      const filtered = allItems.filter((item) => item.type === type);
+      const filtered = wishAPIData.filter((item) => item.DrawType === type);
       setFilteredItems(filtered);
     }
     setFilterType(type);
@@ -112,21 +55,21 @@ function WishTracker() {
       imageUrl: banner2,
       text: 'Character',
       onClick: () => {
-        handleFilter('character');
+        handleFilter('Character Event Wish');
       },
     },
     {
       imageUrl: banner3,
       text: 'Weapon',
       onClick: () => {
-        handleFilter('weapon');
+        handleFilter('Weapon Event Wish');
       },
     },
     {
       imageUrl: banner4,
       text: 'Standard',
       onClick: () => {
-        handleFilter('standard');
+        handleFilter('Permanent Wish');
       },
     },
   ];
@@ -160,7 +103,9 @@ function WishTracker() {
           <div class="wish-left-grid-container">
             <div class="wish-top-left">{generateButtonsGrid()}</div>
             <div class="wish-bottom-left">
-              <ItemTable items={filteredItems} />
+              {filteredItems.length > 0 && (
+                <ItemTable items={filteredItems} />
+              )}
             </div>
           </div>
           <div class="wish-right-content">STATS</div>

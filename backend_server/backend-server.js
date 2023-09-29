@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const prisma = new PrismaClient();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 7777;
 
 app.use(express.json());
 app.use(cors());
@@ -37,7 +37,14 @@ app.get('/api/check-fetch-condition', (req, res) => {
   // Check if the condition to fetch data is met (e.g., 30 minutes have passed)
   //const shouldFetch = elapsedTime >= 30 * 60 * 1000;
   const shouldFetch = elapsedTime >= 1000;
-  console.log('userId:', userId + ' entryTimestamp:', entryTimestamp + ' oldTime:', oldTime + ' elapsedTime:', elapsedTime + ' shouldFetch:', shouldFetch);
+  console.log(
+    'userId:',
+    userId + ' entryTimestamp:',
+    entryTimestamp + ' oldTime:',
+    oldTime + ' elapsedTime:',
+    elapsedTime + ' shouldFetch:',
+    shouldFetch
+  );
 
   res.json({ shouldFetch });
 });
@@ -46,6 +53,31 @@ app.get('/api/apiusage', async (req, res) => {
   try {
     const data = await prisma.aPI_Usage.findMany();
     //console.log('Data:', data);
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/genshin-draw', async (req, res) => {
+  const { userGameId } = req.query;
+
+  if (!userGameId) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  try {
+    // Use Prisma to query the Genshin_Draw table based on Genshin_UID
+    const data = await prisma.Genshin_Draw.findMany({
+      where: {
+        Genshin_UID: userGameId,
+      },
+      orderBy: {
+        Wish_Index: 'desc',
+      },
+    });
+
     res.json(data);
   } catch (error) {
     console.error('Error fetching data:', error);

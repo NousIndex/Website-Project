@@ -132,7 +132,7 @@ const AbyssTimer = () => {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetDate, targetDate2, targetDate3]);
 
   return (
     <div>

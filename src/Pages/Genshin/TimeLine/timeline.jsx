@@ -1,72 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchWebsiteHtml, extractDataFromHTML } from '../../../APIs/webscrapAPI';
+import './CSS/timeline.css';
+import GenshinSidebar from '../../components/GenshinSidebar';
 
-function App() {
-  const [apiUsageData, setApiUsageData] = useState([]);
-  const [shouldFetchData, setShouldFetchData] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('http://localhost:3000/api/apiusage');
-        const data = await response.json();
-        setApiUsageData(data);
-      } catch (error) {
-        console.error('Error fetching API usage data:', error);
-      }
-    }
-
-    // Call the fetchData function when the component mounts
-    fetchData();
-  }, []); // Specify an empty dependency array to run only once
+function ImageGallery() {
+  const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
-    let isMounted = true; // Create a flag to track component unmounting
+    const websiteUrl =
+      'https://www.ign.com/wikis/genshin-impact/Banner_Schedule:_Current_and_Next_Genshin_Banners';
 
-    async function fetchCondition() {
-      try {
-        const userId = '123'; // Replace with the actual user ID
-        const response = await fetch(`http://localhost:3000/api/check-fetch-condition?userId=${userId}`);
-        const data = await response.json();
-        
-        if (isMounted) {
-          console.log('fetchCondition data:', data);
-
-          if (typeof data.shouldFetch === 'boolean') {
-            setShouldFetchData(data.shouldFetch);
-          } else {
-            console.error('Invalid fetchConditionData format:', data);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching fetchCondition data:', error);
-      }
-    }
-
-    // Call the fetchCondition function when the component mounts
-    fetchCondition();
-
-    // Cleanup function to set the isMounted flag to false when unmounting
-    return () => {
-      isMounted = false;
-    };
-  }, []); // Specify an empty dependency array to run only once
+    fetchWebsiteHtml(websiteUrl)
+      .then((html) => {
+        const extractedData = extractDataFromHTML(html);
+        setImageUrls(extractedData.firstTableData.imageUrls);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
 
   return (
-    <div>
-      <h1 style={{ color: '#FFFFFF' }}>API Usage Data</h1>
-      <ul>
-        {apiUsageData.map((apiUsage) => (
-          <li key={apiUsage.API_Index}>
-            <strong style={{ color: '#FFFFFF' }}>API Name: {apiUsage.API_Name}<br /></strong>
-            <strong style={{ color: '#FFFFFF' }}>Last Used: {apiUsage.API_Last_Used.toString()}</strong>
-          </li>
-        ))}
-      </ul>
       <div>
-        <strong style={{ color: '#FFFFFF' }}>Should Fetch Data: {shouldFetchData.toString()}<br /></strong>
+        <h1 style={{ color: '#FFFFFF' }}>Image Gallery</h1>
+        <div className="image-list-container">
+          <div className="image-list">
+            {imageUrls.map((imageUrl, index) => (
+              <img
+                key={index} // Don't forget to add a unique key for each image
+                src={imageUrl}
+                alt={`Image ${index}`}
+                className="timeline-images"
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
 
-export default App;
+export default ImageGallery;

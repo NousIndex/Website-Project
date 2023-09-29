@@ -1,7 +1,7 @@
 /* Table container styles */
 .table-container {
   font-family: Arial, sans-serif;
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   border-collapse: collapse;
   border: 1px solid #ddd;

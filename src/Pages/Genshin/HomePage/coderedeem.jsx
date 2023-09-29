@@ -13,14 +13,18 @@ const StringArrayTable = ({ items }) => {
         <table>
           <thead>
             <tr>
-              <th className="code-redeem-text">Code</th>
+              <th className="code-table-text">Code</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item, index) => (
               <tr key={index}>
-                <td className="code-redeem-text">{item.code}</td>
-                <td className="code-redeem-text">&#8203;</td>{' '}
+                <td className="code-table-text">
+                  <a className="code-redeem-text" href={`https://genshin.hoyoverse.com/en/gift?code=${item.code}`} target="_blank">
+                    {item.code}
+                  </a>
+                </td>
+                <td className="code-table-text">&#8203;</td>{' '}
                 {/* Zero width character */}
               </tr>
             ))}
@@ -31,14 +35,14 @@ const StringArrayTable = ({ items }) => {
         <table>
           <thead>
             <tr>
-              <th className="code-redeem-text">Expiry</th>
+              <th className="code-table-text">Expiry</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item, index) => (
               <tr key={index}>
-                <td className="code-redeem-text">{item.expiry}</td>
-                <td className="code-redeem-text">&#8203;</td>{' '}
+                <td className="code-table-text">{item.expiry}</td>
+                <td className="code-table-text">&#8203;</td>{' '}
                 {/* Zero width character */}
               </tr>
             ))}
@@ -51,4 +55,4 @@ const StringArrayTable = ({ items }) => {
 
 export default StringArrayTable;
 
-/* https://genshin.hoyoverse.com/en/gift */
+/* https://genshin.hoyoverse.com/en/gift?code= */

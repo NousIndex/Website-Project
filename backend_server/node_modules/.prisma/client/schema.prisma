@@ -58,7 +58,16 @@ model Games_Users {
   StarRail_UID String? @db.VarChar(255)
 }
 
-model Genshin_Wish {
+model Users {
+  UID               String    @id @db.VarChar(36)
+  Username          String    @db.VarChar(255)
+  Password_Hash     String    @db.VarChar(255)
+  Email             String    @db.VarChar(255)
+  Registration_Date DateTime  @db.DateTime(0)
+  Last_Login        DateTime? @db.DateTime(0)
+}
+
+model Genshin_Draw {
   Wish_Index  Int      @id @default(autoincrement()) @db.UnsignedInt
   Genshin_UID String   @db.VarChar(255)
   DrawID      String   @db.VarChar(255)
@@ -68,7 +77,7 @@ model Genshin_Wish {
   Rarity      String   @db.VarChar(255)
 }
 
-model StarRail_Wish {
+model StarRail_Draw {
   Wish_Index   Int      @id @default(autoincrement()) @db.UnsignedInt
   StarRail_UID String   @db.VarChar(255)
   DrawID       String   @db.VarChar(255)
@@ -76,13 +85,4 @@ model StarRail_Wish {
   DrawType     String   @db.VarChar(255)
   Item_Name    String   @db.VarChar(255)
   Rarity       String   @db.VarChar(255)
-}
-
-model Users {
-  UID               String    @id @db.VarChar(36)
-  Username          String    @db.VarChar(255)
-  Password_Hash     String    @db.VarChar(255)
-  Email             String    @db.VarChar(255)
-  Registration_Date DateTime  @db.DateTime(0)
-  Last_Login        DateTime? @db.DateTime(0)
 }
