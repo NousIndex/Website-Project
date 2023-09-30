@@ -111,15 +111,19 @@ function HomePage() {
 
   const [codeItems, setCodeItems] = useState([
     {
-      code: 'TA97CGHDHJTH',
+      code: 'EAFVJV4YGTR9',
       expiry: '',
     },
     {
-      code: '2S84JS839T8R ',
+      code: 'RQWP3ULZZ8VD',
       expiry: '',
     },
     {
-      code: '6T8NWE3HD7PD ',
+      code: 'GDAHKD5HYTN5',
+      expiry: 'NEW',
+    },
+    {
+      code: 'GENSHINIMPACTRIVALS23',
       expiry: '00D:00H:59M:59S',
     },
   ]);

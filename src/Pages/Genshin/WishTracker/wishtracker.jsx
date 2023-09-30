@@ -15,16 +15,17 @@ function WishTracker() {
   // Sample item data as an array (you can replace it with your data)
 
   useEffect(() => {
-    const userGameId = '812650839';
+    const userGameId = '812517138';
     async function fetchData() {
       try {
         const response = await fetch(
           `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
         );
         const data = await response.json();
+        data.sort((a, b) => new Date(b.DrawTime) - new Date(a.DrawTime));
         setWishAPIData(data);
         setFilteredItems(data);
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         console.error('Error fetching API usage data:', error);
       }

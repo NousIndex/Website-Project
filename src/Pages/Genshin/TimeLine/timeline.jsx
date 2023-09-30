@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchWebsiteHtml, extractDataFromHTML } from '../../../APIs/webscrapAPI';
+import { fetchWebsiteHtml, extractDataFromHTML, scrapeWeaponData } from '../../../APIs/webscrapAPI';
 import './CSS/timeline.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
 
@@ -8,12 +8,12 @@ function ImageGallery() {
 
   useEffect(() => {
     const websiteUrl =
-      'https://www.ign.com/wikis/genshin-impact/Banner_Schedule:_Current_and_Next_Genshin_Banners';
+      'https://wiki.hoyolab.com/pc/genshin/aggregate/weapon';
 
     fetchWebsiteHtml(websiteUrl)
       .then((html) => {
-        const extractedData = extractDataFromHTML(html);
-        setImageUrls(extractedData.firstTableData.imageUrls);
+        const extractedData = scrapeWeaponData(html);
+        console.log(extractedData);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -27,7 +27,7 @@ function ImageGallery() {
           <div className="image-list">
             {imageUrls.map((imageUrl, index) => (
               <img
-                key={index} // Don't forget to add a unique key for each image
+                key={index}
                 src={imageUrl}
                 alt={`Image ${index}`}
                 className="timeline-images"

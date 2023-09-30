@@ -100,6 +100,26 @@ export function extractNewestKeyArt(html) {
   return imageUrl;
 }
 
+export function scrapeWeaponData(html) {
+  const imageUrls = [];
+
+  // Load the HTML into Cheerio
+  const $ = cheerio.load(html);
+
+  // Select all img elements with a specific class
+  $('img.lazyloaded').each((index, element) => {
+    // Get the value of the src attribute
+    const imageUrl = $(element).attr('src');
+
+    // Add the image URL to the array
+    if (imageUrl) {
+      imageUrls.push(imageUrl);
+    }
+  });
+
+  return imageUrls;
+}
+
 
 
 // // Function to extract image URLs from HTML

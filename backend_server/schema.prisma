@@ -70,19 +70,25 @@ model Users {
 model Genshin_Draw {
   Wish_Index  Int      @id @default(autoincrement()) @db.UnsignedInt
   Genshin_UID String   @db.VarChar(255)
-  DrawID      String   @db.VarChar(255)
+  DrawID      String   @unique(map: "uk_draw_id") @db.VarChar(255)
   DrawTime    DateTime @db.DateTime(0)
   DrawType    String   @db.VarChar(255)
   Item_Name   String   @db.VarChar(255)
   Rarity      String   @db.VarChar(255)
+
+  @@index([DrawID], map: "idx_draw_id")
+  @@index([Genshin_UID], map: "idx_genshin_uid")
 }
 
 model StarRail_Draw {
   Wish_Index   Int      @id @default(autoincrement()) @db.UnsignedInt
   StarRail_UID String   @db.VarChar(255)
-  DrawID       String   @db.VarChar(255)
+  DrawID       String   @unique(map: "uk_draw_id") @db.VarChar(255)
   DrawTime     DateTime @db.DateTime(0)
   DrawType     String   @db.VarChar(255)
   Item_Name    String   @db.VarChar(255)
   Rarity       String   @db.VarChar(255)
+
+  @@index([DrawID], map: "idx_draw_id")
+  @@index([StarRail_UID], map: "idx_starrail_uid")
 }

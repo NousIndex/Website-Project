@@ -7,8 +7,7 @@
 }
 
 .code-table-container {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
   background-color: #ff3300;
 }
 
