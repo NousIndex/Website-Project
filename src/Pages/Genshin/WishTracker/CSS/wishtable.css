@@ -1,4 +1,11 @@
 /* Table container styles */
+.no-selection {
+  -webkit-user-select: none !important; /* Disable text selection for Safari */
+  -moz-user-select: none !important; /* Disable text selection for Firefox */
+  -ms-user-select: none !important; /* Disable text selection for Microsoft browsers */
+  user-select: none !important; /* Disable text selection for modern browsers */
+}
+
 .table-container {
   font-family: Arial, sans-serif;
   max-width: 100%;
@@ -30,6 +37,12 @@
 
 /* Table cell styles */
 .table-cell {
+  align-items: center;
+  padding: 8px;
+}
+.table-cell-item-name {
+  display: flex;
+  align-items: center;
   padding: 8px;
 }
 
@@ -43,7 +56,8 @@
 }
 
 /* Text styles */
-.table-cell .item-name {
+.item-name {
+  font-size: clamp(2px, 1.5vw, 24px);
   font-weight: bold;
 }
 
@@ -55,4 +69,27 @@
 /* Time styles */
 .table-cell .item-time {
   color: #777;
+}
+
+.table-item-icon {
+  width: 10%;
+  margin-left: 10%;
+  margin-right: 3%;
+  border-radius: 50%;
+  vertical-align: middle;
+  display: inline-block;
+}
+/* Add CSS classes for sorted columns */
+.genshin-draw-table-sorted-asc {
+  box-shadow: 0px 5px 0px 0px #ad00c0 inset;
+}
+
+.genshin-draw-table-sorted-desc {
+  box-shadow: 0px -5px 0px 0px #ad00c0 inset;
+}
+
+.genshin-draw-table-filter-buttons {
+  margin: 0.5%;
+  padding: 0.5%;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
 }

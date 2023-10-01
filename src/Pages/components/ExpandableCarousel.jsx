@@ -6,32 +6,53 @@ import Modal from 'react-modal';
 import 'animate.css/animate.min.css';
 
 const ExpandableCarousel = ({ items, endtime }) => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [selectedModalIndex, setSelectedModalIndex] = useState(0); // Initialize to 0
+  const [selectedModalIndex, setSelectedModalIndex] = useState(0);
+  const [preloadedImages, setPreloadedImages] = useState([]); // Store preloaded images
+
+  // Preload images when the component mounts
+  useEffect(() => {
+    const preloadImages = () => {
+      const imagePromises = items.map((item) => {
+        const img = new Image();
+        img.src = item.imageUrl;
+        return new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      // Wait for all images to load before setting state
+      Promise.all(imagePromises)
+        .then(() => {
+          setPreloadedImages(items.map((item) => item.imageUrl));
+        })
+        .catch((error) => {
+          console.error('Error preloading images:', error);
+        });
+    };
+
+    preloadImages();
+  }, [items]);
 
   const openModal = (index) => {
-    setExpandedIndex(index);
-    setSelectedModalIndex(index); // Set the selected index when opening the modal
+    setSelectedModalIndex(index);
     setModalIsOpen(true);
-    setIsClosing(false); // Reset the closing state
+    setIsClosing(false);
   };
 
   const closeModal = () => {
-    setIsClosing(true); // Trigger the closing animation
-    // Delay closing the modal to allow the animation to complete
+    setIsClosing(true);
     setTimeout(() => {
-      setExpandedIndex(null);
       setModalIsOpen(false);
       setIsClosing(false);
-    }, 275); // Adjust the delay time to match your animation duration
+    }, 275);
   };
 
-  // Define the modal animation class based on the modal state
   const modalAnimationClass = modalIsOpen
     ? isClosing
-      ? 'animate__zoomOut' // Use a fade-out animation when closing
+      ? 'animate__zoomOut'
       : 'animate__zoomIn'
     : '';
 
@@ -55,6 +76,9 @@ const ExpandableCarousel = ({ items, endtime }) => {
             <img
               src={item.imageUrl}
               alt={`Carousel Item ${index + 1}`}
+              style={{
+                opacity: preloadedImages.includes(item.imageUrl) ? 1 : 0,
+              }}
             />
             <div className="carousel-legend">
               {' '}
@@ -81,7 +105,7 @@ const ExpandableCarousel = ({ items, endtime }) => {
             infiniteLoop={true}
             swipeable={true}
             emulateTouch={true}
-            selectedItem={selectedModalIndex} // Set the default selected item
+            selectedItem={selectedModalIndex}
           >
             {items.map((item, index) => (
               <div

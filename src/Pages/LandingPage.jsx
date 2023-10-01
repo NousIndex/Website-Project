@@ -13,25 +13,31 @@ const LandingPage = () => {
   const genshinwebsiteUrl =
     'https://www.ign.com/wikis/genshin-impact/Banner_Schedule:_Current_and_Next_Genshin_Banners';
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     // Change the background color to transparent once the DOM content is loaded
     document.addEventListener('DOMContentLoaded', () => {
       document.body.style.backgroundColor = 'transparent';
     });
+    
+    // Check if the image URL is in local storage
+    const imageUrl = localStorage.getItem('genshinKeyArtUrlCache');
 
-    fetchWebsiteHtml(genshinwebsiteUrl)
-      .then((html) => {
-        const GenshinKeyArt = extractNewestKeyArt(html);
-        setgenshinKeyArtUrl(GenshinKeyArt);
-        //setCarouselItems((prevCodeItems) => [...prevCodeItems, newItem]);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
+    // If it's not in local storage, fetch the image and cache it
+    if (!imageUrl) {
+      fetchWebsiteHtml(genshinwebsiteUrl)
+        .then((html) => {
+          const GenshinKeyArt = extractNewestKeyArt(html);
+          localStorage.setItem('genshinKeyArtUrlCache', GenshinKeyArt);
+          setgenshinKeyArtUrl(GenshinKeyArt);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    } else {
+      setgenshinKeyArtUrl(imageUrl); // Use the cached image URL
+    }
   }, []);
-
 
   // Define the array of image buttons with image URLs and onClick functions
   const imageButtonsArray = [

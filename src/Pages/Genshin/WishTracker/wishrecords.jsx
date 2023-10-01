@@ -17,8 +17,10 @@ const ItemTable = ({ items }) => {
   const [sortedItems, setSortedItems] = useState([...items]);
   const [itemIcons, setItemIcons] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [timesort, setTimesort] = useState(false);
+  const [timesort, setTimesort] = useState(true);
   const [namesort, setNamesort] = useState(false);
+  const [raritysort, setRaritysort] = useState(false);
+  const [sortColumn, setSortColumn] = useState('Time');
 
   useEffect(() => {
     async function fetchData() {
@@ -37,11 +39,26 @@ const ItemTable = ({ items }) => {
     fetchData();
   }, []); // Specify an empty dependency array to run only once
 
+  useEffect(() => {
+    setSortedItems([...items]);
+  }, [items]);
+
   // Function to handle sorting by a specific column
   const handleSort = (column) => {
+    setSortColumn(column);
     const sorted = [...sortedItems].sort((a, b) => {
       if (column === 'Time') {
         setTimesort(!timesort); // Toggle timesort state
+        setNamesort(false); // Reset timesort state
+        setRaritysort(false); // Reset Raritysort state
+        if (a.DrawTime === b.DrawTime) {
+          // If the datetime values are the same, use item.drawNumber for secondary sorting
+          if (timesort) {
+            return b.drawNumber - a.drawNumber;
+          } else {
+            return a.drawNumber - b.drawNumber;
+          }
+        }
         if (timesort) {
           return new Date(a.DrawTime) - new Date(b.DrawTime);
         } else {
@@ -51,11 +68,33 @@ const ItemTable = ({ items }) => {
       if (column === 'Name') {
         setNamesort(!namesort); // Toggle namesort state
         setTimesort(false); // Reset timesort state
+        setRaritysort(false); // Reset Raritysort state
         if (namesort) {
-          return a.Item_Name.localeCompare(b.Item_Name);
-        } else {
           return b.Item_Name.localeCompare(a.Item_Name);
+        } else {
+          return a.Item_Name.localeCompare(b.Item_Name);
         }
+      }
+      if (column === 'Rarity') {
+        setRaritysort(!raritysort); // Toggle raritysort state
+        setTimesort(false); // Reset timesort state
+        setNamesort(false); // Reset namesort state
+        if (raritysort) {
+          return parseInt(a.Rarity) - parseInt(b.Rarity);
+        } else {
+          return parseInt(b.Rarity) - parseInt(a.Rarity);
+        }
+      }
+      if (column === 'reset') {
+        setSortColumn('Time');
+        setTimesort(true); // Reset timesort state
+        setNamesort(false); // Reset namesort state
+        setRaritysort(false); // Reset Raritysort state
+        if (a.DrawTime === b.DrawTime) {
+          // If the datetime values are the same, use item.drawNumber for secondary sorting
+          return b.drawNumber - a.drawNumber;
+        }
+        return new Date(a.DrawTime) - new Date(b.DrawTime);
       }
       return a.Item_Name.localeCompare(b.Item_Name);
     });
@@ -64,6 +103,12 @@ const ItemTable = ({ items }) => {
 
   // Function to handle filtering by Rarity
   const handleFilter = (rarity) => {
+    if (rarity === '0') {
+      // Clear all filters
+      setFilters([]);
+      handleSort('reset');
+      return;
+    }
     if (filters.includes(rarity)) {
       // Remove the rarity filter if it's already selected
       setFilters(filters.filter((filter) => filter !== rarity));
@@ -84,18 +129,72 @@ const ItemTable = ({ items }) => {
 
   return (
     <div className="table-container">
-      <button onClick={() => handleFilter('3')}>3★</button>
-      <button onClick={() => handleFilter('4')}>4★</button>
-      <button onClick={() => handleFilter('5')}>5★</button>
+      <button
+        onClick={() => handleFilter('3')}
+        className="genshin-draw-table-filter-buttons no-selection"
+      >
+        3★
+      </button>
+      <button
+        onClick={() => handleFilter('4')}
+        className="genshin-draw-table-filter-buttons no-selection"
+      >
+        4★
+      </button>
+      <button
+        onClick={() => handleFilter('5')}
+        className="genshin-draw-table-filter-buttons no-selection"
+      >
+        5★
+      </button>
+      <button
+        onClick={() => handleFilter('0')}
+        className="genshin-draw-table-filter-buttons no-selection"
+      >
+        Clear Filters
+      </button>
       <table>
         <thead className="table-header">
           <tr>
-            <th>No.</th>
-            <th onClick={() => handleSort('Name')}>Name</th>
-            <th>Rarity</th>
-            <th>Pity</th>
-            <th>Banner</th>
-            <th onClick={() => handleSort('Time')}>Time</th>
+            <th className="no-selection">No.</th>
+            <th
+              onClick={() => handleSort('Name')}
+              className={`no-selection ${
+                sortColumn === 'Name'
+                  ? namesort
+                    ? 'genshin-draw-table-sorted-asc'
+                    : 'genshin-draw-table-sorted-desc'
+                  : ''
+              }`}
+            >
+              Name
+            </th>
+            <th
+              onClick={() => handleSort('Rarity')}
+              className={`no-selection ${
+                sortColumn === 'Rarity'
+                  ? raritysort
+                    ? 'genshin-draw-table-sorted-asc'
+                    : 'genshin-draw-table-sorted-desc'
+                  : ''
+              }`}
+            >
+              Rarity
+            </th>
+            <th className="no-selection">Pity</th>
+            <th className="no-selection">Banner Type</th>
+            <th
+              onClick={() => handleSort('Time')}
+              className={`no-selection ${
+                sortColumn === 'Time'
+                  ? timesort
+                    ? 'genshin-draw-table-sorted-asc'
+                    : 'genshin-draw-table-sorted-desc'
+                  : ''
+              }`}
+            >
+              Time
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -115,20 +214,20 @@ const ItemTable = ({ items }) => {
                 className="table-row"
                 key={index}
               >
-                <td className="table-cell">{index + 1}</td>
-                <td className="table-cell item-name">
+                <td className="table-cell">{item.drawNumber}</td>
+                <td className="table-cell-item-name">
                   <img
                     src={iconUrl}
-                    alt={`Image 1 of ${item.Item_Name}`}
-                  />{item.Item_Name}</td>
-                <td className="table-cell item-name">{item.Rarity}★</td>
-                <td className="table-cell">{item.text}</td>
-                <td className="table-cell">
-                  <img
-                    src={item.image2}
-                    alt={`Image 2 of ${item.Item_Name}`}
+                    loading="lazy"
+                    className="table-item-icon no-selection"
                   />
+                  <span className="item-name">{item.Item_Name}</span>
                 </td>
+                <td className="table-cell">
+                  <span className="item-name">{item.Rarity}★</span>
+                </td>
+                <td className="table-cell">{item.text}</td>
+                <td className="table-cell">{item.DrawType}</td>
                 <td className="table-cell item-time">
                   {formatTimestamp(item.DrawTime)}
                 </td>

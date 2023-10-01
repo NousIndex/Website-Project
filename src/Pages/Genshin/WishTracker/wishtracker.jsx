@@ -22,7 +22,6 @@ function WishTracker() {
           `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
         );
         const data = await response.json();
-        data.sort((a, b) => new Date(b.DrawTime) - new Date(a.DrawTime));
         setWishAPIData(data);
         setFilteredItems(data);
         //console.log(data);
@@ -83,7 +82,7 @@ function WishTracker() {
     return imageButtonsArray.map((button, index) => (
       <button
         key={index}
-        className="genshin-wish-image-button"
+        className="genshin-wish-image-button no-selection"
         onClick={button.onClick}
       >
         <img
@@ -109,10 +108,10 @@ function WishTracker() {
           Wish Tracker
           <a
             href={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
-            className="genshin-checkin-button-link-container"
+            className="genshin-checkin-button-link-container no-selection"
           >
             <button
-              className="genshin-checkin-button-link"
+              className="genshin-checkin-button-link no-selection"
               onClick={handleUpdateWish}
             >
               Import Wish

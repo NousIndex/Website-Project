@@ -13,7 +13,7 @@ export async function fetchWebsiteHtml(url) {
 }
 
 // Function to extract image URLs and text from HTML for first 2 tables
-export function extractDataFromHTML(html) {
+export function extractDataFromIGNHTMLFirstTwoTable(html) {
   const $ = cheerio.load(html);
   const firstTableData = { imageUrls: [], boldText: [] };
   const secondTableData = { imageUrls: [], boldText: [] };
@@ -89,8 +89,14 @@ export function extractNewestKeyArt(html) {
   $('img').each((index, element) => {
     const src = $(element).attr('src');
     const alt = $(element).attr('alt');
-    
-    if (src && alt === 'Key art EN.png' && src.startsWith('https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/')) {
+
+    if (
+      src &&
+      alt === 'Key art EN.png' &&
+      src.startsWith(
+        'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/'
+      )
+    ) {
       // Modify the image URL to the desired format
       imageUrl = src.split('?')[0] + '?width=1200';
       return false; // Exit the loop as soon as an image is found
@@ -100,27 +106,118 @@ export function extractNewestKeyArt(html) {
   return imageUrl;
 }
 
-export function scrapeWeaponData(html) {
-  const imageUrls = [];
+function IGNGenshinBannerDateFormater(date) {
+  // Define month names mapping
+  const monthNames = {
+    Jan: 0,
+    January: 0,
+    Feb: 1,
+    February: 1,
+    Mar: 2,
+    March: 2,
+    Apr: 3,
+    April: 3,
+    May: 4,
+    Jun: 5,
+    June: 5,
+    Jul: 6,
+    July: 6,
+    Aug: 7,
+    August: 7,
+    Sep: 8,
+    September: 8,
+    Sept: 8,
+    Oct: 9,
+    October: 9,
+    Nov: 10,
+    November: 10,
+    Dec: 11,
+    December: 11,
+  };
+  if (date === 'October 14 - November 1, 202') {
+    date = 'October 14 - November 1, 2020';
+  }
+  // Regular expression patterns for both date formats
+  const datePattern1 =
+    /^(\w{3,20}) (\d{1,2}), (\d{4}) - (\w{3,20}) (\d{1,2}), (\d{4})$/;
+  const datePattern2 = /^(\w{3,20} \d{1,2}) - (\w{3,20} \d{1,2}, \d{4})$/;
 
-  // Load the HTML into Cheerio
-  const $ = cheerio.load(html);
+  // Try to match both patterns
+  const match1 = date.match(datePattern1);
+  const match2 = date.match(datePattern2);
 
-  // Select all img elements with a specific class
-  $('img.lazyloaded').each((index, element) => {
-    // Get the value of the src attribute
-    const imageUrl = $(element).attr('src');
-
-    // Add the image URL to the array
-    if (imageUrl) {
-      imageUrls.push(imageUrl);
-    }
-  });
-
-  return imageUrls;
+  if (match1) {
+    // Format 1: Month Day, Year - Month Day, Year
+    const [, startMonth, startDay, startYear, endMonth, endDay, endYear] =
+      match1;
+    const startDate = new Date(
+      startYear,
+      monthNames[startMonth],
+      parseInt(startDay)
+    );
+    const endDate = new Date(endYear, monthNames[endMonth], parseInt(endDay));
+    return { startDate, endDate };
+  } else if (match2) {
+    // Format 2: Month Day, Year - Month Day, Year
+    const [, startDateStr, endDateStr] = match2;
+    const [endDateStr2, YearDateStr] = endDateStr.split(', ');
+    const startDate = new Date(startDateStr + ' ' + YearDateStr);
+    const endDate = new Date(endDateStr2 + ' ' + YearDateStr);
+    return { startDate, endDate };
+  } else {
+    // Invalid date format
+    console.error('Invalid date format:', date);
+    return null;
+  }
 }
 
+// Function to extract image URLs from HTML
+export function extractIGNImageUrls(html) {
+  const $ = cheerio.load(html);
+  let firstTableData = '';
+  const bannerDates = [];
 
+  // Select the first two tables using CSS selectors
+  const firstTable = $('table').eq(0);
+  firstTable.find('b').each((index, element) => {
+    const text = $(element).text();
+    if (text) {
+      if (index === 1) {
+        firstTableData = text;
+        return;
+      }
+    }
+  });
+  
+  // Create a temporary div element to parse the HTML content
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+
+  // Find all table elements within the div
+  const tables = tempDiv.querySelectorAll('table');
+  bannerDates.push(IGNGenshinBannerDateFormater(firstTableData));
+
+  // Iterate through all tables
+  tables.forEach((table) => {
+    // Find all rows within the table
+    const rows = table.querySelectorAll('tr');
+
+    // Iterate through rows and extract the date information
+    rows.forEach((row) => {
+      // Find all cells within the row
+      const cells = row.querySelectorAll('td');
+
+      if (cells.length >= 3) {
+        // Ensure there are at least 3 cells in the row
+        let date = cells[2].textContent.trim(); // Extract and trim the text from the third cell (index 2)
+        const dates = IGNGenshinBannerDateFormater(date);
+        bannerDates.push(dates);
+      }
+    });
+  });
+
+  return bannerDates;
+}
 
 // // Function to extract image URLs from HTML
 // export function extractImageUrls(html) {

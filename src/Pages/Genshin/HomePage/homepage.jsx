@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './CSS/homepage.css'; // You can create a CSS file for styling
 import {
   fetchWebsiteHtml,
-  extractDataFromHTML,
+  extractDataFromIGNHTMLFirstTwoTable,
 } from '../../../APIs/webscrapAPI';
 import ExpandableCarousel from '../../components/ExpandableCarousel';
 import GenshinSidebar from '../../components/GenshinSidebar';
@@ -38,8 +38,8 @@ function HomePage() {
     // Use Promise.all to fetch data from both URLs concurrently
     Promise.all(fetchPromises)
       .then(([html, html2]) => {
-        const extractedData = extractDataFromHTML(html);
-        const extractedData2 = extractDataFromHTML(html2);
+        const extractedData = extractDataFromIGNHTMLFirstTwoTable(html);
+        const extractedData2 = extractDataFromIGNHTMLFirstTwoTable(html2);
         let bannerArray = [];
   
         const legend = extractedData.firstTableData.boldText[1] || '';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchWebsiteHtml, extractDataFromHTML, scrapeWeaponData } from '../../../APIs/webscrapAPI';
+import { fetchWebsiteHtml, extractDataFromIGNHTMLFirstTwoTable, extractIGNImageUrls } from '../../../APIs/webscrapAPI';
 import './CSS/timeline.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
 
@@ -8,12 +8,13 @@ function ImageGallery() {
 
   useEffect(() => {
     const websiteUrl =
-      'https://wiki.hoyolab.com/pc/genshin/aggregate/weapon';
+      'https://www.ign.com/wikis/genshin-impact/Banner_Schedule:_Current_and_Next_Genshin_Banners';
 
     fetchWebsiteHtml(websiteUrl)
       .then((html) => {
-        const extractedData = scrapeWeaponData(html);
-        console.log(extractedData);
+        const extractedData = extractIGNImageUrls(html);
+        setImageUrls(extractedData);
+        // console.log(extractedData);
       })
       .catch((error) => {
         console.error('Error:', error);

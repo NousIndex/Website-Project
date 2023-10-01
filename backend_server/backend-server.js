@@ -78,11 +78,16 @@ app.get('/api/genshin-draw', async (req, res) => {
         Genshin_UID: userGameId,
       },
       orderBy: {
-        Wish_Index: 'desc',
+        DrawTime: 'desc'
       },
     });
 
-    res.json(data);
+    const dataWithDrawNumber = data.map((item, index) => ({
+      ...item,
+      drawNumber: index + 1,
+    }));
+
+    res.json(dataWithDrawNumber);
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal server error' });
