@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { fetchWebsiteHtml, extractDataFromIGNHTMLFirstTwoTable, extractIGNImageUrls } from '../../../APIs/webscrapAPI';
+import { scrapeWebsite } from '../../../APIs/genshinCodeAPI';
 import './CSS/timeline.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
 
 function ImageGallery() {
   const [imageUrls, setImageUrls] = useState([]);
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     const websiteUrl =
@@ -15,6 +17,16 @@ function ImageGallery() {
         const extractedData = extractIGNImageUrls(html);
         setImageUrls(extractedData);
         // console.log(extractedData);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+      scrapeWebsite()
+      .then((html) => {
+        console.log(html);
+        console.log('3');
+        setTitle(html);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -35,6 +47,10 @@ function ImageGallery() {
               />
             ))}
           </div>
+        </div>
+        <div>
+          <h2 style={{ color: '#FFFFFF' }}>Table Content</h2>
+          <p style={{ color: '#FFFFFF' }}>{title}</p>
         </div>
       </div>
   );

@@ -15,7 +15,8 @@ function WishTracker() {
   // Sample item data as an array (you can replace it with your data)
 
   useEffect(() => {
-    const userGameId = '812517138';
+    // 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
+    const userGameId = '802199629';
     async function fetchData() {
       try {
         const response = await fetch(
@@ -24,7 +25,7 @@ function WishTracker() {
         const data = await response.json();
         setWishAPIData(data);
         setFilteredItems(data);
-        //console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error('Error fetching API usage data:', error);
       }
@@ -39,11 +40,16 @@ function WishTracker() {
     if (type === 'all') {
       setFilteredItems(wishAPIData);
     } else {
-      const filtered = wishAPIData.filter((item) => item.DrawType === type);
+      const filtered = wishAPIData.filter((item) => {
+        // Check if DrawType is 'Character Event Wish' or 'Character Event Wish - 2'
+        // Treat 'Character Event Wish - 2' as 'Character Event Wish'
+        return item.DrawType === type || (type === 'Character Event Wish' && item.DrawType === 'Character Event Wish - 2');
+      });
       setFilteredItems(filtered);
     }
     setFilterType(type);
   };
+  
 
   // Sample image buttons data as an array (you can replace it with your data)
   const imageButtonsArray = [
@@ -94,9 +100,6 @@ function WishTracker() {
     ));
   }
 
-  // handle update wish button click
-  function handleUpdateWish() {}
-
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
@@ -112,7 +115,6 @@ function WishTracker() {
           >
             <button
               className="genshin-checkin-button-link no-selection"
-              onClick={handleUpdateWish}
             >
               Import Wish
             </button>

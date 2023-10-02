@@ -19,7 +19,7 @@ const spreadsheetId = '1p7wZL3dbhBXUSKo8dnTF0fH3qU0b3i7syimR7PrXUQg';
 
 // The range of cells you want to retrieve (e.g., 'Sheet1!A1:B2')
 const range = 'Transfer!A1:E';
-const userID = '801235702';
+const userID = '802199629';
 let dataArray = [];
 
 async function getData() {
@@ -35,15 +35,15 @@ async function getData() {
     if (values.length) {
       // Iterate through rows and push each row into the dataArray
       values.forEach((row) => {
-        // Split the date and time string into its components
-        const [datePart, timePart] = row[1].split(' ');
+        // Split the date and time string into its components, and AM/PM
+        const [datePart, timePart, ampm] = row[1].split(' ');
+        console.log(datePart, timePart, ampm);
 
         // Split the date components into year, month, and day
         const [year, month, day] = datePart.split('-').map(Number);
 
-        // Split the time components into hours, minutes, seconds, and AM/PM
-        const [time, ampm] = timePart.split(' ');
-        const [hours, minutes, seconds] = time.split(':').map(Number);
+        // Split the time components into hours, minutes, seconds
+        const [hours, minutes, seconds] = timePart.split(':').map(Number);
 
         // Adjust hours for AM/PM
         let adjustedHours = hours;
@@ -73,22 +73,22 @@ async function getData() {
         };
         dataArray.push(dataObject);
       });
-      dataArray = dataArray.reverse();
-      console.log(dataArray);
+      dataArray = dataArray;
+      console.log(dataArray.reverse());
 
-      try {
-        // Insert the array of data into the Genshin_Draw table
-        const result = await prisma.Genshin_Draw.createMany({
-          data: dataArray,
-        });
+      // try {
+      //   // Insert the array of data into the Genshin_Draw table
+      //   const result = await prisma.Genshin_Draw.createMany({
+      //     data: dataArray,
+      //   });
 
-        console.log('Data inserted successfully:', result);
-      } catch (error) {
-        console.error('Error inserting data:', error);
-      } finally {
-        // Close the Prisma client
-        await prisma.$disconnect();
-      }
+      //   console.log('Data inserted successfully:', result);
+      // } catch (error) {
+      //   console.error('Error inserting data:', error);
+      // } finally {
+      //   // Close the Prisma client
+      //   await prisma.$disconnect();
+      // }
     } else {
       console.log('No data found.');
     }

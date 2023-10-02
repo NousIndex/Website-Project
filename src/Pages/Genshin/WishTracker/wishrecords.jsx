@@ -94,7 +94,7 @@ const ItemTable = ({ items }) => {
           // If the datetime values are the same, use item.drawNumber for secondary sorting
           return b.drawNumber - a.drawNumber;
         }
-        return new Date(a.DrawTime) - new Date(b.DrawTime);
+        return new Date(b.DrawTime) - new Date(a.DrawTime);
       }
       return a.Item_Name.localeCompare(b.Item_Name);
     });
@@ -131,19 +131,28 @@ const ItemTable = ({ items }) => {
     <div className="table-container">
       <button
         onClick={() => handleFilter('3')}
-        className="genshin-draw-table-filter-buttons no-selection"
+        className={`genshin-draw-table-filter-buttons no-selection ${
+          filters.includes('3') ? 'genshin-draw-table-filter-selected' : ''
+        }`}
+        style={{ color: '#69acc2' }}
       >
         3★
       </button>
       <button
         onClick={() => handleFilter('4')}
-        className="genshin-draw-table-filter-buttons no-selection"
+        className={`genshin-draw-table-filter-buttons no-selection ${
+          filters.includes('4') ? 'genshin-draw-table-filter-selected' : ''
+        }`}
+        style={{ color: '#c093d1' }}
       >
         4★
       </button>
       <button
         onClick={() => handleFilter('5')}
-        className="genshin-draw-table-filter-buttons no-selection"
+        className={`genshin-draw-table-filter-buttons no-selection ${
+          filters.includes('5') ? 'genshin-draw-table-filter-selected' : ''
+        }`}
+        style={{ color: '#ddac5e' }}
       >
         5★
       </button>
@@ -226,7 +235,14 @@ const ItemTable = ({ items }) => {
                 <td className="table-cell">
                   <span className="item-name">{item.Rarity}★</span>
                 </td>
-                <td className="table-cell">{item.text}</td>
+                <td className="table-cell">
+                  {' '}
+                  {item.Rarity === '4'
+                    ? item.rarity4Pity
+                    : item.Rarity === '5'
+                    ? item.rarity5Pity
+                    : ''}
+                </td>
                 <td className="table-cell">{item.DrawType}</td>
                 <td className="table-cell item-time">
                   {formatTimestamp(item.DrawTime)}

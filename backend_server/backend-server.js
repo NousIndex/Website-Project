@@ -51,18 +51,6 @@ app.get('/api/check-fetch-condition', (req, res) => {
   res.json({ shouldFetch });
 });
 
-app.get('/api/apiusage', async (req, res) => {
-  console.log('Starting API Usage API');
-  try {
-    const data = await prisma.aPI_Usage.findMany();
-    //console.log('Data:', data);
-    res.json(data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 app.get('/api/genshin-draw', async (req, res) => {
   console.log('Starting Genshin Draw API');
   const { userGameId } = req.query;
@@ -78,23 +66,93 @@ app.get('/api/genshin-draw', async (req, res) => {
         Genshin_UID: userGameId,
       },
       orderBy: {
-        DrawTime: 'desc'
+        DrawTime: 'desc',
       },
     });
 
-    const dataWithDrawNumber = data.map((item, index) => ({
+    // Sort the data by DrawTime and DrawID in descending order
+    const sortedData = data.sort((a, b) => {
+      // Compare DrawTime first (descending order)
+      const timeComparison = b.DrawTime.getTime() - a.DrawTime.getTime();
+
+      // If DrawTime is the same, compare by DrawID (descending order)
+      if (timeComparison === 0) {
+        return b.DrawID.localeCompare(a.DrawID);
+      }
+
+      return timeComparison;
+    });
+
+    const dataWithDrawNumber = sortedData.reverse().map((item, index) => ({
       ...item,
       drawNumber: index + 1,
     }));
 
-    res.json(dataWithDrawNumber);
+    // Initialize banner-specific pity counters
+    const bannerPity = new Map();
+
+    // Initialize arrays to hold draws for each banner
+    const bannerDraws = new Map();
+
+    // Group draws by banner
+    for (const item of dataWithDrawNumber) {
+      // Extract the base banner type (e.g., 'Character Event Wish')
+      let baseBannerType = item.DrawType;
+
+      if (item.DrawType.startsWith('Character Event Wish - ')) {
+        // If the DrawType starts with 'Character Event Wish - ', classify it as 'Character Event Wish'
+        baseBannerType = 'Character Event Wish';
+      }
+
+      if (!bannerPity.has(baseBannerType)) {
+        bannerPity.set(baseBannerType, { rarity4Pity: 0, rarity5Pity: 0 });
+        bannerDraws.set(baseBannerType, []);
+      }
+
+      bannerDraws.get(baseBannerType).push(item);
+    }
+
+    // Calculate and update pity for each banner
+    for (const [banner, draws] of bannerDraws) {
+      let rarity4Pity = 0;
+      let rarity5Pity = 0;
+
+      // Reverse the draws to calculate pity from the newest to oldest
+      for (const item of draws) {
+        rarity4Pity++;
+        rarity5Pity++;
+
+        if (item.Rarity === '4') {
+          item.rarity5Pity = 0;
+          item.rarity4Pity = rarity4Pity;
+          rarity4Pity = 0;
+        } else if (item.Rarity === '5') {
+          item.rarity4Pity = 0;
+          item.rarity5Pity = rarity5Pity;
+          rarity4Pity++;
+          rarity5Pity = 0;
+        } else {
+          item.rarity4Pity = 0;
+          item.rarity5Pity = 0;
+        }
+      }
+    }
+
+    // Combine the draws for all banners and sort by DrawTime
+    const combinedDraws = [...bannerDraws.values()]
+      .flat()
+      .sort((a, b) => b.drawNumber - a.drawNumber);
+
+    // console.log('Data:', combinedDraws);
+
+    res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Weapon Event Wish = 302
+// Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Character Event Wish - 2 = 400,  Weapon Event Wish = 302
 // Object properties: {
 //   uid: '802199629',
 //   gacha_type: '301',
@@ -119,7 +177,7 @@ app.get('/api/genshin-draw-import', async (req, res) => {
 
     while (loop) {
       const apiUrl =
-        'https://hk4e-api-os.mihoyo.com/event/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
+        'https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
         banner +
         '&lang=en&authkey=' +
         authkey +
@@ -127,6 +185,7 @@ app.get('/api/genshin-draw-import', async (req, res) => {
         banner +
         '&page=1&size=20&end_id=' +
         endid;
+
       // Use the built-in fetch to make the request to Mihoyo API
       const response = await fetch(apiUrl);
 
@@ -175,6 +234,9 @@ app.get('/api/genshin-draw-import', async (req, res) => {
                 case '301':
                   item.gacha_type = 'Character Event Wish';
                   break;
+                case '400':
+                  item.gacha_type = 'Character Event Wish - 2';
+                  break;
                 case '302':
                   item.gacha_type = 'Weapon Event Wish';
                   break;
@@ -184,13 +246,13 @@ app.get('/api/genshin-draw-import', async (req, res) => {
 
               if (item.gacha_type !== 'Unknown') {
                 // Split the date and time string into its components
-                const [datePart, timePart] = item.time.split(' ');
+                const [datePart, timePart, ampm] = item.time.split(' ');
 
                 // Split the date components into year, month, and day
                 const [year, month, day] = datePart.split('-').map(Number);
 
                 // Split the time components into hours, minutes, seconds, and AM/PM
-                const [time, ampm] = timePart.split(' ');
+                const [time] = timePart.split(' ');
                 const [hours, minutes, seconds] = time.split(':').map(Number);
 
                 // Create the Date object
@@ -227,6 +289,9 @@ app.get('/api/genshin-draw-import', async (req, res) => {
             banner = 301;
             endid = '0';
           } else if (banner === 301) {
+            banner = 400;
+            endid = '0';
+          } else if (banner === 400) {
             banner = 302;
             endid = '0';
           } else if (banner === 302) {
@@ -241,6 +306,9 @@ app.get('/api/genshin-draw-import', async (req, res) => {
           banner = 301;
           endid = '0';
         } else if (banner === 301) {
+          banner = 400;
+          endid = '0';
+        } else if (banner === 400) {
           banner = 302;
           endid = '0';
         } else if (banner === 302) {
@@ -251,7 +319,7 @@ app.get('/api/genshin-draw-import', async (req, res) => {
         }
       }
     }
-    //console.log(newDraws);
+    // console.log(newDraws);
     // Use Prisma to create a new entry in the Genshin_Draw table
     if (newDraws.length > 0) {
       await prisma.Genshin_Draw.createMany({

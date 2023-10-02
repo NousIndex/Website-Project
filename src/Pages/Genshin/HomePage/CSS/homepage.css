@@ -49,7 +49,7 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, scale 0.3s ease;
 }
 
 /* Hover state for the button */

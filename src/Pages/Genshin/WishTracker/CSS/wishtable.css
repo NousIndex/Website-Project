@@ -91,5 +91,23 @@
 .genshin-draw-table-filter-buttons {
   margin: 0.5%;
   padding: 0.5%;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  font-size: clamp(2px, 1.5vw, 16px);
+  font-weight: bold;
+  background-color: #080016;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, scale 0.3s ease;
+  box-shadow: 0 0 10px rgba(68, 0, 77, 0.7);
+}
+
+.genshin-draw-table-filter-buttons:hover {
+  background-color: #200058;
+  scale: 1.1;
+}
+
+.genshin-draw-table-filter-selected {
+  background-color: #200058;
+  scale: 1.1;
 }
