@@ -26,7 +26,7 @@ const ItemTable = ({ items }) => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://42.60.133.245:7777/api/genshin-draw-icons`
+          `http://localhost:7777/api/genshin-draw-icons`
         );
         const data = await response.json();
         setItemIcons(data);
@@ -162,96 +162,106 @@ const ItemTable = ({ items }) => {
       >
         Clear Filters
       </button>
-      <table>
-        <thead className="table-header">
-          <tr>
-            <th className="no-selection">No.</th>
-            <th
-              onClick={() => handleSort('Name')}
-              className={`no-selection ${
-                sortColumn === 'Name'
-                  ? namesort
-                    ? 'genshin-draw-table-sorted-asc'
-                    : 'genshin-draw-table-sorted-desc'
-                  : ''
-              }`}
-            >
-              Name
-            </th>
-            <th
-              onClick={() => handleSort('Rarity')}
-              className={`no-selection ${
-                sortColumn === 'Rarity'
-                  ? raritysort
-                    ? 'genshin-draw-table-sorted-asc'
-                    : 'genshin-draw-table-sorted-desc'
-                  : ''
-              }`}
-            >
-              Rarity
-            </th>
-            <th className="no-selection">Pity</th>
-            <th className="no-selection">Banner Type</th>
-            <th
-              onClick={() => handleSort('Time')}
-              className={`no-selection ${
-                sortColumn === 'Time'
-                  ? timesort
-                    ? 'genshin-draw-table-sorted-asc'
-                    : 'genshin-draw-table-sorted-desc'
-                  : ''
-              }`}
-            >
-              Time
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems.map((item, index) => {
-            // Replace spaces with underscores and encoded special characters with %27
-            const itemNameModified = item.Item_Name.replace(
-              /\s+/g,
-              '_'
-            ).replace(/'/g, '%27');
-            // Find the matching URL in itemIcons
-            const iconUrl =
-              itemIcons.find((url) => url.includes(itemNameModified)) ||
-              'default-image-url';
-
-            return (
-              <tr
-                className="table-row"
-                key={index}
+      <div className="table-scroll-container">
+        <table>
+          <thead className="table-header">
+            <tr>
+              <th className="no-selection">No.</th>
+              <th
+                onClick={() => handleSort('Name')}
+                className={`no-selection ${
+                  sortColumn === 'Name'
+                    ? namesort
+                      ? 'genshin-draw-table-sorted-asc'
+                      : 'genshin-draw-table-sorted-desc'
+                    : ''
+                }`}
               >
-                <td className="table-cell">{item.drawNumber}</td>
-                <td className="table-cell-item-name">
-                  <img
-                    src={iconUrl}
-                    loading="lazy"
-                    className="table-item-icon no-selection"
-                  />
-                  <span className="item-name">{item.Item_Name}</span>
-                </td>
-                <td className="table-cell">
-                  <span className="item-name">{item.Rarity}★</span>
-                </td>
-                <td className="table-cell">
-                  {' '}
-                  {item.Rarity === '4'
-                    ? item.rarity4Pity
-                    : item.Rarity === '5'
-                    ? item.rarity5Pity
-                    : ''}
-                </td>
-                <td className="table-cell">{item.DrawType}</td>
-                <td className="table-cell item-time">
-                  {formatTimestamp(item.DrawTime)}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                Name
+              </th>
+              <th
+                onClick={() => handleSort('Rarity')}
+                className={`no-selection ${
+                  sortColumn === 'Rarity'
+                    ? raritysort
+                      ? 'genshin-draw-table-sorted-asc'
+                      : 'genshin-draw-table-sorted-desc'
+                    : ''
+                }`}
+              >
+                Rarity
+              </th>
+              <th className="no-selection">Pity</th>
+              <th className="no-selection">Banner Type</th>
+              <th
+                onClick={() => handleSort('Time')}
+                className={`no-selection ${
+                  sortColumn === 'Time'
+                    ? timesort
+                      ? 'genshin-draw-table-sorted-asc'
+                      : 'genshin-draw-table-sorted-desc'
+                    : ''
+                }`}
+              >
+                Time
+              </th>
+            </tr>
+          </thead>
+          <tbody className='table-body'>
+            {filteredItems.map((item, index) => {
+              // Replace spaces with underscores and encoded special characters with %27
+              const itemNameModified = item.Item_Name.replace(
+                /\s+/g,
+                '_'
+              ).replace(/'/g, '%27');
+              // Find the matching URL in itemIcons
+              const iconUrl =
+                itemIcons.find((url) => url.includes(itemNameModified)) ||
+                'default-image-url';
+
+              return (
+                <tr
+                  className="table-row"
+                  key={index}
+                >
+                  <td className="table-cell">
+                    <span className="item-name-sub">{item.drawNumber}</span>
+                  </td>
+                  <td className="table-cell-item-name">
+                    <img
+                      src={iconUrl}
+                      loading="lazy"
+                      className="table-item-icon no-selection"
+                    />
+                    <span className="item-name">{item.Item_Name}</span>
+                  </td>
+                  <td className="table-cell">
+                    <span className="item-name">{item.Rarity}★</span>
+                  </td>
+                  <td className="table-cell">
+                    <span className="item-name">
+                      {' '}
+                      {item.Rarity === '4'
+                        ? item.rarity4Pity
+                        : item.Rarity === '5'
+                        ? item.rarity5Pity
+                        : ''}
+                    </span>
+                  </td>
+                  <td className="table-cell">
+                    <span className="item-name-sub">{item.DrawType}</span>
+                  </td>
+                  <td className="table-cell item-time">
+                    <span className="item-name-sub">
+                      {formatTimestamp(item.DrawTime)}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

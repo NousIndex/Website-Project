@@ -58,26 +58,6 @@ model Games_Users {
   StarRail_UID String? @db.VarChar(255)
 }
 
-model Genshin_Wish {
-  Wish_Index  Int      @id @default(autoincrement()) @db.UnsignedInt
-  Genshin_UID String   @db.VarChar(255)
-  DrawID      String   @db.VarChar(255)
-  DrawTime    DateTime @db.DateTime(0)
-  DrawType    String   @db.VarChar(255)
-  Item_Name   String   @db.VarChar(255)
-  Rarity      String   @db.VarChar(255)
-}
-
-model StarRail_Wish {
-  Wish_Index   Int      @id @default(autoincrement()) @db.UnsignedInt
-  StarRail_UID String   @db.VarChar(255)
-  DrawID       String   @db.VarChar(255)
-  DrawTime     DateTime @db.DateTime(0)
-  DrawType     String   @db.VarChar(255)
-  Item_Name    String   @db.VarChar(255)
-  Rarity       String   @db.VarChar(255)
-}
-
 model Users {
   UID               String    @id @db.VarChar(36)
   Username          String    @db.VarChar(255)
@@ -85,4 +65,38 @@ model Users {
   Email             String    @db.VarChar(255)
   Registration_Date DateTime  @db.DateTime(0)
   Last_Login        DateTime? @db.DateTime(0)
+}
+
+model Genshin_Draw {
+  Wish_Index  Int      @id @default(autoincrement()) @db.UnsignedInt
+  Genshin_UID String   @db.VarChar(255)
+  DrawID      String   @unique(map: "uk_draw_id") @db.VarChar(255)
+  DrawTime    DateTime @db.DateTime(0)
+  DrawType    String   @db.VarChar(255)
+  Item_Name   String   @db.VarChar(255)
+  Rarity      String   @db.VarChar(255)
+
+  @@index([DrawID], map: "idx_draw_id")
+  @@index([Genshin_UID], map: "idx_genshin_uid")
+}
+
+model StarRail_Draw {
+  Wish_Index   Int      @id @default(autoincrement()) @db.UnsignedInt
+  StarRail_UID String   @db.VarChar(255)
+  DrawID       String   @unique(map: "uk_draw_id") @db.VarChar(255)
+  DrawTime     DateTime @db.DateTime(0)
+  DrawType     String   @db.VarChar(255)
+  Item_Name    String   @db.VarChar(255)
+  Rarity       String   @db.VarChar(255)
+
+  @@index([DrawID], map: "idx_draw_id")
+  @@index([StarRail_UID], map: "idx_starrail_uid")
+}
+
+model SummaryTable {
+  Summary_Table_Index Int     @id @default(autoincrement()) @db.UnsignedInt
+  Game_UID            String? @unique(map: "unique_Game_UID") @db.VarChar(255)
+  total_items         Int?    @db.UnsignedInt
+
+  @@index([Game_UID], map: "idx_Game_UID")
 }

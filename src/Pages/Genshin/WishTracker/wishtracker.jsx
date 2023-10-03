@@ -20,7 +20,7 @@ function WishTracker() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
+          `http://localhost:7777/api/genshin-draw?userGameId=${userGameId}`
         );
         const data = await response.json();
         setWishAPIData(data);

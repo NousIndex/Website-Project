@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 import GenshinSidebar from '../../components/GenshinSidebar';
 import './CSS/importwish.css';
-import {genshinWishImportAPI} from '../../../APIs/wishImportAPI';
+import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
 
 const ImportWish = () => {
   const [wishLink, setWishLink] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
   const [isCopied, setIsCopied] = useState(false);
-  const [importedLink, setImportedLink] = useState('');
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$((New-Object System.Net.WebClient).DownloadString('https://gist.github.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink.ps1'))} global"`;
 
@@ -28,14 +28,54 @@ const ImportWish = () => {
     setCopySuccess('Link copied to clipboard');
   };
 
+  async function runWishImportAPI(inputValue) {
+    try {
+      const loadingSwal = Swal.fire({
+        title: '<b>Interfacing With API...</b>',
+        icon: 'warning',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+
+      const response = await genshinWishImportAPI(inputValue);
+      let responseMessage = '';
+      if (response === 'newData' || response === 'noNewData') {
+        setButtonDisabled(true);
+        // alert('Wish imported successfully!');
+      } else if (response === 'authkey error') {
+        responseMessage = 'Authkey Error!';
+      } else {
+        responseMessage = response;
+      }
+
+      loadingSwal.update({
+        title:
+          response === 'newData'
+            ? '<b>New Data Updated!</b>'
+            : response === 'noNewData'
+            ? '<b>No New Data Found!</b>'
+            : `<b>${responseMessage}</b>`,
+        icon:
+          response === 'newData'
+            ? 'success'
+            : response === 'noNewData'
+            ? 'success'
+            : 'error',
+
+        showConfirmButton: true, // Show the confirm button now
+      });
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('An error occurred while importing the wish.');
+    }
+  }
+
   const handleImportWish = () => {
     // Get the text from the input box
-    const inputValue = document.querySelector('.genshin-import-link-textbox-import').value;
-
-    // Update the state with the imported link
-    setImportedLink(inputValue);
-    setButtonDisabled(true);
-    genshinWishImportAPI(inputValue);
+    const inputValue = document.querySelector(
+      '.genshin-import-link-textbox-import'
+    ).value;
+    runWishImportAPI(inputValue);
 
     // You can now use the 'importedLink' state to work with the imported link
     // For example, you can send it to a server or perform any other actions.
@@ -45,7 +85,7 @@ const ImportWish = () => {
     <div className="genshin-import-container">
       <GenshinSidebar />
       <div className="import-wish-container">
-            <h2 className="genshin-import-text-title">Steps to Import Wishes:</h2>
+        <h2 className="genshin-import-text-title">Steps to Import Wishes:</h2>
         <ol className="genshin-import-instructions-container">
           <li className="genshin-import-text">
             Open Genshin Impact on your PC.
@@ -89,7 +129,9 @@ const ImportWish = () => {
             className="genshin-import-copy-button"
             onClick={handleImportWish}
             disabled={isButtonDisabled}
-          > Import Wish
+          >
+            {' '}
+            Import Wish
           </button>
         </ol>
       </div>

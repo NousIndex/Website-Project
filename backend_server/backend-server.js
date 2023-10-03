@@ -1,7 +1,9 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
+const fs = require('fs');
 const cheerio = require('cheerio');
+const { findRenderedDOMComponentWithClass } = require('react-dom/test-utils');
 
 const prisma = new PrismaClient();
 const app = express();
@@ -54,11 +56,41 @@ app.get('/api/check-fetch-condition', (req, res) => {
 app.get('/api/genshin-draw', async (req, res) => {
   console.log('Starting Genshin Draw API');
   const { userGameId } = req.query;
+  const filePath = `./backend_server/draw_cache/genshin/Genshin-${userGameId}.json`;
 
   if (!userGameId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
+  // Check if the file exists
+  if (fs.existsSync(filePath)) {
+    // Read the file contents
+    const fileContents = fs.readFileSync(filePath, 'utf-8');
+
+    // Parse the JSON data from the file
+    try {
+      const jsonData = JSON.parse(fileContents);
+      totalJsonDataItems = jsonData.length;
+      const summaryTableData = await prisma.SummaryTable.findUnique({
+        where: {
+          Game_UID: `Genshin-${userGameId}`,
+        },
+      });
+      if (summaryTableData.total_items === totalJsonDataItems) {
+        console.log('Data is up to date');
+        return res.json(jsonData);
+      }
+    } catch (error) {
+      errorMessage = ('Error parsing JSON data:', error);
+      console.error(errorMessage);
+      return res.status(400).json({ error: errorMessage });
+    }
+  } else {
+    console.log('File does not exist.');
+  }
+
+  // If the file does not exist or the data is not up to date, fetch the data from the database
+  console.log('Fetching data from database');
   try {
     // Use Prisma to query the Genshin_Draw table based on Genshin_UID
     const data = await prisma.Genshin_Draw.findMany({
@@ -144,11 +176,11 @@ app.get('/api/genshin-draw', async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-
-    res.json(combinedDraws);
+    fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
+    return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -201,6 +233,10 @@ app.get('/api/genshin-draw-import', async (req, res) => {
         // Wait for 1 seconds before trying again
         await new Promise((resolve) => setTimeout(resolve, 1000));
         continue;
+      }
+      if (!responseData.data) {
+        // console.log(responseData)
+        return res.json({ message: responseData.message });
       }
       const itemList = responseData.data.list;
       if (itemList.length > 0) {
@@ -318,23 +354,42 @@ app.get('/api/genshin-draw-import', async (req, res) => {
           loop = false;
         }
       }
+      // console.log(newDraws);
+      // Use Prisma to create a new entry in the Genshin_Draw table
+      if (newDraws.length > 0) {
+        await prisma.Genshin_Draw.createMany({
+          data: newDraws,
+          skipDuplicates: true,
+        });
+        // Update SummaryTable about the new data
+
+        // Calculate the total number of items in newDraws
+        const totalItems = newDraws.length;
+
+        // Update the SummaryTable with the new total item count
+        await prisma.SummaryTable.upsert({
+          where: { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` },
+          update: {
+            total_items: {
+              increment: totalItems, // Specify the amount to increment by
+            },
+          },
+          create: {
+            Game_UID: `Genshin-${newDraws[0].Genshin_UID}`,
+            total_items: totalItems,
+          },
+        });
+
+        console.log('Data inserted successfully');
+        return res.json({ message: 'newData' });
+      } else {
+        console.log('No new data');
+        return res.json({ message: 'noNewData' });
+      }
     }
-    // console.log(newDraws);
-    // Use Prisma to create a new entry in the Genshin_Draw table
-    if (newDraws.length > 0) {
-      await prisma.Genshin_Draw.createMany({
-        data: newDraws,
-        skipDuplicates: true,
-      });
-      console.log('Data inserted successfully');
-      res.json({ success: true });
-    } else {
-      console.log('No new data');
-      res.json({ success: false });
-    }
-  } catch (error) {
-    console.error('Fetch error:', error);
-    res.json({ success: false });
+  } catch (errors) {
+    console.error('Fetch error:', errors);
+    return res.json({ message: errors });
   }
 });
 

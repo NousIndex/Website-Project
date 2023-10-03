@@ -38,7 +38,6 @@ body {
   display: grid; /* Use CSS Grid */
   grid-template-columns: minmax(0, auto) minmax(0, auto); /* Create a 70% left and 30% right split */
   height: 100vh; /* Full height of the viewport */
-  overflow:auto;
 }
 
 /* Style the left container */

@@ -11,21 +11,34 @@
   max-width: 100%;
   margin: 0 auto;
   border-collapse: collapse;
+  flex-direction: column;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   border-radius: 8px;
+}
+
+.table-body {
+  /* Set a fixed height for the table body to control scrolling */
+  max-height: none; /* Reset the max-height for the table body */
+}
+
+.table-scroll-container {
+  flex-grow: 1; /* Allow the table scroll container to grow and fill the available space */
+  overflow-y: auto; /* Add scrollbars when content overflows vertically */
+  max-height: calc(100vh - 200px); /* Subtract the height of the table header and footer */
 }
 
 /* Table header styles */
 .table-header {
+  position: sticky;
+  top: 0;
   background-color: #f2f2f2;
   text-align: left;
 }
 
 /* Table header cells styles */
 .table-header th {
-  padding: 12px;
+  padding: 10px;
   text-align: center;
   font-size: clamp(2px, 1.5vw, 24px);
 }
@@ -57,14 +70,14 @@
 
 /* Text styles */
 .item-name {
-  font-size: clamp(2px, 1.5vw, 24px);
+  font-size: clamp(4px, 1vw, 36px);
   font-weight: bold;
 }
 
-/* Increase width for the Name column */
-.table-header th:nth-child(3) {
-  width: 30%; /* Adjust the width as needed */
+.item-name-sub {
+  font-size: clamp(2px, 1vw, 24px);
 }
+
 
 /* Time styles */
 .table-cell .item-time {

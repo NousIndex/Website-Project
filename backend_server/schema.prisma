@@ -92,3 +92,11 @@ model StarRail_Draw {
   @@index([DrawID], map: "idx_draw_id")
   @@index([StarRail_UID], map: "idx_starrail_uid")
 }
+
+model SummaryTable {
+  Summary_Table_Index Int     @id @default(autoincrement()) @db.UnsignedInt
+  Game_UID            String? @unique(map: "unique_Game_UID") @db.VarChar(255)
+  total_items         Int?    @db.UnsignedInt
+
+  @@index([Game_UID], map: "idx_Game_UID")
+}
