@@ -7,6 +7,7 @@ import banner2 from '../../../assets/Icons/genshin-wish-character.png';
 import banner3 from '../../../assets/Icons/genshin-wish-weapon.png';
 import banner4 from '../../../assets/Icons/genshin-wish-standard.png';
 import ItemTable from './wishrecords';
+import StatsTable from './wishstats';
 import './CSS/wishtable.css';
 function WishTracker() {
   const [wishAPIData, setWishAPIData] = useState([]);
@@ -20,7 +21,7 @@ function WishTracker() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:7777/api/genshin-draw?userGameId=${userGameId}`
+          `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
         );
         const data = await response.json();
         setWishAPIData(data);
@@ -43,13 +44,16 @@ function WishTracker() {
       const filtered = wishAPIData.filter((item) => {
         // Check if DrawType is 'Character Event Wish' or 'Character Event Wish - 2'
         // Treat 'Character Event Wish - 2' as 'Character Event Wish'
-        return item.DrawType === type || (type === 'Character Event Wish' && item.DrawType === 'Character Event Wish - 2');
+        return (
+          item.DrawType === type ||
+          (type === 'Character Event Wish' &&
+            item.DrawType === 'Character Event Wish - 2')
+        );
       });
       setFilteredItems(filtered);
     }
     setFilterType(type);
   };
-  
 
   // Sample image buttons data as an array (you can replace it with your data)
   const imageButtonsArray = [
@@ -113,9 +117,7 @@ function WishTracker() {
             href={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
             className="genshin-checkin-button-link-container no-selection"
           >
-            <button
-              className="genshin-checkin-button-link no-selection"
-            >
+            <button className="genshin-checkin-button-link no-selection">
               Import Wish
             </button>
           </a>
@@ -127,7 +129,9 @@ function WishTracker() {
               {filteredItems.length > 0 && <ItemTable items={filteredItems} />}
             </div>
           </div>
-          <div class="wish-right-content">STATS</div>
+          <div class="wish-right-content">
+            {wishAPIData.length > 0 && <StatsTable wishes={wishAPIData} />}
+          </div>
         </div>
       </div>
     </div>

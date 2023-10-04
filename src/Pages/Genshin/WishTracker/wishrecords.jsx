@@ -26,7 +26,7 @@ const ItemTable = ({ items }) => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:7777/api/genshin-draw-icons`
+          `http://42.60.133.245:7777/api/genshin-draw-icons`
         );
         const data = await response.json();
         setItemIcons(data);
@@ -54,9 +54,9 @@ const ItemTable = ({ items }) => {
         if (a.DrawTime === b.DrawTime) {
           // If the datetime values are the same, use item.drawNumber for secondary sorting
           if (timesort) {
-            return b.drawNumber - a.drawNumber;
-          } else {
             return a.drawNumber - b.drawNumber;
+          } else {
+            return b.drawNumber - a.drawNumber;
           }
         }
         if (timesort) {
@@ -163,7 +163,7 @@ const ItemTable = ({ items }) => {
         Clear Filters
       </button>
       <div className="table-scroll-container">
-        <table>
+        <table className="genshin-draw-table">
           <thead className="table-header">
             <tr>
               <th className="no-selection">No.</th>
@@ -207,13 +207,16 @@ const ItemTable = ({ items }) => {
               </th>
             </tr>
           </thead>
-          <tbody className='table-body'>
+          <tbody className="table-body">
             {filteredItems.map((item, index) => {
               // Replace spaces with underscores and encoded special characters with %27
-              const itemNameModified = item.Item_Name.replace(
+              let itemNameModified = item.Item_Name.replace(
                 /\s+/g,
                 '_'
               ).replace(/'/g, '%27');
+              if (itemNameModified === 'Childe') {
+                itemNameModified = 'Tartaglia';
+              }
               // Find the matching URL in itemIcons
               const iconUrl =
                 itemIcons.find((url) => url.includes(itemNameModified)) ||

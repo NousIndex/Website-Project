@@ -15,7 +15,7 @@ textarea {
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
+  width: 0.65vw; /* Width of the scrollbar */
 }
 
 /* Define the styles for the scrollbar thumb (the draggable part) */

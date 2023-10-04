@@ -354,38 +354,38 @@ app.get('/api/genshin-draw-import', async (req, res) => {
           loop = false;
         }
       }
-      // console.log(newDraws);
-      // Use Prisma to create a new entry in the Genshin_Draw table
-      if (newDraws.length > 0) {
-        await prisma.Genshin_Draw.createMany({
-          data: newDraws,
-          skipDuplicates: true,
-        });
-        // Update SummaryTable about the new data
+    }
+    // console.log(newDraws);
+    // Use Prisma to create a new entry in the Genshin_Draw table
+    if (newDraws.length > 0) {
+      await prisma.Genshin_Draw.createMany({
+        data: newDraws,
+        skipDuplicates: true,
+      });
+      // Update SummaryTable about the new data
 
-        // Calculate the total number of items in newDraws
-        const totalItems = newDraws.length;
+      // Calculate the total number of items in newDraws
+      const totalItems = newDraws.length;
 
-        // Update the SummaryTable with the new total item count
-        await prisma.SummaryTable.upsert({
-          where: { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` },
-          update: {
-            total_items: {
-              increment: totalItems, // Specify the amount to increment by
-            },
+      // Update the SummaryTable with the new total item count
+      await prisma.SummaryTable.upsert({
+        where: { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` },
+        update: {
+          total_items: {
+            increment: totalItems, // Specify the amount to increment by
           },
-          create: {
-            Game_UID: `Genshin-${newDraws[0].Genshin_UID}`,
-            total_items: totalItems,
-          },
-        });
+        },
+        create: {
+          Game_UID: `Genshin-${newDraws[0].Genshin_UID}`,
+          total_items: totalItems,
+        },
+      });
 
-        console.log('Data inserted successfully');
-        return res.json({ message: 'newData' });
-      } else {
-        console.log('No new data');
-        return res.json({ message: 'noNewData' });
-      }
+      console.log('Data inserted successfully');
+      return res.json({ message: 'newData' });
+    } else {
+      console.log('No new data');
+      return res.json({ message: 'noNewData' });
     }
   } catch (errors) {
     console.error('Fetch error:', errors);
