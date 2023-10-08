@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
+import supabase from './Supabase';
 import TrailToggleButton from './components/trailtoggleswitch';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import homeIcon from '../assets/background_component/home.png';
 import './components/CSS/homebutton.css';
 
-export default function ParticleBackground() {
+export default function ParticleBackground({
+  authenticated,
+  setAuthenticated,
+}) {
+  const navigate = useNavigate();
   const [isTrailEnabled, setIsTrailEnabled] = useState(false); // State to track if the trail is enabled or not
 
   useEffect(() => {
@@ -28,17 +33,35 @@ export default function ParticleBackground() {
     setIsTrailEnabled(!isTrailEnabled);
   };
 
+  const signOutButtonPress = async () => {
+    const { error } = await supabase.auth.signOut();
+    setAuthenticated(false);
+    navigate('/login');
+  };
+
   return (
     <div>
-      <Link
-        to="/"
-        className="home-button"
-      >
-        <img
-          src={homeIcon}
-          alt="Home"
-        />
-      </Link>
+      {authenticated ? (
+        <div>
+          <button
+            onClick={signOutButtonPress}
+            className="global-signout-button"
+          >
+            Sign Out
+          </button>
+          <Link
+            to="/"
+            className="home-button"
+          >
+            <img
+              src={homeIcon}
+              alt="Home"
+            />
+          </Link>
+        </div>
+      ) : (
+        <></>
+      )}
 
       <TrailToggleButton
         isEnabled={isTrailEnabled}

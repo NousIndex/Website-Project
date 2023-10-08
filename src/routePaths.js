@@ -1,5 +1,7 @@
 // routePaths.js
 export const HOME_PATH = '/';
+export const LOGIN_PATH = '/login';
+export const REGISTER_PATH = '/register';
 
 export const GENSHIN_HOME_PATH = '/genshin';
 export const GENSHIN_WISH_TRACKER_PATH = '/genshin/wish_tacker';
