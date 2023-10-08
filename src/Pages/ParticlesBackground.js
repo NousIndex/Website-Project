@@ -27,7 +27,7 @@ export default function ParticleBackground({
     await loadFull(main);
   };
   const particlesLoaded = (container) => {
-    console.log(container);
+    // console.log(container);
   };
   const toggleTrail = () => {
     setIsTrailEnabled(!isTrailEnabled);

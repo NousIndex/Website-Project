@@ -39,6 +39,7 @@ const Login = ({ setAuthenticated }) => {
 
   return (
     <div className="auth-container">
+      <h1>NousIndex</h1>
       <h2>Login</h2>
       <input
         type="email"
@@ -67,7 +68,6 @@ const Login = ({ setAuthenticated }) => {
         Register
       </Link>
     </div>
-    
   );
 };
 

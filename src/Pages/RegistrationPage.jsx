@@ -11,7 +11,10 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const { user, error } = await supabase.auth.signUp({ email, password });
+      const { user, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
 
       if (error) {
         // Use Swal to display an error message
@@ -25,7 +28,7 @@ const Register = () => {
         Swal.fire({
           icon: 'success',
           title: 'Registration Successful',
-          html: `Registered as ${user.email}.<br>Please check your email for a verification link.`,
+          html: `Registered as ${email}.<br>Please check your email for a verification link.`,
         });
       }
     } catch (error) {
@@ -35,6 +38,7 @@ const Register = () => {
 
   return (
     <div className="auth-container">
+      <h1>NousIndex</h1>
       <h2>Register</h2>
       <input
         type="email"
@@ -50,8 +54,18 @@ const Register = () => {
         onChange={(e) => setPassword(e.target.value)}
         className="auth-input"
       />
-      <button onClick={handleRegister} className="auth-button">Register</button>
-      <Link to="/login" className="auth-link">Login</Link>
+      <button
+        onClick={handleRegister}
+        className="auth-button"
+      >
+        Register
+      </button>
+      <Link
+        to="/login"
+        className="auth-link"
+      >
+        Login
+      </Link>
     </div>
   );
 };
