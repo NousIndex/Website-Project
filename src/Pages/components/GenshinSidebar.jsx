@@ -13,16 +13,16 @@ const GenshinSideBar = () => {
           <a href={routePaths.GENSHIN_WISH_TRACKER_PATH}>Wish Tacker</a>
         </li>
         <li className="navigation-items">
-          <a href={routePaths.GENSHIN_FARM_PATH}>Farmable</a>
+          <a /*href={routePaths.GENSHIN_FARM_PATH}*/>Farmable (WIP)</a>
         </li>
         <li className="navigation-items">
-          <a href={routePaths.GENSHIN_TIMELINE_PATH}>TimeLine</a>
+          <a /*href={routePaths.GENSHIN_TIMELINE_PATH}*/>TimeLine (WIP)</a>
         </li>
         <li className="navigation-items">
-          <a href={routePaths.GENSHIN_DATABASE_PATH}>Database</a>
+          <a /*href={routePaths.GENSHIN_DATABASE_PATH}*/>Database (WIP)</a>
         </li>
         <li className="navigation-items">
-          <a href={routePaths.GENSHIN_ACHIEVEMENTS_PATH}>Achievements</a>
+          <a /*href={routePaths.GENSHIN_ACHIEVEMENTS_PATH}*/>Achievements (WIP)</a>
         </li>
       </ul>
     </div>

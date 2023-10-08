@@ -1,4 +1,6 @@
-export async function genshinWishImportAPI(wishData) {
+import supabase from "../Pages/Supabase";
+
+export async function genshinWishImportAPI(wishData, userID) {
   // Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Weapon Event Wish = 302
   try {
     let res = wishData.split('authkey=');
@@ -7,7 +9,7 @@ export async function genshinWishImportAPI(wishData) {
     authkey = encodeURI(authkey);
 
     // Define the URL of your API endpoint 42.60.133.245
-    const apiUrl = `http://42.60.133.245:7777/api/genshin-draw-import?authkey=${authkey}`;
+    const apiUrl = `http://42.60.133.245:7777/api/genshin-draw-import?authkey=${authkey}&userID=${userID}`;
 
     // Use the fetch function to make the GET request
     const response = await fetch(apiUrl);

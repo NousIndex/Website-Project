@@ -3,7 +3,6 @@ const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
 const fs = require('fs');
 const cheerio = require('cheerio');
-const { findRenderedDOMComponentWithClass } = require('react-dom/test-utils');
 
 const prisma = new PrismaClient();
 const app = express();
@@ -56,9 +55,25 @@ app.get('/api/check-fetch-condition', (req, res) => {
 app.get('/api/genshin-draw', async (req, res) => {
   console.log('Starting Genshin Draw API');
   const { userGameId } = req.query;
-  const filePath = `./backend_server/draw_cache/genshin/Genshin-${userGameId}.json`;
-
+  let genshinUID = '';
   if (!userGameId) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+  if (userGameId.length > 12) {
+    // get genshin uid from user id in database
+    const dataUser = await prisma.Games_Users.findUnique({
+      where: { UID: userGameId },
+    });
+    if (!dataUser) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+    genshinUID = dataUser.Genshin_UID;
+  } else {
+    genshinUID = userGameId;
+  }
+  const filePath = `./backend_server/draw_cache/genshin/Genshin-${genshinUID}.json`;
+
+  if (!genshinUID) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
@@ -73,7 +88,7 @@ app.get('/api/genshin-draw', async (req, res) => {
       totalJsonDataItems = jsonData.length;
       const summaryTableData = await prisma.SummaryTable.findUnique({
         where: {
-          Game_UID: `Genshin-${userGameId}`,
+          Game_UID: `Genshin-${genshinUID}`,
         },
       });
       if (summaryTableData.total_items === totalJsonDataItems) {
@@ -87,6 +102,7 @@ app.get('/api/genshin-draw', async (req, res) => {
     }
   } else {
     console.log('File does not exist.');
+    return res.json({ message: 'File does not exist' });
   }
 
   // If the file does not exist or the data is not up to date, fetch the data from the database
@@ -95,7 +111,7 @@ app.get('/api/genshin-draw', async (req, res) => {
     // Use Prisma to query the Genshin_Draw table based on Genshin_UID
     const data = await prisma.Genshin_Draw.findMany({
       where: {
-        Genshin_UID: userGameId,
+        Genshin_UID: genshinUID,
       },
       orderBy: {
         DrawTime: 'desc',
@@ -203,9 +219,11 @@ app.get('/api/genshin-draw-import', async (req, res) => {
   try {
     let endid = '0';
     let banner = 100;
-    let authkey = req.query.authkey;
-    let newDraws = [];
+    const authkey = req.query.authkey;
+    const userID = req.query.userID;
+    const newDraws = [];
     let loop = true;
+    let genshin_uid = '';
 
     while (loop) {
       const apiUrl =
@@ -246,6 +264,7 @@ app.get('/api/genshin-draw-import', async (req, res) => {
 
         for (const item of itemList) {
           try {
+            genshin_uid = item.uid;
             const existingItem = await prisma.Genshin_Draw.findUnique({
               where: {
                 DrawID: item.id, // Assuming DrawID uniquely identifies an item
@@ -339,6 +358,7 @@ app.get('/api/genshin-draw-import', async (req, res) => {
         }
       } else {
         if (banner === 100) {
+          // get uid
           banner = 301;
           endid = '0';
         } else if (banner === 301) {
@@ -356,6 +376,15 @@ app.get('/api/genshin-draw-import', async (req, res) => {
       }
     }
     // console.log(newDraws);
+    // console.log(userID);
+
+    // Use Prisma to update the Genshin_User table with the new UID
+    await prisma.Games_Users.upsert({
+      where: { UID: userID },
+      update: { Genshin_UID: genshin_uid },
+      create: { UID: userID, Genshin_UID: genshin_uid },
+    });
+
     // Use Prisma to create a new entry in the Genshin_Draw table
     if (newDraws.length > 0) {
       await prisma.Genshin_Draw.createMany({
@@ -480,6 +509,55 @@ app.get('/api/genshin-draw-icons', async (req, res) => {
     console.error('Error fetching data:', error);
   }
 });
+
+// app.get('/api/create-user', async (req, res) => {
+//   const filePath = './backend_server/draw_cache/Users.json';
+//   console.log('Starting Create User API');
+//   const userId = req.query.userId;
+
+//   if (!userId) {
+//     return res.status(400).json({ error: 'Invalid request' });
+//   }
+//   // Check if the file exists
+//   if (fs.existsSync(filePath)) {
+//     // Read the file contents
+//     const fileContents = fs.readFileSync(filePath, 'utf-8');
+//     try {
+//       const jsonData = JSON.parse(fileContents);
+//       const objectExists = jsonData.some((item) => {
+//         // Check if all properties in searchObject match item
+//         return Object.keys({ id: userId }).every(
+//           (key) => item[key] === { id: userId }[key]
+//         );
+//       });
+//       if (objectExists) {
+//         return res.json({ message: 'User already exists' });
+//       } else {
+//         try {
+//           // Use Prisma to create a new entry in the User table
+//           const user = await prisma.Games_Users.create({
+//             data: {
+//               UID: userId,
+//             },
+//           });
+
+//           console.log('User created successfully');
+//           // Write the new user to the file
+//           jsonData.push({ id: userId });
+//           fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+//           return res.json(user);
+//         } catch (error) {
+//           console.error('Error creating user:', error);
+//           return res.status(500).json({ error: 'Internal server error' });
+//         }
+//       }
+//     } catch (error) {
+//       errorMessage = ('Error parsing JSON data:', error);
+//       console.error(errorMessage);
+//       return res.status(400).json({ error: errorMessage });
+//     }
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

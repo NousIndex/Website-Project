@@ -9,32 +9,34 @@ import banner4 from '../../../assets/Icons/genshin-wish-standard.png';
 import ItemTable from './wishrecords';
 import StatsTable from './wishstats';
 import './CSS/wishtable.css';
-function WishTracker() {
+
+function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
   const [filterType, setFilterType] = useState('all'); // Default filter type is 'all'
   const [filteredItems, setFilteredItems] = useState([]); // Default filtered items is allItems
-  // Sample item data as an array (you can replace it with your data)
+  const [searchValue, setSearchValue] = useState('');
+  const [userGameId, setUserGameId] = useState(userID); // Default userGameId is empty string
+
+  async function fetchData(userGameId) {
+    try {
+      const response = await fetch(
+        `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
+      );
+      const data = await response.json();
+      setWishAPIData(data);
+      setFilteredItems(data);
+      // console.log(data);
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
 
   useEffect(() => {
     // 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
-    const userGameId = '802199629';
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
-        );
-        const data = await response.json();
-        setWishAPIData(data);
-        setFilteredItems(data);
-        // console.log(data);
-      } catch (error) {
-        console.error('Error fetching API usage data:', error);
-      }
-    }
 
     // Call the fetchData function when the component mounts
-    fetchData();
-  }, []); // Specify an empty dependency array to run only once
+    fetchData(userGameId);
+  }, [userGameId]); // Specify an empty dependency array to run only once
 
   // Function to filter items based on type
   const handleFilter = (type) => {
@@ -104,6 +106,13 @@ function WishTracker() {
     ));
   }
 
+  const handleSearch = () => {
+    setUserGameId(searchValue);
+  };
+  const handleReset = () => {
+    setUserGameId(userID);
+  };
+
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
@@ -121,6 +130,27 @@ function WishTracker() {
               Import Wish
             </button>
           </a>
+          <div className="genshin-wish-searcher-container">
+            <span className="genshin-wish-searcher-text">Search UID:</span>
+            <input
+              type="text"
+              placeholder="Enter UID..."
+              className="genshin-wish-searcher-input"
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+            <button
+              className="genshin-wish-searcher-button"
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+            <button
+              className="genshin-wish-searcher-reset-button"
+              onClick={handleReset}
+            >
+              My Wish
+            </button>
+          </div>
         </h1>
         <div class="wish-grid-container">
           <div class="wish-left-grid-container">

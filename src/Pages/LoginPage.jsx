@@ -1,23 +1,13 @@
 // Login.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from './Supabase';
 import '../CSS/Auth.css'; // Import your CSS file for styling
 
-const Login = ({ setAuthenticated }) => {
+const Login = ({ setAuthenticated, setUserID }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  // Use useEffect to check if the user is signed in when the component mounts
-  useEffect(() => {
-    const checkUser = async () => {
-      const currentUser = await supabase.auth.getUser();
-      console.log('Logged in as', currentUser.error);
-    };
-
-    checkUser();
-  }, []);
 
   const handleLogin = async () => {
     try {
@@ -30,11 +20,17 @@ const Login = ({ setAuthenticated }) => {
         console.error('Error logging in:', error);
       } else {
         setAuthenticated(true); // Set authenticated to true
+        checkUser(); // Check the logged in user
         navigate('/'); // Redirect to the main page
       }
     } catch (error) {
       console.error('Error logging in:', error);
     }
+  };
+
+  const checkUser = async () => {
+    const currentUser = await supabase.auth.getUser();
+    setUserID(currentUser.data.user.id);
   };
 
   return (

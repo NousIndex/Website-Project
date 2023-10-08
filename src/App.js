@@ -19,43 +19,72 @@ import RegisterPage from './Pages/RegistrationPage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [userID, setUserID] = useState('');
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    // Change the background color to transparent after a slight delay
-    setTimeout(() => {
-      document.body.style.backgroundColor = 'transparent';
-    }, 100);
-
+    // Check if the user is authenticated
     checkAuth();
   }, []);
 
   async function checkAuth() {
     // Implement your authentication logic here to determine if the user is authenticated
     const currentUser = await supabase.auth.getUser();
-    console.log(currentUser);
     if (currentUser.error) {
       setAuthenticated(false);
     } else {
+      setUserID(currentUser.data.user.id);
       setAuthenticated(true);
     }
+    setLoading(false); // Set loading to false once the check is complete
   }
 
+  // While loading, you can display a loading indicator or message
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path={routePaths.LOGIN_PATH} element={<LoginPage setAuthenticated={setAuthenticated} />} />
-          <Route path={routePaths.REGISTER_PATH} element={<RegisterPage />} />
+          <Route
+            path={routePaths.LOGIN_PATH}
+            element={
+              <LoginPage
+                setAuthenticated={setAuthenticated}
+                setUserID={setUserID}
+              />
+            }
+          />
+          <Route
+            path={routePaths.REGISTER_PATH}
+            element={<RegisterPage />}
+          />
 
           {/* Protected routes */}
           {authenticated ? (
             <>
-            {/* Public routes */}
-            <Route path={routePaths.HOME_PATH} element={<LandingPage />} />
-            <Route path={routePaths.GENSHIN_HOME_PATH} element={<GenshinHomePage />} />
-            <Route path={routePaths.GENSHIN_WISH_TRACKER_PATH} element={<GenshinWishTrackerPage />} />
-            <Route path={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH} element={<GeshinImportWish />} />
-            <Route path={routePaths.GENSHIN_TIMELINE_PATH} element={<GenshinTimeLine />} />
+              <Route
+                path={routePaths.GENSHIN_HOME_PATH}
+                element={<GenshinHomePage />}
+              />
+              <Route
+                path={routePaths.GENSHIN_WISH_TRACKER_PATH}
+                element={<GenshinWishTrackerPage userID={userID} />}
+              />
+              <Route
+                path={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
+                element={<GeshinImportWish userID={userID} />}
+              />
+              <Route
+                path={routePaths.GENSHIN_TIMELINE_PATH}
+                element={<GenshinTimeLine />}
+              />
+              <Route
+                path={routePaths.HOME_PATH}
+                element={<LandingPage />}
+              />
             </>
           ) : (
             // Redirect unauthenticated users to the login page
@@ -66,15 +95,12 @@ function App() {
           )}
         </Routes>
       </div>
-      <ParticlesBackground authenticated={authenticated} setAuthenticated={setAuthenticated} />
+      <ParticlesBackground
+        authenticated={authenticated}
+        setAuthenticated={setAuthenticated}
+      />
     </Router>
   );
 }
 
 export default App;
-
-
-
-
-
-

@@ -4,7 +4,7 @@ import GenshinSidebar from '../../components/GenshinSidebar';
 import './CSS/importwish.css';
 import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
 
-const ImportWish = () => {
+const ImportWish = ({ userID }) => {
   const [wishLink, setWishLink] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
   const [isCopied, setIsCopied] = useState(false);
@@ -37,7 +37,7 @@ const ImportWish = () => {
         allowOutsideClick: false,
       });
 
-      const response = await genshinWishImportAPI(inputValue);
+      const response = await genshinWishImportAPI(inputValue, userID);
       let responseMessage = '';
       if (response === 'newData' || response === 'noNewData') {
         setButtonDisabled(true);
