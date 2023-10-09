@@ -9,6 +9,7 @@ import banner4 from '../../../assets/Icons/genshin-wish-standard.png';
 import ItemTable from './wishrecords';
 import StatsTable from './wishstats';
 import './CSS/wishtable.css';
+import { API_URL } from '../../../API_Config.js';
 
 function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
@@ -20,7 +21,7 @@ function WishTracker({ userID }) {
   async function fetchData(userGameId) {
     try {
       const response = await fetch(
-        `http://42.60.133.245:7777/api/genshin-draw?userGameId=${userGameId}`
+        `${API_URL}api/genshin-draw?userGameId=${userGameId}`
       );
       const data = await response.json();
       setWishAPIData(data);

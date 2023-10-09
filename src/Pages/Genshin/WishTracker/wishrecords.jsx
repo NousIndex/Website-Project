@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../../API_Config.js';
 
 // Function to format a timestamp into a more human-readable format
 const formatTimestamp = (timestamp) => {
@@ -26,7 +27,7 @@ const ItemTable = ({ items }) => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://42.60.133.245:7777/api/genshin-draw-icons`
+          `${API_URL}api/genshin-draw-icons`
         );
         const data = await response.json();
         setItemIcons(data);

@@ -26,13 +26,27 @@
 
 .table-scroll-container {
   overflow-y: auto; /* Add scrollbars when content overflows vertically */
-  max-height: 75%; /* Subtract the height of the table header and footer */
+  max-height: 69%; /* Subtract the height of the table header and footer */
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
-
-@media screen and (min-width: 2048px) {
+@media screen and (min-height: 800px) {
+  .table-scroll-container {
+    max-height: 72%;
+  }
+}
+@media screen and (min-height: 900px) {
+  .table-scroll-container {
+    max-height: 75%;
+  }
+}
+@media screen and (min-height: 1000px) {
+  .table-scroll-container {
+    max-height: 77%;
+  }
+}
+@media screen and (min-height: 1100px) {
   .table-scroll-container {
     max-height: 80%;
   }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../../../API_Config.js';
 
 function App() {
   const [apiUsageData, setApiUsageData] = useState([]);
@@ -7,7 +8,7 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:3000/api/apiusage');
+        const response = await fetch(`${API_URL}api/apiusage`);
         const data = await response.json();
         setApiUsageData(data);
       } catch (error) {
@@ -25,7 +26,7 @@ function App() {
     async function fetchCondition() {
       try {
         const userId = '123'; // Replace Page ID
-        const response = await fetch(`http://localhost:3000/api/check-fetch-condition?userId=${userId}`);
+        const response = await fetch(`${API_URL}api/check-fetch-condition?userId=${userId}`);
         const data = await response.json();
         
         if (isMounted) {
