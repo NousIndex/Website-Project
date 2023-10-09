@@ -1,6 +1,6 @@
 // Register.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import supabase from './Supabase';
 import '../CSS/Auth.css'; // Import your CSS file for styling
 import Swal from 'sweetalert2'; // Import SweetAlert2
@@ -8,10 +8,11 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
-      const { user, error } = await supabase.auth.signUp({
+      await supabase.auth.signUp({
         email: email,
         password: password,
       });
@@ -29,6 +30,8 @@ const Register = () => {
           icon: 'success',
           title: 'Registration Successful',
           html: `Registered as ${email}.<br>Please check your email for a verification link.`,
+        }).then(() => {
+          navigate('/login');
         });
       }
     } catch (error) {

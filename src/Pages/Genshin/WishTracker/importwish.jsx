@@ -4,11 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import GenshinSidebar from '../../components/GenshinSidebar';
 import './CSS/importwish.css';
 import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
-import { load } from 'cheerio';
 
 const ImportWish = ({ userID }) => {
-  const [wishLink, setWishLink] = useState('');
-  const [copySuccess, setCopySuccess] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
@@ -16,8 +13,6 @@ const ImportWish = ({ userID }) => {
 
   const handleCopyToClipboard = () => {
     /* Logic to copy the generated link to the clipboard goes here */
-    // For simplicity, we'll set a placeholder value here
-    setWishLink(generatedLink);
 
     /* Code to copy 'generatedLink' to the clipboard */
     const textArea = document.createElement('textarea');
@@ -27,8 +22,6 @@ const ImportWish = ({ userID }) => {
     document.execCommand('copy');
     document.body.removeChild(textArea);
     setIsCopied(true);
-
-    setCopySuccess('Link copied to clipboard');
   };
 
   async function runWishImportAPI(inputValue) {
@@ -68,7 +61,10 @@ const ImportWish = ({ userID }) => {
         showConfirmButton: true, // Show the confirm button now
       });
       loadingSwal.then((result) => {
-        if ((result.isConfirmed) && (response === 'newData' || response === 'noNewData')) {
+        if (
+          result.isConfirmed &&
+          (response === 'newData' || response === 'noNewData')
+        ) {
           navigate('/genshin/wish_tacker');
         }
       });

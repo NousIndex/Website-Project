@@ -4,7 +4,6 @@ import { Chart } from 'react-chartjs-2';
 import './CSS/wishstats.css';
 
 const WishStats = ({ wishes }) => {
-  const [data, setData] = useState({});
   const [characterdraw4, setCharacterdraw4] = useState(0);
   const [weapondraw4, setWeapondraw4] = useState(0);
   const [standarddraw4, setStandarddraw4] = useState(0);
@@ -100,8 +99,6 @@ const WishStats = ({ wishes }) => {
             },
           ],
         };
-
-        setData(data);
       }
     }
     fetchData();

@@ -13,7 +13,6 @@ import { API_URL } from '../../../API_Config.js';
 
 function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
-  const [filterType, setFilterType] = useState('all'); // Default filter type is 'all'
   const [filteredItems, setFilteredItems] = useState([]); // Default filtered items is allItems
   const [searchValue, setSearchValue] = useState('');
   const [userGameId, setUserGameId] = useState(userID); // Default userGameId is empty string
@@ -55,7 +54,6 @@ function WishTracker({ userID }) {
       });
       setFilteredItems(filtered);
     }
-    setFilterType(type);
   };
 
   // Sample image buttons data as an array (you can replace it with your data)

@@ -11,9 +11,6 @@ import Birthday from './birthday';
 import CodeRedeem from './coderedeem';
 
 function HomePage() {
-  const [bannerEndDate, setbannerEndDate] = useState(
-    new Date('2023-09-30T19:59:59Z').getTime()
-  );
   const [carouselItems, setCarouselItems] = useState([]);
 
   const [bannercountdown, setBannerCountdown] = useState({
@@ -46,9 +43,9 @@ function HomePage() {
         const bannerPhase = extractedData.firstTableData.boldText[0] || '';
         let newBannerEndDate;
         if (bannerPhase.includes('Phase 2')) {
-          newBannerEndDate = new Date(legend.split(' - ')[1] + ' 15:00:00').getTime();
+          newBannerEndDate = new Date(legend.split(' - ')[1] + ' 14:59:59').getTime();
         } else {
-          newBannerEndDate = new Date(legend.split(' - ')[1] + ' 18:00:00').getTime();
+          newBannerEndDate = new Date(legend.split(' - ')[1] + ' 17:59:59').getTime();
         }
         // Process data from the first URL
         extractedData.firstTableData.imageUrls.forEach((imageUrl, index) => {
@@ -67,9 +64,6 @@ function HomePage() {
           };
           bannerArray.push(newItem);
         });
-  
-        // Update bannerEndDate
-        setbannerEndDate(newBannerEndDate);
   
         // Calculate remaining time
         const updateCountdown = () => {
