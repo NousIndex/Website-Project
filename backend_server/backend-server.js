@@ -102,7 +102,6 @@ app.get('/api/genshin-draw', async (req, res) => {
     }
   } else {
     console.log('File does not exist.');
-    return res.json({ message: 'File does not exist' });
   }
 
   // If the file does not exist or the data is not up to date, fetch the data from the database
@@ -117,6 +116,10 @@ app.get('/api/genshin-draw', async (req, res) => {
         DrawTime: 'desc',
       },
     });
+
+    if (!data) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
 
     // Sort the data by DrawTime and DrawID in descending order
     const sortedData = data.sort((a, b) => {
@@ -172,12 +175,17 @@ app.get('/api/genshin-draw', async (req, res) => {
 
         if (item.Rarity === '4') {
           item.rarity5Pity = 0;
+          if (rarity4Pity === 11) {
+            rarity4Pity = 10;
+          }
+          if (rarity4Pity > 10) {
+            console.log(item.DrawID, rarity4Pity);
+          }
           item.rarity4Pity = rarity4Pity;
           rarity4Pity = 0;
         } else if (item.Rarity === '5') {
           item.rarity4Pity = 0;
           item.rarity5Pity = rarity5Pity;
-          rarity4Pity++;
           rarity5Pity = 0;
         } else {
           item.rarity4Pity = 0;

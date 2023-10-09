@@ -1,6 +1,6 @@
 /* Auth.css */
 .auth-container {
-  max-width: 15%;
+  max-width: 20%;
   margin: 0 auto;
   padding: 20px;
   position: absolute;
@@ -11,6 +11,10 @@
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex; /* Add display: flex */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
 }
 
 .auth-container h2 {
@@ -28,7 +32,7 @@
 }
 
 .auth-button {
-  width: 30%;
+  width: 40%;
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -50,6 +54,7 @@
   font-size: 14px;
   color: #007bff;
   text-decoration: none;
+  margin-bottom: 5%;
 }
 
 .auth-link:hover {

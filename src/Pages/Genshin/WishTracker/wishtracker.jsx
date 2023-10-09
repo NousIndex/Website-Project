@@ -132,21 +132,21 @@ function WishTracker({ userID }) {
             </button>
           </a>
           <div className="genshin-wish-searcher-container">
-            <span className="genshin-wish-searcher-text">Search UID:</span>
+            <span className="genshin-wish-searcher-text no-selection">Search UID:</span>
             <input
               type="text"
               placeholder="Enter UID..."
-              className="genshin-wish-searcher-input"
+              className="genshin-wish-searcher-input no-selection"
               onChange={(e) => setSearchValue(e.target.value)}
             />
             <button
-              className="genshin-wish-searcher-button"
+              className="genshin-wish-searcher-button no-selection"
               onClick={handleSearch}
             >
               Search
             </button>
             <button
-              className="genshin-wish-searcher-reset-button"
+              className="genshin-wish-searcher-reset-button no-selection"
               onClick={handleReset}
             >
               My Wish

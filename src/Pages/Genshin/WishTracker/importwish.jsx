@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import GenshinSidebar from '../../components/GenshinSidebar';
 import './CSS/importwish.css';
 import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
+import { load } from 'cheerio';
 
 const ImportWish = ({ userID }) => {
   const [wishLink, setWishLink] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const navigate = useNavigate();
   const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$((New-Object System.Net.WebClient).DownloadString('https://gist.github.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink.ps1'))} global"`;
 
   const handleCopyToClipboard = () => {
@@ -64,9 +67,13 @@ const ImportWish = ({ userID }) => {
 
         showConfirmButton: true, // Show the confirm button now
       });
+      loadingSwal.then((result) => {
+        if ((result.isConfirmed) && (response === 'newData' || response === 'noNewData')) {
+          navigate('/genshin/wish_tacker');
+        }
+      });
     } catch (error) {
       console.error('An error occurred:', error);
-      alert('An error occurred while importing the wish.');
     }
   }
 

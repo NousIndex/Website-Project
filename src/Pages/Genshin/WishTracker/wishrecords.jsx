@@ -168,6 +168,7 @@ const ItemTable = ({ items }) => {
           <thead className="table-header">
             <tr>
               <th className="no-selection">No.</th>
+              <th className="no-selection">DrawID</th>
               <th
                 onClick={() => handleSort('Name')}
                 className={`no-selection ${
@@ -230,6 +231,9 @@ const ItemTable = ({ items }) => {
                 >
                   <td className="table-cell">
                     <span className="item-name-sub">{item.drawNumber}</span>
+                  </td>
+                  <td className="table-cell">
+                    <span className="item-name-sub">{item.DrawID}</span>
                   </td>
                   <td className="table-cell-item-name">
                     <img

@@ -21,6 +21,6 @@ export async function genshinWishImportAPI(wishData, userID) {
     return data.message; // Return the message from the response
   } catch (err) {
     console.log(err);
-    return err;
+    return "Wrong Authentication Key";
   }
 }
