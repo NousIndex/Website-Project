@@ -69,7 +69,16 @@
 .table-header th {
   padding: 10px;
   text-align: center;
+  color: #fff;
   font-size: clamp(2px, 1.5vw, 36px);
+}
+
+.table-header-selectable {
+  transition: background-color 0.3s ease;
+}
+
+.table-header-selectable:hover {
+  background-color: #37003d;
 }
 
 /* Table row styles */
@@ -101,11 +110,13 @@
 .item-name {
   font-size: clamp(4px, 1vw, 36px);
   font-weight: bold;
+  color: #fff;
   font-family: 'Poppins', sans-serif;
 }
 
 .item-name-sub {
   font-size: clamp(2px, 1vw, 24px);
+  color: #fff;
   font-family: 'Poppins', sans-serif;
 }
 

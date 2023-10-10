@@ -16,6 +16,8 @@ function WishTracker({ userID }) {
   const [filteredItems, setFilteredItems] = useState([]); // Default filtered items is allItems
   const [searchValue, setSearchValue] = useState('');
   const [userGameId, setUserGameId] = useState(userID); // Default userGameId is empty string
+  const [itemIcons, setItemIcons] = useState([]);
+  const [itemsData, setItemsData] = useState({});
 
   async function fetchData(userGameId) {
     try {
@@ -30,6 +32,36 @@ function WishTracker({ userID }) {
       console.error('Error fetching API usage data:', error);
     }
   }
+
+  useEffect(() => {
+    async function fetchData2() {
+      try {
+        const response = await fetch(`${API_URL}api/genshin-draw-icons`);
+        const data = await response.json();
+        setItemIcons(data);
+      } catch (error) {
+        console.error('Error fetching API usage data:', error);
+      }
+    }
+
+    // Call the fetchData function when the component mounts
+    fetchData2();
+  }, []); // Specify an empty dependency array to run only once
+
+  useEffect(() => {
+    async function fetchData3() {
+      try {
+        const response = await fetch(`${API_URL}api/genshin-draw-database`);
+        const data = await response.json();
+        setItemsData(data);
+      } catch (error) {
+        console.error('Error fetching API usage data:', error);
+      }
+    }
+
+    // Call the fetchData function when the component mounts
+    fetchData3();
+  }, []);
 
   useEffect(() => {
     // 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
@@ -130,7 +162,9 @@ function WishTracker({ userID }) {
             </button>
           </a>
           <div className="genshin-wish-searcher-container">
-            <span className="genshin-wish-searcher-text no-selection">Search UID:</span>
+            <span className="genshin-wish-searcher-text no-selection">
+              Search UID:
+            </span>
             <input
               type="text"
               placeholder="Enter UID..."
@@ -155,11 +189,23 @@ function WishTracker({ userID }) {
           <div class="wish-left-grid-container">
             <div class="wish-top-left">{generateButtonsGrid()}</div>
             <div class="wish-bottom-left">
-              {filteredItems.length > 0 && <ItemTable items={filteredItems} />}
+              {filteredItems.length > 0 && (
+                <ItemTable
+                  items={filteredItems}
+                  itemIcons={itemIcons}
+                />
+              )}
             </div>
           </div>
           <div class="wish-right-content">
-            {wishAPIData.length > 0 && <StatsTable wishes={wishAPIData} />}
+            <h2>Wish Stats</h2>
+            {wishAPIData.length > 0 && Object.keys(itemsData).length > 0 && (
+              <StatsTable
+                wishes={wishAPIData}
+                itemIcons={itemIcons}
+                itemsData={itemsData}
+              />
+            )}
           </div>
         </div>
       </div>

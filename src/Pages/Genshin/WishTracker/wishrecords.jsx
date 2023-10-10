@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../../API_Config.js';
 
 // Function to format a timestamp into a more human-readable format
 const formatTimestamp = (timestamp) => {
@@ -14,31 +13,13 @@ const formatTimestamp = (timestamp) => {
 };
 
 // ItemTable component to display all items
-const ItemTable = ({ items }) => {
+const ItemTable = ({ items, itemIcons }) => {
   const [sortedItems, setSortedItems] = useState([...items]);
-  const [itemIcons, setItemIcons] = useState([]);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState(['4', '5']);
   const [timesort, setTimesort] = useState(true);
   const [namesort, setNamesort] = useState(false);
   const [raritysort, setRaritysort] = useState(false);
   const [sortColumn, setSortColumn] = useState('Time');
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          `${API_URL}api/genshin-draw-icons`
-        );
-        const data = await response.json();
-        setItemIcons(data);
-      } catch (error) {
-        console.error('Error fetching API usage data:', error);
-      }
-    }
-
-    // Call the fetchData function when the component mounts
-    fetchData();
-  }, []); // Specify an empty dependency array to run only once
 
   useEffect(() => {
     setSortedItems([...items]);
@@ -168,10 +149,9 @@ const ItemTable = ({ items }) => {
           <thead className="table-header">
             <tr>
               <th className="no-selection">No.</th>
-              <th className="no-selection">DrawID</th>
               <th
                 onClick={() => handleSort('Name')}
-                className={`no-selection ${
+                className={`no-selection table-header-selectable ${
                   sortColumn === 'Name'
                     ? namesort
                       ? 'genshin-draw-table-sorted-asc'
@@ -183,7 +163,7 @@ const ItemTable = ({ items }) => {
               </th>
               <th
                 onClick={() => handleSort('Rarity')}
-                className={`no-selection ${
+                className={`no-selection table-header-selectable ${
                   sortColumn === 'Rarity'
                     ? raritysort
                       ? 'genshin-draw-table-sorted-asc'
@@ -197,7 +177,7 @@ const ItemTable = ({ items }) => {
               <th className="no-selection">Banner Type</th>
               <th
                 onClick={() => handleSort('Time')}
-                className={`no-selection ${
+                className={`no-selection table-header-selectable ${
                   sortColumn === 'Time'
                     ? timesort
                       ? 'genshin-draw-table-sorted-asc'
@@ -231,9 +211,6 @@ const ItemTable = ({ items }) => {
                 >
                   <td className="table-cell">
                     <span className="item-name-sub">{item.drawNumber}</span>
-                  </td>
-                  <td className="table-cell">
-                    <span className="item-name-sub">{item.DrawID}</span>
                   </td>
                   <td className="table-cell-item-name">
                     <img

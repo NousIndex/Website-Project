@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import 'chart.js/auto';
-import { Chart } from 'react-chartjs-2';
+import WishInventory from './wishinventory';
 import './CSS/wishstats.css';
 
-const WishStats = ({ wishes }) => {
+const WishStats = ({ wishes, itemIcons, itemsData }) => {
   const [characterdraw4, setCharacterdraw4] = useState(0);
   const [weapondraw4, setWeapondraw4] = useState(0);
   const [standarddraw4, setStandarddraw4] = useState(0);
   const [characterdraw5, setCharacterdraw5] = useState(0);
   const [weapondraw5, setWeapondraw5] = useState(0);
   const [standarddraw5, setStandarddraw5] = useState(0);
+  const [totalcharacterdraws, setTotalcharacterdraws] = useState(0);
+  const [totalweapondraws, setTotalweapondraws] = useState(0);
+  const [totalstandarddraws, setTotalstandarddraws] = useState(0);
+  const [averagepity4, setAveragepity4] = useState(0);
+  const [averagepity5, setAveragepity5] = useState(0);
+  const [total4stars, setTotal4stars] = useState(0);
+  const [total5stars, setTotal5stars] = useState(0);
+  const [itemCounter, setItemCounter] = useState({});
+
 
   useEffect(() => {
     async function fetchData() {
@@ -27,11 +35,16 @@ const WishStats = ({ wishes }) => {
         let weapondraw5lock = false;
         let standarddraw4lock = false;
         let standarddraw5lock = false;
+        let averagepity4list = [];
+        let averagepity5list = [];
+        let itemCounts = {};
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {
             count3++;
           } else if (wish.Rarity === '4') {
+            itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
+            averagepity4list.push(parseInt(wish.rarity4Pity));
             count4++;
             if (
               !characterdraw4lock &&
@@ -54,6 +67,9 @@ const WishStats = ({ wishes }) => {
               setStandarddraw4(counters);
             }
           } else if (wish.Rarity === '5') {
+            itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
+            averagepity5list.push(parseInt(wish.rarity5Pity));
+            count5++;
             if (
               (wish.DrawType === 'Character Event Wish' ||
                 wish.DrawType === 'Character Event Wish - 2') &&
@@ -74,7 +90,6 @@ const WishStats = ({ wishes }) => {
               standarddraw5lock = true;
               setStandarddraw5(counters);
             }
-            count5++;
           }
           if (
             wish.DrawType === 'Character Event Wish' ||
@@ -87,18 +102,14 @@ const WishStats = ({ wishes }) => {
             counters++;
           }
         });
-
-        // Create data array for pie chart
-        const data = {
-          labels: ['3 Star', '4 Star', '5 Star'],
-          datasets: [
-            {
-              data: [count3, count4, count5],
-              backgroundColor: ['#69acc2', '#c093d1', '#ddac5e'],
-              hoverBackgroundColor: ['#8ce2ff', '#ebb3ff', '#ffc76c'],
-            },
-          ],
-        };
+        setTotalcharacterdraws(counterc);
+        setTotalweapondraws(counterw);
+        setTotalstandarddraws(counters);
+        setTotal4stars(count4);
+        setTotal5stars(count5);
+        setAveragepity4(averagepity4list.reduce((a, b) => a + b, 0) / averagepity4list.length);
+        setAveragepity5(averagepity5list.reduce((a, b) => a + b, 0) / averagepity5list.length);
+        setItemCounter(itemCounts);
       }
     }
     fetchData();
@@ -106,27 +117,16 @@ const WishStats = ({ wishes }) => {
 
   return (
     <div>
-      <h2>Wish Stats</h2>
       <div className="wish-stats-container">
-        {/* <div className="wish-stats-pie-chart">
-          {data && data.labels && data.labels.length > 0 ? (
-            <Chart
-              type="pie"
-              data={data}
-              options={{ maintainAspectRatio: false }}
-            />
-          ) : (
-            <p>No data available for the chart.</p>
-          )}
-        </div> */}
+        <WishInventory itemIcons={itemIcons} itemsData={itemsData} itemCounter={itemCounter} />
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
-            <span>Character Event Wish</span>
+            <span>Character Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalcharacterdraws}</span>
             <table>
               <thead>
                 <tr>
-                  <th>4★</th>
-                  <th>5★</th>
+                  <th style={{color: '#ebb3ff'}}>4★</th>
+                  <th style={{color: '#ffc76c'}}>5★</th>
                 </tr>
               </thead>
               <tbody>
@@ -138,12 +138,12 @@ const WishStats = ({ wishes }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Weapon Event Wish</span>
+            <span>Weapon Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalweapondraws}</span>
             <table>
               <thead>
                 <tr>
-                  <th>4★</th>
-                  <th>5★</th>
+                  <th style={{color: '#ebb3ff'}}>4★</th>
+                  <th style={{color: '#ffc76c'}}>5★</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,18 +155,39 @@ const WishStats = ({ wishes }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Permanent Wish</span>
+            <span>Permanent Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalstandarddraws}</span>
             <table>
               <thead>
                 <tr>
-                  <th>4★</th>
-                  <th>5★</th>
+                  <th style={{color: '#ebb3ff'}}>4★</th>
+                  <th style={{color: '#ffc76c'}}>5★</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{standarddraw4}</td>
                   <td>{standarddraw5}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="wish-stats-pity-table">
+            <span>Total, Average</span>
+            <table>
+              <thead>
+                <tr>
+                  <th style={{color: '#ebb3ff'}}>4★</th>
+                  <th style={{color: '#ffc76c'}}>5★</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{total4stars}</td>
+                  <td>{total5stars}</td>
+                </tr>
+                <tr>
+                  <td>{averagepity4.toFixed(2)}</td>
+                  <td>{averagepity5.toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>
