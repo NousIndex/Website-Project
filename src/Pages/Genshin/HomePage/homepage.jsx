@@ -139,7 +139,7 @@ function HomePage() {
   return (
     <div className="homepage-container">
       {/* Left Sidebar Navigation */}
-      <GenshinSidebar />
+      <GenshinSidebar activeTab={'Home'}/>
 
       {/* Main Content */}
       <div className="homepage-content">

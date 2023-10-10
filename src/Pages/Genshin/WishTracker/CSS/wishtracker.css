@@ -29,7 +29,7 @@ body {
   font-size: clamp(10px, 3vw, 128px);
   font-weight: 700;
   margin-top: 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
   color: #fff;
   display: flex;
   justify-content: flex-start;
@@ -53,19 +53,22 @@ body {
 
 /* Style the right content */
 .wish-right-content {
-  background-color: #002340;
+  /* background-color: #002340; */
+  box-shadow: 0px 0px 3px rgba(129, 0, 184, 0.6);
   flex: 20;
   padding: 0%;
 }
 
 /* Style the top left content */
 .wish-top-left {
-  background-color: #133b00;
+  box-shadow: 0px 0px 3px rgba(129, 0, 184, 0.6);
+  /* background-color: #133b00; */
 }
 
 /* Style the bottom left content */
 .wish-bottom-left {
-  background-color: #004741;
+  box-shadow: 0px 0px 3px rgba(129, 0, 184, 0.6);
+  /* background-color: #004741; */
 }
 
 .genshin-wish-image-button {
@@ -77,6 +80,10 @@ body {
   margin-right: 2%;
   cursor: pointer;
   transition: transform 0.3s ease; /* Add a smooth transition */
+}
+
+.genshin-wish-image-button.active {
+  transform: scale(1.1);
 }
 
 .genshin-wish-image-button img {
@@ -98,6 +105,10 @@ body {
   color: white;
   text-align: center;
   transition: opacity 0.3s ease-in-out;
+}
+
+.genshin-wish-image-button.active p {
+  text-decoration: underline;
 }
 
 .genshin-wish-image-button:hover {

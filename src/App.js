@@ -23,6 +23,9 @@ function App() {
   const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
+    setTimeout(() => {
+      document.body.style.backgroundColor = 'transparent';
+    }, 100);
     // Check if the user is authenticated
     checkAuth();
   }, []);
@@ -40,11 +43,19 @@ function App() {
     setLoading(false); // Set loading to false once the check is complete
   }
 
-  // While loading, you can display a loading indicator or message
+  // Check if the viewport width is less than a certain threshold (e.g., 768px for mobile devices)
+  const isMobile = window.innerWidth < 768;
+
+  // If loading, display a loading indicator
   if (loading) {
     return <div>Loading...</div>;
   }
-  
+
+  // If it's a mobile device, you can redirect to a mobile-specific route or show a message
+  if (isMobile) {
+    return <div> <span style={{color:'white', fontWeight:'bold'}}>This website is not accessible on mobile devices.</span></div>;
+  }
+
   return (
     <Router>
       <div className="App">

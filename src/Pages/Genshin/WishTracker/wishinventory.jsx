@@ -9,12 +9,17 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
+      if (character.name === 'Aloy') {
+        return;
+      }
+
       let itemNameModified = character.name
         .replace(/\s+/g, '_')
         .replace(/'/g, '%27');
       if (itemNameModified === 'Childe') {
         itemNameModified = 'Tartaglia';
       }
+      
       const iconUrl =
         itemIcons.find((url) => url.includes(itemNameModified)) ||
         'default-image-url';
@@ -22,6 +27,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
       const characterConstallation = (
         itemCounter[character.name] - 1
       ).toString();
+
       return (
         <div
           className={`wish-character-inventory-div ${
@@ -64,21 +70,23 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
   function generateWeaponImages() {
     return itemsData.weapons.map((weapon) => {
-      let itemNameModified = weapon.name
-        .replace(/\s+/g, '_')
-        .replace(/'/g, '%27');
-      const iconUrl =
-        itemIcons.find((url) => url.includes(itemNameModified)) ||
-        'default-image-url';
-
-      if (iconUrl === 'default-image-url') {
-        return;
-      }
       if (
         weapon.rarity.includes('3_Stars') ||
         weapon.rarity.includes('2_Stars') ||
         weapon.rarity.includes('1_Star')
       ) {
+        return;
+      }
+
+      let itemNameModified = weapon.name
+        .replace(/\s+/g, '_')
+        .replace(/'/g, '%27');
+
+      const iconUrl =
+        itemIcons.find((url) => url.includes(itemNameModified)) ||
+        'default-image-url';
+
+      if (iconUrl === 'default-image-url') {
         return;
       }
       const weaponConstallation = (itemCounter[weapon.name] - 1).toString();
@@ -189,7 +197,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             >
               &times;
             </span>
-            <h3 style={{fontWeight:'bold', margin:'0', marginTop:'10px'}}>Wish Inventory</h3>
+            <h3 style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}>
+              Wish Inventory
+            </h3>
             <div className="draw-tab-container">
               <div
                 className={`draw-tab-container-tab ${

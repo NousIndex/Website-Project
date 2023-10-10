@@ -87,7 +87,7 @@ const ItemTable = ({ items, itemIcons }) => {
   const handleFilter = (rarity) => {
     if (rarity === '0') {
       // Clear all filters
-      setFilters([]);
+      setFilters(['4', '5']);
       handleSort('reset');
       return;
     }

@@ -26,29 +26,29 @@
 
 .table-scroll-container {
   overflow-y: auto; /* Add scrollbars when content overflows vertically */
-  max-height: 69%; /* Subtract the height of the table header and footer */
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 70%; /* Subtract the height of the table header and footer */
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0 2px 4px rgba(234, 0, 255, 0.1);
   border-radius: 4px;
 }
 @media screen and (min-height: 800px) {
   .table-scroll-container {
-    max-height: 72%;
+    max-height: 73%;
   }
 }
 @media screen and (min-height: 900px) {
   .table-scroll-container {
-    max-height: 75%;
+    max-height: 77%;
   }
 }
 @media screen and (min-height: 1000px) {
   .table-scroll-container {
-    max-height: 77%;
+    max-height: 79%;
   }
 }
 @media screen and (min-height: 1100px) {
   .table-scroll-container {
-    max-height: 80%;
+    max-height: 82%;
   }
 }
 
@@ -62,7 +62,7 @@
 .table-header {
   position: sticky;
   top: 0;
-  background-color: #471a00;
+  background-color: #000338;
 }
 
 /* Table header cells styles */
@@ -83,7 +83,7 @@
 
 /* Table row styles */
 .table-row:nth-child(even) {
-  background-color: #460000;
+  background-color: rgba(20, 13, 81, 0.4);
 }
 
 /* Table cell styles */
@@ -121,7 +121,9 @@
 }
 
 .table-item-icon {
-  width: 10%;
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
   margin-left: 10%;
   margin-right: 3%;
   border-radius: 50%;
@@ -130,11 +132,11 @@
 }
 /* Add CSS classes for sorted columns */
 .genshin-draw-table-sorted-asc {
-  box-shadow: 0px 5px 0px 0px #ad00c0 inset;
+  box-shadow: 0px 7px 0px 0px #ad00c0 inset;
 }
 
 .genshin-draw-table-sorted-desc {
-  box-shadow: 0px -5px 0px 0px #ad00c0 inset;
+  box-shadow: 0px -7px 0px 0px #ad00c0 inset;
 }
 
 .genshin-draw-table-filter-buttons {
@@ -148,7 +150,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, scale 0.3s ease;
-  box-shadow: 0 0 10px rgba(68, 0, 77, 0.7);
+  box-shadow: 0 0 10px rgba(225, 0, 255, 0.7);
 }
 
 .genshin-draw-table-filter-buttons:hover {
@@ -157,6 +159,8 @@
 }
 
 .genshin-draw-table-filter-selected {
+  transition: background-color 0.3s ease, scale 0.3s ease;
   background-color: #200058;
   scale: 1.1;
 }
+

@@ -41,4 +41,21 @@
   justify-content: flex-start;
   gap: 1rem;
   font-size: clamp(1px, 2vw, 18px);
+  transition: font-weight 0.2s ease, text-decoration 0.2s ease;
+}
+
+.navigation-items a {
+  width: 100%;
+  text-align: start;
+  border-bottom: rgba(255, 255, 255, 0.3) solid 1px;
+}
+
+.navigation-items:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.navigation-items.active {
+  font-weight: bold;
+  text-decoration: underline;
 }

@@ -38,6 +38,10 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         let averagepity4list = [];
         let averagepity5list = [];
         let itemCounts = {};
+        itemCounts['Amber'] = (itemCounts['Amber'] || 0) + 1;
+        itemCounts['Kaeya'] = (itemCounts['Kaeya'] || 0) + 1;
+        itemCounts['Lisa'] = (itemCounts['Lisa'] || 0) + 1;
+        itemCounts['Barbara'] = (itemCounts['Barbara'] || 0) + 1;
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {

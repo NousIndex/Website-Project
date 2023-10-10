@@ -15,6 +15,7 @@ function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]); // Default filtered items is allItems
   const [searchValue, setSearchValue] = useState('');
+  const [bannerFitler, setBannerFilter] = useState('all');
   const [userGameId, setUserGameId] = useState(userID); // Default userGameId is empty string
   const [itemIcons, setItemIcons] = useState([]);
   const [itemsData, setItemsData] = useState({});
@@ -94,6 +95,7 @@ function WishTracker({ userID }) {
       imageUrl: banner1,
       text: 'All',
       onClick: () => {
+        setBannerFilter('all');
         handleFilter('all');
       },
     },
@@ -101,6 +103,7 @@ function WishTracker({ userID }) {
       imageUrl: banner2,
       text: 'Character',
       onClick: () => {
+        setBannerFilter('character');
         handleFilter('Character Event Wish');
       },
     },
@@ -108,6 +111,7 @@ function WishTracker({ userID }) {
       imageUrl: banner3,
       text: 'Weapon',
       onClick: () => {
+        setBannerFilter('weapon');
         handleFilter('Weapon Event Wish');
       },
     },
@@ -115,6 +119,7 @@ function WishTracker({ userID }) {
       imageUrl: banner4,
       text: 'Standard',
       onClick: () => {
+        setBannerFilter('standard');
         handleFilter('Permanent Wish');
       },
     },
@@ -125,7 +130,7 @@ function WishTracker({ userID }) {
     return imageButtonsArray.map((button, index) => (
       <button
         key={index}
-        className="genshin-wish-image-button no-selection"
+        className={`genshin-wish-image-button no-selection ${bannerFitler === button.text.toLowerCase() ? 'active' : ''}`}
         onClick={button.onClick}
       >
         <img
@@ -147,7 +152,7 @@ function WishTracker({ userID }) {
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
-      <GenshinSidebar />
+      <GenshinSidebar activeTab={'Wish Tracker'}/>
 
       {/* Main Content */}
       <div className="content">
