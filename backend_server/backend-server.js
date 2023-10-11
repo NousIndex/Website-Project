@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 
 const prisma = new PrismaClient();
 const app = express();
-const port = process.env.PORT || 7777;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());

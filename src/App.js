@@ -33,7 +33,7 @@ function App() {
   async function checkAuth() {
     // Implement your authentication logic here to determine if the user is authenticated
     const currentUser = await supabase.auth.getUser();
-    console.log(currentUser);
+    // console.log(currentUser);
     if (currentUser.error) {
       setAuthenticated(false);
     } else {
