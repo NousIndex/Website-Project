@@ -24,39 +24,39 @@ const Login = ({ setAuthenticated, setUserID }) => {
     }
   }
 
-  // useEffect(() => {
-  //   const loadGoogleSignInScript = () => {
-  //     if (typeof window !== 'undefined') {
-  //       const script = document.createElement('script');
-  //       script.src = 'https://accounts.google.com/gsi/client';
-  //       script.async = true;
+  useEffect(() => {
+    const loadGoogleSignInScript = () => {
+      if (typeof window !== 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
 
-  //       script.onload = () => {
-  //         // Initialize the GIS client
-  //         window.google.accounts.id.initialize({
-  //           client_id:
-  //             '340937088626-ae2f5h7tsl54eetsjsggl12cp5b2qdu6.apps.googleusercontent.com',
-  //           callback: handleSignInWithGoogle,
-  //           itp_support: true,
-  //         });
-  //         // customization attributes
-  //         window.google.accounts.id.renderButton(
-  //           document.getElementById('g_btn_div'),
-  //           {
-  //             theme: 'filled_blue',
-  //             size: 'large',
-  //           }
-  //         );
-  //         window.google.accounts.id.prompt(); // also display the One Tap dialog
-  //       };
+        script.onload = () => {
+          // Initialize the GIS client
+          window.google.accounts.id.initialize({
+            client_id:
+              '340937088626-ae2f5h7tsl54eetsjsggl12cp5b2qdu6.apps.googleusercontent.com',
+            callback: handleSignInWithGoogle,
+            itp_support: true,
+          });
+          // customization attributes
+          window.google.accounts.id.renderButton(
+            document.getElementById('g_btn_div'),
+            {
+              theme: 'filled_blue',
+              size: 'large',
+            }
+          );
+          window.google.accounts.id.prompt(); // also display the One Tap dialog
+        };
 
-  //       // Append the script to the document
-  //       document.head.appendChild(script);
-  //     }
-  //   };
+        // Append the script to the document
+        document.head.appendChild(script);
+      }
+    };
 
-  //   loadGoogleSignInScript();
-  // }, []);
+    loadGoogleSignInScript();
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -113,9 +113,9 @@ const Login = ({ setAuthenticated, setUserID }) => {
         >
           Register
         </Link>
-        {/* <div className="google-sign-in-button">
+        <div className="google-sign-in-button">
           <div id="g_btn_div"></div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
