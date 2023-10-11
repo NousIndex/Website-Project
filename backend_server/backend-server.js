@@ -519,7 +519,7 @@ app.get('/api/genshin-draw-icons', async (req, res) => {
 });
 
 app.get('/api/genshin-draw-database', async (req, res) => {
-  console.log('Starting Genshin Draw Icons API');
+  console.log('Starting Genshin Database API');
   // Define the URL of the MediaWiki API
   const apiUrl = 'https://genshin-impact.fandom.com/api.php';
 

@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:7777/';
+export const API_URL = 'http://nousindex.vercel.app:7777/';
