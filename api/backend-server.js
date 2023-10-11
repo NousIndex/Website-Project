@@ -2,11 +2,10 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
 const fs = require('fs');
-const cheerio = require('cheerio'); 
+const cheerio = require('cheerio');
 
 const prisma = new PrismaClient();
 const app = express();
-const port = process.env.PORT || 7777;
 
 app.use(express.json());
 app.use(cors());
@@ -25,7 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/check-fetch-condition', (req, res) => {
+app.get('/api/check-fetch-condition', (req, res) => {
   console.log('Starting Check Fetch Condition API');
   const { userId } = req.query;
 
@@ -52,7 +51,7 @@ app.get('/check-fetch-condition', (req, res) => {
   res.json({ shouldFetch });
 });
 
-app.get('/genshin-draw', async (req, res) => {
+app.get('/api/genshin-draw', async (req, res) => {
   console.log('Starting Genshin Draw API');
   const { userGameId } = req.query;
   let genshinUID = '';
@@ -222,7 +221,7 @@ app.get('/genshin-draw', async (req, res) => {
 //   id: '1696014360000464729'
 // }
 
-app.get('/genshin-draw-import', async (req, res) => {
+app.get('/api/genshin-draw-import', async (req, res) => {
   console.log('Starting Genshin Draw Import API');
   try {
     let endid = '0';
@@ -430,7 +429,7 @@ app.get('/genshin-draw-import', async (req, res) => {
   }
 });
 
-app.get('/genshin-draw-icons', async (req, res) => {
+app.get('/api/genshin-draw-icons', async (req, res) => {
   console.log('Starting Genshin Draw Icons API');
   // Define the URL of the MediaWiki API
   const apiUrl = 'https://genshin-impact.fandom.com/api.php';
@@ -518,7 +517,7 @@ app.get('/genshin-draw-icons', async (req, res) => {
   }
 });
 
-app.get('/genshin-draw-database', async (req, res) => {
+app.get('/api/genshin-draw-database', async (req, res) => {
   console.log('Starting Genshin Database API');
   // Define the URL of the MediaWiki API
   const apiUrl = 'https://genshin-impact.fandom.com/api.php';
@@ -701,7 +700,3 @@ app.get('/genshin-draw-database', async (req, res) => {
 //     }
 //   }
 // });
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
