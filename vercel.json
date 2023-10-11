@@ -1,0 +1,14 @@
+{
+    "functions": {
+      "app/api/check-fetch-condition/backend-server.js": {
+      },
+      "app/api/genshin-draw/backend-server.js": {
+      },
+      "app/api/genshin-draw-import/backend-server.js": {
+      },
+      "app/api/genshin-draw-icons/backend-server.js": {
+      },
+      "app/api/genshin-draw-database/backend-server.js": {
+      }
+    }
+  }
