@@ -123,7 +123,7 @@ module.exports = async (req, res) => {
         DrawTime: 'desc',
       },
       select: {
-        // DrawID: true,
+        DrawID: true,
         DrawTime: true,
         Item_Name: true,
         DrawType : true,
