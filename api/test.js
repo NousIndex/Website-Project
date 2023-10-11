@@ -1,5 +1,4 @@
 const cheerio = require('cheerio');
-const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
   console.log('Starting Genshin Draw Icons API');
