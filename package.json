@@ -26,7 +26,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "postinstall": "npx prisma db pull",
+    "postinstall": "npx prisma generate",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "node ./backend_server/backend-server.js",
     "start:frontend": "cross-env PORT=25565 react-scripts start",
