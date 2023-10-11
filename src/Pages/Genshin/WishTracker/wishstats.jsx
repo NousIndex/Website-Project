@@ -23,7 +23,6 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
     async function fetchData() {
       if (wishes && wishes.length > 0) {
         // Count number of 3, 4, and 5 rarity items
-        let count3 = 0;
         let count4 = 0;
         let count5 = 0;
         let counterc = 0;
@@ -45,7 +44,6 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {
-            count3++;
           } else if (wish.Rarity === '4') {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity4list.push(parseInt(wish.rarity4Pity));

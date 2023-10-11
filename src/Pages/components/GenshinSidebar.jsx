@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './CSS/sidebar.css';
 import * as routePaths from '../../routePaths';
 

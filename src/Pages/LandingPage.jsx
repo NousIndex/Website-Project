@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../fonts/fonts.css';
 import '../CSS/LandingPage.css';
-import supabase from './Supabase';
 // import genshinImage from '../assets/landing_page/genshin.jpg';
 import starrailImage from '../assets/landing_page/starrail.webp';
 import { useNavigate } from 'react-router-dom';
