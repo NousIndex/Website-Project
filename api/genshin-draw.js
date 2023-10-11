@@ -23,6 +23,8 @@ module.exports = async (req, res) => {
     genshinUID = userGameId;
   }
   const filePath = `../cache/draw_cache/genshin/Genshin-${genshinUID}.json`;
+  console.log('__filename:', __filename);
+  console.log('__dirname:', __dirname);
 
   if (!genshinUID) {
     return res.status(400).json({ error: 'Invalid request' });
