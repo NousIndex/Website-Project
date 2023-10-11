@@ -214,7 +214,7 @@ module.exports = async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-    modifyAndUploadFileContent(combinedDraws, fileName);
+    await modifyAndUploadFileContent(combinedDraws, fileName);
     return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);
