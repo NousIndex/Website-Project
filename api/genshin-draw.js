@@ -1,7 +1,65 @@
 const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
+const { createClient } = require('@supabase/supabase-js');
 
+// Initialize a Supabase client with your Supabase URL and API key
+const supabaseUrl = 'https://vtmjuwctzebijssijzhq.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0bWp1d2N0emViaWpzc2lqemhxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5NjcwOTE3MywiZXhwIjoyMDEyMjg1MTczfQ.wb1hHzf0_D5uaqURxof7VhKF53Bz0jxcwt9vvXkRrFY';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Define the name of the bucket you want to read from
+const bucketName = 'draw-cache';
 const prisma = new PrismaClient();
+
+async function viewFileContent(fileName) {
+  try {
+    const { data, error } = await supabase.storage
+      .from(bucketName)
+      .download(fileName);
+
+    if (error) {
+      // Handle the error (e.g., file not found)
+      console.error('Error reading the file:', error);
+      return null; // Return null or an empty array as needed
+    }
+
+    const blob = data;
+    const fileContent = JSON.parse(await blob.text());
+
+    return fileContent;
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return null; // Handle the error by returning null or an empty array
+  }
+}
+
+async function modifyAndUploadFileContent(fileContent) {
+  try {
+    // Convert the modified data back to JSON
+    const modifiedFileContent = JSON.stringify(fileContent);
+
+    // Create a new Blob with the modified JSON data
+    const modifiedBlob = new Blob([modifiedFileContent], {
+      type: 'application/json',
+    });
+
+    // Upload the modified data back to the bucket
+    const { uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(fileName, modifiedBlob,{
+        upsert: true
+      });
+
+    if (uploadError) {
+      // Handle the upload error
+      console.error('Error uploading the modified file:', uploadError);
+    } else {
+      console.log('File modified and uploaded successfully.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+}
 
 module.exports = async (req, res) => {
   console.log('Starting Genshin Draw API');
@@ -22,23 +80,18 @@ module.exports = async (req, res) => {
   } else {
     genshinUID = userGameId;
   }
-  const filePath = `../cache/draw_cache/genshin/Genshin-${genshinUID}.json`;
-  console.log('__filename:', __filename);
-  console.log('__dirname:', __dirname);
+  const fileName = `genshin/Genshin-${genshinUID}.json`;
 
   if (!genshinUID) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  // Check if the file exists
-  if (fs.existsSync(filePath)) {
-    // Read the file contents
-    const fileContents = fs.readFileSync(filePath, 'utf-8');
-
-    // Parse the JSON data from the file
+  // Check if the file exists in the bucket
+  fileContent = await viewFileContent(fileName);
+  if (fileContent) {
+    console.log('File exists in bucket');
     try {
-      const jsonData = JSON.parse(fileContents);
-      totalJsonDataItems = jsonData.length;
+      totalJsonDataItems = fileContent.length;
       const summaryTableData = await prisma.SummaryTable.findUnique({
         where: {
           Game_UID: `Genshin-${genshinUID}`,
@@ -46,15 +99,16 @@ module.exports = async (req, res) => {
       });
       if (summaryTableData.total_items === totalJsonDataItems) {
         console.log('Data is up to date');
-        return res.json(jsonData);
+        return res.json(fileContent);
       }
-    } catch (error) {
-      errorMessage = ('Error parsing JSON data:', error);
-      console.error(errorMessage);
-      return res.status(400).json({ error: errorMessage });
     }
-  } else {
-    console.log('File does not exist.');
+    catch (error) {
+      console.error('Error fetching data:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  else {
+    console.log('File does not exist in bucket');
   }
 
   // If the file does not exist or the data is not up to date, fetch the data from the database
@@ -67,6 +121,13 @@ module.exports = async (req, res) => {
       },
       orderBy: {
         DrawTime: 'desc',
+      },
+      select: {
+        // DrawID: true,
+        DrawTime: true,
+        Item_Name: true,
+        DrawType : true,
+        Rarity: true,
       },
     });
 
@@ -153,7 +214,7 @@ module.exports = async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-    fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
+    modifyAndUploadFileContent(combinedDraws);
     return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);

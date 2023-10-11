@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 
 const prisma = new PrismaClient();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 7777;
 
 app.use(express.json());
 app.use(cors());
@@ -115,6 +115,13 @@ app.get('/api/genshin-draw', async (req, res) => {
       orderBy: {
         DrawTime: 'desc',
       },
+      select: {
+        DrawID: true,
+        DrawTime: true,
+        Item_Name: true,
+        DrawType : true,
+        Rarity: true,
+      },
     });
 
     if (!data) {
@@ -174,7 +181,6 @@ app.get('/api/genshin-draw', async (req, res) => {
         rarity5Pity++;
 
         if (item.Rarity === '4') {
-          item.rarity5Pity = 0;
           if (rarity4Pity === 11) {
             rarity4Pity = 10;
           }
@@ -184,12 +190,8 @@ app.get('/api/genshin-draw', async (req, res) => {
           item.rarity4Pity = rarity4Pity;
           rarity4Pity = 0;
         } else if (item.Rarity === '5') {
-          item.rarity4Pity = 0;
           item.rarity5Pity = rarity5Pity;
           rarity5Pity = 0;
-        } else {
-          item.rarity4Pity = 0;
-          item.rarity5Pity = 0;
         }
       }
     }
