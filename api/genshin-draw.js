@@ -33,7 +33,7 @@ async function viewFileContent(fileName) {
   }
 }
 
-async function modifyAndUploadFileContent(fileContent) {
+async function modifyAndUploadFileContent(fileContent, fileName) {
   try {
     // Convert the modified data back to JSON
     const modifiedFileContent = JSON.stringify(fileContent);
@@ -214,7 +214,7 @@ module.exports = async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-    modifyAndUploadFileContent(combinedDraws);
+    modifyAndUploadFileContent(combinedDraws, fileName);
     return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);
