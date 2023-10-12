@@ -104,7 +104,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 ? 'linear-gradient(#71433f, #b89574)'
                 : weapon.rarity.includes('4_Stars')
                 ? 'linear-gradient(#353455, #8754bf)'
-                : 'linear-gradient(#003B7D, #258DFF)',
+                : 'linear-gradient(#003B7D, #207cdd)',
             }}
           />
 

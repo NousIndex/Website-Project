@@ -86,6 +86,20 @@
   background-color: rgba(20, 13, 81, 0.4);
 }
 
+.table-row {
+  box-shadow: 0px -2px 0px 0px rgba(0, 0, 0, 0.5) inset;
+}
+
+.table-row-5-star {
+  background-image: linear-gradient(to right, #71433f, #b89574);
+}
+.table-row-4-star {
+  background-image: linear-gradient(to right, #353455, #8754bf);
+}
+.table-row-3-star {
+  background-image: linear-gradient(to right, #003B7D, #207cdd);
+}
+
 /* Table cell styles */
 .table-cell {
   align-items: center;
@@ -163,4 +177,3 @@
   background-color: #200058;
   scale: 1.1;
 }
-

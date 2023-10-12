@@ -3,6 +3,16 @@ const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
 const fs = require('fs');
 const cheerio = require('cheerio');
+const { get } = require('http');
+const { createClient } = require('@supabase/supabase-js');
+// Initialize a Supabase client with your Supabase URL and API key
+const supabaseUrl = 'https://vtmjuwctzebijssijzhq.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0bWp1d2N0emViaWpzc2lqemhxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5NjcwOTE3MywiZXhwIjoyMDEyMjg1MTczfQ.wb1hHzf0_D5uaqURxof7VhKF53Bz0jxcwt9vvXkRrFY';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Define the name of the bucket you want to read from
+const bucketName = 'draw-cache';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -14,6 +24,33 @@ app.use(cors());
 // In-memory storage for user entry timestamps
 const userEntryTimestamps = {};
 const userEntryTimestamps2 = {};
+
+async function viewFolderList(folderName) {
+  try {
+    const { data, error } = await supabase.storage
+      .from(bucketName)
+      .list(folderName, {
+        limit: 10000,
+        offset: 0,
+        search: 'Genshin',
+      });
+
+    if (error) {
+      // Handle the error (e.g., file not found)
+      console.error('Error reading the file:', error);
+      return null; // Return null or an empty array as needed
+    }
+    const files = [];
+    data.forEach((file) => {
+      files.push(file.name.replace('Genshin-', '').replace('.json', ''));
+    });
+
+    return files;
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return null; // Handle the error by returning null or an empty array
+  }
+}
 
 // Middleware to record timestamps for user entry
 app.use((req, res, next) => {
@@ -119,7 +156,7 @@ app.get('/api/genshin-draw', async (req, res) => {
         DrawID: true,
         DrawTime: true,
         Item_Name: true,
-        DrawType : true,
+        DrawType: true,
         Rarity: true,
       },
     });
@@ -582,13 +619,13 @@ app.get('/api/genshin-draw-database', async (req, res) => {
           (data) => data.name === column2Text
         );
 
-        if(column5Text.toLowerCase().includes('elemental mastery')) {
+        if (column5Text.toLowerCase().includes('elemental mastery')) {
           column5Text = column5Text.replace('Elemental Mastery', 'EM');
         }
-        if(column5Text.toLowerCase().includes('physical dmg bonus')) {
+        if (column5Text.toLowerCase().includes('physical dmg bonus')) {
           column5Text = column5Text.replace('Physical DMG Bonus', 'Phys DMG');
         }
-        if(column5Text.toLowerCase().includes('energy recharge')) {
+        if (column5Text.toLowerCase().includes('energy recharge')) {
           column5Text = column5Text.replace('Energy Recharge', 'ER');
         }
 
@@ -652,6 +689,60 @@ app.get('/api/genshin-draw-database', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching data:', error);
+  }
+});
+
+app.get('/api/genshin-draw-explorer', async (req, res) => {
+  return res.json(await viewFolderList('genshin'));
+});
+
+app.get('/api/genshin-draw-watchlist-get', async (req, res) => {
+  console.log('Starting Genshin Draw Watchlist Get API');
+  const { userGameId } = req.query;
+  if (!userGameId) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+  try {
+    const data = await prisma.Games_Users.findUnique({
+      where: {
+        UID: userGameId,
+      },
+      select: {
+        Genshin_Watch: true,
+      },
+    });
+    if (!data) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+    return res.json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/genshin-draw-watchlist-update', async (req, res) => {
+  console.log('Starting Genshin Draw Watchlist Update API');
+  const { userGameId, watchList } = req.body;
+  if (!userGameId || !watchList) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+  try {
+    const data = await prisma.Games_Users.update({
+      where: {
+        UID: userGameId,
+      },
+      data: {
+        Genshin_Watch: watchList,
+      },
+    });
+    if (!data) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+    return res.json({message: 'success'});
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 

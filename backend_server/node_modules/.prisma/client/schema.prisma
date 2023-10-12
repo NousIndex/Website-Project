@@ -53,9 +53,11 @@ model Game_General {
 }
 
 model Games_Users {
-  UID          String  @id @db.VarChar(255)
-  Genshin_UID  String? @db.VarChar(255)
-  StarRail_UID String? @db.VarChar(255)
+  UID            String  @id @db.VarChar(255)
+  Genshin_UID    String? @db.VarChar(255)
+  StarRail_UID   String? @db.VarChar(255)
+  Genshin_Watch  Json?
+  StarRail_Watch Json?
 }
 
 model Users {

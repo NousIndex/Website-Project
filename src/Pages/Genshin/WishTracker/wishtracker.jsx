@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import * as routePaths from '../../../routePaths';
 import './CSS/wishtracker.css';
 import GenshinSidebar from '../../components/GenshinSidebar';
@@ -6,10 +7,17 @@ import banner1 from '../../../assets/Icons/genshin-wish-all.png';
 import banner2 from '../../../assets/Icons/genshin-wish-character.png';
 import banner3 from '../../../assets/Icons/genshin-wish-weapon.png';
 import banner4 from '../../../assets/Icons/genshin-wish-standard.png';
+import watchIcon from '../../../assets/Icons/watch_icon.png';
+import watchNoIcon from '../../../assets/Icons/no_watch_icon.png';
+import editIcon from '../../../assets/Icons/edit_icon.png';
 import ItemTable from './wishrecords';
 import StatsTable from './wishstats';
 import './CSS/wishtable.css';
 import { API_URL } from '../../../API_Config.js';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
+// 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
 
 function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
@@ -19,6 +27,49 @@ function WishTracker({ userID }) {
   const [userGameId, setUserGameId] = useState(userID); // Default userGameId is empty string
   const [itemIcons, setItemIcons] = useState([]);
   const [itemsData, setItemsData] = useState({});
+  const [isWatchIcon, setIsWatchIcon] = useState(false);
+  const [watchList, setWatchList] = useState([]); // Default watchList is empty array
+  const [watchListOriginal, setWatchListOriginal] = useState([]); // Default watchList is empty array
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  async function updateWatchList() {
+    if (watchListOriginal !== watchList) {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userGameId: userID, watchList: watchList }),
+      };
+      const url = `${API_URL}api/genshin-draw-watchlist-update`;
+
+      try {
+        await fetch(url, requestOptions);
+        setWatchListOriginal(watchList);
+      } catch (error) {
+        console.error('Error fetching API usage data:', error);
+      }
+    }
+  }
+
+  async function getWatchList() {
+    try {
+      const response = await fetch(
+        `${API_URL}api/genshin-draw-watchlist-get?userGameId=${userGameId}`
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.Genshin_Watch === null) {
+        setWatchList([]);
+        setWatchListOriginal([]);
+      } else {
+        setWatchList(data.Genshin_Watch);
+        setWatchListOriginal(data.Genshin_Watch);
+      }
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
 
   async function fetchData(userGameId) {
     try {
@@ -34,6 +85,16 @@ function WishTracker({ userID }) {
     }
   }
 
+  // async function fetchExploreList() {
+  //   try {
+  //     const response = await fetch(`${API_URL}api/genshin-draw-explorer`);
+  //     const data = await response.json();
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error('Error fetching API usage data:', error);
+  //   }
+  // }
+
   useEffect(() => {
     async function fetchData2() {
       try {
@@ -47,6 +108,7 @@ function WishTracker({ userID }) {
 
     // Call the fetchData function when the component mounts
     fetchData2();
+    getWatchList();
   }, []); // Specify an empty dependency array to run only once
 
   useEffect(() => {
@@ -65,8 +127,6 @@ function WishTracker({ userID }) {
   }, []);
 
   useEffect(() => {
-    // 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
-
     // Call the fetchData function when the component mounts
     fetchData(userGameId);
   }, [userGameId]); // Specify an empty dependency array to run only once
@@ -130,7 +190,9 @@ function WishTracker({ userID }) {
     return imageButtonsArray.map((button, index) => (
       <button
         key={index}
-        className={`genshin-wish-image-button no-selection ${bannerFitler === button.text.toLowerCase() ? 'active' : ''}`}
+        className={`genshin-wish-image-button no-selection ${
+          bannerFitler === button.text.toLowerCase() ? 'active' : ''
+        }`}
         onClick={button.onClick}
       >
         <img
@@ -144,15 +206,76 @@ function WishTracker({ userID }) {
 
   const handleSearch = () => {
     setUserGameId(searchValue);
+    setBannerFilter('all');
+    if (watchList.includes(searchValue)) {
+      setIsWatchIcon(true);
+    } else {
+      setIsWatchIcon(false);
+    }
   };
   const handleReset = () => {
     setUserGameId(userID);
+    setBannerFilter('all');
+  };
+  const watchButtonClick = () => {
+    if (isWatchIcon) {
+      setWatchList(watchList.filter((item) => !(userGameId in item)));
+    } else {
+      setWatchList((current) => [...current, { [userGameId]: userGameId }]);
+    }
+    setIsWatchIcon(!isWatchIcon);
+  };
+
+  const handleWatchListClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveWatchListClick = () => {
+    updateWatchList();
+  };
+
+  const handleEditWatchListClick = (key, value) => {
+    Swal.fire({
+      title: `Nickname For ${key}`,
+      input: 'text',
+      inputValue: value, // Pre-fill the input with the current value
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to provide a new value!';
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newValue = result.value;
+        if (newValue !== value) {
+          setWatchList(
+            watchList.map((item) => {
+              // Check if the targetKey exists in the item object
+              if (key in item) {
+                // If the targetKey exists, update its value with newValue
+                return { [key]: newValue };
+              } else {
+                // If the targetKey doesn't exist, keep the item unchanged
+                return item;
+              }
+            })
+          );
+        }
+      }
+    });
   };
 
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
-      <GenshinSidebar activeTab={'Wish Tracker'}/>
+      <GenshinSidebar activeTab={'Wish Tracker'} />
 
       {/* Main Content */}
       <div className="content">
@@ -167,6 +290,12 @@ function WishTracker({ userID }) {
             </button>
           </a>
           <div className="genshin-wish-searcher-container">
+            <button
+              className="genshin-wish-searcher-reset-button no-selection"
+              onClick={handleReset}
+            >
+              My Wish
+            </button>
             <span className="genshin-wish-searcher-text no-selection">
               Search UID:
             </span>
@@ -182,17 +311,99 @@ function WishTracker({ userID }) {
             >
               Search
             </button>
+          </div>
+          <div className="genshin-wish-explorer-divider">
+            {/* <button
+                className="genshin-wish-searcher-explorer-button no-selection"
+                onClick={handleExplore}
+              >
+                Explorer
+              </button> */}
             <button
-              className="genshin-wish-searcher-reset-button no-selection"
-              onClick={handleReset}
+              className="genshin-wish-searcher-explorer-button no-selection"
+              onClick={handleWatchListClick}
+              disabled={watchList.length === 0}
+              title={watchList.length === 0 ? 'No items in the watchlist' : ''}
             >
-              My Wish
+              My Watchlist
+            </button>
+
+            <Modal
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              contentLabel="Watch List Modal"
+              className="watchlist-modal"
+              overlayClassName="watchlist-overlay"
+            >
+              <div className={`watchlist-modal-content`}>
+                <h2 style={{color:'white', fontWeight:'bold'}}>Watch List</h2>
+                {watchList.map((item, index) => (
+                  <div className="watchlist-item-container">
+                    <button
+                      className="watchlist-item-button"
+                      onClick={() => {
+                        setUserGameId(Object.keys(item)[0]);
+                        closeModal(); // Call closeModal to close the modal
+                      }}
+                    >
+                      {item[Object.keys(item)[0]]}
+                    </button>
+
+                    <img
+                      src={editIcon}
+                      alt="Edit Icon"
+                      className="watchlist-edit-icon"
+                      onClick={() =>
+                        handleEditWatchListClick(
+                          Object.keys(item)[0],
+                          item[Object.keys(item)[0]]
+                        )
+                      }
+                    />
+                  </div>
+                ))}
+                <button
+                  className="watchlist-close-button"
+                  onClick={closeModal}
+                >
+                  x
+                </button>
+              </div>
+            </Modal>
+          </div>
+          <div className="genshin-wish-explorer-divider">
+            <button
+              className="genshin-wish-searcher-explorer-button no-selection"
+              onClick={handleSaveWatchListClick}
+              style={{
+                display: watchList === watchListOriginal ? 'none' : 'block',
+              }}
+              disabled={watchList === watchListOriginal}
+            >
+              Save Watchlist Changes!
             </button>
           </div>
         </h1>
         <div class="wish-grid-container">
           <div class="wish-left-grid-container">
-            <div class="wish-top-left">{generateButtonsGrid()}</div>
+            <div class="wish-top-left">
+              <img
+                src={isWatchIcon ? watchIcon : watchNoIcon}
+                alt={isWatchIcon ? 'Watch Icon' : 'No Watch Icon'}
+                onClick={watchButtonClick}
+                style={{
+                  display: userGameId.includes(userID) ? 'none' : 'block',
+                }}
+                className="wish-watch-icon"
+              />
+              <h3
+                className="wish-watch-id"
+                style={{ display: userGameId.length > 16 ? 'none' : 'block' }}
+              >
+                UID: {userGameId}
+              </h3>
+              {generateButtonsGrid()}
+            </div>
             <div class="wish-bottom-left">
               {filteredItems.length > 0 && (
                 <ItemTable

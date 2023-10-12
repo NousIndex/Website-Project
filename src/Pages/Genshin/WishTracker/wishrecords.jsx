@@ -206,7 +206,7 @@ const ItemTable = ({ items, itemIcons }) => {
 
               return (
                 <tr
-                  className="table-row"
+                  className={`table-row ${item.Rarity.includes('5') ? 'table-row-5-star' : item.Rarity.includes('4') ? 'table-row-4-star' : 'table-row-3-star'}`}
                   key={index}
                 >
                   <td className="table-cell">

@@ -9,11 +9,9 @@ const ImportWish = ({ userID }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
-  const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$((New-Object System.Net.WebClient).DownloadString('https://gist.github.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink.ps1'))} global"`;
+  const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$(irm https://raw.githubusercontent.com/NousIndex/draw_import/main/genshin_link.ps1)} global"`;
 
   const handleCopyToClipboard = () => {
-    /* Logic to copy the generated link to the clipboard goes here */
-
     /* Code to copy 'generatedLink' to the clipboard */
     const textArea = document.createElement('textarea');
     textArea.value = generatedLink;
@@ -97,7 +95,7 @@ const ImportWish = ({ userID }) => {
             Open the wish history in the game and wait for it to load.
           </li>
           <li className="genshin-import-text">
-            Press START on your keyboard, then search for Powershell.
+            Search and open up Windows Powershell.
           </li>
           <li className="genshin-import-text">
             Click Windows Powershell, then copy & paste the script below to the
@@ -122,7 +120,7 @@ const ImportWish = ({ userID }) => {
             Press ENTER, and a link will be copied to your clipboard.
           </li>
           <li className="genshin-import-text">
-            Paste the text to the textbox below:
+            Paste the link to the input box below:
           </li>
           <input
             className="genshin-import-link-textbox-import"
