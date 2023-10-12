@@ -210,7 +210,7 @@ const ItemTable = ({ items, itemIcons }) => {
                   key={index}
                 >
                   <td className="table-cell">
-                    <span className="item-name-sub">{item.drawNumber}</span>
+                    <span className="item-name-sub" title={item.DrawID}>{item.drawNumber}</span>
                   </td>
                   <td className="table-cell-item-name">
                     <img
