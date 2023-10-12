@@ -322,8 +322,14 @@ function WishTracker({ userID }) {
             <button
               className="genshin-wish-searcher-explorer-button no-selection"
               onClick={handleWatchListClick}
-              disabled={watchList.length === 0}
-              title={watchList.length === 0 ? 'No items in the watchlist' : ''}
+              disabled={
+                !watchList || isNaN(watchList) || watchList.length === 0
+              }
+              title={
+                !watchList || isNaN(watchList) || watchList.length === 0
+                  ? 'No items in the watchlist'
+                  : ''
+              }
             >
               My Watchlist
             </button>
@@ -336,7 +342,9 @@ function WishTracker({ userID }) {
               overlayClassName="watchlist-overlay"
             >
               <div className={`watchlist-modal-content`}>
-                <h2 style={{color:'white', fontWeight:'bold'}}>Watch List</h2>
+                <h2 style={{ color: 'white', fontWeight: 'bold' }}>
+                  Watch List
+                </h2>
                 {watchList.map((item, index) => (
                   <div className="watchlist-item-container">
                     <button
