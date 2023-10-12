@@ -59,11 +59,10 @@ function WishTracker({ userID }) {
       );
       const data = await response.json();
       console.log(data);
-      if (data.error){
+      if (data.error) {
         setWatchList([]);
         setWatchListOriginal([]);
-      }
-      if (data.Genshin_Watch === null) {
+      } else if (data.Genshin_Watch === null) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
