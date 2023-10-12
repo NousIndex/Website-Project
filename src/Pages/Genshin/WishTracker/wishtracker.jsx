@@ -210,7 +210,16 @@ function WishTracker({ userID }) {
   const handleSearch = () => {
     setUserGameId(searchValue);
     setBannerFilter('all');
-    if (watchList.includes(searchValue)) {
+    if (watchList.some(item => searchValue in item)) {
+      setIsWatchIcon(true);
+    } else {
+      setIsWatchIcon(false);
+    }
+  };
+  const handleModalItemClick = (clicked_object) => {
+    setUserGameId(clicked_object);
+    setBannerFilter('all');
+    if (watchList.some(item => clicked_object in item)) {
       setIsWatchIcon(true);
     } else {
       setIsWatchIcon(false);
@@ -326,10 +335,10 @@ function WishTracker({ userID }) {
               className="genshin-wish-searcher-explorer-button no-selection"
               onClick={handleWatchListClick}
               disabled={
-                !watchList || isNaN(watchList) || watchList.length === 0
+                !watchList || watchList.length === 0
               }
               title={
-                !watchList || isNaN(watchList) || watchList.length === 0
+                !watchList || watchList.length === 0
                   ? 'No items in the watchlist'
                   : ''
               }
@@ -353,7 +362,7 @@ function WishTracker({ userID }) {
                     <button
                       className="watchlist-item-button"
                       onClick={() => {
-                        setUserGameId(Object.keys(item)[0]);
+                        handleModalItemClick(Object.keys(item)[0]);
                         closeModal(); // Call closeModal to close the modal
                       }}
                     >
