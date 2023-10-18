@@ -1,0 +1,1788 @@
+[
+  {
+    "DrawID": "1696950360000071647",
+    "DrawTime": "2023-10-10T23:06:00.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 219
+  },
+  {
+    "DrawID": "1696860360000777747",
+    "DrawTime": "2023-10-09T22:54:44.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 218
+  },
+  {
+    "DrawID": "1696687560000449847",
+    "DrawTime": "2023-10-07T22:31:03.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 217
+  },
+  {
+    "DrawID": "1696633560000201447",
+    "DrawTime": "2023-10-07T07:37:32.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 216
+  },
+  {
+    "DrawID": "1696608360000556447",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 215
+  },
+  {
+    "DrawID": "1696608360000556347",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 214
+  },
+  {
+    "DrawID": "1696608360000556247",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Neuvillette",
+    "DrawType": "Character Event Wish",
+    "Rarity": "5",
+    "drawNumber": 213,
+    "rarity5Pity": 79
+  },
+  {
+    "DrawID": "1696608360000556147",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Xingqiu",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 212,
+    "rarity4Pity": 1
+  },
+  {
+    "DrawID": "1696608360000556047",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Xingqiu",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 211,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1696608360000555947",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 210
+  },
+  {
+    "DrawID": "1696608360000555847",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 209
+  },
+  {
+    "DrawID": "1696608360000555747",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 208
+  },
+  {
+    "DrawID": "1696608360000555647",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 207
+  },
+  {
+    "DrawID": "1696608360000555547",
+    "DrawTime": "2023-10-07T00:42:09.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 206
+  },
+  {
+    "DrawID": "1696608360000554947",
+    "DrawTime": "2023-10-07T00:42:04.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 205
+  },
+  {
+    "DrawID": "1696608360000554247",
+    "DrawTime": "2023-10-07T00:41:59.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 204
+  },
+  {
+    "DrawID": "1696608360000553847",
+    "DrawTime": "2023-10-07T00:41:55.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 203
+  },
+  {
+    "DrawID": "1696608360000553647",
+    "DrawTime": "2023-10-07T00:41:48.000Z",
+    "Item_Name": "Favonius Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 202,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1696608360000531847",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 201
+  },
+  {
+    "DrawID": "1696608360000531747",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 200
+  },
+  {
+    "DrawID": "1696608360000531647",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 199
+  },
+  {
+    "DrawID": "1696608360000531547",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 198
+  },
+  {
+    "DrawID": "1696608360000531447",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 197
+  },
+  {
+    "DrawID": "1696608360000531347",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Mitternachts Waltz",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 196,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1696608360000531247",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 195
+  },
+  {
+    "DrawID": "1696608360000531147",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 194
+  },
+  {
+    "DrawID": "1696608360000531047",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 193
+  },
+  {
+    "DrawID": "1696608360000530947",
+    "DrawTime": "2023-10-07T00:40:32.000Z",
+    "Item_Name": "Tome of the Eternal Flow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "5",
+    "drawNumber": 192,
+    "rarity5Pity": 41
+  },
+  {
+    "DrawID": "1696608360000526247",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Candace",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 191,
+    "rarity4Pity": 2
+  },
+  {
+    "DrawID": "1696608360000526147",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 190
+  },
+  {
+    "DrawID": "1696608360000526047",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Mitternachts Waltz",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 189,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1696608360000525947",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 188
+  },
+  {
+    "DrawID": "1696608360000525847",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 187
+  },
+  {
+    "DrawID": "1696608360000525747",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 186
+  },
+  {
+    "DrawID": "1696608360000525647",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 185
+  },
+  {
+    "DrawID": "1696608360000525547",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 184
+  },
+  {
+    "DrawID": "1696608360000525447",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 183
+  },
+  {
+    "DrawID": "1696608360000525347",
+    "DrawTime": "2023-10-07T00:40:17.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 182
+  },
+  {
+    "DrawID": "1696424760000694147",
+    "DrawTime": "2023-10-04T21:38:07.000Z",
+    "Item_Name": "Candace",
+    "DrawType": "Permanent Wish",
+    "Rarity": "4",
+    "drawNumber": 181,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1695827160002611647",
+    "DrawTime": "2023-09-27T23:48:57.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 180
+  },
+  {
+    "DrawID": "1695827160002603447",
+    "DrawTime": "2023-09-27T23:48:50.000Z",
+    "Item_Name": "Favonius Codex",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 179,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1695827160002595247",
+    "DrawTime": "2023-09-27T23:48:35.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 178
+  },
+  {
+    "DrawID": "1695827160002554247",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 177
+  },
+  {
+    "DrawID": "1695827160002554147",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 176
+  },
+  {
+    "DrawID": "1695827160002554047",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 175
+  },
+  {
+    "DrawID": "1695827160002553947",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 174
+  },
+  {
+    "DrawID": "1695827160002553847",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Slingshot",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 173
+  },
+  {
+    "DrawID": "1695827160002553747",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 172
+  },
+  {
+    "DrawID": "1695827160002553647",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 171
+  },
+  {
+    "DrawID": "1695827160002553547",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 170
+  },
+  {
+    "DrawID": "1695827160002553447",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 169
+  },
+  {
+    "DrawID": "1695827160002553347",
+    "DrawTime": "2023-09-27T23:47:49.000Z",
+    "Item_Name": "Diona",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 168,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1695827160002122347",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 167
+  },
+  {
+    "DrawID": "1695827160002122247",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 166
+  },
+  {
+    "DrawID": "1695827160002122147",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 165
+  },
+  {
+    "DrawID": "1695827160002122047",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 164
+  },
+  {
+    "DrawID": "1695827160002121947",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 163
+  },
+  {
+    "DrawID": "1695827160002121847",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 162
+  },
+  {
+    "DrawID": "1695827160002121747",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 161
+  },
+  {
+    "DrawID": "1695827160002121647",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 160
+  },
+  {
+    "DrawID": "1695827160002121547",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Fischl",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 159,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1695827160002121447",
+    "DrawTime": "2023-09-27T23:40:10.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 158
+  },
+  {
+    "DrawID": "1695225960000094847",
+    "DrawTime": "2023-09-21T00:29:50.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 157
+  },
+  {
+    "DrawID": "1694347560000273347",
+    "DrawTime": "2023-09-10T20:41:09.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 156
+  },
+  {
+    "DrawID": "1694178360000366547",
+    "DrawTime": "2023-09-08T21:32:02.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 155
+  },
+  {
+    "DrawID": "1693238760000268047",
+    "DrawTime": "2023-08-29T00:44:04.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 154
+  },
+  {
+    "DrawID": "1692630360000021647",
+    "DrawTime": "2023-08-21T23:01:23.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 153
+  },
+  {
+    "DrawID": "1692158760004967447",
+    "DrawTime": "2023-08-16T12:47:22.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 152
+  },
+  {
+    "DrawID": "1692158760004957847",
+    "DrawTime": "2023-08-16T12:47:16.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 151
+  },
+  {
+    "DrawID": "1692158760004948147",
+    "DrawTime": "2023-08-16T12:47:08.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 150
+  },
+  {
+    "DrawID": "1692158760004941647",
+    "DrawTime": "2023-08-16T12:47:03.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 149
+  },
+  {
+    "DrawID": "1692158760004932647",
+    "DrawTime": "2023-08-16T12:46:58.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 148
+  },
+  {
+    "DrawID": "1692158760004878747",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 147
+  },
+  {
+    "DrawID": "1692158760004878647",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Sacrificial Fragments",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 146,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1692158760004878547",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 145
+  },
+  {
+    "DrawID": "1692158760004878447",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 144
+  },
+  {
+    "DrawID": "1692158760004878347",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 143
+  },
+  {
+    "DrawID": "1692158760004878247",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 142
+  },
+  {
+    "DrawID": "1692158760004878147",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 141
+  },
+  {
+    "DrawID": "1692158760004878047",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 140
+  },
+  {
+    "DrawID": "1692158760004877947",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 139
+  },
+  {
+    "DrawID": "1692158760004877847",
+    "DrawTime": "2023-08-16T12:46:20.000Z",
+    "Item_Name": "Favonius Lance",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 138,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1691708760000019447",
+    "DrawTime": "2023-08-11T07:17:40.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 137
+  },
+  {
+    "DrawID": "1690841160000181147",
+    "DrawTime": "2023-08-01T06:20:05.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 136
+  },
+  {
+    "DrawID": "1690301160000136247",
+    "DrawTime": "2023-07-26T00:04:41.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 135
+  },
+  {
+    "DrawID": "1690301160000102447",
+    "DrawTime": "2023-07-26T00:03:30.000Z",
+    "Item_Name": "Favonius Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "4",
+    "drawNumber": 134,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1689919560000022847",
+    "DrawTime": "2023-07-21T14:09:48.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 133
+  },
+  {
+    "DrawID": "1689624360000036847",
+    "DrawTime": "2023-07-18T04:41:22.000Z",
+    "Item_Name": "Skyward Blade",
+    "DrawType": "Permanent Wish",
+    "Rarity": "5",
+    "drawNumber": 132,
+    "rarity5Pity": 29
+  },
+  {
+    "DrawID": "1689624360000036647",
+    "DrawTime": "2023-07-18T04:41:18.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 131
+  },
+  {
+    "DrawID": "1689624360000036447",
+    "DrawTime": "2023-07-18T04:41:12.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 130
+  },
+  {
+    "DrawID": "1689613560000036547",
+    "DrawTime": "2023-07-18T01:13:44.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 129
+  },
+  {
+    "DrawID": "1689393960000102847",
+    "DrawTime": "2023-07-15T12:29:44.000Z",
+    "Item_Name": "Slingshot",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 128
+  },
+  {
+    "DrawID": "1689224760000100847",
+    "DrawTime": "2023-07-13T13:39:59.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 127
+  },
+  {
+    "DrawID": "1689185160000053947",
+    "DrawTime": "2023-07-13T02:34:43.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 126
+  },
+  {
+    "DrawID": "1689185160000053847",
+    "DrawTime": "2023-07-13T02:34:36.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 125
+  },
+  {
+    "DrawID": "1688709960000075747",
+    "DrawTime": "2023-07-07T14:14:52.000Z",
+    "Item_Name": "Yaoyao",
+    "DrawType": "Permanent Wish",
+    "Rarity": "4",
+    "drawNumber": 124,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1688490360000030847",
+    "DrawTime": "2023-07-05T01:23:05.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 123
+  },
+  {
+    "DrawID": "1688490360000029047",
+    "DrawTime": "2023-07-05T01:22:35.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 122
+  },
+  {
+    "DrawID": "1688490360000028947",
+    "DrawTime": "2023-07-05T01:22:30.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 121
+  },
+  {
+    "DrawID": "1688490360000028847",
+    "DrawTime": "2023-07-05T01:22:25.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 120
+  },
+  {
+    "DrawID": "1688490360000028647",
+    "DrawTime": "2023-07-05T01:22:18.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 119
+  },
+  {
+    "DrawID": "1688490360000028547",
+    "DrawTime": "2023-07-05T01:21:35.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 118
+  },
+  {
+    "DrawID": "1688472360000046847",
+    "DrawTime": "2023-07-04T20:22:56.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 117
+  },
+  {
+    "DrawID": "1688299560000078647",
+    "DrawTime": "2023-07-02T20:13:16.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 116
+  },
+  {
+    "DrawID": "1688299560000077147",
+    "DrawTime": "2023-07-02T20:13:11.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 115
+  },
+  {
+    "DrawID": "1688299560000076647",
+    "DrawTime": "2023-07-02T20:13:05.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 114
+  },
+  {
+    "DrawID": "1688223960000519047",
+    "DrawTime": "2023-07-01T23:49:37.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 113
+  },
+  {
+    "DrawID": "1688223960000518847",
+    "DrawTime": "2023-07-01T23:49:32.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 112
+  },
+  {
+    "DrawID": "1688223960000517547",
+    "DrawTime": "2023-07-01T23:49:25.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 111
+  },
+  {
+    "DrawID": "1688173560000273147",
+    "DrawTime": "2023-07-01T09:07:25.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 110
+  },
+  {
+    "DrawID": "1688173560000261447",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 109
+  },
+  {
+    "DrawID": "1688173560000261347",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 108
+  },
+  {
+    "DrawID": "1688173560000261247",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 107
+  },
+  {
+    "DrawID": "1688173560000261147",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Slingshot",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 106
+  },
+  {
+    "DrawID": "1688173560000261047",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Dragon's Bane",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 105,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1688173560000260947",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 104
+  },
+  {
+    "DrawID": "1688173560000260847",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 103
+  },
+  {
+    "DrawID": "1688173560000260747",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 102
+  },
+  {
+    "DrawID": "1688173560000260647",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 101
+  },
+  {
+    "DrawID": "1688173560000260547",
+    "DrawTime": "2023-07-01T09:07:05.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 100
+  },
+  {
+    "DrawID": "1688137560000273647",
+    "DrawTime": "2023-06-30T23:21:20.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 99
+  },
+  {
+    "DrawID": "1687878360000101847",
+    "DrawTime": "2023-06-27T23:20:14.000Z",
+    "Item_Name": "Rust",
+    "DrawType": "Permanent Wish",
+    "Rarity": "4",
+    "drawNumber": 98,
+    "rarity4Pity": 3
+  },
+  {
+    "DrawID": "1687878360000101747",
+    "DrawTime": "2023-06-27T23:20:09.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 97
+  },
+  {
+    "DrawID": "1687878360000101647",
+    "DrawTime": "2023-06-27T23:20:04.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 96
+  },
+  {
+    "DrawID": "1687878360000101447",
+    "DrawTime": "2023-06-27T23:19:55.000Z",
+    "Item_Name": "Lisa",
+    "DrawType": "Permanent Wish",
+    "Rarity": "4",
+    "drawNumber": 95,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1687878360000101147",
+    "DrawTime": "2023-06-27T23:19:49.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 94
+  },
+  {
+    "DrawID": "1687777560000055347",
+    "DrawTime": "2023-06-26T19:11:00.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 93
+  },
+  {
+    "DrawID": "1687525560000068447",
+    "DrawTime": "2023-06-23T21:03:42.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 92
+  },
+  {
+    "DrawID": "1687525560000064247",
+    "DrawTime": "2023-06-23T21:03:28.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 91
+  },
+  {
+    "DrawID": "1687482360000073247",
+    "DrawTime": "2023-06-23T09:29:47.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 90
+  },
+  {
+    "DrawID": "1687482360000071047",
+    "DrawTime": "2023-06-23T09:28:32.000Z",
+    "Item_Name": "Xiangling",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 89,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1687395960000127547",
+    "DrawTime": "2023-06-22T09:53:37.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 88
+  },
+  {
+    "DrawID": "1687323960000248447",
+    "DrawTime": "2023-06-21T13:56:20.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 87
+  },
+  {
+    "DrawID": "1687262760000436447",
+    "DrawTime": "2023-06-20T20:51:15.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 86
+  },
+  {
+    "DrawID": "1687179960000539347",
+    "DrawTime": "2023-06-19T21:57:27.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 85
+  },
+  {
+    "DrawID": "1687161960000089147",
+    "DrawTime": "2023-06-19T16:11:15.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 84
+  },
+  {
+    "DrawID": "1687154760000346047",
+    "DrawTime": "2023-06-19T14:45:38.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 83
+  },
+  {
+    "DrawID": "1687154760000345747",
+    "DrawTime": "2023-06-19T14:45:31.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 82
+  },
+  {
+    "DrawID": "1687154760000100647",
+    "DrawTime": "2023-06-19T14:17:32.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 81
+  },
+  {
+    "DrawID": "1687057560000198147",
+    "DrawTime": "2023-06-18T11:35:30.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 80
+  },
+  {
+    "DrawID": "1686899160000301647",
+    "DrawTime": "2023-06-16T15:40:32.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 79
+  },
+  {
+    "DrawID": "1686891960000334947",
+    "DrawTime": "2023-06-16T13:40:18.000Z",
+    "Item_Name": "Diona",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 78,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1686891960000334747",
+    "DrawTime": "2023-06-16T13:40:14.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 77
+  },
+  {
+    "DrawID": "1686891960000333547",
+    "DrawTime": "2023-06-16T13:40:09.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 76
+  },
+  {
+    "DrawID": "1686891960000331147",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 75
+  },
+  {
+    "DrawID": "1686891960000331047",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 74
+  },
+  {
+    "DrawID": "1686891960000330947",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 73
+  },
+  {
+    "DrawID": "1686891960000330847",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 72
+  },
+  {
+    "DrawID": "1686891960000330747",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 71
+  },
+  {
+    "DrawID": "1686891960000330647",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 70
+  },
+  {
+    "DrawID": "1686891960000330547",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 69
+  },
+  {
+    "DrawID": "1686891960000330447",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Shikanoin Heizou",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 68,
+    "rarity4Pity": 2
+  },
+  {
+    "DrawID": "1686891960000330347",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 67
+  },
+  {
+    "DrawID": "1686891960000330247",
+    "DrawTime": "2023-06-16T13:39:54.000Z",
+    "Item_Name": "Eye of Perception",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 66,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1686891960000309247",
+    "DrawTime": "2023-06-16T13:35:37.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 65
+  },
+  {
+    "DrawID": "1686841560000167847",
+    "DrawTime": "2023-06-15T23:15:09.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 64
+  },
+  {
+    "DrawID": "1686841560000127147",
+    "DrawTime": "2023-06-15T23:12:03.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 63
+  },
+  {
+    "DrawID": "1686837960000711947",
+    "DrawTime": "2023-06-15T22:56:40.000Z",
+    "Item_Name": "Slingshot",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 62
+  },
+  {
+    "DrawID": "1686837960000711847",
+    "DrawTime": "2023-06-15T22:56:36.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 61
+  },
+  {
+    "DrawID": "1686837960000701047",
+    "DrawTime": "2023-06-15T22:55:50.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 60
+  },
+  {
+    "DrawID": "1686837960000700347",
+    "DrawTime": "2023-06-15T22:55:45.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 59
+  },
+  {
+    "DrawID": "1686837960000699847",
+    "DrawTime": "2023-06-15T22:55:38.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 58
+  },
+  {
+    "DrawID": "1686751560000936747",
+    "DrawTime": "2023-06-14T22:53:42.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 57
+  },
+  {
+    "DrawID": "1686751560000935147",
+    "DrawTime": "2023-06-14T22:53:36.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 56
+  },
+  {
+    "DrawID": "1686665160000099247",
+    "DrawTime": "2023-06-13T22:01:15.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 55
+  },
+  {
+    "DrawID": "1686661560005730647",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 54
+  },
+  {
+    "DrawID": "1686661560005730547",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 53
+  },
+  {
+    "DrawID": "1686661560005730447",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 52
+  },
+  {
+    "DrawID": "1686661560005730347",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 51
+  },
+  {
+    "DrawID": "1686661560005730247",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Mouun's Moon",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "4",
+    "drawNumber": 50,
+    "rarity4Pity": 6
+  },
+  {
+    "DrawID": "1686661560005730147",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 49
+  },
+  {
+    "DrawID": "1686661560005730047",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 48
+  },
+  {
+    "DrawID": "1686661560005729947",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 47
+  },
+  {
+    "DrawID": "1686661560005729847",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "3",
+    "drawNumber": 46
+  },
+  {
+    "DrawID": "1686661560005729747",
+    "DrawTime": "2023-06-13T21:59:17.000Z",
+    "Item_Name": "Light of Foliar Incision",
+    "DrawType": "Weapon Event Wish",
+    "Rarity": "5",
+    "drawNumber": 45,
+    "rarity5Pity": 1
+  },
+  {
+    "DrawID": "1686661560005626947",
+    "DrawTime": "2023-06-13T21:58:10.000Z",
+    "Item_Name": "Alhaitham",
+    "DrawType": "Character Event Wish",
+    "Rarity": "5",
+    "drawNumber": 44,
+    "rarity5Pity": 43
+  },
+  {
+    "DrawID": "1686661560005623047",
+    "DrawTime": "2023-06-13T21:58:06.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 43
+  },
+  {
+    "DrawID": "1686661560005609047",
+    "DrawTime": "2023-06-13T21:57:56.000Z",
+    "Item_Name": "Shikanoin Heizou",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 42,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1686661560005600147",
+    "DrawTime": "2023-06-13T21:57:51.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 41
+  },
+  {
+    "DrawID": "1686661560005595447",
+    "DrawTime": "2023-06-13T21:57:47.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 40
+  },
+  {
+    "DrawID": "1686661560005590347",
+    "DrawTime": "2023-06-13T21:57:42.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 39
+  },
+  {
+    "DrawID": "1686661560005560547",
+    "DrawTime": "2023-06-13T21:57:25.000Z",
+    "Item_Name": "Raven Bow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 38
+  },
+  {
+    "DrawID": "1686661560005554047",
+    "DrawTime": "2023-06-13T21:57:21.000Z",
+    "Item_Name": "Slingshot",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 37
+  },
+  {
+    "DrawID": "1686661560005545647",
+    "DrawTime": "2023-06-13T21:57:16.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 36
+  },
+  {
+    "DrawID": "1686661560005520747",
+    "DrawTime": "2023-06-13T21:57:04.000Z",
+    "Item_Name": "Bloodtainted Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 35
+  },
+  {
+    "DrawID": "1686661560005463547",
+    "DrawTime": "2023-06-13T21:56:31.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 34
+  },
+  {
+    "DrawID": "1684649160000245847",
+    "DrawTime": "2023-05-21T14:56:32.000Z",
+    "Item_Name": "Candace",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 33,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1684649160000202547",
+    "DrawTime": "2023-05-21T14:48:18.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 32
+  },
+  {
+    "DrawID": "1684649160000202447",
+    "DrawTime": "2023-05-21T14:48:11.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 31
+  },
+  {
+    "DrawID": "1684641960000190047",
+    "DrawTime": "2023-05-21T12:59:44.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Permanent Wish",
+    "Rarity": "3",
+    "drawNumber": 30
+  },
+  {
+    "DrawID": "1684641960000098347",
+    "DrawTime": "2023-05-21T12:32:37.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 29
+  },
+  {
+    "DrawID": "1684577160000145447",
+    "DrawTime": "2023-05-20T18:44:42.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 28
+  },
+  {
+    "DrawID": "1684577160000145247",
+    "DrawTime": "2023-05-20T18:44:34.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 27
+  },
+  {
+    "DrawID": "1684325160000261847",
+    "DrawTime": "2023-05-17T20:58:23.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 26
+  },
+  {
+    "DrawID": "1684152360000058047",
+    "DrawTime": "2023-05-15T20:14:11.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 25
+  },
+  {
+    "DrawID": "1684152360000057647",
+    "DrawTime": "2023-05-15T20:14:04.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 24
+  },
+  {
+    "DrawID": "1684152360000056447",
+    "DrawTime": "2023-05-15T20:13:56.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 23
+  },
+  {
+    "DrawID": "1684083960000194047",
+    "DrawTime": "2023-05-15T01:54:24.000Z",
+    "Item_Name": "Sacrificial Greatsword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 22,
+    "rarity4Pity": 2
+  },
+  {
+    "DrawID": "1684083960000151947",
+    "DrawTime": "2023-05-15T01:42:54.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 21
+  },
+  {
+    "DrawID": "1684083960000149047",
+    "DrawTime": "2023-05-15T01:42:38.000Z",
+    "Item_Name": "Candace",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 20,
+    "rarity4Pity": 3
+  },
+  {
+    "DrawID": "1684083960000148747",
+    "DrawTime": "2023-05-15T01:42:35.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 19
+  },
+  {
+    "DrawID": "1684083960000147947",
+    "DrawTime": "2023-05-15T01:42:28.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 18
+  },
+  {
+    "DrawID": "1684083960000033447",
+    "DrawTime": "2023-05-15T01:08:09.000Z",
+    "Item_Name": "Kaveh",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 17,
+    "rarity4Pity": 6
+  },
+  {
+    "DrawID": "1684080360000224347",
+    "DrawTime": "2023-05-15T00:38:48.000Z",
+    "Item_Name": "Black Tassel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 16
+  },
+  {
+    "DrawID": "1684076760000109147",
+    "DrawTime": "2023-05-14T23:20:31.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 15
+  },
+  {
+    "DrawID": "1683990360000128847",
+    "DrawTime": "2023-05-13T23:13:26.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 14
+  },
+  {
+    "DrawID": "1683990360000125047",
+    "DrawTime": "2023-05-13T23:13:02.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 13
+  },
+  {
+    "DrawID": "1683119160000181047",
+    "DrawTime": "2023-05-03T21:10:29.000Z",
+    "Item_Name": "Thrilling Tales of Dragon Slayers",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 12
+  },
+  {
+    "DrawID": "1683119160000177047",
+    "DrawTime": "2023-05-03T21:10:17.000Z",
+    "Item_Name": "Rust",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 11,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1683119160000166247",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Ferrous Shadow",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 10
+  },
+  {
+    "DrawID": "1683119160000166147",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Harbinger of Dawn",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 9
+  },
+  {
+    "DrawID": "1683119160000166047",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Skyrider Sword",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 8
+  },
+  {
+    "DrawID": "1683119160000165947",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 7
+  },
+  {
+    "DrawID": "1683119160000165847",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Sharpshooter's Oath",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 6
+  },
+  {
+    "DrawID": "1683119160000165747",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Debate Club",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 5
+  },
+  {
+    "DrawID": "1683119160000165647",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Cool Steel",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 4
+  },
+  {
+    "DrawID": "1683119160000165547",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Emerald Orb",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 3
+  },
+  {
+    "DrawID": "1683119160000165447",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Magic Guide",
+    "DrawType": "Character Event Wish",
+    "Rarity": "3",
+    "drawNumber": 2
+  },
+  {
+    "DrawID": "1683119160000165347",
+    "DrawTime": "2023-05-03T21:09:44.000Z",
+    "Item_Name": "Candace",
+    "DrawType": "Character Event Wish",
+    "Rarity": "4",
+    "drawNumber": 1,
+    "rarity4Pity": 1
+  }
+]

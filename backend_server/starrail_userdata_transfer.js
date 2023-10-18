@@ -19,7 +19,7 @@ const spreadsheetId = '1p7wZL3dbhBXUSKo8dnTF0fH3qU0b3i7syimR7PrXUQg';
 
 // The range of cells you want to retrieve (e.g., 'Sheet1!A1:B2')
 const range = 'Transfer2!A1:E';
-const userID = '801903001';
+const userID = '804638946';
 let dataArray = [];
 
 async function getData() {
@@ -75,19 +75,19 @@ async function getData() {
       dataArray = dataArray;
       console.log(dataArray.reverse());
 
-      // try {
-      //   // Insert the array of data into the Genshin_Draw table
-      //   const result = await prisma.StarRail_Draw.createMany({
-      //     data: dataArray,
-      //   });
+      try {
+        // Insert the array of data into the Genshin_Draw table
+        const result = await prisma.StarRail_Draw.createMany({
+          data: dataArray,
+        });
 
-      //   console.log('Data inserted successfully:', result);
-      // } catch (error) {
-      //   console.error('Error inserting data:', error);
-      // } finally {
-      //   // Close the Prisma client
-      //   await prisma.$disconnect();
-      // }
+        console.log('Data inserted successfully:', result);
+      } catch (error) {
+        console.error('Error inserting data:', error);
+      } finally {
+        // Close the Prisma client
+        await prisma.$disconnect();
+      }
     } else {
       console.log('No data found.');
     }

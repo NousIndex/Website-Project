@@ -12,7 +12,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform: translateX(40%); /* Center horizontally */
+    transform: translateX(25%); /* Center horizontally */
+  }
+
+  @media screen and (min-width: 1600px) {
+    .import-wish-container {
+      transform: translateX(30%); /* Center horizontally */
+    }
+  }
+
+  @media screen and (min-width: 1800px) {
+    .import-wish-container {
+      transform: translateX(40%); /* Center horizontally */
+    }
   }
   
   /* Instructions container */

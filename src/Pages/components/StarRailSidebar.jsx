@@ -4,6 +4,7 @@ import * as routePaths from '../../routePaths';
 const GenshinSideBar = ({ activeTab }) => {
   return (
     <div className="sidebar">
+      <p className="sidebar-small-title">Honkai: Star Rail</p>
       <h2 className="navigation-title">Navigation</h2>
       <ul>
         <li

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import randomIcon from '../../../assets/Icons/random_icon.webp';
+import RandomiserModal from './randomizer';
 import './CSS/wishinventory.css';
 import 'animate.css/animate.min.css';
 
@@ -6,6 +8,8 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [activeTab, setActiveTab] = useState('Character'); // Initialize with 'Character'
+  const [isRandomModalOpen, setIsRandomModalOpen] = useState(false);
+
   const craftedWeaponIgnoreList = [
     'Prototype Rancour',
     'Iron Sting',
@@ -274,6 +278,14 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
     setActiveTab(tab);
   };
 
+  const openRandomModal = () => {
+    setIsRandomModalOpen(true);
+  };
+
+  const closeRandomModal = () => {
+    setIsRandomModalOpen(false);
+  };
+
   return (
     <div>
       <button
@@ -290,17 +302,35 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className={`draw-modal-content animate__animated ${modalAnimationClass}`}
           >
             <span
-              className="draw-close-button"
+              className="draw-close-button no-selection"
               onClick={closeModal}
             >
               &times;
             </span>
             <div className="draw-modal-content-headers">
               <h3
-                style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
+                style={{
+                  fontWeight: 'bold',
+                  margin: '0',
+                  marginTop: '10px',
+                  marginLeft: '2%',
+                }}
               >
                 Wish Inventory
+                <button
+                  className="team-randomiser-button"
+                  onClick={openRandomModal}
+                >
+                  <img src={randomIcon} />
+                </button>
               </h3>
+              <RandomiserModal
+                isOpen={isRandomModalOpen}
+                onClose={closeRandomModal}
+                charaSet={itemsData.characters}
+                ownedSet={itemCounter}
+                itemIcons={itemIcons}
+              />
               <div className="draw-tab-container">
                 <div
                   className={`draw-tab-container-tab ${

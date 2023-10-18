@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import WarpInventory from './warpinventory';
-import './CSS/wishstats.css';
 
 const WishStats = ({ wishes, itemIcons, itemsData }) => {
   const [characterdraw4, setCharacterdraw4] = useState(0);

@@ -295,7 +295,7 @@ function WishTracker({ userID }) {
         <h1 className="wishpage-main-title">
           Warp Tracker
           <a
-            href={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
+            href={routePaths.STARRAIL_WISH_TRACKER_IMPORT_PATH}
             className="genshin-checkin-button-link-container no-selection"
           >
             <button className="genshin-checkin-button-link no-selection animate__animated animate__pulse animate__delay-1s animate__fast animate__infinite">

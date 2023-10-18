@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import GenshinSidebar from '../../components/GenshinSidebar';
-import './CSS/importwish.css';
+import StarRailSidebar from '../../components/StarRailSidebar';
 import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
 
 const ImportWish = ({ userID }) => {
@@ -84,15 +83,15 @@ const ImportWish = ({ userID }) => {
 
   return (
     <div className="genshin-import-container">
-      <GenshinSidebar />
+      <StarRailSidebar />
       <div className="import-wish-container">
-        <h2 className="genshin-import-text-title">Steps to Import Wishes:</h2>
+        <h2 className="genshin-import-text-title">Steps to Import Warps:</h2>
         <ol className="genshin-import-instructions-container">
           <li className="genshin-import-text">
-            Open Genshin Impact on your PC.
+            Open Honkai: Star Rail on your PC.
           </li>
           <li className="genshin-import-text">
-            Open the wish history in the game and wait for it to load.
+            Open the warp history in the game and wait for it to load.
           </li>
           <li className="genshin-import-text">
             Search and open up Windows Powershell.

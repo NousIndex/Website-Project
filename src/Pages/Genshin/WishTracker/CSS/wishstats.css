@@ -52,3 +52,30 @@
   font-weight: bold;
   margin-top: 20px; /* Add spacing above spans */
 }
+
+.team-randomiser-button {
+  position: absolute;
+  left: 15%;
+  top: 30%;
+  background-color: transparent;
+  border: none;
+  opacity: 0.3;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  transition: opacity 0.3s ease, box-shadow 0.3s ease, scale 0.1s ease;
+}
+
+.team-randomiser-button img {
+  width: 45px;
+  padding: 5px;
+  background-color: transparent;
+}
+
+.team-randomiser-button:hover {
+  opacity: 1;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.team-randomiser-button:active {
+  scale: 0.95;
+}

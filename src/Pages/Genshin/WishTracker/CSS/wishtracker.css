@@ -213,7 +213,7 @@ body {
   color: white;
   font-size: clamp(2px, 1.5vw, 24px);
   font-weight: 700;
-  bottom: 0;
+  top: 85.5%;
 }
 
 .watchlist-modal {
