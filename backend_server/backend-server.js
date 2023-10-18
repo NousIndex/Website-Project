@@ -171,9 +171,12 @@ app.get('/api/genshin-draw', async (req, res) => {
       .flat()
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
-    // console.log('Data:', combinedDraws);
-    fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
-    return res.json(combinedDraws);
+    if (combinedDraws.length === 0) {
+      return res.json({ message: 'No data' });
+    } else {
+      fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
+      return res.json(combinedDraws);
+    }
   } catch (error) {
     console.error('Error fetching data:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -935,7 +938,11 @@ app.get('/api/starrail-draw', async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-    fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
+    if (combinedDraws.length === 0) {
+      return res.json({ message: 'noData' });
+    } else {
+      fs.writeFileSync(filePath, JSON.stringify(combinedDraws, null, 2));
+    }
     return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);

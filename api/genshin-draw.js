@@ -46,8 +46,8 @@ async function modifyAndUploadFileContent(fileContent, fileName) {
     // Upload the modified data back to the bucket
     const { uploadError } = await supabase.storage
       .from(bucketName)
-      .upload(fileName, modifiedBlob,{
-        upsert: true
+      .upload(fileName, modifiedBlob, {
+        upsert: true,
       });
 
     if (uploadError) {
@@ -101,13 +101,11 @@ module.exports = async (req, res) => {
         console.log('Data is up to date');
         return res.json(fileContent);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error fetching data:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
-  }
-  else {
+  } else {
     console.log('File does not exist in bucket');
   }
 
@@ -126,7 +124,7 @@ module.exports = async (req, res) => {
         DrawID: true,
         DrawTime: true,
         Item_Name: true,
-        DrawType : true,
+        DrawType: true,
         Rarity: true,
       },
     });
@@ -214,7 +212,11 @@ module.exports = async (req, res) => {
       .sort((a, b) => b.drawNumber - a.drawNumber);
 
     // console.log('Data:', combinedDraws);
-    await modifyAndUploadFileContent(combinedDraws, fileName);
+    if (combinedDraws.length === 0) {
+      return res.status(400).json({ message: 'No Data' });
+    } else {
+      await modifyAndUploadFileContent(combinedDraws, fileName);
+    }
     return res.json(combinedDraws);
   } catch (error) {
     console.error('Error fetching data:', error);
