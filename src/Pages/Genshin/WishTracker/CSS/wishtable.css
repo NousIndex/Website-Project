@@ -74,6 +74,7 @@
 }
 
 .table-header-selectable {
+  cursor: pointer;  
   transition: background-color 0.3s ease;
 }
 
@@ -138,7 +139,7 @@
   width: 65px;
   height: 65px;
   object-fit: cover;
-  margin-left: 10%;
+  margin-left: 6.5%;
   margin-right: 3%;
   border-radius: 50%;
   vertical-align: middle;

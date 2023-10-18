@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
-  console.log('Starting StarRail Banner API');
+  // console.log('Starting StarRail Banner API');
   // Define the URL of the MediaWiki API
   const apiUrl = 'https://honkai-star-rail.fandom.com/api.php';
 

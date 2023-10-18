@@ -12,7 +12,6 @@ import watchNoIcon from '../../../assets/Icons/no_watch_icon.webp';
 import editIcon from '../../../assets/Icons/edit_icon.webp';
 import ItemTable from './warprecords';
 import StatsTable from './warpstats';
-import './CSS/wishtable.css';
 import { API_URL } from '../../../API_Config.js';
 import Modal from 'react-modal';
 
@@ -77,7 +76,7 @@ function WishTracker({ userID }) {
   async function fetchData(userGameId) {
     try {
       const response = await fetch(
-        `${API_URL}api/genshin-draw?userGameId=${userGameId}`
+        `${API_URL}api/starrail-draw?userGameId=${userGameId}`
       );
       const data = await response.json();
       setWishAPIData(data);
@@ -101,7 +100,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData2() {
       try {
-        const response = await fetch(`${API_URL}api/genshin-draw-icons`);
+        const response = await fetch(`${API_URL}api/starrail-draw-icons`);
         const data = await response.json();
         setItemIcons(data);
       } catch (error) {
@@ -117,7 +116,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData3() {
       try {
-        const response = await fetch(`${API_URL}api/genshin-draw-database`);
+        const response = await fetch(`${API_URL}api/starrail-draw-database`);
         const data = await response.json();
         setItemsData(data);
       } catch (error) {
@@ -167,7 +166,7 @@ function WishTracker({ userID }) {
       text: 'Character',
       onClick: () => {
         setBannerFilter('character');
-        handleFilter('Character Event Wish');
+        handleFilter('Character Warp');
       },
     },
     {
@@ -175,7 +174,7 @@ function WishTracker({ userID }) {
       text: 'Light Cone',
       onClick: () => {
         setBannerFilter('light cone');
-        handleFilter('Weapon Event Wish');
+        handleFilter('Light Cone Warp');
       },
     },
     {
@@ -183,7 +182,7 @@ function WishTracker({ userID }) {
       text: 'Standard',
       onClick: () => {
         setBannerFilter('standard');
-        handleFilter('Permanent Wish');
+        handleFilter('Standard Warp');
       },
     },
   ];
@@ -294,13 +293,13 @@ function WishTracker({ userID }) {
       {/* Main Content */}
       <div className="content">
         <h1 className="wishpage-main-title">
-          Wish Tracker
+          Warp Tracker
           <a
             href={routePaths.GENSHIN_WISH_TRACKER_IMPORT_PATH}
             className="genshin-checkin-button-link-container no-selection"
           >
             <button className="genshin-checkin-button-link no-selection animate__animated animate__pulse animate__delay-1s animate__fast animate__infinite">
-              Import Wish
+              Import Warp
             </button>
           </a>
           <div className="genshin-wish-searcher-container">
@@ -308,7 +307,7 @@ function WishTracker({ userID }) {
               className="genshin-wish-searcher-reset-button no-selection"
               onClick={handleReset}
             >
-              My Wish
+              My Warps
             </button>
             <span className="genshin-wish-searcher-text no-selection">
               Search UID:
@@ -436,7 +435,7 @@ function WishTracker({ userID }) {
             </div>
           </div>
           <div class="wish-right-content">
-            <h2>Wish Stats</h2>
+            <h2>Warp Stats</h2>
             {wishAPIData.length > 0 && Object.keys(itemsData).length > 0 && (
               <StatsTable
                 wishes={wishAPIData}

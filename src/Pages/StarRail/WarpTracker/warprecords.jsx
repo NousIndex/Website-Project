@@ -185,7 +185,7 @@ const ItemTable = ({ items, itemIcons }) => {
                     : ''
                 }`}
               >
-                Time
+                Time (GMT)
               </th>
             </tr>
           </thead>
@@ -195,10 +195,8 @@ const ItemTable = ({ items, itemIcons }) => {
               let itemNameModified = item.Item_Name.replace(
                 /\s+/g,
                 '_'
-              ).replace(/'/g, '%27');
-              if (itemNameModified === 'Childe') {
-                itemNameModified = 'Tartaglia';
-              }
+              ).replace(/'/g, '%27').replace(/!/g, '%21').replace(/,/g, '%2C').replace(/•/g,'%E2%80%A2');
+              
               // Find the matching URL in itemIcons
               const iconUrl =
                 itemIcons.find((url) => url.includes(itemNameModified)) ||

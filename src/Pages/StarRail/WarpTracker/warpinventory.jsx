@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './CSS/wishinventory.css';
+import './CSS/warpinventory.css';
 import 'animate.css/animate.min.css';
 
 const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [activeTab, setActiveTab] = useState('Character'); // Initialize with 'Character'
+  const weaponIgnoreList = [
+    'Before the Tutorial Mission Starts',
+    'On the Fall of an Aeon',
+    'Cruising in the Stellar Sea',
+    'Solitary Healing',
+    'Texture of Memories',
+    'Warmth Shortens Cold Nights',
+    'Return to Darkness',
+    'This Is Me!',
+    'Carve the Moon, Weave the Clouds',
+    'We Will Meet Again',
+    'Nowhere to Run',
+    'Today Is Another Peaceful Day',
+  ];
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
@@ -15,10 +29,10 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
       let itemNameModified = character.name
         .replace(/\s+/g, '_')
-        .replace(/'/g, '%27');
-      if (itemNameModified === 'Childe') {
-        itemNameModified = 'Tartaglia';
-      }
+        .replace(/'/g, '%27')
+        .replace(/!/g, '%21')
+        .replace(/,/g, '%2C')
+        .replace(/•/g, '%E2%80%A2');
 
       const iconUrl =
         itemIcons.find((url) => url.includes(itemNameModified)) ||
@@ -80,8 +94,13 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
       let itemNameModified = weapon.name
         .replace(/\s+/g, '_')
-        .replace(/'/g, '%27');
-
+        .replace(/'/g, '%27')
+        .replace(/!/g, '%21')
+        .replace(/,/g, '%2C')
+        .replace(/•/g, '%E2%80%A2');
+      if (weaponIgnoreList.includes(weapon.name)) {
+        return;
+      }
       const iconUrl =
         itemIcons.find((url) => url.includes(itemNameModified)) ||
         'default-image-url';
@@ -95,6 +114,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           className={`wish-weapon-inventory-div ${
             isNaN(weaponConstallation) ? 'wish-not-owned' : ''
           }`}
+          title={weapon.passive}
         >
           <img
             src={iconUrl}
@@ -109,16 +129,24 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
 
           <img
+            src={weapon.type}
+            className="warp-weapon-inventory-type no-selection"
+          />
+          <img
             src={weapon.rarity}
             className="wish-weapon-inventory-rarity no-selection"
           />
-          <span className="wish-weapon-inventory-atk no-selection">
+          <span className="warp-weapon-inventory-hp no-selection">
             {' '}
-            ATK {weapon.atk}{' '}
+            {weapon.hp}{' '}
           </span>
-          <span className="wish-weapon-inventory-sub no-selection   ">
+          <span className="warp-weapon-inventory-atk no-selection">
             {' '}
-            {weapon.sub}{' '}
+            {weapon.atk}{' '}
+          </span>
+          <span className="warp-weapon-inventory-df no-selection">
+            {' '}
+            {weapon.df}{' '}
           </span>
           <span className="wish-weapon-inventory-name">{weapon.name}</span>
           {isNaN(weaponConstallation) ? null : (
@@ -182,7 +210,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         className="draw-modal-open-button no-selection"
         onClick={openModal}
       >
-        Wish Inventory
+        Warp Inventory
       </button>
       {isModalOpen && (
         <div
@@ -201,7 +229,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
               <h3
                 style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
               >
-                Wish Inventory
+                Warp Inventory
               </h3>
               <div className="draw-tab-container">
                 <div
@@ -218,7 +246,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   }`}
                   onClick={() => switchTab('Weapon')}
                 >
-                  Weapon
+                  Light Cone
                 </div>
               </div>
             </div>

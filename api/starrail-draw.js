@@ -46,8 +46,8 @@ async function modifyAndUploadFileContent(fileContent, fileName) {
     // Upload the modified data back to the bucket
     const { uploadError } = await supabase.storage
       .from(bucketName)
-      .upload(fileName, modifiedBlob,{
-        upsert: true
+      .upload(fileName, modifiedBlob, {
+        upsert: true,
       });
 
     if (uploadError) {
@@ -62,27 +62,28 @@ async function modifyAndUploadFileContent(fileContent, fileName) {
 }
 
 module.exports = async (req, res) => {
-  // console.log('Starting Genshin Draw API');
+  // * Should be done
+  // console.log('Starting StarRail Draw API');
   const { userGameId } = req.query;
-  let genshinUID = '';
+  let starrailUID = '';
   if (!userGameId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   if (userGameId.length > 12) {
-    // get genshin uid from user id in database
+    // get starrail uid from user id in database
     const dataUser = await prisma.Games_Users.findUnique({
       where: { UID: userGameId },
     });
     if (!dataUser) {
       return res.status(400).json({ error: 'Invalid request' });
     }
-    genshinUID = dataUser.Genshin_UID;
+    starrailUID = dataUser.StarRail_UID;
   } else {
-    genshinUID = userGameId;
+    starrailUID = userGameId;
   }
-  const fileName = `genshin/Genshin-${genshinUID}.json`;
+  const fileName = `starrail/StarRail-${starrailUID}.json`;
 
-  if (!genshinUID) {
+  if (!starrailUID) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
@@ -94,30 +95,28 @@ module.exports = async (req, res) => {
       totalJsonDataItems = fileContent.length;
       const summaryTableData = await prisma.SummaryTable.findUnique({
         where: {
-          Game_UID: `Genshin-${genshinUID}`,
+          Game_UID: `StarRail-${starrailUID}`,
         },
       });
       if (summaryTableData.total_items === totalJsonDataItems) {
         console.log('Data is up to date');
         return res.json(fileContent);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error fetching data:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
-  }
-  else {
+  } else {
     console.log('File does not exist in bucket');
   }
 
   // If the file does not exist or the data is not up to date, fetch the data from the database
   console.log('Fetching data from database');
   try {
-    // Use Prisma to query the Genshin_Draw table based on Genshin_UID
-    const data = await prisma.Genshin_Draw.findMany({
+    // Use Prisma to query the StarRail_Draw table based on StarRail_UID
+    const data = await prisma.StarRail_Draw.findMany({
       where: {
-        Genshin_UID: genshinUID,
+        StarRail_UID: starrailUID,
       },
       orderBy: {
         DrawTime: 'desc',
@@ -126,7 +125,7 @@ module.exports = async (req, res) => {
         DrawID: true,
         DrawTime: true,
         Item_Name: true,
-        DrawType : true,
+        DrawType: true,
         Rarity: true,
       },
     });
@@ -161,12 +160,12 @@ module.exports = async (req, res) => {
 
     // Group draws by banner
     for (const item of dataWithDrawNumber) {
-      // Extract the base banner type (e.g., 'Character Event Wish')
+      // Extract the base banner type (e.g., 'Character Warp')
       let baseBannerType = item.DrawType;
 
-      if (item.DrawType.startsWith('Character Event Wish - ')) {
-        // If the DrawType starts with 'Character Event Wish - ', classify it as 'Character Event Wish'
-        baseBannerType = 'Character Event Wish';
+      if (item.DrawType.startsWith('Character Warp - ')) {
+        // If the DrawType starts with 'Character Warp - ', classify it as 'Character Warp'
+        baseBannerType = 'Character Warp';
       }
 
       if (!bannerPity.has(baseBannerType)) {
@@ -188,7 +187,6 @@ module.exports = async (req, res) => {
         rarity5Pity++;
 
         if (item.Rarity === '4') {
-          item.rarity5Pity = 0;
           if (rarity4Pity === 11) {
             rarity4Pity = 10;
           }
@@ -198,12 +196,8 @@ module.exports = async (req, res) => {
           item.rarity4Pity = rarity4Pity;
           rarity4Pity = 0;
         } else if (item.Rarity === '5') {
-          item.rarity4Pity = 0;
           item.rarity5Pity = rarity5Pity;
           rarity5Pity = 0;
-        } else {
-          item.rarity4Pity = 0;
-          item.rarity5Pity = 0;
         }
       }
     }

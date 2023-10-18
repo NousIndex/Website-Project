@@ -1,18 +1,18 @@
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
-  // console.log('Starting Genshin Database API');
+  // console.log('Starting StarRail Database API');
   // Define the URL of the MediaWiki API
-  const apiUrl = 'https://genshin-impact.fandom.com/api.php';
+  const apiUrl = 'https://honkai-star-rail.fandom.com/api.php';
 
   // Define the parameters for your API request
   const params = {
     action: 'parse', // You can use 'parse' to retrieve page content
-    page: 'Weapon/List', // The page you want to fetch data from
+    page: 'Light_Cone/List', // The page you want to fetch data from
     format: 'json', // You can specify the format as JSON
   };
   // Define the URL of the MediaWiki API
-  const apiUrl2 = 'https://genshin-impact.fandom.com/api.php';
+  const apiUrl2 = 'https://honkai-star-rail.fandom.com/api.php';
 
   // Define the parameters for your API request
   const params2 = {
@@ -51,34 +51,37 @@ module.exports = async (req, res) => {
     tableRow.each((index, element) => {
       const rowData = $(element).find('td');
 
-      const column2Text = rowData.eq(1).find('a').text();
+      const column1Text = rowData.eq(0).find('a').text().trim();
+      const column2DataSrc = rowData.eq(1).find('img').attr('data-src');
       const column3DataSrc = rowData.eq(2).find('img').attr('data-src');
-      const column4Text = rowData.eq(3).text();
-      let column5Text = rowData.eq(4).text();
-      const column6Text = rowData.eq(5).text();
+      const column4Text = rowData.eq(3).text().trim();
+      const column5Text = rowData.eq(4).text().trim();
 
-      if (column2Text && column2Text !== 'Prized Isshin Blade') {
+      if (column1Text) {
         const existingData = extractedDataWeapon.find(
-          (data) => data.name === column2Text
+          (data) => data.name === column1Text
         );
 
-        if (column5Text.toLowerCase().includes('elemental mastery')) {
-          column5Text = column5Text.replace('Elemental Mastery', 'EM');
-        }
-        if (column5Text.toLowerCase().includes('physical dmg bonus')) {
-          column5Text = column5Text.replace('Physical DMG Bonus', 'Phys DMG');
-        }
-        if (column5Text.toLowerCase().includes('energy recharge')) {
-          column5Text = column5Text.replace('Energy Recharge', 'ER');
-        }
-
         if (!existingData) {
+          let hpStat = '';
+          let atkStat = '';
+          let dfStat = '';
+
+          if (column4Text.toLowerCase() === 'unknown') {
+            hpStat = column4Text;
+          } else {
+            hpStat = column4Text.split('ATK:')[0];
+            atkStat = 'ATK:' + column4Text.split('ATK:')[1].split('DEF:')[0];
+            dfStat = 'DEF:' + column4Text.split('DEF:')[1];
+          }
           const data = {
-            name: column2Text,
-            rarity: column3DataSrc.split('.png')[0] + '.png',
-            atk: column4Text,
-            sub: column5Text,
-            passive: column6Text,
+            name: column1Text,
+            rarity: column2DataSrc.split('.png')[0] + '.png',
+            type: column3DataSrc.split('.png')[0] + '.png',
+            hp: hpStat,
+            atk: atkStat,
+            df: dfStat,
+            passive: column5Text,
           };
 
           extractedDataWeapon.push(data);
@@ -93,9 +96,8 @@ module.exports = async (req, res) => {
       const column3DataSrc = rowData.eq(2).find('img').attr('data-src');
       const column4DataSrc = rowData.eq(3).find('a img').attr('data-src');
       const column5DataSrc = rowData.eq(4).find('a img').attr('data-src');
-      const column8Text = rowData.eq(7).text().trim();
 
-      if (column8Text && column2Text && column2Text !== 'Traveler') {
+      if (column2Text && column2Text !== 'Trailblazer') {
         const existingData = extractedDataCharacter.find(
           (data) => data.name === column2Text
         );
@@ -104,9 +106,8 @@ module.exports = async (req, res) => {
           const data = {
             name: column2Text,
             rarity: column3DataSrc.split('.png')[0] + '.png',
-            element: column4DataSrc.split('.svg')[0] + '.svg',
+            element: column4DataSrc.split('.png')[0] + '.png',
             weapon: column5DataSrc.split('.png')[0] + '.png',
-            release: column8Text,
           };
           extractedDataCharacter.push(data);
         }
@@ -119,12 +120,8 @@ module.exports = async (req, res) => {
         rarity: data.rarity,
         element: data.element,
         weapon: data.weapon,
-        release: data.release,
       })
     );
-
-    // Sort the characterArray by release date (newest first)
-    characterArray.sort((a, b) => new Date(b.release) - new Date(a.release));
 
     res.json({
       characters: characterArray,

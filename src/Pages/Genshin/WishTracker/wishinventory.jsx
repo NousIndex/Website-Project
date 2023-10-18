@@ -6,6 +6,86 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [activeTab, setActiveTab] = useState('Character'); // Initialize with 'Character'
+  const craftedWeaponIgnoreList = [
+    'Prototype Rancour',
+    'Iron Sting',
+    'Amenoma Kageuchi',
+    'Sapwood Blade',
+    'Finale of the Deep',
+    'Prototype Archaic',
+    'Whiteblind',
+    'Snow-Tombed Starsilver',
+    'Katsuragikiri Nagamasa',
+    'Forest Regalia',
+    'Tidal Shadow',
+    'Mappa Mare',
+    'Prototype Amber',
+    'Frostbearer',
+    'Hakushin Ring',
+    'Fruit of Fulfillment',
+    'Flowing Purity',
+    'Crescent Pike',
+    'Prototype Starglitter',
+    'Dragonspine Spear',
+    'Kitain Cross Spear',
+    'Moonpiercer',
+    'Rightful Reward',
+    'Prototype Crescent',
+    'Compound Bow',
+    'Hamayumi',
+    'Song of Stillness',
+    "King's Squire",
+  ];
+
+  const bpWeaponIgnoreList = [
+    'The Black Sword',
+    'Serpent Spine',
+    'Solar Pearl',
+    'The Viridescent Hunt',
+    'Deathmatch',
+    'Wolf-Fang',
+    'Talking Stick',
+    'Sacrificial Jade',
+    'Scion of the Blazing Sun',
+    'Ballad of the Fjords',
+  ];
+
+  const paimonShopWeaponIgnoreList = [
+    'Blackcliff Agate',
+    'Blackcliff Longsword',
+    'Blackcliff Pole',
+    'Blackcliff Slasher',
+    'Blackcliff Warbow',
+    'Royal Bow',
+    'Royal Greatsword',
+    'Royal Grimoire',
+    'Royal Longsword',
+    'Royal Spear',
+  ];
+
+  const fishingWeaponIgnoreList = [
+    'The Catch',
+    'End of the Line',
+    'Fleuve Cendre Ferryman',
+  ];
+
+  const eventWeaponIgnoreList = [
+    'Ballad of the Boundless Blue',
+    'Festering Desire',
+    'Dodoco Tales',
+    'Toukabou Shigure',
+    'Cinnabar Spindle',
+    'Mailed Flower',
+    'Ibis Piercer',
+    'Fading Twilight',
+    'Luxurious Sea-Lord',
+    'Oathsworn Eye',
+    'Kagotsurube Isshin',
+    'Missive Windspear',
+    'Windblume Ode',
+  ];
+
+  const specialWeaponIgnoreList = ['Predator', 'Sword of Descension'];
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
@@ -15,7 +95,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
       let itemNameModified = character.name
         .replace(/\s+/g, '_')
-        .replace(/'/g, '%27');
+        .replace(/'/g, '%27')
+        .replace(/!/g, '%21')
+        .replace(/,/g, '%2C');
       if (itemNameModified === 'Childe') {
         itemNameModified = 'Tartaglia';
       }
@@ -80,7 +162,23 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
       let itemNameModified = weapon.name
         .replace(/\s+/g, '_')
-        .replace(/'/g, '%27');
+        .replace(/'/g, '%27')
+        .replace(/!/g, '%21')
+        .replace(/,/g, '%2C');
+
+      if (craftedWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      } else if (bpWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      } else if (paimonShopWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      } else if (fishingWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      } else if (eventWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      } else if (specialWeaponIgnoreList.includes(weapon.name)) {
+        return;
+      }
 
       const iconUrl =
         itemIcons.find((url) => url.includes(itemNameModified)) ||

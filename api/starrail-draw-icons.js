@@ -1,18 +1,18 @@
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
-  // console.log('Starting Genshin Draw Icons API');
+  // console.log('Starting StarRail Draw Icons API');
   // Define the URL of the MediaWiki API
-  const apiUrl = 'https://genshin-impact.fandom.com/api.php';
+  const apiUrl = 'https://honkai-star-rail.fandom.com/api.php';
 
   // Define the parameters for your API request
   const params = {
     action: 'parse', // You can use 'parse' to retrieve page content
-    page: 'Weapon/List', // The page you want to fetch data from
+    page: 'Light_Cone/List', // The page you want to fetch data from
     format: 'json', // You can specify the format as JSON
   };
   // Define the URL of the MediaWiki API
-  const apiUrl2 = 'https://genshin-impact.fandom.com/api.php';
+  const apiUrl2 = 'https://honkai-star-rail.fandom.com/api.php';
 
   // Define the parameters for your API request
   const params2 = {
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
       const dataSrc = $(element).attr('data-src');
 
       // Check if the data-src value contains the word "weapon"
-      if (dataSrc && dataSrc.includes('Weapon')) {
+      if (dataSrc && dataSrc.includes('Light_Cone')) {
         // Remove any characters after .png
         const filteredDataSrc = dataSrc.split('.png')[0] + '.png';
 

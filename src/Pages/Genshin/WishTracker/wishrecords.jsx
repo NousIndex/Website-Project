@@ -185,7 +185,7 @@ const ItemTable = ({ items, itemIcons }) => {
                     : ''
                 }`}
               >
-                Time
+                Time (GMT)
               </th>
             </tr>
           </thead>
@@ -195,7 +195,7 @@ const ItemTable = ({ items, itemIcons }) => {
               let itemNameModified = item.Item_Name.replace(
                 /\s+/g,
                 '_'
-              ).replace(/'/g, '%27');
+              ).replace(/'/g, '%27').replace(/!/g, '%21').replace(/,/g, '%2C');
               if (itemNameModified === 'Childe') {
                 itemNameModified = 'Tartaglia';
               }

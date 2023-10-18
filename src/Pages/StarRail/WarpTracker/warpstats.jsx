@@ -37,10 +37,12 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         let averagepity4list = [];
         let averagepity5list = [];
         let itemCounts = {};
-        itemCounts['Amber'] = (itemCounts['Amber'] || 0) + 1;
-        itemCounts['Kaeya'] = (itemCounts['Kaeya'] || 0) + 1;
-        itemCounts['Lisa'] = (itemCounts['Lisa'] || 0) + 1;
-        itemCounts['Barbara'] = (itemCounts['Barbara'] || 0) + 1;
+        itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
+        itemCounts['Dan Heng'] = (itemCounts['Dan Heng'] || 0) + 1;
+        itemCounts['Asta'] = (itemCounts['Asta'] || 0) + 1;
+        itemCounts['Serval'] = (itemCounts['Serval'] || 0) + 1;
+        itemCounts['Natasha'] = (itemCounts['Natasha'] || 0) + 1;
+        itemCounts['Herta'] = (itemCounts['Herta'] || 0) + 1;
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {
@@ -50,19 +52,19 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             count4++;
             if (
               !characterdraw4lock &&
-              (wish.DrawType === 'Character Event Wish' ||
-                wish.DrawType === 'Character Event Wish - 2')
+              (wish.DrawType === 'Character Warp' ||
+                wish.DrawType === 'Character Warp - 2')
             ) {
               characterdraw4lock = true;
               setCharacterdraw4(counterc);
             } else if (
-              wish.DrawType === 'Weapon Event Wish' &&
+              wish.DrawType === 'Light Cone Warp' &&
               !weapondraw4lock
             ) {
               weapondraw4lock = true;
               setWeapondraw4(counterw);
             } else if (
-              wish.DrawType === 'Permanent Wish' &&
+              wish.DrawType === 'Standard Warp' &&
               !standarddraw4lock
             ) {
               standarddraw4lock = true;
@@ -73,20 +75,20 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             averagepity5list.push(parseInt(wish.rarity5Pity));
             count5++;
             if (
-              (wish.DrawType === 'Character Event Wish' ||
-                wish.DrawType === 'Character Event Wish - 2') &&
+              (wish.DrawType === 'Character Warp' ||
+                wish.DrawType === 'Character Warp - 2') &&
               !characterdraw5lock
             ) {
               characterdraw5lock = true;
               setCharacterdraw5(counterc);
             } else if (
-              wish.DrawType === 'Weapon Event Wish' &&
+              wish.DrawType === 'Light Cone Warp' &&
               !weapondraw5lock
             ) {
               weapondraw5lock = true;
               setWeapondraw5(counterw);
             } else if (
-              wish.DrawType === 'Permanent Wish' &&
+              wish.DrawType === 'Standard Warp' &&
               !standarddraw5lock
             ) {
               standarddraw5lock = true;
@@ -94,13 +96,13 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             }
           }
           if (
-            wish.DrawType === 'Character Event Wish' ||
-            wish.DrawType === 'Character Event Wish - 2'
+            wish.DrawType === 'Character Warp' ||
+            wish.DrawType === 'Character Warp - 2'
           ) {
             counterc++;
-          } else if (wish.DrawType === 'Weapon Event Wish') {
+          } else if (wish.DrawType === 'Light Cone Warp') {
             counterw++;
-          } else if (wish.DrawType === 'Permanent Wish') {
+          } else if (wish.DrawType === 'Standard Warp') {
             counters++;
           }
         });
@@ -123,7 +125,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         <WarpInventory itemIcons={itemIcons} itemsData={itemsData} itemCounter={itemCounter} />
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
-            <span>Character Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalcharacterdraws}</span>
+            <span>Character Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalcharacterdraws}</span>
             <table>
               <thead>
                 <tr>
@@ -140,7 +142,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Weapon Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalweapondraws}</span>
+            <span>Light Cone Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalweapondraws}</span>
             <table>
               <thead>
                 <tr>
@@ -157,7 +159,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Permanent Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalstandarddraws}</span>
+            <span>Standard Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalstandarddraws}</span>
             <table>
               <thead>
                 <tr>
