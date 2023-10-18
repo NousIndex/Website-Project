@@ -8,7 +8,7 @@ export async function genshinWishImportAPI(wishData, userID) {
     let authkey = res2[0];
     authkey = encodeURI(authkey);
     
-    // Define the URL of your API endpoint 42.60.133.245
+    // Define the URL of your API endpoint
     const apiUrl = `${API_URL}api/genshin-draw-import?authkey=${authkey}&userID=${userID}`;
 
     // Use the fetch function to make the GET request
@@ -26,14 +26,13 @@ export async function genshinWishImportAPI(wishData, userID) {
 }
 
 export async function starrailWishImportAPI(wishData, userID) {
-  // Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Weapon Event Wish = 302
   try {
     let res = wishData.split('authkey=');
     let res2 = res[1].split('&game');
     let authkey = res2[0];
     authkey = encodeURI(authkey);
     
-    // Define the URL of your API endpoint 42.60.133.245
+    // Define the URL of your API endpoint
     const apiUrl = `${API_URL}api/starrail-draw-import?authkey=${authkey}&userID=${userID}`;
 
     // Use the fetch function to make the GET request

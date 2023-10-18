@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
         banner +
         '&lang=en&authkey=' +
         authkey +
-        '&gacha_type=' +
+        '&game_biz=hkrpg_global&gacha_type=' +
         banner +
         '&page=1&size=20&end_id=' +
         endid;

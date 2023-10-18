@@ -968,7 +968,7 @@ app.get('/api/starrail-draw-import', async (req, res) => {
         banner +
         '&lang=en&authkey=' +
         authkey +
-        '&gacha_type=' +
+        '&game_biz=hkrpg_global&gacha_type=' +
         banner +
         '&page=1&size=20&end_id=' +
         endid;
@@ -982,6 +982,7 @@ app.get('/api/starrail-draw-import', async (req, res) => {
 
       // Parse the response body as JSON
       const responseData = await response.json();
+      console.log('Response data:', responseData);
       //console.log('Response data:', responseData);
       if (responseData.retcode === -110) {
         // Visit API too frequently
