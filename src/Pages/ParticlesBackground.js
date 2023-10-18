@@ -4,7 +4,7 @@ import { loadFull } from 'tsparticles';
 import supabase from './Supabase';
 import TrailToggleButton from './components/trailtoggleswitch';
 import { Link, useNavigate } from 'react-router-dom';
-import homeIcon from '../assets/background_component/home.png';
+import homeIcon from '../assets/background_component/home.webp';
 import './components/CSS/homebutton.css';
 
 export default function ParticleBackground({
