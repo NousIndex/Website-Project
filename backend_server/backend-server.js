@@ -951,20 +951,20 @@ app.get('/api/starrail-draw', async (req, res) => {
 });
 
 app.get('/api/starrail-draw-import', async (req, res) => {
-  // ! not done
-  console.log('Starting Genshin Draw Import API');
+  // * should be done
+  console.log('Starting StarRail Draw Import API');
   try {
     let endid = '0';
-    let banner = 100;
+    let banner = 2;
     const authkey = req.query.authkey;
     const userID = req.query.userID;
     const newDraws = [];
     let loop = true;
-    let genshin_uid = '';
+    let starrail_uid = '';
 
     while (loop) {
       const apiUrl =
-        'https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
+        'https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=' +
         banner +
         '&lang=en&authkey=' +
         authkey +
@@ -1001,8 +1001,8 @@ app.get('/api/starrail-draw-import', async (req, res) => {
 
         for (const item of itemList) {
           try {
-            genshin_uid = item.uid;
-            const existingItem = await prisma.Genshin_Draw.findUnique({
+            starrail_uid = item.uid;
+            const existingItem = await prisma.StarRail_Draw.findUnique({
               where: {
                 DrawID: item.id, // Assuming DrawID uniquely identifies an item
               },
@@ -1017,20 +1017,20 @@ app.get('/api/starrail-draw-import', async (req, res) => {
               break; // Exit the loop if a duplicate is found
             } else {
               switch (item.gacha_type) {
-                case '100':
-                  item.gacha_type = 'Beginner Wish';
+                case '2':
+                  item.gacha_type = 'Departure Warp';
                   break;
-                case '200':
-                  item.gacha_type = 'Permanent Wish';
+                case '1':
+                  item.gacha_type = 'Standard Warp';
                   break;
-                case '301':
-                  item.gacha_type = 'Character Event Wish';
+                case '11':
+                  item.gacha_type = 'Character Warp';
                   break;
-                case '400':
-                  item.gacha_type = 'Character Event Wish - 2';
-                  break;
-                case '302':
-                  item.gacha_type = 'Weapon Event Wish';
+                // case '400':
+                //   item.gacha_type = 'Character Event Wish - 2';
+                //   break;
+                case '12':
+                  item.gacha_type = 'Light Cone Warp';
                   break;
                 default:
                   item.gacha_type = 'Unknown';
@@ -1058,7 +1058,7 @@ app.get('/api/starrail-draw-import', async (req, res) => {
                 );
 
                 newDraws.push({
-                  Genshin_UID: item.uid,
+                  StarRail_UID: item.uid,
                   DrawID: item.id,
                   DrawTime: dateTime,
                   DrawType: item.gacha_type,
@@ -1077,35 +1077,35 @@ app.get('/api/starrail-draw-import', async (req, res) => {
         }
         endid = itemList[itemList.length - 1].id;
         if (duplicateFound) {
-          if (banner === 100) {
-            banner = 301;
+          if (banner === 2) {
+            banner = 11;
             endid = '0';
-          } else if (banner === 301) {
-            banner = 400;
+          } else if (banner === 11) {
+            banner = 12;
             endid = '0';
-          } else if (banner === 400) {
-            banner = 302;
-            endid = '0';
-          } else if (banner === 302) {
-            banner = 200;
+          // } else if (banner === 400) {
+          //   banner = 302;
+          //   endid = '0';
+          } else if (banner === 12) {
+            banner = 1;
             endid = '0';
           } else {
             loop = false;
           }
         }
       } else {
-        if (banner === 100) {
+        if (banner === 2) {
           // get uid
-          banner = 301;
+          banner = 11;
           endid = '0';
-        } else if (banner === 301) {
-          banner = 400;
+        } else if (banner === 11) {
+          banner = 12;
           endid = '0';
-        } else if (banner === 400) {
-          banner = 302;
-          endid = '0';
-        } else if (banner === 302) {
-          banner = 200;
+        // } else if (banner === 400) {
+        //   banner = 302;
+        //   endid = '0';
+        } else if (banner === 12) {
+          banner = 1;
           endid = '0';
         } else {
           loop = false;
@@ -1118,13 +1118,13 @@ app.get('/api/starrail-draw-import', async (req, res) => {
     // Use Prisma to update the Genshin_User table with the new UID
     await prisma.Games_Users.upsert({
       where: { UID: userID },
-      update: { Genshin_UID: genshin_uid },
-      create: { UID: userID, Genshin_UID: genshin_uid },
+      update: { StarRail_UID: starrail_uid },
+      create: { UID: userID, StarRail_UID: starrail_uid },
     });
 
     // Use Prisma to create a new entry in the Genshin_Draw table
     if (newDraws.length > 0) {
-      await prisma.Genshin_Draw.createMany({
+      await prisma.StarRail_Draw.createMany({
         data: newDraws,
         skipDuplicates: true,
       });
@@ -1135,14 +1135,14 @@ app.get('/api/starrail-draw-import', async (req, res) => {
 
       // Update the SummaryTable with the new total item count
       await prisma.SummaryTable.upsert({
-        where: { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` },
+        where: { Game_UID: `StarRail-${newDraws[0].StarRail_UID}` },
         update: {
           total_items: {
             increment: totalItems, // Specify the amount to increment by
           },
         },
         create: {
-          Game_UID: `Genshin-${newDraws[0].Genshin_UID}`,
+          Game_UID: `StarRail-${newDraws[0].StarRail_UID}`,
           total_items: totalItems,
         },
       });

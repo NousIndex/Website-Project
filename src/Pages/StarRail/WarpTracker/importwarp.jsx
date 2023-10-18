@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import StarRailSidebar from '../../components/StarRailSidebar';
-import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
+import { starrailWishImportAPI } from '../../../APIs/wishImportAPI';
 
 const ImportWish = ({ userID }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
-  const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$(irm https://raw.githubusercontent.com/NousIndex/draw_import/main/genshin_link.ps1)} global"`;
+  const generatedLink = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex "&{$(irm https://raw.githubusercontent.com/NousIndex/draw_import/main/starrail_link.ps1)} global"`;
 
   const handleCopyToClipboard = () => {
     /* Code to copy 'generatedLink' to the clipboard */
@@ -30,7 +30,7 @@ const ImportWish = ({ userID }) => {
         allowOutsideClick: false,
       });
 
-      const response = await genshinWishImportAPI(inputValue, userID);
+      const response = await starrailWishImportAPI(inputValue, userID);
       let responseMessage = '';
       if (response === 'newData' || response === 'noNewData') {
         setButtonDisabled(true);
