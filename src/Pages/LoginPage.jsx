@@ -77,6 +77,16 @@ const Login = ({ setAuthenticated, setUserID }) => {
     }
   };
 
+  async function signInWithDiscord() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'discord',
+    });
+    console.log(data, error);
+    if (error) {
+      console.error('Authentication Failed:', error.message);
+    }
+  }
+
   const checkUser = async () => {
     const currentUser = await supabase.auth.getUser();
     setUserID(currentUser.data.user.id);
@@ -113,9 +123,29 @@ const Login = ({ setAuthenticated, setUserID }) => {
         >
           Register
         </Link>
+        {/* Discord Sign-In Button */}
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+        <div className="flex items-center justify-center w-full">
+          <button
+            id="discord_signin"
+            onClick={signInWithDiscord}
+            className="discord-login-button"
+          >
+            <div className="flex items-center justify-start">
+              <i className="fa-brands fa-discord text-l"></i>
+            </div>
+            <div className="discord-login-text">Login with Discord</div>
+          </button>
+        </div>
         <div className="google-sign-in-button">
           <div id="g_btn_div"></div>
-        </div>
+        </div>{' '}
       </div>
     </div>
   );

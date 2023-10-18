@@ -51,7 +51,7 @@ const LandingPage = () => {
     {
       imageUrl: starrailImage,
       onClick: () => {
-        console.log('Button 2 clicked!');
+        navigate('/starrail');
       },
     },
   ];

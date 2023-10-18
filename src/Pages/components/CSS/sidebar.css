@@ -41,7 +41,7 @@
   justify-content: flex-start;
   gap: 1rem;
   font-size: clamp(1px, 2vw, 18px);
-  transition: font-weight 0.2s ease, text-decoration 0.2s ease;
+  transition: font-weight 0.2s ease, text-decoration 0.2s ease, transform 0.2s ease;
 }
 
 .navigation-items a {
@@ -53,6 +53,7 @@
 .navigation-items:hover {
   font-weight: bold;
   text-decoration: underline;
+  transform: translateY(-2px);
 }
 
 .navigation-items.active {

@@ -31,8 +31,6 @@ export function extractDataFromIGNHTMLFirstTwoTable(html) {
           'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/'
         )
       ) {
-        // https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/2/24/Key_art_EN.png?width=200&quality=20&dpr=0.05
-        // remove &quality=20&dpr=0.05 from image url
         const imageUrl = $(element).attr('src').split('?')[0] + '?width=1200';
         firstTableData.imageUrls.push(imageUrl);
       }

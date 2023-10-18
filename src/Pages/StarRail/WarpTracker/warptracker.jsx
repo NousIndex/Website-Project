@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import * as routePaths from '../../../routePaths';
-import './CSS/wishtracker.css';
-import GenshinSidebar from '../../components/GenshinSidebar';
-import banner1 from '../../../assets/Icons/genshin-wish-all.webp';
-import banner2 from '../../../assets/Icons/genshin-wish-character.webp';
-import banner3 from '../../../assets/Icons/genshin-wish-weapon.webp';
-import banner4 from '../../../assets/Icons/genshin-wish-standard.webp';
+import './CSS/warptracker.css';
+import StarRailSidebar from '../../components/StarRailSidebar';
+import banner1 from '../../../assets/Icons/starrail-pompom.webp';
+import banner2 from '../../../assets/Icons/starrail-character.webp';
+import banner3 from '../../../assets/Icons/starrail-lc.webp';
+import banner4 from '../../../assets/Icons/starrail-standard.webp';
 import watchIcon from '../../../assets/Icons/watch_icon.webp';
 import watchNoIcon from '../../../assets/Icons/no_watch_icon.webp';
 import editIcon from '../../../assets/Icons/edit_icon.webp';
-import ItemTable from './wishrecords';
-import StatsTable from './wishstats';
+import ItemTable from './warprecords';
+import StatsTable from './warpstats';
 import './CSS/wishtable.css';
 import { API_URL } from '../../../API_Config.js';
 import Modal from 'react-modal';
@@ -172,7 +172,7 @@ function WishTracker({ userID }) {
     },
     {
       imageUrl: banner3,
-      text: 'Weapon',
+      text: 'Light Cone',
       onClick: () => {
         setBannerFilter('weapon');
         handleFilter('Weapon Event Wish');
@@ -193,16 +193,18 @@ function WishTracker({ userID }) {
     return imageButtonsArray.map((button, index) => (
       <button
         key={index}
-        className={`genshin-wish-image-button no-selection ${
+        className={`starrail-wish-image-button no-selection ${
           bannerFitler === button.text.toLowerCase() ? 'active' : ''
         }`}
         onClick={button.onClick}
       >
-        <img
-          src={button.imageUrl}
-          alt={`Button ${index + 1}`}
-        />
-        <p>{button.text}</p>
+        <div className="starrail-wish-image-container">
+          <img
+            src={button.imageUrl}
+            alt={`Button ${index + 1}`}
+          />
+          <p>{button.text}</p>
+        </div>
       </button>
     ));
   }
@@ -210,7 +212,7 @@ function WishTracker({ userID }) {
   const handleSearch = () => {
     setUserGameId(searchValue);
     setBannerFilter('all');
-    if (watchList.some(item => searchValue in item)) {
+    if (watchList.some((item) => searchValue in item)) {
       setIsWatchIcon(true);
     } else {
       setIsWatchIcon(false);
@@ -219,7 +221,7 @@ function WishTracker({ userID }) {
   const handleModalItemClick = (clicked_object) => {
     setUserGameId(clicked_object);
     setBannerFilter('all');
-    if (watchList.some(item => clicked_object in item)) {
+    if (watchList.some((item) => clicked_object in item)) {
       setIsWatchIcon(true);
     } else {
       setIsWatchIcon(false);
@@ -287,7 +289,7 @@ function WishTracker({ userID }) {
   return (
     <div className="wishpage-container">
       {/* Left Sidebar Navigation */}
-      <GenshinSidebar activeTab={'Wish Tracker'} />
+      <StarRailSidebar activeTab={'Warp Tracker'} />
 
       {/* Main Content */}
       <div className="content">
@@ -334,9 +336,7 @@ function WishTracker({ userID }) {
             <button
               className="genshin-wish-searcher-explorer-button no-selection"
               onClick={handleWatchListClick}
-              disabled={
-                !watchList || watchList.length === 0
-              }
+              disabled={!watchList || watchList.length === 0}
               title={
                 !watchList || watchList.length === 0
                   ? 'No items in the watchlist'
@@ -422,7 +422,9 @@ function WishTracker({ userID }) {
               >
                 UID: {userGameId}
               </h3>
-              {generateButtonsGrid()}
+              <div className="starrail-button-containers">
+                {generateButtonsGrid()}
+              </div>
             </div>
             <div class="wish-bottom-left">
               {filteredItems.length > 0 && (

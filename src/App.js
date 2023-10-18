@@ -8,14 +8,19 @@ import {
 import './App.css';
 import * as routePaths from './routePaths';
 import supabase from './Pages/Supabase';
+import LoginPage from './Pages/LoginPage';
+import RegisterPage from './Pages/RegistrationPage';
 import LandingPage from './Pages/LandingPage.jsx';
 import ParticlesBackground from './Pages/ParticlesBackground.js';
+
 import GenshinHomePage from './Pages/Genshin/HomePage/homepage.jsx';
 import GenshinWishTrackerPage from './Pages/Genshin/WishTracker/wishtracker';
 import GeshinImportWish from './Pages/Genshin/WishTracker/importwish';
 import GenshinTimeLine from './Pages/Genshin/TimeLine/timeline';
-import LoginPage from './Pages/LoginPage';
-import RegisterPage from './Pages/RegistrationPage';
+
+import StarRailHomePage from './Pages/StarRail/HomePage/homepage.jsx';
+import StarRailWishTrackerPage from './Pages/StarRail/WarpTracker/warptracker';
+import StarRailImportWish from './Pages/StarRail/WarpTracker/importwarp';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -53,7 +58,14 @@ function App() {
 
   // If it's a mobile device, you can redirect to a mobile-specific route or show a message
   if (isMobile) {
-    return <div> <span style={{color:'white', fontWeight:'bold'}}>This website is not accessible on mobile devices.</span></div>;
+    return (
+      <div>
+        {' '}
+        <span style={{ color: 'white', fontWeight: 'bold' }}>
+          This website is not accessible on mobile devices.
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -96,6 +108,18 @@ function App() {
               <Route
                 path={routePaths.HOME_PATH}
                 element={<LandingPage />}
+              />
+              <Route
+                path={routePaths.STARRAIL_HOME_PATH}
+                element={<StarRailHomePage />}
+              />
+              <Route
+                path={routePaths.STARRAIL_WISH_TRACKER_PATH}
+                element={<StarRailWishTrackerPage userID={userID} />}
+              />
+              <Route
+                path={routePaths.STARRAIL_WISH_TRACKER_IMPORT_PATH}
+                element={<StarRailImportWish userID={userID} />}
               />
             </>
           ) : (

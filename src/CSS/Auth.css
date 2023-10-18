@@ -80,3 +80,26 @@
 .auth-link:hover {
   text-decoration: underline;
 }
+
+.discord-login-button{
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #5865f2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.discord-login-button:hover {
+  background-color: rgb(42, 57, 103);
+}
+
+.discord-login-text{
+  margin-left: 10px;
+}
