@@ -174,7 +174,7 @@ function WishTracker({ userID }) {
       imageUrl: banner3,
       text: 'Light Cone',
       onClick: () => {
-        setBannerFilter('weapon');
+        setBannerFilter('light cone');
         handleFilter('Weapon Event Wish');
       },
     },
