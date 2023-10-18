@@ -62,7 +62,7 @@ const ImportWish = ({ userID }) => {
           result.isConfirmed &&
           (response === 'newData' || response === 'noNewData')
         ) {
-          navigate('/genshin/wish_tracker');
+          navigate('/starrail/warp_tracker');
         }
       });
     } catch (error) {
