@@ -40,7 +40,7 @@ function WishTracker({ userID }) {
         },
         body: JSON.stringify({ userGameId: userID, watchList: watchList }),
       };
-      const url = `${API_URL}api/genshin-draw-watchlist-update`;
+      const url = `${API_URL}api/starrail-draw-watchlist-update`;
 
       try {
         await fetch(url, requestOptions);
@@ -54,19 +54,19 @@ function WishTracker({ userID }) {
   async function getWatchList() {
     try {
       const response = await fetch(
-        `${API_URL}api/genshin-draw-watchlist-get?userGameId=${userGameId}`
+        `${API_URL}api/starrail-draw-watchlist-get?userGameId=${userGameId}`
       );
       const data = await response.json();
       console.log(data);
       if (data.error) {
         setWatchList([]);
         setWatchListOriginal([]);
-      } else if (data.Genshin_Watch === null) {
+      } else if (data.StarRail_Watch === null) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
-        setWatchList(data.Genshin_Watch);
-        setWatchListOriginal(data.Genshin_Watch);
+        setWatchList(data.StarRail_Watch);
+        setWatchListOriginal(data.StarRail_Watch);
       }
     } catch (error) {
       console.error('Error fetching API usage data:', error);

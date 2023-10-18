@@ -1400,7 +1400,7 @@ app.get('/api/starrail-draw-watchlist-get', async (req, res) => {
         UID: userGameId,
       },
       select: {
-        Genshin_Watch: true,
+        StarRail_Watch: true,
       },
     });
     if (!data) {
@@ -1426,7 +1426,7 @@ app.post('/api/starrail-draw-watchlist-update', async (req, res) => {
         UID: userGameId,
       },
       data: {
-        Genshin_Watch: watchList,
+        StarRail_Watch: watchList,
       },
     });
     if (!data) {

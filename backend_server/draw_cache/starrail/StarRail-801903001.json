@@ -1,5 +1,1274 @@
 [
   {
+    "DrawID": "1697501400000320001",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1222
+  },
+  {
+    "DrawID": "1697501400000319901",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Make the World Clamor",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1221,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1697501400000319801",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1220
+  },
+  {
+    "DrawID": "1697501400000319701",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Collapsing Sky",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1219
+  },
+  {
+    "DrawID": "1697501400000319601",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1218
+  },
+  {
+    "DrawID": "1697501400000319501",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1217
+  },
+  {
+    "DrawID": "1697501400000319401",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Fine Fruit",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1216
+  },
+  {
+    "DrawID": "1697501400000319301",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "I Shall Be My Own Sword",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "5",
+    "drawNumber": 1215,
+    "rarity5Pity": 66
+  },
+  {
+    "DrawID": "1697501400000319201",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1214
+  },
+  {
+    "DrawID": "1697501400000319101",
+    "DrawTime": "2023-10-17T08:47:39.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1213,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1697321400000003701",
+    "DrawTime": "2023-10-15T06:00:40.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1212
+  },
+  {
+    "DrawID": "1697321400000001401",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1211
+  },
+  {
+    "DrawID": "1697321400000001301",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Collapsing Sky",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1210
+  },
+  {
+    "DrawID": "1697321400000001201",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Mutual Demise",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1209
+  },
+  {
+    "DrawID": "1697321400000001101",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Eyes of the Prey",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1208,
+    "rarity4Pity": 2
+  },
+  {
+    "DrawID": "1697321400000001001",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Meshing Cogs",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1207
+  },
+  {
+    "DrawID": "1697321400000000901",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Make the World Clamor",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1206,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1697321400000000801",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Loop",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1205
+  },
+  {
+    "DrawID": "1697321400000000701",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1204
+  },
+  {
+    "DrawID": "1697321400000000601",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Sagacity",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1203
+  },
+  {
+    "DrawID": "1697321400000000501",
+    "DrawTime": "2023-10-15T06:00:24.000Z",
+    "Item_Name": "Shattered Home",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1202
+  },
+  {
+    "DrawID": "1697184600000230201",
+    "DrawTime": "2023-10-13T16:24:23.000Z",
+    "Item_Name": "Eyes of the Prey",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1201,
+    "rarity4Pity": 4
+  },
+  {
+    "DrawID": "1697181000000338201",
+    "DrawTime": "2023-10-13T15:31:51.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1200
+  },
+  {
+    "DrawID": "1697181000000337701",
+    "DrawTime": "2023-10-13T15:31:44.000Z",
+    "Item_Name": "Data Bank",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1199
+  },
+  {
+    "DrawID": "1697181000000309601",
+    "DrawTime": "2023-10-13T15:27:17.000Z",
+    "Item_Name": "Darting Arrow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1198
+  },
+  {
+    "DrawID": "1697181000000309201",
+    "DrawTime": "2023-10-13T15:27:04.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1197,
+    "rarity4Pity": 2
+  },
+  {
+    "DrawID": "1697181000000308901",
+    "DrawTime": "2023-10-13T15:26:58.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1196
+  },
+  {
+    "DrawID": "1697181000000307801",
+    "DrawTime": "2023-10-13T15:26:39.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1195,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1697181000000299601",
+    "DrawTime": "2023-10-13T15:25:41.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1194
+  },
+  {
+    "DrawID": "1697181000000295601",
+    "DrawTime": "2023-10-13T15:25:23.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1193
+  },
+  {
+    "DrawID": "1697181000000293801",
+    "DrawTime": "2023-10-13T15:25:15.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1192
+  },
+  {
+    "DrawID": "1697134200000169901",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1191
+  },
+  {
+    "DrawID": "1697134200000169801",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Meshing Cogs",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1190
+  },
+  {
+    "DrawID": "1697134200000169701",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1189
+  },
+  {
+    "DrawID": "1697134200000169601",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1188
+  },
+  {
+    "DrawID": "1697134200000169501",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1187
+  },
+  {
+    "DrawID": "1697134200000169401",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1186
+  },
+  {
+    "DrawID": "1697134200000169301",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1185
+  },
+  {
+    "DrawID": "1697134200000169201",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1184
+  },
+  {
+    "DrawID": "1697134200000169101",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Tingyun",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1183,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1697134200000169001",
+    "DrawTime": "2023-10-13T02:26:19.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1182
+  },
+  {
+    "DrawID": "1697134200000146401",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1181
+  },
+  {
+    "DrawID": "1697134200000146301",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1180
+  },
+  {
+    "DrawID": "1697134200000146201",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Sagacity",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1179
+  },
+  {
+    "DrawID": "1697134200000146101",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Data Bank",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1178
+  },
+  {
+    "DrawID": "1697134200000146001",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1177
+  },
+  {
+    "DrawID": "1697134200000145901",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Sampo",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1176,
+    "rarity4Pity": 4
+  },
+  {
+    "DrawID": "1697134200000145801",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1175
+  },
+  {
+    "DrawID": "1697134200000145701",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1174
+  },
+  {
+    "DrawID": "1697134200000145601",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1173
+  },
+  {
+    "DrawID": "1697134200000145501",
+    "DrawTime": "2023-10-13T02:21:57.000Z",
+    "Item_Name": "Eyes of the Prey",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1172,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1697134200000145101",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Mediation",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1171
+  },
+  {
+    "DrawID": "1697134200000145001",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1170
+  },
+  {
+    "DrawID": "1697134200000144901",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Loop",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1169
+  },
+  {
+    "DrawID": "1697134200000144801",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Mediation",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1168
+  },
+  {
+    "DrawID": "1697134200000144701",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Make the World Clamor",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1167,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1697134200000144601",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1166
+  },
+  {
+    "DrawID": "1697134200000144501",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1165
+  },
+  {
+    "DrawID": "1697134200000144401",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1164
+  },
+  {
+    "DrawID": "1697134200000144301",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1163
+  },
+  {
+    "DrawID": "1697134200000144201",
+    "DrawTime": "2023-10-13T02:21:46.000Z",
+    "Item_Name": "Loop",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1162
+  },
+  {
+    "DrawID": "1697134200000143801",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Darting Arrow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1161
+  },
+  {
+    "DrawID": "1697134200000143701",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1160
+  },
+  {
+    "DrawID": "1697134200000143601",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1159,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1697134200000143501",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1158
+  },
+  {
+    "DrawID": "1697134200000143401",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1157
+  },
+  {
+    "DrawID": "1697134200000143301",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1156
+  },
+  {
+    "DrawID": "1697134200000143201",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1155
+  },
+  {
+    "DrawID": "1697134200000143101",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Loop",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1154
+  },
+  {
+    "DrawID": "1697134200000143001",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Sagacity",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1153
+  },
+  {
+    "DrawID": "1697134200000142901",
+    "DrawTime": "2023-10-13T02:21:22.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1152
+  },
+  {
+    "DrawID": "1697134200000141701",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1151,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1697134200000141601",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Loop",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1150
+  },
+  {
+    "DrawID": "1697134200000141501",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1149
+  },
+  {
+    "DrawID": "1697134200000141401",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1148
+  },
+  {
+    "DrawID": "1697134200000141301",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Collapsing Sky",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1147
+  },
+  {
+    "DrawID": "1697134200000141201",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Darting Arrow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1146
+  },
+  {
+    "DrawID": "1697134200000141101",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1145
+  },
+  {
+    "DrawID": "1697134200000141001",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1144
+  },
+  {
+    "DrawID": "1697134200000140901",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Asta",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1143,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1697134200000140801",
+    "DrawTime": "2023-10-13T02:21:12.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1142
+  },
+  {
+    "DrawID": "1697134200000137601",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Multiplication",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1141
+  },
+  {
+    "DrawID": "1697134200000137501",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1140
+  },
+  {
+    "DrawID": "1697134200000137401",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "But the Battle Isn't Over",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "5",
+    "drawNumber": 1139,
+    "rarity5Pity": 8
+  },
+  {
+    "DrawID": "1697134200000137301",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1138
+  },
+  {
+    "DrawID": "1697134200000137201",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Fine Fruit",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1137
+  },
+  {
+    "DrawID": "1697134200000137101",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Adversarial",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1136
+  },
+  {
+    "DrawID": "1697134200000137001",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1135
+  },
+  {
+    "DrawID": "1697134200000136901",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Memories of the Past",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1134,
+    "rarity4Pity": 1
+  },
+  {
+    "DrawID": "1697134200000136801",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Eyes of the Prey",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "4",
+    "drawNumber": 1133,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1697134200000136701",
+    "DrawTime": "2023-10-13T02:20:01.000Z",
+    "Item_Name": "Darting Arrow",
+    "DrawType": "Light Cone Warp",
+    "Rarity": "3",
+    "drawNumber": 1132
+  },
+  {
+    "DrawID": "1697134200000017801",
+    "DrawTime": "2023-10-13T02:02:05.000Z",
+    "Item_Name": "Jingliu",
+    "DrawType": "Character Warp",
+    "Rarity": "5",
+    "drawNumber": 1131,
+    "rarity5Pity": 76
+  },
+  {
+    "DrawID": "1697134200000017601",
+    "DrawTime": "2023-10-13T02:02:00.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1130
+  },
+  {
+    "DrawID": "1697134200000015901",
+    "DrawTime": "2023-10-13T02:01:50.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1129
+  },
+  {
+    "DrawID": "1697134200000015701",
+    "DrawTime": "2023-10-13T02:01:45.000Z",
+    "Item_Name": "Tingyun",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1128,
+    "rarity4Pity": 1
+  },
+  {
+    "DrawID": "1697055000000058601",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Only Silence Remains",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1127,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1697055000000058501",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1126
+  },
+  {
+    "DrawID": "1697055000000058401",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Shattered Home",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1125
+  },
+  {
+    "DrawID": "1697055000000058301",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1124
+  },
+  {
+    "DrawID": "1697055000000058201",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1123
+  },
+  {
+    "DrawID": "1697055000000058101",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1122
+  },
+  {
+    "DrawID": "1697055000000058001",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Shattered Home",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1121
+  },
+  {
+    "DrawID": "1697055000000057901",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1120
+  },
+  {
+    "DrawID": "1697055000000057801",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Mediation",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1119
+  },
+  {
+    "DrawID": "1697055000000057701",
+    "DrawTime": "2023-10-12T04:04:32.000Z",
+    "Item_Name": "Tingyun",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1118,
+    "rarity4Pity": 5
+  },
+  {
+    "DrawID": "1697055000000055401",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1117
+  },
+  {
+    "DrawID": "1697055000000055301",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1116
+  },
+  {
+    "DrawID": "1697055000000055201",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Collapsing Sky",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1115
+  },
+  {
+    "DrawID": "1697055000000055101",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1114
+  },
+  {
+    "DrawID": "1697055000000055001",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Tingyun",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1113,
+    "rarity4Pity": 1
+  },
+  {
+    "DrawID": "1697055000000054901",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Good Night and Sleep Well",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1112,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1697055000000054801",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1111
+  },
+  {
+    "DrawID": "1697055000000054701",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1110
+  },
+  {
+    "DrawID": "1697055000000054601",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1109
+  },
+  {
+    "DrawID": "1697055000000054501",
+    "DrawTime": "2023-10-12T04:04:14.000Z",
+    "Item_Name": "Cornucopia",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1108
+  },
+  {
+    "DrawID": "1697004600003086801",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Sagacity",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1107
+  },
+  {
+    "DrawID": "1697004600003086701",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1106
+  },
+  {
+    "DrawID": "1697004600003086601",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1105
+  },
+  {
+    "DrawID": "1697004600003086501",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1104
+  },
+  {
+    "DrawID": "1697004600003086401",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Darting Arrow",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1103
+  },
+  {
+    "DrawID": "1697004600003086301",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Qingque",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1102,
+    "rarity4Pity": 4
+  },
+  {
+    "DrawID": "1697004600003086201",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Data Bank",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1101
+  },
+  {
+    "DrawID": "1697004600003086101",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1100
+  },
+  {
+    "DrawID": "1697004600003086001",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Void",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1099
+  },
+  {
+    "DrawID": "1697004600003085901",
+    "DrawTime": "2023-10-11T14:49:03.000Z",
+    "Item_Name": "Day One of My New Life",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1098,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1697004600003078501",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1097
+  },
+  {
+    "DrawID": "1697004600003078401",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1096
+  },
+  {
+    "DrawID": "1697004600003078301",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Meshing Cogs",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1095
+  },
+  {
+    "DrawID": "1697004600003078201",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Arrows",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1094
+  },
+  {
+    "DrawID": "1697004600003078101",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Data Bank",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1093
+  },
+  {
+    "DrawID": "1697004600003078001",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1092
+  },
+  {
+    "DrawID": "1697004600003077901",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1091
+  },
+  {
+    "DrawID": "1697004600003077801",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Amber",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1090
+  },
+  {
+    "DrawID": "1697004600003077701",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1089
+  },
+  {
+    "DrawID": "1697004600003077601",
+    "DrawTime": "2023-10-11T14:48:55.000Z",
+    "Item_Name": "Sampo",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1088,
+    "rarity4Pity": 9
+  },
+  {
+    "DrawID": "1697004600003073301",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Data Bank",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1087
+  },
+  {
+    "DrawID": "1697004600003073201",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1086
+  },
+  {
+    "DrawID": "1697004600003073101",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1085
+  },
+  {
+    "DrawID": "1697004600003073001",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Pioneering",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1084
+  },
+  {
+    "DrawID": "1697004600003072901",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1083
+  },
+  {
+    "DrawID": "1697004600003072801",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Meshing Cogs",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1082
+  },
+  {
+    "DrawID": "1697004600003072701",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Chorus",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1081
+  },
+  {
+    "DrawID": "1697004600003072601",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Mediation",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1080
+  },
+  {
+    "DrawID": "1697004600003072501",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Tingyun",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1079,
+    "rarity4Pity": 10
+  },
+  {
+    "DrawID": "1697004600003072401",
+    "DrawTime": "2023-10-11T14:48:47.000Z",
+    "Item_Name": "Meshing Cogs",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1078
+  },
+  {
+    "DrawID": "1697004600003066501",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Defense",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1077
+  },
+  {
+    "DrawID": "1697004600003066401",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Mutual Demise",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1076
+  },
+  {
+    "DrawID": "1697004600003066301",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Passkey",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1075
+  },
+  {
+    "DrawID": "1697004600003066201",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Collapsing Sky",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1074
+  },
+  {
+    "DrawID": "1697004600003066101",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Fine Fruit",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1073
+  },
+  {
+    "DrawID": "1697004600003066001",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Sagacity",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1072
+  },
+  {
+    "DrawID": "1697004600003065901",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Mutual Demise",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1071
+  },
+  {
+    "DrawID": "1697004600003065801",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Shattered Home",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1070
+  },
+  {
+    "DrawID": "1697004600003065701",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Shared Feeling",
+    "DrawType": "Character Warp",
+    "Rarity": "4",
+    "drawNumber": 1069,
+    "rarity4Pity": 8
+  },
+  {
+    "DrawID": "1697004600003065601",
+    "DrawTime": "2023-10-11T14:48:36.000Z",
+    "Item_Name": "Hidden Shadow",
+    "DrawType": "Character Warp",
+    "Rarity": "3",
+    "drawNumber": 1068
+  },
+  {
     "DrawID": "1696914600000278001",
     "DrawTime": "2023-10-10T05:55:59.000Z",
     "Item_Name": "Pioneering",

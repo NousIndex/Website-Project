@@ -144,7 +144,14 @@
   border-radius: 50%;
   vertical-align: middle;
   display: inline-block;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
+
+.table-item-icon:hover {
+  transform: scale(2);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 /* Add CSS classes for sorted columns */
 .genshin-draw-table-sorted-asc {
   box-shadow: 0px 7px 0px 0px #ad00c0 inset;
