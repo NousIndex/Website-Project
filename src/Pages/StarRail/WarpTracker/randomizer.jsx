@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './CSS/randomizer.css';
 
 const RandomiserModal = ({
   isOpen,

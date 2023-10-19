@@ -16,9 +16,10 @@
 .random-modal-content {
   position: absolute;
   top: 50%;
-  left: 35%;
+  left: 20%;
   background-color: #080016; /* White background for the modal content */
   padding: 10px 50px;
+  width: 55%;
   padding-bottom: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.6); /* Box shadow for the modal */
@@ -36,10 +37,158 @@
   cursor: pointer;
   z-index: 1010;
 }
+
+.random-modal-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 10px;
+  text-align: center;
+}
+
 .random-modal-content-container {
   display: flex;
   max-width: 100%;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+.random-modal-selection-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background-color: #080016;
+  box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.6);
+}
+
+.random-modal-selection-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 10px;
+  padding: 0 10px;
+  border-radius: 10px;
+}
+
+.random-modal-selection-label {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 10px;
+}
+
+.random-modal-select {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #080016;
+  box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.6);
+}
+
+.random-modal-randomize-button {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #080016;
+  box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.9);
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.random-modal-randomize-button:hover {
+  background-color: rgba(56, 0, 153, 0.9);
+  color: #fff;
+}
+.random-result-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background-color: #080016;
+  box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.6);
+}
+
+.random-result-container > div {
+  flex: 0 1 calc(25% - 20px); /* 25% of the container width, minus margin */
+  margin: 10px; /* Adjust margin as needed */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.random-character-inventory-div {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  margin-top: 0.5%;
+  margin-bottom: 1%;
+  position: relative;
+  transition: opacity 0.5s ease;
+}
+
+
+.random-character-inventory-image {
+  width: 200px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid #080016;
+  transition: border 0.5s ease;
+}
+
+.random-character-inventory-image:hover {
+  border: none;
+  border: 2px solid #ccc;
+}
+
+.random-character-inventory-name {
+  position: absolute;
+  bottom: -11%;
+  left: -7%;
+  right: 0;
+  padding: 5px;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  font-size: clamp(2px, 1.5vw, 20px);
+}
+.random-character-inventory-rarity {
+  position: absolute;
+  bottom: 5%;
+  left: 27%;
+  background-color: #080016;
+  width: 40%;
+}
+
+.random-character-inventory-element {
+  position: absolute;
+  background-color: #080016;
+  border-radius: 50%;
+  top: 6%;
+  left: 6%;
+  width: 20%;
+}
+
+.random-character-inventory-weapon {
+  position: absolute;
+  background-color: #080016;
+  border-radius: 50%;
+  top: 29%;
+  left: 6%;
+  width: 20%;
 }

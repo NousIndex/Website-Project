@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import randomIcon from '../../../assets/Icons/random_icon.webp';
+import RandomiserModal from './randomizer';
 import './CSS/warpinventory.css';
 import 'animate.css/animate.min.css';
 
@@ -6,6 +8,8 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [activeTab, setActiveTab] = useState('Character'); // Initialize with 'Character'
+  const [isRandomModalOpen, setIsRandomModalOpen] = useState(false);
+
   const weaponIgnoreList = [
     'Before the Tutorial Mission Starts',
     'On the Fall of an Aeon',
@@ -203,6 +207,13 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const switchTab = (tab) => {
     setActiveTab(tab);
   };
+  const openRandomModal = () => {
+    setIsRandomModalOpen(true);
+  };
+
+  const closeRandomModal = () => {
+    setIsRandomModalOpen(false);
+  };
 
   return (
     <div>
@@ -230,7 +241,20 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
               >
                 Warp Inventory
+                <button
+                  className="team-randomiser-button"
+                  onClick={openRandomModal}
+                >
+                  <img src={randomIcon} />
+                </button>
               </h3>
+              <RandomiserModal
+                isOpen={isRandomModalOpen}
+                onClose={closeRandomModal}
+                charaSet={itemsData.characters}
+                ownedSet={itemCounter}
+                itemIcons={itemIcons}
+              />
               <div className="draw-tab-container">
                 <div
                   className={`draw-tab-container-tab ${
