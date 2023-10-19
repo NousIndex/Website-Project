@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   if (!game) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  if (game !== 'genshin') {
+  if (game === 'genshin') {
     // console.log('Starting Genshin Database API');
     // Define the URL of the MediaWiki API
     const apiUrl = 'https://genshin-impact.fandom.com/api.php';
