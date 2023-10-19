@@ -41,7 +41,7 @@ function WishTracker({ userID }) {
         },
         body: JSON.stringify({ userGameId: userID, watchList: watchList }),
       };
-      const url = `${API_URL}api/genshin-draw-watchlist-update`;
+      const url = `${API_URL}api/draw-watchlist-update?game=genshin`;
 
       try {
         await fetch(url, requestOptions);

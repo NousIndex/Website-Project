@@ -116,7 +116,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData3() {
       try {
-        const response = await fetch(`${API_URL}api/starrail-draw-database`);
+        const response = await fetch(`${API_URL}api/draw-database?game=starrail`);
         const data = await response.json();
         setItemsData(data);
       } catch (error) {
