@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
   const game = req.query.game;
+  console.log(game);
   if (!game) {
     return res.status(400).json({ error: 'Invalid request' });
   }
