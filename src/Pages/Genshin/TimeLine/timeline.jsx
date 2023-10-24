@@ -16,7 +16,7 @@ function ImageGallery() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `${API_URL}api/starrail-banner-get`
+          `${API_URL}api/misc-commands?scrapeCommand=starrailbanner`
         );
         const data = await response.json();
         console.log(data);
