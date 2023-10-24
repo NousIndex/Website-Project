@@ -23,7 +23,7 @@ function HomePage() {
 
     async function fetchData() {
       try {
-        const response = await fetch(`${API_URL}api/starrail-banner-get`);
+        const response = await fetch(`${API_URL}api/misc-commands?scrapeCommand=starrailbanner`);
         const data = await response.json();
 
         newBannerEndDate = new Date(data.date.split(" - ")[1] + ' 14:59:59').getTime();
@@ -75,39 +75,6 @@ function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  const [codeItems, setCodeItems] = useState([
-    {
-      code: 'EAFVJV4YGTR9',
-      expiry: '',
-    },
-    {
-      code: 'RQWP3ULZZ8VD',
-      expiry: '',
-    },
-    {
-      code: 'GDAHKD5HYTN5',
-      expiry: '',
-    },
-    {
-      code: 'WEQP3D5ZHRD9',
-      expiry: 'NEW',
-    },
-    {
-      code: 'GENSHINIMPACTRIVALS23',
-      expiry: '00D:00H:59M:59S',
-    },
-  ]);
-
-  const handleAddItem = () => {
-    const newItem = {
-      code: 'NEWCODE123',
-      expiry: '10D:5H:30M:15S',
-    };
-
-    // Update codeItems using the setCodeItems function
-    setCodeItems((prevCodeItems) => [...prevCodeItems, newItem]);
-  };
-
   return (
     <div className="homepage-container">
       {/* Left Sidebar Navigation */}
@@ -149,7 +116,7 @@ function HomePage() {
           <div class="home-right-grid-container">
             <div class="home-top-right">EVENTS</div>
             <div class="home-bottom-right">
-              <CodeRedeem items={codeItems} />
+              <CodeRedeem/>
             </div>
           </div>
         </div>

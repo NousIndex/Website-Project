@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './CSS/coderedeem.css'; // Import your custom CSS file
+import { API_URL } from '../../../API_Config.js';
 
-const StringArrayTable = ({ items }) => {
+const StringArrayTable = () => {
+  useEffect(() => {
+    fetchCodeData();
+  }, []);
+
+  const [codeItems, setCodeItems] = useState([]);
+
+  async function fetchCodeData() {
+    try {
+      const response = await fetch(
+        `${API_URL}api/misc-commands?scrapeCommand=genshincode`
+      );
+      const data = await response.json();
+      setCodeItems(data);
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
+
   // Check if dataArray is empty or undefined
-  if (!items || items.length === 0) {
+  if (!codeItems || codeItems.length === 0) {
     return <p>No data available.</p>;
   }
 
@@ -18,10 +37,15 @@ const StringArrayTable = ({ items }) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
+            {codeItems.map((item, index) => (
               <tr key={index}>
                 <td className="code-table-text">
-                  <a className="code-redeem-text" href={`https://genshin.hoyoverse.com/en/gift?code=${item.code}`} target="_blank" title={item.reward}>
+                  <a
+                    className="code-redeem-text"
+                    href={`https://genshin.hoyoverse.com/en/gift?code=${item.code}`}
+                    target="_blank"
+                    title={item.reward}
+                  >
                     {item.code}
                   </a>
                 </td>
@@ -38,6 +62,6 @@ const StringArrayTable = ({ items }) => {
 
 export default StringArrayTable;
 
-// https://genshin.hoyoverse.com/en/gift?code= 
+// https://genshin.hoyoverse.com/en/gift?code=
 // {/* Zero width character */}
 // <td className="code-table-text">&#8203;</td>{' '}

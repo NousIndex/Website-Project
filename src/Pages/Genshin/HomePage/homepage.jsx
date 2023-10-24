@@ -163,7 +163,7 @@ function HomePage() {
           <div class="home-right-grid-container">
             <div class="home-top-right">EVENTS</div>
             <div class="home-bottom-right">
-              <CodeRedeem items={codeItems} />
+              <CodeRedeem/>
             </div>
           </div>
         </div>
