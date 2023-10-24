@@ -41,7 +41,7 @@ function WishTracker({ userID }) {
         },
         body: JSON.stringify({ userGameId: userID, watchList: watchList }),
       };
-      const url = `${API_URL}api/genshin-draw-watchlist-update`;
+      const url = `${API_URL}api/draw-watchlist?game=genshin&command=update`;
 
       try {
         await fetch(url, requestOptions);
@@ -55,7 +55,7 @@ function WishTracker({ userID }) {
   async function getWatchList() {
     try {
       const response = await fetch(
-        `${API_URL}api/genshin-draw-watchlist-get?userGameId=${userGameId}`
+        `${API_URL}api/draw-watchlist?game=genshin&command=get&userGameId=${userGameId}`
       );
       const data = await response.json();
       console.log(data);
@@ -101,7 +101,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData2() {
       try {
-        const response = await fetch(`${API_URL}api/genshin-draw-icons`);
+        const response = await fetch(`${API_URL}api/draw-icons?game=genshin`);
         const data = await response.json();
         setItemIcons(data);
       } catch (error) {
