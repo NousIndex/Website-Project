@@ -17,12 +17,6 @@
   color: #fff;
 }
 
-.code-table-container {
-  display: flex;
-  background-color: #ff3300;
-  margin-right: 10px;
-}
-
 .code-table {
   background-color: #4f2a00;
   justify-self: center;

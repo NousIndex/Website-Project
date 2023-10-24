@@ -23,11 +23,10 @@ const StringArrayTable = () => {
 
   // Check if dataArray is empty or undefined
   if (!Array.isArray(codeItems) || codeItems.length === 0) {
-    return <p>No data available.</p>;
+    return ;
   }
 
   return (
-    <div className="code-table-container">
       <div className="code-table">
         <table>
           <thead>
@@ -51,7 +50,6 @@ const StringArrayTable = () => {
           </tbody>
         </table>
       </div>
-    </div>
   );
 };
 
