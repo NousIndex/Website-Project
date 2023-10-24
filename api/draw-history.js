@@ -381,5 +381,7 @@ module.exports = async (req, res) => {
       console.error('Error fetching data:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
+  } else {
+    return res.status(400).json({ error: 'Invalid request' });
   }
 };

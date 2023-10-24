@@ -426,5 +426,7 @@ module.exports = async (req, res) => {
       console.error('Fetch error:', errors);
       return res.json({ message: errors });
     }
+  } else {
+    return res.status(400).json({ error: 'Invalid request' });
   }
 };
