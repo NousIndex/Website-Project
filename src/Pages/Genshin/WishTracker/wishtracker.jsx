@@ -77,7 +77,7 @@ function WishTracker({ userID }) {
   async function fetchData(userGameId) {
     try {
       const response = await fetch(
-        `${API_URL}api/genshin-draw?userGameId=${userGameId}`
+        `${API_URL}api/draw-history?game=genshin&userGameId=${userGameId}`
       );
       const data = await response.json();
       setWishAPIData(data);
