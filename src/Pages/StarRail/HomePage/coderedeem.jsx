@@ -22,7 +22,7 @@ const StringArrayTable = () => {
   }
 
   // Check if dataArray is empty or undefined
-  if (!codeItems || codeItems.length === 0) {
+  if (!Array.isArray(codeItems) || codeItems.length === 0) {
     return <p>No data available.</p>;
   }
 
