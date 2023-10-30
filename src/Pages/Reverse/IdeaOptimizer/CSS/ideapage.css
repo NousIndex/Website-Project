@@ -1,0 +1,37 @@
+.ideagrid-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* This ensures the container covers the entire viewport height */
+}
+
+.ideagrid-grid {
+  display: grid;
+  grid-template-rows: repeat(5, 8vh);
+  gap: 1px;
+}
+
+.row {
+  display: flex;
+}
+
+.ideagrid-cell {
+  width: 8vh;
+  height: 8vh;
+  border: 1px solid #ccc;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.ideagrid-cell.highlighted {
+  background-color: yellow;
+}
+
+.ideagrid-cell:hover{
+    background-color: rgb(255, 255, 149);
+}
+
+
+.ideagrid-cell.highlighted:hover {
+    background-color: yellow;
+  }

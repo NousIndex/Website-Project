@@ -18,3 +18,12 @@ export const STARRAIL_FARM_PATH = '/starrail/farmable';
 export const STARRAIL_TIMELINE_PATH = '/starrail/timeline';
 export const STARRAIL_DATABASE_PATH = '/starrail/database';
 export const STARRAIL_ACHIEVEMENTS_PATH = '/starrail/achievements';
+
+export const REVERSE_HOME_PATH = '/reverse1999';
+export const REVERSE_WISH_TRACKER_PATH = '/reverse1999/summon_tracker';
+export const REVERSE_WISH_TRACKER_IMPORT_PATH = '/reverse1999/summon_tracker/import';
+export const REVERSE_FARM_PATH = '/reverse1999/farmable';
+export const REVERSE_TIMELINE_PATH = '/reverse1999/timeline';
+export const REVERSE_DATABASE_PATH = '/reverse1999/database';
+export const REVERSE_ACHIEVEMENTS_PATH = '/reverse1999/achievements';
+export const REGISTER_PATH_IDEA_OPTIMIZER = '/reverse1999/idea_optimizer';

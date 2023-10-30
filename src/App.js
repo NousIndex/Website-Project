@@ -22,6 +22,11 @@ import StarRailHomePage from './Pages/StarRail/HomePage/homepage.jsx';
 import StarRailWishTrackerPage from './Pages/StarRail/WarpTracker/warptracker';
 import StarRailImportWish from './Pages/StarRail/WarpTracker/importwarp';
 
+import ReverseHomePage from './Pages/Reverse/HomePage/homepage.jsx';
+import ReverseWishTrackerPage from './Pages/Reverse/SummonTracker/summontracker';
+import ReverseImportWish from './Pages/Reverse/SummonTracker/importsummon';
+import ReverseIdeaPage from './Pages/Reverse/IdeaOptimizer/ideapage';
+
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userID, setUserID] = useState('');
@@ -120,6 +125,22 @@ function App() {
               <Route
                 path={routePaths.STARRAIL_WISH_TRACKER_IMPORT_PATH}
                 element={<StarRailImportWish userID={userID} />}
+              />
+              <Route
+                path={routePaths.REVERSE_HOME_PATH}
+                element={<ReverseHomePage />}
+              />
+              <Route
+                path={routePaths.REVERSE_WISH_TRACKER_PATH}
+                element={<ReverseWishTrackerPage userID={userID} />}
+              />
+              <Route
+                path={routePaths.REVERSE_WISH_TRACKER_IMPORT_PATH}
+                element={<ReverseImportWish userID={userID} />}
+              />
+              <Route
+                path={routePaths.REGISTER_PATH_IDEA_OPTIMIZER}
+                element={<ReverseIdeaPage />}
               />
             </>
           ) : (

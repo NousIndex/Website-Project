@@ -3,6 +3,7 @@ import '../fonts/fonts.css';
 import '../CSS/LandingPage.css';
 // import genshinImage from '../assets/landing_page/genshin.jpg';
 import starrailImage from '../assets/landing_page/starrail.webp';
+import reverse1999Image from '../assets/landing_page/reverse1999.webp';
 import { useNavigate } from 'react-router-dom';
 import { extractNewestKeyArt, fetchWebsiteHtml } from '../APIs/webscrapAPI';
 
@@ -54,6 +55,12 @@ const LandingPage = () => {
         navigate('/starrail');
       },
     },
+    // {
+    //   imageUrl: reverse1999Image,
+    //   onClick: () => {
+    //     navigate('/reverse1999');
+    //   },
+    // },
   ];
 
   // Function to generate the HTML for the buttons in a grid format

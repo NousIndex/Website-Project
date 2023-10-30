@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ExpandableCarousel from '../../components/ExpandableCarousel';
-import StarRailSidebar from '../../components/StarRailSidebar';
+import Reverse1999Sidebar from '../../components/Reverse1999Sidebar';
 import MOCTimer from './moctimer';
 import Birthday from './birthday';
 import CodeRedeem from './coderedeem';
@@ -22,13 +22,16 @@ function HomePage() {
 
     async function fetchData() {
       try {
-        const response = await fetch(`${API_URL}api/misc-commands?scrapeCommand=starrailbanner`);
+        const response = await fetch(
+          `${API_URL}api/misc-commands?scrapeCommand=starrailbanner`
+        );
         const data = await response.json();
 
-        newBannerEndDate = new Date(data.date.split(" - ")[1] + ' 14:59:59').getTime();
+        newBannerEndDate = new Date(
+          data.date.split(' - ')[1] + ' 14:59:59'
+        ).getTime();
         data.urls.forEach((imageUrl, index) => {
-          
-        console.log(imageUrl);
+          console.log(imageUrl);
           const newItem = {
             imageUrl: imageUrl,
             legend: data.date,
@@ -77,12 +80,12 @@ function HomePage() {
   return (
     <div className="homepage-container">
       {/* Left Sidebar Navigation */}
-      <StarRailSidebar activeTab={'Home'} />
+      <Reverse1999Sidebar activeTab={'Home'} />
 
       {/* Main Content */}
       <div className="homepage-content">
         <h1 className="page-main-title">
-          Honkai: Star Rail
+          Reverse: 1999
           <a
             href="https://act.hoyolab.com/bbs/event/signin/hkrpg/index.html?act_id=e202303301540311"
             target="_blank"
@@ -115,7 +118,7 @@ function HomePage() {
           <div class="home-right-grid-container">
             <div class="home-top-right">EVENTS</div>
             <div class="home-bottom-right">
-              <CodeRedeem/>
+              <CodeRedeem />
             </div>
           </div>
         </div>
