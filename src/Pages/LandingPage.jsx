@@ -55,12 +55,12 @@ const LandingPage = () => {
         navigate('/starrail');
       },
     },
-    // {
-    //   imageUrl: reverse1999Image,
-    //   onClick: () => {
-    //     navigate('/reverse1999');
-    //   },
-    // },
+    {
+      imageUrl: reverse1999Image,
+      onClick: () => {
+        navigate('/reverse1999');
+      },
+    },
   ];
 
   // Function to generate the HTML for the buttons in a grid format
