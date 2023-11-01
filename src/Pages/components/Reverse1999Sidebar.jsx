@@ -14,6 +14,13 @@ const GenshinSideBar = ({ activeTab }) => {
         </li>
         <li
           className={`navigation-items ${
+            activeTab === 'Resonate Optimizer' ? 'active' : ''
+          }`}
+        >
+          <a href={routePaths.REGISTER_PATH_RESONATE_OPTIMIZER}>Resonate Optimizer</a>
+        </li>
+        {/* <li
+          className={`navigation-items ${
             activeTab === 'Warp Tracker' ? 'active' : ''
           }`}
         >
@@ -21,41 +28,34 @@ const GenshinSideBar = ({ activeTab }) => {
         </li>
         <li
           className={`navigation-items ${
-            activeTab === 'Resonate Optimizer' ? 'active' : ''
-          }`}
-        >
-          <a href={routePaths.REGISTER_PATH_RESONATE_OPTIMIZER}>Resonate Optimizer</a>
-        </li>
-        <li
-          className={`navigation-items ${
             activeTab === 'Farmable' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.STARRAIL_FARM_PATH}*/>Farmable (WIP)</a>
+          <a href={routePaths.STARRAIL_FARM_PATH}>Farmable (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'TimeLine' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.STARRAIL_TIMELINE_PATH}*/>TimeLine (WIP)</a>
+          <a href={routePaths.STARRAIL_TIMELINE_PATH}>TimeLine (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'Database' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.STARRAIL_DATABASE_PATH}*/>Database (WIP)</a>
+          <a href={routePaths.STARRAIL_DATABASE_PATH}>Database (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'Achievements' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.STARRAIL_ACHIEVEMENTS_PATH}*/>
+          <a href={routePaths.STARRAIL_ACHIEVEMENTS_PATH}>
             Achievements (WIP)
           </a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

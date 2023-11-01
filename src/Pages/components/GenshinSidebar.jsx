@@ -19,36 +19,36 @@ const GenshinSideBar = ({ activeTab }) => {
         >
           <a href={routePaths.GENSHIN_WISH_TRACKER_PATH}>Wish Tracker</a>
         </li>
-        <li
+        {/* <li
           className={`navigation-items ${
             activeTab === 'Farmable' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.GENSHIN_FARM_PATH}*/>Farmable (WIP)</a>
+          <a href={routePaths.GENSHIN_FARM_PATH}>Farmable (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'TimeLine' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.GENSHIN_TIMELINE_PATH}*/>TimeLine (WIP)</a>
+          <a href={routePaths.GENSHIN_TIMELINE_PATH}>TimeLine (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'Database' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.GENSHIN_DATABASE_PATH}*/>Database (WIP)</a>
+          <a href={routePaths.GENSHIN_DATABASE_PATH}>Database (WIP)</a>
         </li>
         <li
           className={`navigation-items ${
             activeTab === 'Achievements' ? 'active' : ''
           }`}
         >
-          <a /*href={routePaths.GENSHIN_ACHIEVEMENTS_PATH}*/>
+          <a href={routePaths.GENSHIN_ACHIEVEMENTS_PATH}>
             Achievements (WIP)
           </a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
