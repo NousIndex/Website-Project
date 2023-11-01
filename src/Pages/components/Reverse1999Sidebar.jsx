@@ -21,10 +21,10 @@ const GenshinSideBar = ({ activeTab }) => {
         </li>
         <li
           className={`navigation-items ${
-            activeTab === 'Idea Optimizer' ? 'active' : ''
+            activeTab === 'Resonate Optimizer' ? 'active' : ''
           }`}
         >
-          <a href={routePaths.REGISTER_PATH_IDEA_OPTIMIZER}>Idea Optimizer</a>
+          <a href={routePaths.REGISTER_PATH_RESONATE_OPTIMIZER}>Resonate Optimizer</a>
         </li>
         <li
           className={`navigation-items ${

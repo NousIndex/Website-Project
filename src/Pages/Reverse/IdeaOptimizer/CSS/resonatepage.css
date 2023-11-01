@@ -1,0 +1,132 @@
+.ideagrid-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ideagrid-grid {
+  display: grid;
+  grid-template-rows: repeat(5, 8vh);
+  gap: 1px;
+}
+
+.row {
+  display: flex;
+}
+
+.ideagrid-cell {
+  width: 8vh;
+  height: 8vh;
+  border: 1px solid #ccc;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.ideagrid-cell.highlighted {
+  background-color: yellow;
+}
+
+.ideagrid-cell:hover {
+  background-color: rgb(255, 255, 149);
+}
+
+.ideagrid-cell.highlighted:hover {
+  background-color: yellow;
+}
+
+.ideagrid-display-cell {
+  width: 2vh;
+  height: 2vh;
+  transition: background-color 0.3s ease;
+}
+
+.ideagrid-display-cell.highlighted {
+  background-color: yellow;
+}
+
+.ideagrid-display-grid {
+  display: grid;
+  border: 2px solid #ccc;
+  margin: 0.5vh;
+  transition: border 0.3s ease;
+}
+
+.ideagrid-matrix-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.ideagrid-display-grid:hover {
+  border: 2px solid red;
+}
+
+.idea-input-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 3vw;
+  gap: 10px;
+}
+
+.idea-input-text-container div {
+  display: flex;
+  align-items: center;
+}
+
+.idea-input-text-container label {
+  width: 125px; /* Adjust the width to your preference */
+  text-align: right;
+  margin-right: 10px;
+}
+
+.idea-input-text-container input {
+  flex: 1;
+  padding: 5px;
+}
+
+.idea-input-title {
+  color: white;
+}
+
+.ideagrid-input-gridsize {
+  width: 20px; /* Adjust the width to your preference */
+  text-align: center;
+}
+
+.ideagrid-cell-gen-grid {
+  width: 8vh;
+  height: 8vh;
+  border: 1px solid #ccc;
+  background-color: white;
+  transition: background-color 1s ease;
+}
+
+/* CSS for random colors for groups 'a' to 'z */
+.ideagrid-cell-gen-grid-a { background-color: #3B77B5; }
+.ideagrid-cell-gen-grid-b { background-color: #B77B3B; }
+.ideagrid-cell-gen-grid-c { background-color: #5A5B91; }
+.ideagrid-cell-gen-grid-d { background-color: #E55A5A; }
+.ideagrid-cell-gen-grid-e { background-color: #65C54F; }
+.ideagrid-cell-gen-grid-f { background-color: #DB65C5; }
+.ideagrid-cell-gen-grid-g { background-color: #D3D33B; }
+.ideagrid-cell-gen-grid-h { background-color: #4FD05A; }
+.ideagrid-cell-gen-grid-i { background-color: #C0A048; }
+.ideagrid-cell-gen-grid-j { background-color: #574FD0; }
+.ideagrid-cell-gen-grid-k { background-color: #5ECCD3; }
+.ideagrid-cell-gen-grid-l { background-color: #D35ECC; }
+.ideagrid-cell-gen-grid-m { background-color: #D35465; }
+.ideagrid-cell-gen-grid-n { background-color: #9648C0; }
+.ideagrid-cell-gen-grid-o { background-color: #E9B07B; }
+.ideagrid-cell-gen-grid-p { background-color: #B07BE9; }
+.ideagrid-cell-gen-grid-q { background-color: #D19191; }
+.ideagrid-cell-gen-grid-r { background-color: #91D1D1; }
+.ideagrid-cell-gen-grid-s { background-color: #C1A664; }
+.ideagrid-cell-gen-grid-t { background-color: #64C1A6; }
+.ideagrid-cell-gen-grid-u { background-color: #A6A664; }
+.ideagrid-cell-gen-grid-v { background-color: #648DA6; }
+.ideagrid-cell-gen-grid-w { background-color: #BE648D; }
+.ideagrid-cell-gen-grid-x { background-color: #AF89BE; }
+.ideagrid-cell-gen-grid-y { background-color: #89AF89; }
+.ideagrid-cell-gen-grid-z { background-color: #87A787; }

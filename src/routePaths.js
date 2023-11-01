@@ -26,4 +26,4 @@ export const REVERSE_FARM_PATH = '/reverse1999/farmable';
 export const REVERSE_TIMELINE_PATH = '/reverse1999/timeline';
 export const REVERSE_DATABASE_PATH = '/reverse1999/database';
 export const REVERSE_ACHIEVEMENTS_PATH = '/reverse1999/achievements';
-export const REGISTER_PATH_IDEA_OPTIMIZER = '/reverse1999/idea_optimizer';
+export const REGISTER_PATH_RESONATE_OPTIMIZER = '/reverse1999/resonate_optimizer';

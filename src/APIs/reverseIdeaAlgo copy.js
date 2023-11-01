@@ -1,4 +1,4 @@
-async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
+async function findBestCombination(gridWidth, gridHeight, shapes, numCombinationsToSave) {
   // Sort shapes in descending order of value
   shapes.sort((a, b) => b.value - a.value);
 
@@ -6,6 +6,8 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
     Array(gridWidth).fill(false)
   );
   const topCombinations = [];
+  // Memoization cache to store intermediate results
+  const memoizationCache = new Map();
 
   function containsFalse(array) {
     for (let i = 0; i < array.length; i++) {
@@ -45,10 +47,6 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
     const isHorizontalBar = rows === 1 && cols > 1;
     const isVerticalBar = cols === 1 && rows > 1;
 
-    // if (isHorizontalBar || isVerticalBar) {
-    //   console.log(shape);
-    // }
-
     return isHorizontalBar || isVerticalBar;
   }
 
@@ -63,10 +61,6 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
     if (containsFalse(shape.form)) {
       return false; // object is not a square shape
     }
-
-    // if (rows === cols) {
-    //   console.log(shape);
-    // }
 
     return rows === cols; // If rows and columns are equal, it's a square shape.
   }
@@ -167,27 +161,32 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
     }
     return null;
   }
-
   function backtrack(currentValue, currentCombination) {
     const emptyCell = findNextEmptyCell();
     if (!emptyCell) {
-      if (topCombinations.length < n) {
-        // If the list of top combinations is not full, add the current combination
-        topCombinations.push({
-          value: currentValue,
-          combination: currentCombination.slice(),
-        });
-      } else {
-        // If the list is full, check if the current combination has a higher value than the lowest in the list
-        const lowestTopCombination = topCombinations[0];
-        if (currentValue > lowestTopCombination.value) {
-          // Replace the lowest combination with the current combination
-          topCombinations[0] = {
-            value: currentValue,
-            combination: currentCombination.slice(),
-          };
-          // Sort the list by value in descending order
+      if (currentCombination.length > 0) {
+        const combinationValue = currentCombination.reduce(
+          (acc, shape) => acc + shape.value,
+          0
+        );
+        currentCombination.value = combinationValue;
+
+        if (topCombinations.length < numCombinationsToSave) {
+          topCombinations.push({
+            form: currentCombination,
+            value: combinationValue,
+          });
+        } else {
           topCombinations.sort((a, b) => b.value - a.value);
+          if (
+            combinationValue > topCombinations[topCombinations.length - 1].value
+          ) {
+            topCombinations.pop();
+            topCombinations.push({
+              form: currentCombination,
+              value: combinationValue,
+            });
+          }
         }
       }
       return;
@@ -211,12 +210,7 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
           placeShape(shape, x, y, orientation);
           currentCombination.push({ ...shape, x, y, orientation, amount: 1 });
           shape.amount--;
-          const newState = JSON.stringify(grid); // Convert grid to a string for memoization
-
-          // Check memoization cache for this state (you can include memoization if needed)
-
           backtrack(currentValue + shape.value, currentCombination);
-
           currentCombination.pop();
           shape.amount++;
           removeShape(shape, x, y, orientation);
@@ -226,11 +220,8 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
   }
 
   backtrack(0, []);
-
-  // Extract the top n combinations
-  const topNCombinations = topCombinations.slice(0, n);
-
-  return topNCombinations;
+  topCombinations.sort((a, b) => b.value - a.value);
+  return topCombinations.slice(0, numCombinationsToSave);
 }
 
 async function createGridFromArray(shapeArray, width, height) {
@@ -274,98 +265,21 @@ async function rotateShape(form, times) {
   }
   return rotatedForm;
 }
-// const gridWidth = 6;
-// const gridHeight = 6;
-
-// const shapes = [
-//   { value: 1, form: [[true]], amount: 2 },
-//   {
-//     value: 1.5,
-//     form: [
-//       [true, true],
-//       [true, true],
-//     ],
-//     amount: 2,
-//   },
-//   { value: 1.5, form: [[true, true]], amount: 2 },
-//   { value: 1, form: [[true], [true]], amount: 2 },
-//   { value: 2, form: [[true], [true], [true, true]], amount: 1 },
-//   { value: 1.75, form: [[true], [true, true]], amount: 2 },
-//   {
-//     value: 5,
-//     form: [
-//       [true, true, true],
-//       [false, true, false],
-//       [false, true, false],
-//     ],
-//     amount: 2,
-//   },
-//   {
-//     value: 5,
-//     form: [
-//       [false, true, false],
-//       [true, true, true],
-//       [false, true, false],
-//     ],
-//     amount: 2,
-//   },
-// ];
 
 export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
-  const topCombinations = await findTopNCombinations(
+  const bestCombination = await findBestCombination(
     gridWidth,
     gridHeight,
     shapes,
     5
   );
-
-  const grids = [];
-
-  for (const combination of topCombinations) {
-    const grid = await createGridFromArray(
-      combination.combination,
-      gridWidth,
-      gridHeight
-    );
-    grids.push({value: combination.value, grid: grid});
-  }
-
+  console.log(bestCombination);
   // console.log(bestValue);
+  const grid = await createGridFromArray(
+    bestCombination,
+    gridWidth,
+    gridHeight
+  );
 
-  return grids;
-
-  // bestCombination.forEach((shape) => {
-  //   console.log(shape);
-  // });
-
-  // // console.log('Best value:', bestValue);
-  // // console.log(
-  // //   'Best combination:',
-  // //   bestCombination.map((shape) => shape.value)
-  // // );
-
-  // // Swap the x and y coordinates for each shape in bestCombination
-  // const swappedCombination = bestCombination.map((shape) => ({
-  //   value: shape.value,
-  //   form: shape.form,
-  //   amount: shape.amount,
-  //   x: shape.y, // Swap x and y
-  //   y: shape.x, // Swap x and y
-  //   orientation: shape.orientation,
-  // }));
-
-  // swappedCombination.forEach((shape) => {
-  //   console.log(shape);
-  // });
-
-  // console.log('Best value:', bestValue);
-  // console.log(
-  //   'Best combination:',
-  //   swappedCombination.map((shape) => shape.value)
-  // );
-
-  // // Print the grid
-  // for (let row of grid) {
-  //   console.log(row.join(' '));
-  // }
+  // return { bestValue, grid };
 }
