@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vercel
+backend_server/.env
+src/API_Config.js
