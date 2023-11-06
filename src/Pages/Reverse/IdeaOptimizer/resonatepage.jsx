@@ -74,7 +74,7 @@ function IdeaPage() {
   }, []);
 
   async function fetchResonanceData(characterFind) {
-    console.log(characterFind);
+    // console.log(characterFind);
     try {
       const response = await fetch(
         `${API_URL}api/misc-commands?scrapeCommand=reverse1999resonancesummary&characterFind=${characterFind}`
