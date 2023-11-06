@@ -117,7 +117,9 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData3() {
       try {
-        const response = await fetch(`${API_URL}api/draw-database?game=genshin`);
+        const response = await fetch(
+          `${API_URL}api/draw-database?game=genshin`
+        );
         const data = await response.json();
         setItemsData(data);
       } catch (error) {
@@ -210,7 +212,7 @@ function WishTracker({ userID }) {
   const handleSearch = () => {
     setUserGameId(searchValue);
     setBannerFilter('all');
-    if (watchList.some(item => searchValue in item)) {
+    if (watchList.some((item) => searchValue in item)) {
       setIsWatchIcon(true);
     } else {
       setIsWatchIcon(false);
@@ -219,7 +221,7 @@ function WishTracker({ userID }) {
   const handleModalItemClick = (clicked_object) => {
     setUserGameId(clicked_object);
     setBannerFilter('all');
-    if (watchList.some(item => clicked_object in item)) {
+    if (watchList.some((item) => clicked_object in item)) {
       setIsWatchIcon(true);
     } else {
       setIsWatchIcon(false);
@@ -334,9 +336,7 @@ function WishTracker({ userID }) {
             <button
               className="genshin-wish-searcher-explorer-button no-selection"
               onClick={handleWatchListClick}
-              disabled={
-                !watchList || watchList.length === 0
-              }
+              disabled={!watchList || watchList.length === 0}
               title={
                 !watchList || watchList.length === 0
                   ? 'No items in the watchlist'
@@ -357,31 +357,33 @@ function WishTracker({ userID }) {
                 <h2 style={{ color: 'white', fontWeight: 'bold' }}>
                   Watch List
                 </h2>
-                {watchList.map((item, index) => (
-                  <div className="watchlist-item-container">
-                    <button
-                      className="watchlist-item-button"
-                      onClick={() => {
-                        handleModalItemClick(Object.keys(item)[0]);
-                        closeModal(); // Call closeModal to close the modal
-                      }}
-                    >
-                      {item[Object.keys(item)[0]]}
-                    </button>
+                <div className="watchlist-item-container">
+                  {watchList.map((item, index) => (
+                    <div className='watchlist-item-inside-container'>
+                      <button
+                        className="watchlist-item-button"
+                        onClick={() => {
+                          handleModalItemClick(Object.keys(item)[0]);
+                          closeModal(); // Call closeModal to close the modal
+                        }}
+                      >
+                        {item[Object.keys(item)[0]]}
+                      </button>
 
-                    <img
-                      src={editIcon}
-                      alt="Edit Icon"
-                      className="watchlist-edit-icon"
-                      onClick={() =>
-                        handleEditWatchListClick(
-                          Object.keys(item)[0],
-                          item[Object.keys(item)[0]]
-                        )
-                      }
-                    />
-                  </div>
-                ))}
+                      <img
+                        src={editIcon}
+                        alt="Edit Icon"
+                        className="watchlist-edit-icon"
+                        onClick={() =>
+                          handleEditWatchListClick(
+                            Object.keys(item)[0],
+                            item[Object.keys(item)[0]]
+                          )
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
                 <button
                   className="watchlist-close-button"
                   onClick={closeModal}

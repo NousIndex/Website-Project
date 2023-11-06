@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CSS/resonatepage.css'; // Assuming your styles are in a file called App.css
 import { findBestCombinationAPI } from '../../../APIs/reverseIdeaAlgo';
+import Reverse1999Sidebar from '../../components/Reverse1999Sidebar';
+import Modal from 'react-modal';
+import Swal from 'sweetalert2';
+import { API_URL } from '../../../API_Config.js';
+
+Modal.setAppElement('#root');
 
 function IdeaPage() {
   const [grid, setGrid] = useState(
@@ -33,17 +39,57 @@ function IdeaPage() {
     'DMG Bonus',
     'DMG Reduction',
   ];
+
+  const initValue = {
+    Amount: 0,
+    HP: 0,
+    ATK: 0,
+    'Reality DEF': 0,
+    'Mental DEF': 0,
+    'Crit Rate': 0,
+    'Crit Resist': 0,
+    'Crit DMG': 0,
+    'DMG Bonus': 0,
+    'DMG Reduction': 0,
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [gridGeneration, setGridGeneration] = useState(false);
 
-  const [inputValues, setInputValues] = useState({});
+  const [inputValues, setInputValues] = useState(initValue);
 
   const [selectedField, setSelectedField] = useState('');
 
   const [girdWidth, setGridWidth] = useState(0);
   const [gridHeight, setGridHeight] = useState(0);
   const [optimizedGrid, setOptimizedGrid] = useState([[]]);
+
+  const [isWatchListModalOpen, setIsWatchListModalOpen] = useState(false);
+
+  const [resonanceListData, setResonanceListData] = useState([]);
+
+  useEffect(() => {
+    fetchResonanceData('SummaryList');
+  }, []);
+
+  async function fetchResonanceData(characterFind) {
+    console.log(characterFind);
+    try {
+      const response = await fetch(
+        `${API_URL}api/misc-commands?scrapeCommand=reverse1999resonancesummary&characterFind=${characterFind}`
+      );
+      const data = await response.json();
+      if (characterFind === 'SummaryList') {
+        setResonanceListData(data);
+        return;
+      } else {
+        return data;
+      }
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
 
   const handleSelectChange = (e) => {
     setSelectedField(e.target.value);
@@ -81,7 +127,7 @@ function IdeaPage() {
   const clearGrid = () => {
     const newGrid = grid.map((row) => row.map(() => false));
     setGrid(newGrid);
-    setInputValues({});
+    setInputValues(initValue);
   };
 
   function removeEmptyRowsAndColumns(matrix) {
@@ -157,7 +203,7 @@ function IdeaPage() {
       }
     }
 
-    console.log(inputValues);
+    // console.log(inputValues);
     savedGrid.current.push({ form: downsizedMatrix, stats: inputValues });
     clearGrid();
   };
@@ -251,6 +297,7 @@ function IdeaPage() {
         form: savedGrid.current[i]['form'],
         amount: amount,
         symbol: i,
+        otherValues: savedGrid.current[i]['stats'],
       });
     }
     const girdWidthInt = parseInt(girdWidth);
@@ -263,18 +310,125 @@ function IdeaPage() {
     // console.log(optimizedGrids);
     setOptimizedGrid(optimizedGrids);
     setGridGeneration(true);
-    setSelectedField('');
   };
 
   const handleGenerateClear = () => {
     setGridGeneration(false);
     setOptimizedGrid([[]]);
+    setSelectedField('');
   };
+
+  const handleWatchListClick = () => {
+    setIsWatchListModalOpen(true);
+  };
+
+  const closeWatchList = () => {
+    setIsWatchListModalOpen(false);
+  };
+
+  async function updateResonanceData(character_name) {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        character_name: character_name,
+        updateData: savedGrid,
+        summaryList: resonanceListData,
+      }),
+    };
+    const url = `${API_URL}api/misc-commands?scrapeCommand=reverse1999resonanceupdate`;
+
+    try {
+      await fetch(url, requestOptions);
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
+
+  const handleGridSaveClick = () => {
+    Swal.fire({
+      title: `Save Resonance Grids\nEnter a name for this grid:`,
+      input: 'text',
+      inputValue: '', // Pre-fill the input with the current value
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel',
+      inputValidator: (inputValue) => {
+        if (!inputValue) {
+          return 'You need to provide a new value!';
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newValue = result.value;
+        if (newValue !== '') {
+          updateResonanceData(newValue);
+        }
+      }
+    });
+  };
+
+  async function handleResonanceListClick(item) {
+    savedGrid.current = [];
+    const loadedList = await fetchResonanceData(item);
+    savedGrid.current = loadedList.current;
+    closeWatchList();
+    clearGrid();
+  }
 
   return (
     <div className="App">
       <div>
-        <h1>Grid Highlighter</h1>
+        <h1 style={{ color: 'white', fontWeight: 'bold' }}>
+          Reverse: 1999 Resonance
+        </h1>
+        {/* Left Sidebar Navigation */}
+        <div className="ideagrid-sidebar">
+          <Reverse1999Sidebar activeTab={'Home'} />
+        </div>
+        <div>
+          <button
+            className="genshin-wish-searcher-explorer-button no-selection"
+            onClick={handleWatchListClick}
+          >
+            Resonance List
+          </button>
+
+          <Modal
+            isOpen={isWatchListModalOpen}
+            onRequestClose={closeWatchList}
+            contentLabel="Watch List Modal"
+            className="watchlist-modal"
+            overlayClassName="watchlist-overlay"
+          >
+            <div className={`watchlist-modal-content`}>
+              <h2 style={{ color: 'white', fontWeight: 'bold' }}>
+                Resonance List
+              </h2>
+              <div className="watchlist-item-1999-container">
+                {resonanceListData.map((item, index) => {
+                  return (
+                    <button
+                      className="watchlist-item-1999-button"
+                      key={index}
+                      onClick={() => handleResonanceListClick(item)}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                className="watchlist-close-button"
+                onClick={closeWatchList}
+              >
+                x
+              </button>
+            </div>
+          </Modal>
+        </div>
         <div className="ideagrid-matrix-display">
           {savedGrid.current.map((grid, index) => (
             <div
@@ -382,6 +536,7 @@ function IdeaPage() {
           >
             <div
               className={`draw-modal-content animate__animated ${modalAnimationClass}`}
+              style={{ height: '60vh', width: '70vw' }}
             >
               <span
                 className="draw-close-button"
@@ -393,7 +548,7 @@ function IdeaPage() {
                 <h3
                   style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
                 >
-                  Optimizer
+                  Optimizer {selectedField}:
                 </h3>
               </div>
               {!gridGeneration && (
@@ -468,7 +623,7 @@ function IdeaPage() {
                 </div>
               )}
               {gridGeneration && (
-                <div className="ideagrid-grid no-selection">
+                <div className="ideagrid-gen-grid no-selection">
                   {/* {grid.map((row, rowIndex) => (
                     <div
                       key={rowIndex}
@@ -491,44 +646,76 @@ function IdeaPage() {
                       ))}
                     </div>
                   ))} */}
-                  {optimizedGrid.map((optimizedGridz) => {
-                    {
-                      return optimizedGridz.grid.map((row, rowIndex) => (
-                        <div
-                          key={rowIndex}
-                          className="row"
-                        >
-                          {row.map((cell, colIndex) => {
-                            const splitCell = cell.split(':');
-                            const groupIndex = splitCell[0];
-                            const group = splitCell[1];
-                            console.log(cell);
-                            const cellClass = `ideagrid-cell-gen-grid ideagrid-cell-gen-grid-${group}`;
-                            return (
-                              <div
-                                key={colIndex}
-                                className={cellClass}
-                                title={JSON.stringify(
-                                  savedGrid.current[groupIndex]['stats']
-                                )
-                                  .replaceAll(',', ',\n')
-                                  .replaceAll('{', '')
-                                  .replaceAll('}', '')
-                                  .replaceAll('"', '')
-                                  .replaceAll(':', ': ')}
-                              ></div>
-                            );
-                          })}
+                  <div className="optimized-grid-full-container">
+                    {optimizedGrid.reverse().map((optimizedGridz) => {
+                      // console.log(optimizedGridz);
+                      return (
+                        <div className="optimized-grid-container">
+                          <span
+                            className="optimized-grid-title"
+                            title={JSON.stringify(optimizedGridz.otherValues)
+                              .replaceAll(',', ',\n')
+                              .replaceAll('{', '')
+                              .replaceAll('}', '')
+                              .replaceAll('"', '')
+                              .replaceAll(':', ': ')}
+                          >
+                            Total Value: {optimizedGridz.value}
+                          </span>
+                          {optimizedGridz.grid.map((row, rowIndex) => (
+                            <div
+                              key={rowIndex}
+                              className="row"
+                            >
+                              {row.map((cell, colIndex) => {
+                                const splitCell = cell.split(':');
+                                const groupIndex = splitCell[0];
+                                const group = splitCell[1];
+                                const cellClass = `ideagrid-cell-gen-grid ideagrid-cell-gen-grid-${group}`;
+                                return (
+                                  <div
+                                    key={colIndex}
+                                    className={cellClass}
+                                    title={JSON.stringify(
+                                      savedGrid.current[groupIndex]['stats']
+                                    )
+                                      .replaceAll(',', ',\n')
+                                      .replaceAll('{', '')
+                                      .replaceAll('}', '')
+                                      .replaceAll('"', '')
+                                      .replaceAll(':', ': ')}
+                                  ></div>
+                                );
+                              })}
+                            </div>
+                          ))}
                         </div>
-                      ));
-                    }
-                  })}
-
+                      );
+                    })}
+                  </div>
                   <button
                     className="genshin-checkin-button-link"
+                    style={{
+                      position: 'absolute',
+                      top: '2.2vh',
+                      left: '15vw',
+                      zIndex: '1002',
+                    }}
                     onClick={handleGenerateClear}
                   >
                     Clear Generation
+                  </button>
+                  <button
+                    className="genshin-checkin-button-link"
+                    style={{
+                      position: 'absolute',
+                      top: '2.2vh',
+                      right: '15vw',
+                      zIndex: '1002',
+                    }}
+                    onClick={handleGridSaveClick}
+                  >
+                    Save
                   </button>
                 </div>
               )}

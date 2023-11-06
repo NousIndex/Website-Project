@@ -102,3 +102,8 @@ model SummaryTable {
 
   @@index([Game_UID], map: "idx_Game_UID")
 }
+
+model Reverse1999_Resonance {
+  Character_Resonance String @id @db.VarChar(255)
+  Resonance           Json?
+}

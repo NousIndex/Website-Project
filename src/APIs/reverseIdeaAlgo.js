@@ -168,7 +168,48 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
     return null;
   }
 
-  function backtrack(currentValue, currentCombination) {
+  function addObjectsTogether(object1, object2) {
+    // Initialize a result object to store the sums
+    const result = {};
+
+    // Iterate over the keys of object1 (you can also use Object.keys(object1) for dynamic keys)
+    for (const key in object1) {
+      // Use parseFloat to convert string values to floating-point numbers
+      const value1 = parseFloat(object1[key]);
+      const value2 = parseFloat(object2[key]);
+
+      if (
+        key === 'ATK' ||
+        key === 'DEF' ||
+        key === 'HP' ||
+        key === 'Mental DEF' ||
+        key === 'Reality DEF'
+      ) {
+        if (value2 < 10) {
+          // Check if the values are valid numbers
+          if (!isNaN(value1) && !isNaN(value2)) {
+            // Add the values and store the result in the result object
+            result[key] = value1 * (1 + value2*0.01);
+          }
+        }
+      } else {
+        // Check if the values are valid numbers
+        if (!isNaN(value1) && !isNaN(value2)) {
+          // Add the values and store the result in the result object
+          result[key] = value1 + value2;
+        }
+      }
+    }
+    if (Object.keys(result).length === 0) {
+      return object2;
+    } else {
+      return result;
+    }
+  }
+
+  const memo = new Map();
+
+  function backtrack(currentValue, currentCombination, otherValues) {
     const emptyCell = findNextEmptyCell();
     if (!emptyCell) {
       if (topCombinations.length < n) {
@@ -176,6 +217,7 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
         topCombinations.push({
           value: currentValue,
           combination: currentCombination.slice(),
+          otherValues: otherValues,
         });
       } else {
         // If the list is full, check if the current combination has a higher value than the lowest in the list
@@ -185,6 +227,7 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
           topCombinations[0] = {
             value: currentValue,
             combination: currentCombination.slice(),
+            otherValues: otherValues,
           };
           // Sort the list by value in descending order
           topCombinations.sort((a, b) => b.value - a.value);
@@ -213,9 +256,16 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
           shape.amount--;
           const newState = JSON.stringify(grid); // Convert grid to a string for memoization
 
-          // Check memoization cache for this state (you can include memoization if needed)
-
-          backtrack(currentValue + shape.value, currentCombination);
+          // Check memoization table for this state
+          if (!memo.has(newState) || memo.get(newState) < currentValue) {
+            // Only proceed if the state is not memoized or has a lower value
+            memo.set(newState, currentValue, otherValues);
+            backtrack(
+              currentValue + shape.value,
+              currentCombination,
+              addObjectsTogether(otherValues, shape.otherValues)
+            );
+          }
 
           currentCombination.pop();
           shape.amount++;
@@ -274,44 +324,9 @@ async function rotateShape(form, times) {
   }
   return rotatedForm;
 }
-// const gridWidth = 6;
-// const gridHeight = 6;
-
-// const shapes = [
-//   { value: 1, form: [[true]], amount: 2 },
-//   {
-//     value: 1.5,
-//     form: [
-//       [true, true],
-//       [true, true],
-//     ],
-//     amount: 2,
-//   },
-//   { value: 1.5, form: [[true, true]], amount: 2 },
-//   { value: 1, form: [[true], [true]], amount: 2 },
-//   { value: 2, form: [[true], [true], [true, true]], amount: 1 },
-//   { value: 1.75, form: [[true], [true, true]], amount: 2 },
-//   {
-//     value: 5,
-//     form: [
-//       [true, true, true],
-//       [false, true, false],
-//       [false, true, false],
-//     ],
-//     amount: 2,
-//   },
-//   {
-//     value: 5,
-//     form: [
-//       [false, true, false],
-//       [true, true, true],
-//       [false, true, false],
-//     ],
-//     amount: 2,
-//   },
-// ];
 
 export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
+  console.log(gridWidth, gridHeight, shapes);
   const topCombinations = await findTopNCombinations(
     gridWidth,
     gridHeight,
@@ -327,45 +342,8 @@ export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
       gridWidth,
       gridHeight
     );
-    grids.push({value: combination.value, grid: grid});
+    grids.push({ value: combination.value, grid: grid, otherValues: combination.otherValues});
   }
 
-  // console.log(bestValue);
-
   return grids;
-
-  // bestCombination.forEach((shape) => {
-  //   console.log(shape);
-  // });
-
-  // // console.log('Best value:', bestValue);
-  // // console.log(
-  // //   'Best combination:',
-  // //   bestCombination.map((shape) => shape.value)
-  // // );
-
-  // // Swap the x and y coordinates for each shape in bestCombination
-  // const swappedCombination = bestCombination.map((shape) => ({
-  //   value: shape.value,
-  //   form: shape.form,
-  //   amount: shape.amount,
-  //   x: shape.y, // Swap x and y
-  //   y: shape.x, // Swap x and y
-  //   orientation: shape.orientation,
-  // }));
-
-  // swappedCombination.forEach((shape) => {
-  //   console.log(shape);
-  // });
-
-  // console.log('Best value:', bestValue);
-  // console.log(
-  //   'Best combination:',
-  //   swappedCombination.map((shape) => shape.value)
-  // );
-
-  // // Print the grid
-  // for (let row of grid) {
-  //   console.log(row.join(' '));
-  // }
 }

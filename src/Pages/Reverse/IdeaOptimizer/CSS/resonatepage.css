@@ -1,3 +1,8 @@
+.ideagrid-sidebar{
+  top: 2vh;
+  left: 1vw;
+}
+
 .ideagrid-center-container {
   display: flex;
   justify-content: center;
@@ -7,6 +12,11 @@
 .ideagrid-grid {
   display: grid;
   grid-template-rows: repeat(5, 8vh);
+  gap: 1px;
+}
+.ideagrid-gen-grid {
+  display: grid;
+  grid-template-rows: repeat(5, 4vh);
   gap: 1px;
 }
 
@@ -96,11 +106,25 @@
 }
 
 .ideagrid-cell-gen-grid {
-  width: 8vh;
-  height: 8vh;
+  width: 4vh;
+  height: 4vh;
   border: 1px solid #ccc;
   background-color: white;
   transition: background-color 1s ease;
+}
+
+.optimized-grid-full-container{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.optimized-grid-container{
+  flex-direction: column;
+}
+
+.optimized-grid-title{
+  color: white;
 }
 
 /* CSS for random colors for groups 'a' to 'z */

@@ -226,6 +226,32 @@ module.exports = async (req, res) => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  } else if (scrapeCommand === 'reverse1999resonancesummary') {
+    const characterFind = req.query.characterFind;
+    const summary = await prisma.Reverse1999_Resonance.findUnique({
+      where: { Character_Resonance: characterFind },
+    });
+    const resonance = summary.Resonance;
+    return res.json(resonance);
+  } else if (scrapeCommand === 'reverse1999resonanceupdate') {
+    const { character_name, updateData, summary } = req.body;
+    let summaryList = [];
+    if (summary) {
+      summaryList = summary.json();
+    }
+
+    summaryList.push(character_name);
+
+    await prisma.Reverse1999_Resonance.update({
+      where: { Character_Resonance: 'SummaryList' },
+      data: { Resonance: summaryList },
+    });
+
+    await prisma.Reverse1999_Resonance.upsert({
+      where: { Character_Resonance: character_name },
+      update: { Resonance: updateData },
+      create: { Character_Resonance: character_name, Resonance: updateData },
+    });
   } else {
     return res.status(400).json({ error: 'Invalid request' });
   }

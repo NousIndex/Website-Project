@@ -285,14 +285,19 @@ body {
   transition: background-color 0.3s ease, display 0.3s ease, disabled 0.3s ease;
 }
 .watchlist-item-container {
-  display: flex;
-  align-items: center; /* Vertically center its children */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Show 5 items per row */
+  gap: 10px; /* Adjust the gap as needed */
 }
 .watchlist-item-button:hover {
   background-color: #0056b3; /* Button background color on hover */
 }
+.watchlist-item-inside-container {
+  display: flex;
+  align-items: center; /* Vertically center its children */
+}
 .watchlist-edit-icon {
-  height: 100%;
+  height: 90%;
   scale: 0.7;
   border-radius: 5px;
   padding: 2px 2px;
@@ -301,5 +306,31 @@ body {
   background-color: #008cff;
 }
 .watchlist-edit-icon:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+
+
+
+.watchlist-item-1999-button {
+  background-color: #008cff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 6px;
+  cursor: pointer;
+  font-size: clamp(2px, 1.5vw, 18px);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  position: relative; /* Position the button relative to its parent */
+  margin: 5px; /* Add margin to separate the items */
+  transition: background-color 0.3s ease, display 0.3s ease, disabled 0.3s ease;
+}
+.watchlist-items-1999-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Show 5 items per row */
+  gap: 10px; /* Adjust the gap as needed */
+}
+
+.watchlist-item-1999-button:hover {
   background-color: #0056b3; /* Button background color on hover */
 }

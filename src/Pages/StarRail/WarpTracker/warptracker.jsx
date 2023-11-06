@@ -116,7 +116,9 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData3() {
       try {
-        const response = await fetch(`${API_URL}api/draw-database?game=starrail`);
+        const response = await fetch(
+          `${API_URL}api/draw-database?game=starrail`
+        );
         const data = await response.json();
         setItemsData(data);
       } catch (error) {
@@ -356,31 +358,33 @@ function WishTracker({ userID }) {
                 <h2 style={{ color: 'white', fontWeight: 'bold' }}>
                   Watch List
                 </h2>
-                {watchList.map((item, index) => (
-                  <div className="watchlist-item-container">
-                    <button
-                      className="watchlist-item-button"
-                      onClick={() => {
-                        handleModalItemClick(Object.keys(item)[0]);
-                        closeModal(); // Call closeModal to close the modal
-                      }}
-                    >
-                      {item[Object.keys(item)[0]]}
-                    </button>
+                <div className="watchlist-item-container">
+                  {watchList.map((item, index) => (
+                    <div className='watchlist-item-inside-container'>
+                      <button
+                        className="watchlist-item-button"
+                        onClick={() => {
+                          handleModalItemClick(Object.keys(item)[0]);
+                          closeModal(); // Call closeModal to close the modal
+                        }}
+                      >
+                        {item[Object.keys(item)[0]]}
+                      </button>
 
-                    <img
-                      src={editIcon}
-                      alt="Edit Icon"
-                      className="watchlist-edit-icon"
-                      onClick={() =>
-                        handleEditWatchListClick(
-                          Object.keys(item)[0],
-                          item[Object.keys(item)[0]]
-                        )
-                      }
-                    />
-                  </div>
-                ))}
+                      <img
+                        src={editIcon}
+                        alt="Edit Icon"
+                        className="watchlist-edit-icon"
+                        onClick={() =>
+                          handleEditWatchListClick(
+                            Object.keys(item)[0],
+                            item[Object.keys(item)[0]]
+                          )
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
                 <button
                   className="watchlist-close-button"
                   onClick={closeModal}

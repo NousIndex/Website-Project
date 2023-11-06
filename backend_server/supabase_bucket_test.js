@@ -1,5 +1,4 @@
 const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
 
 // Initialize a Supabase client with your Supabase URL and API key
 const supabaseUrl = 'https://vtmjuwctzebijssijzhq.supabase.co';
@@ -28,7 +27,7 @@ const bucketName = 'draw-cache';
 //       });
 //     }
 //   } catch (error) {
-//     console.error('An error occurred:', error);
+//     console.error('An err    or occurred:', error);
 //   }
 // }
 
@@ -56,17 +55,6 @@ async function viewFileContent() {
 
 async function modifyAndUploadFileContent(fileContent) {
   try {
-    // Modify one of the objects in the array
-    const objectToModify = fileContent.find((item) => item.drawNumber === 41199 );
-    if (objectToModify) {
-      console.log(objectToModify);
-      objectToModify.drawNumber = 4118;
-    } else {
-      // Object not found, handle as needed
-      console.error('Object not found in the JSON data');
-      return;
-    }
-
     // Convert the modified data back to JSON
     const modifiedFileContent = JSON.stringify(fileContent);
 
