@@ -189,7 +189,7 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
           // Check if the values are valid numbers
           if (!isNaN(value1) && !isNaN(value2)) {
             // Add the values and store the result in the result object
-            result[key] = value1 * (1 + value2*0.01);
+            result[key] = value1 + value2*8;
           }
         }
       } else {
@@ -342,7 +342,11 @@ export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
       gridWidth,
       gridHeight
     );
-    grids.push({ value: combination.value, grid: grid, otherValues: combination.otherValues});
+    grids.push({
+      value: combination.value,
+      grid: grid,
+      otherValues: combination.otherValues,
+    });
   }
 
   return grids;
