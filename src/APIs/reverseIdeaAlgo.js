@@ -326,7 +326,7 @@ async function rotateShape(form, times) {
 }
 
 export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
-  console.log(gridWidth, gridHeight, shapes);
+  // console.log(gridWidth, gridHeight, shapes);
   const topCombinations = await findTopNCombinations(
     gridWidth,
     gridHeight,

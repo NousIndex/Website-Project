@@ -1582,17 +1582,17 @@ app.post('/api/misc-commands', async (req, res) => {
   console.log('Starting Misc Commands API');
   const scrapeCommand = req.query.scrapeCommand;
   if (scrapeCommand === 'reverse1999resonanceupdate') {
-    const { character_name, updateData, summary } = req.body;
-    let summaryList = [];
-    if (summary) {
-      summaryList = summary.json();
+    const { character_name, updateData, summaryList } = req.body;
+    let summaryList2 = [];
+    if (summaryList) {
+      summaryList2 = summaryList;
     }
 
-    summaryList.push(character_name);
+    summaryList2.push(character_name);
 
     await prisma.Reverse1999_Resonance.update({
       where: { Character_Resonance: 'SummaryList' },
-      data: { Resonance: summaryList },
+      data: { Resonance: summaryList2 },
     });
 
     await prisma.Reverse1999_Resonance.upsert({

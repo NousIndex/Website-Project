@@ -232,7 +232,7 @@ function IdeaPage() {
 
   const handleSaveDelete = (index) => {
     savedGrid.current.splice(index, 1);
-    console.log(savedGrid.current);
+    // console.log(savedGrid.current);
     clearGrid();
   };
   const handleKeyDown = (e) => {
