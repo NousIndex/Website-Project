@@ -386,245 +386,255 @@ function IdeaPage() {
         </h1>
         {/* Left Sidebar Navigation */}
         <div className="ideagrid-sidebar">
-          <Reverse1999Sidebar activeTab={'Home'} />
+          <div className="ideagrid-color-sidebar">
+            <Reverse1999Sidebar activeTab={'Resonate Optimizer'} />
+          </div>
         </div>
-        <div>
-          <button
-            className="genshin-wish-searcher-explorer-button no-selection"
-            onClick={handleWatchListClick}
-          >
-            Resonance List
-          </button>
-
-          <Modal
-            isOpen={isWatchListModalOpen}
-            onRequestClose={closeWatchList}
-            contentLabel="Watch List Modal"
-            className="watchlist-modal"
-            overlayClassName="watchlist-overlay"
-          >
-            <div className={`watchlist-modal-content`}>
-              <h2 style={{ color: 'white', fontWeight: 'bold' }}>
-                Resonance List
-              </h2>
-              <div className="watchlist-item-1999-container">
-                {resonanceListData.map((item, index) => {
-                  return (
-                    <button
-                      className="watchlist-item-1999-button"
-                      key={index}
-                      onClick={() => handleResonanceListClick(item)}
-                    >
-                      {item}
-                    </button>
-                  );
-                })}
-              </div>
-              <button
-                className="watchlist-close-button"
-                onClick={closeWatchList}
-              >
-                x
-              </button>
-            </div>
-          </Modal>
-        </div>
-        <div className="ideagrid-matrix-display">
-          {savedGrid.current.map((grid, index) => (
-            <div
-              key={index}
-              className="ideagrid-display-grid no-selection"
-              title={
-                'Click to delete: \n' +
-                JSON.stringify(grid.stats)
-                  .replaceAll(',', ',\n')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll('"', '')
-                  .replaceAll(':', ': ')
-              }
-              onClick={() => handleSaveDelete(index)}
+        <div style={{position:'absolute', top:'15vh', left:'28vw'}}>
+          <div>
+            <button
+              className="genshin-wish-searcher-explorer-button no-selection"
+              onClick={handleWatchListClick}
             >
-              {grid.form.map((row, rowIndex) => (
-                <div
-                  key={rowIndex}
-                  className="row"
-                >
-                  {row.map((cell, colIndex) => (
-                    <div
-                      key={colIndex}
-                      className={`ideagrid-display-cell ${
-                        cell ? 'highlighted' : ''
-                      }`}
-                    ></div>
-                  ))}
+              Resonance List
+            </button>
+
+            <Modal
+              isOpen={isWatchListModalOpen}
+              onRequestClose={closeWatchList}
+              contentLabel="Watch List Modal"
+              className="watchlist-modal"
+              overlayClassName="watchlist-overlay"
+            >
+              <div className={`watchlist-modal-content`}>
+                <h2 style={{ color: 'white', fontWeight: 'bold' }}>
+                  Resonance List
+                </h2>
+                <div className="watchlist-item-1999-container">
+                  {resonanceListData.map((item, index) => {
+                    return (
+                      <button
+                        className="watchlist-item-1999-button"
+                        key={index}
+                        onClick={() => handleResonanceListClick(item)}
+                      >
+                        {item}
+                      </button>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="ideagrid-center-container">
-        <div>
-          <button
-            onClick={clearGrid}
-            className="genshin-checkin-button-link"
-            style={{ marginBottom: '10px' }}
-          >
-            Clear Grid
-          </button>
-          <div className="ideagrid-grid no-selection">
-            {grid.map((row, rowIndex) => (
+                <button
+                  className="watchlist-close-button"
+                  onClick={closeWatchList}
+                >
+                  x
+                </button>
+              </div>
+            </Modal>
+          </div>
+          <div className="ideagrid-matrix-display">
+            {savedGrid.current.map((grid, index) => (
               <div
-                key={rowIndex}
-                className="row"
+                key={index}
+                className="ideagrid-display-grid no-selection"
+                title={
+                  'Click to delete: \n' +
+                  JSON.stringify(grid.stats)
+                    .replaceAll(',', ',\n')
+                    .replaceAll('{', '')
+                    .replaceAll('}', '')
+                    .replaceAll('"', '')
+                    .replaceAll(':', ': ')
+                }
+                onClick={() => handleSaveDelete(index)}
               >
-                {row.map((cell, colIndex) => (
+                {grid.form.map((row, rowIndex) => (
                   <div
-                    key={colIndex}
-                    className={`ideagrid-cell ${cell ? 'highlighted' : ''}`}
-                    onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
-                    onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
-                    onMouseUp={handleMouseUp}
-                  ></div>
+                    key={rowIndex}
+                    className="row"
+                  >
+                    {row.map((cell, colIndex) => (
+                      <div
+                        key={colIndex}
+                        className={`ideagrid-display-cell ${
+                          cell ? 'highlighted' : ''
+                        }`}
+                      ></div>
+                    ))}
+                  </div>
                 ))}
               </div>
             ))}
           </div>
-          <button
-            onClick={handleSaveButton}
-            className="genshin-checkin-button-link"
-            style={{ marginTop: '10px' }}
-          >
-            Save
-          </button>
-        </div>
-        <div className="idea-input-text-container">
-          {fieldNames.map((fieldName) => (
-            <div key={fieldName}>
-              <label
-                htmlFor={fieldName}
-                className="idea-input-title"
+          <div className="ideagrid-center-container">
+            <div>
+              <button
+                onClick={clearGrid}
+                className="genshin-checkin-button-link"
+                style={{ marginBottom: '10px' }}
               >
-                {fieldName}:
-              </label>
-              <input
-                type="text"
-                id={fieldName}
-                name={fieldName}
-                value={inputValues[fieldName] || ''}
-                onChange={(e) => handleInputChange(fieldName, e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="ideagrid-footer">
-        {savedGrid.current.length > 0 && (
-          <button
-            className="genshin-checkin-button-link"
-            style={{ marginTop: '10px' }}
-            onClick={openModal}
-          >
-            Optimize
-          </button>
-        )}
-        {isModalOpen && (
-          <div
-            className={`draw-modal-overlay animate__animated ${modalAnimationClass}`}
-          >
-            <div
-              className={`draw-modal-content animate__animated ${modalAnimationClass}`}
-              style={{ height: '60vh', width: '70vw' }}
-            >
-              <span
-                className="draw-close-button"
-                onClick={closeModal}
-              >
-                &times;
-              </span>
-              <div className="draw-modal-content-headers">
-                <h3
-                  style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
-                >
-                  Optimizer {selectedField}:
-                </h3>
-              </div>
-              {!gridGeneration && (
-                <div>
-                  <h3
-                    style={{
-                      fontWeight: 'bold',
-                      margin: '0',
-                      marginTop: '10px',
-                    }}
+                Clear Grid
+              </button>
+              <div className="ideagrid-grid no-selection">
+                {grid.map((row, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className="row"
                   >
-                    Grid Size:
-                  </h3>
-                  <input
-                    type="text"
-                    value={girdWidth || ''}
-                    className="ideagrid-input-gridsize"
-                    onChange={(e) => handleWidthChange(e.target.value)}
-                    onKeyDown={handleKeyDownWidth}
-                  ></input>
-                  <a
-                    style={{
-                      fontWeight: 'bold',
-                      margin: '0',
-                      marginTop: '10px',
-                      color: 'white',
-                    }}
-                  >
-                    {' '}
-                    &times;{' '}
-                  </a>
-                  <input
-                    type="text"
-                    value={gridHeight || ''}
-                    className="ideagrid-input-gridsize"
-                    onChange={(e) => handleHeightChange(e.target.value)}
-                    onKeyDown={handleKeyDownHeight}
-                  ></input>
-                  <h3
-                    style={{
-                      fontWeight: 'bold',
-                      margin: '0',
-                      marginTop: '10px',
-                    }}
-                  >
-                    Select a Field:
-                  </h3>
-                  <select
-                    value={selectedField}
-                    onChange={handleSelectChange}
-                  >
-                    <option value="">Select a field</option>
-                    {dropDownList.map((field, index) => (
-                      <option
-                        key={index}
-                        value={field}
-                      >
-                        {field}
-                      </option>
+                    {row.map((cell, colIndex) => (
+                      <div
+                        key={colIndex}
+                        className={`ideagrid-cell ${cell ? 'highlighted' : ''}`}
+                        onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
+                        onMouseEnter={() =>
+                          handleMouseEnter(rowIndex, colIndex)
+                        }
+                        onMouseUp={handleMouseUp}
+                      ></div>
                     ))}
-                  </select>
-                  {selectedField && (
-                    <div style={{ marginTop: '5px' }}>
-                      <button
-                        className="genshin-checkin-button-link"
-                        onClick={generateGrid}
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={handleSaveButton}
+                className="genshin-checkin-button-link"
+                style={{ marginTop: '10px' }}
+              >
+                Save
+              </button>
+            </div>
+            <div className="idea-input-text-container">
+              {fieldNames.map((fieldName) => (
+                <div key={fieldName}>
+                  <label
+                    htmlFor={fieldName}
+                    className="idea-input-title"
+                  >
+                    {fieldName}:
+                  </label>
+                  <input
+                    type="text"
+                    id={fieldName}
+                    name={fieldName}
+                    value={inputValues[fieldName] || ''}
+                    onChange={(e) =>
+                      handleInputChange(fieldName, e.target.value)
+                    }
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="ideagrid-footer">
+            {savedGrid.current.length > 0 && (
+              <button
+                className="genshin-checkin-button-link"
+                style={{ marginTop: '10px' }}
+                onClick={openModal}
+              >
+                Optimize
+              </button>
+            )}
+            {isModalOpen && (
+              <div
+                className={`draw-modal-overlay animate__animated ${modalAnimationClass}`}
+              >
+                <div
+                  className={`draw-modal-content animate__animated ${modalAnimationClass}`}
+                  style={{ height: '60vh', width: '70vw' }}
+                >
+                  <span
+                    className="draw-close-button"
+                    onClick={closeModal}
+                  >
+                    &times;
+                  </span>
+                  <div className="draw-modal-content-headers">
+                    <h3
+                      style={{
+                        fontWeight: 'bold',
+                        margin: '0',
+                        marginTop: '10px',
+                      }}
+                    >
+                      Optimizer {selectedField}:
+                    </h3>
+                  </div>
+                  {!gridGeneration && (
+                    <div>
+                      <h3
+                        style={{
+                          fontWeight: 'bold',
+                          margin: '0',
+                          marginTop: '10px',
+                        }}
                       >
-                        Generate!
-                      </button>
+                        Grid Size:
+                      </h3>
+                      <input
+                        type="text"
+                        value={girdWidth || ''}
+                        className="ideagrid-input-gridsize"
+                        onChange={(e) => handleWidthChange(e.target.value)}
+                        onKeyDown={handleKeyDownWidth}
+                      ></input>
+                      <a
+                        style={{
+                          fontWeight: 'bold',
+                          margin: '0',
+                          marginTop: '10px',
+                          color: 'white',
+                        }}
+                      >
+                        {' '}
+                        &times;{' '}
+                      </a>
+                      <input
+                        type="text"
+                        value={gridHeight || ''}
+                        className="ideagrid-input-gridsize"
+                        onChange={(e) => handleHeightChange(e.target.value)}
+                        onKeyDown={handleKeyDownHeight}
+                      ></input>
+                      <h3
+                        style={{
+                          fontWeight: 'bold',
+                          margin: '0',
+                          marginTop: '10px',
+                        }}
+                      >
+                        Select a Field:
+                      </h3>
+                      <select
+                        value={selectedField}
+                        onChange={handleSelectChange}
+                      >
+                        <option value="">Select a field</option>
+                        {dropDownList.map((field, index) => (
+                          <option
+                            key={index}
+                            value={field}
+                          >
+                            {field}
+                          </option>
+                        ))}
+                      </select>
+                      {selectedField && (
+                        <div style={{ marginTop: '5px' }}>
+                          <button
+                            className="genshin-checkin-button-link"
+                            onClick={generateGrid}
+                          >
+                            Generate!
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
-              {gridGeneration && (
-                <div className="ideagrid-gen-grid no-selection">
-                  {/* {grid.map((row, rowIndex) => (
+                  {gridGeneration && (
+                    <div className="ideagrid-gen-grid no-selection">
+                      {/* {grid.map((row, rowIndex) => (
                     <div
                       key={rowIndex}
                       className="row"
@@ -646,82 +656,86 @@ function IdeaPage() {
                       ))}
                     </div>
                   ))} */}
-                  <div className="optimized-grid-full-container">
-                    {optimizedGrid.reverse().map((optimizedGridz) => {
-                      // console.log(optimizedGridz);
-                      return (
-                        <div className="optimized-grid-container">
-                          <span
-                            className="optimized-grid-title"
-                            title={JSON.stringify(optimizedGridz.otherValues)
-                              .replaceAll(',', ',\n')
-                              .replaceAll('{', '')
-                              .replaceAll('}', '')
-                              .replaceAll('"', '')
-                              .replaceAll(':', ': ')}
-                          >
-                            Total Value: {optimizedGridz.value}
-                          </span>
-                          {optimizedGridz.grid.map((row, rowIndex) => (
-                            <div
-                              key={rowIndex}
-                              className="row"
-                            >
-                              {row.map((cell, colIndex) => {
-                                const splitCell = cell.split(':');
-                                const groupIndex = splitCell[0];
-                                const group = splitCell[1];
-                                const cellClass = `ideagrid-cell-gen-grid ideagrid-cell-gen-grid-${group}`;
-                                return (
-                                  <div
-                                    key={colIndex}
-                                    className={cellClass}
-                                    title={JSON.stringify(
-                                      savedGrid.current[groupIndex]['stats']
-                                    )
-                                      .replaceAll(',', ',\n')
-                                      .replaceAll('{', '')
-                                      .replaceAll('}', '')
-                                      .replaceAll('"', '')
-                                      .replaceAll(':', ': ')}
-                                  ></div>
-                                );
-                              })}
+                      <div className="optimized-grid-full-container">
+                        {optimizedGrid.reverse().map((optimizedGridz) => {
+                          // console.log(optimizedGridz);
+                          return (
+                            <div className="optimized-grid-container">
+                              <span
+                                className="optimized-grid-title"
+                                title={JSON.stringify(
+                                  optimizedGridz.otherValues
+                                )
+                                  .replaceAll(',', ',\n')
+                                  .replaceAll('{', '')
+                                  .replaceAll('}', '')
+                                  .replaceAll('"', '')
+                                  .replaceAll(':', ': ')}
+                              >
+                                Total Value: {optimizedGridz.value}
+                              </span>
+                              {optimizedGridz.grid.map((row, rowIndex) => (
+                                <div
+                                  key={rowIndex}
+                                  className="row"
+                                >
+                                  {row.map((cell, colIndex) => {
+                                    const splitCell = cell.split(':');
+                                    const groupIndex = splitCell[0];
+                                    const group = splitCell[1];
+                                    const cellClass = `ideagrid-cell-gen-grid ideagrid-cell-gen-grid-${group}`;
+                                    return (
+                                      <div
+                                        key={colIndex}
+                                        className={cellClass}
+                                        title={JSON.stringify(
+                                          savedGrid.current[groupIndex]['stats']
+                                        )
+                                          .replaceAll(',', ',\n')
+                                          .replaceAll('{', '')
+                                          .replaceAll('}', '')
+                                          .replaceAll('"', '')
+                                          .replaceAll(':', ': ')}
+                                      ></div>
+                                    );
+                                  })}
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <button
-                    className="genshin-checkin-button-link"
-                    style={{
-                      position: 'absolute',
-                      top: '2.2vh',
-                      left: '15vw',
-                      zIndex: '1002',
-                    }}
-                    onClick={handleGenerateClear}
-                  >
-                    Clear Generation
-                  </button>
-                  <button
-                    className="genshin-checkin-button-link"
-                    style={{
-                      position: 'absolute',
-                      top: '2.2vh',
-                      right: '15vw',
-                      zIndex: '1002',
-                    }}
-                    onClick={handleGridSaveClick}
-                  >
-                    Save
-                  </button>
+                          );
+                        })}
+                      </div>
+                      <button
+                        className="genshin-checkin-button-link"
+                        style={{
+                          position: 'absolute',
+                          top: '2.2vh',
+                          left: '15vw',
+                          zIndex: '1002',
+                        }}
+                        onClick={handleGenerateClear}
+                      >
+                        Clear Generation
+                      </button>
+                      <button
+                        className="genshin-checkin-button-link"
+                        style={{
+                          position: 'absolute',
+                          top: '2.2vh',
+                          right: '15vw',
+                          zIndex: '1002',
+                        }}
+                        onClick={handleGridSaveClick}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
