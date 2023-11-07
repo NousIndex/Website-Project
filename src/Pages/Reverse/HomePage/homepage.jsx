@@ -17,24 +17,24 @@ function HomePage() {
   });
 
   useEffect(() => {
-    let newBannerEndDate;
+    // let newBannerEndDate;
     let bannerArray = [];
 
     async function fetchData() {
       try {
         const response = await fetch(
-          `${API_URL}api/misc-commands?scrapeCommand=starrailbanner`
+          `${API_URL}api/misc-commands?scrapeCommand=reverse1999banner`
         );
         const data = await response.json();
-
-        newBannerEndDate = new Date(
-          data.date.split(' - ')[1] + ' 14:59:59'
-        ).getTime();
+        // console.log(data);
+        // newBannerEndDate = new Date(
+        //   data.date.split(' - ')[1] + ' 14:59:59'
+        // ).getTime();
         data.urls.forEach((imageUrl, index) => {
-          console.log(imageUrl);
+          // console.log(imageUrl);
           const newItem = {
             imageUrl: imageUrl,
-            legend: data.date,
+            legend: 'Reverse: 1999',
           };
           bannerArray.push(newItem);
         });
@@ -47,7 +47,7 @@ function HomePage() {
     // Calculate remaining time
     const updateCountdown = () => {
       const now = new Date().getTime();
-      const timeRemaining = newBannerEndDate - now;
+      const timeRemaining = now - now;
       const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
         (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -64,7 +64,6 @@ function HomePage() {
         seconds,
       });
     };
-
     // Update carouselItems
     setCarouselItems(bannerArray);
     // Update the countdown initially
@@ -84,17 +83,7 @@ function HomePage() {
 
       {/* Main Content */}
       <div className="homepage-content">
-        <h1 className="page-main-title">
-          Reverse: 1999
-          <a
-            href="https://act.hoyolab.com/bbs/event/signin/hkrpg/index.html?act_id=e202303301540311"
-            target="_blank"
-            className="genshin-checkin-button-link-container"
-            rel="noopener noreferrer"
-          >
-            <button className="genshin-checkin-button-link">Check-In</button>
-          </a>
-        </h1>
+        <h1 className="page-main-title">Reverse: 1999</h1>
         <div class="home-grid-container">
           <div class="home-left-grid-container ">
             <div class="home-top-left-grid-container">
