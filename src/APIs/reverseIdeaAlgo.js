@@ -192,6 +192,13 @@ async function findTopNCombinations(gridWidth, gridHeight, shapes, n) {
             result[key] = value1 + value2*8;
           }
         }
+        else {
+          // Check if the values are valid numbers
+          if (!isNaN(value1) && !isNaN(value2)) {
+            // Add the values and store the result in the result object
+            result[key] = value1 + value2;
+          }
+        }
       } else {
         // Check if the values are valid numbers
         if (!isNaN(value1) && !isNaN(value2)) {
