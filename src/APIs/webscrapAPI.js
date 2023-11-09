@@ -186,7 +186,7 @@ export function extractIGNImageUrls(html) {
       }
     }
   });
-  
+
   // Create a temporary div element to parse the HTML content
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = html;
@@ -215,6 +215,208 @@ export function extractIGNImageUrls(html) {
   });
 
   return bannerDates;
+}
+
+export async function fetchR1999CharacterList() {
+  await fetchWebsiteHtml(
+    'https://res1999.huijiwiki.com/wiki/%E8%A7%92%E8%89%B2%E5%88%97%E8%A1%A8'
+  )
+    .then((html) => {
+      const $ = cheerio.load(html);
+
+      // Find all image elements and extract the src attributes
+      const imageSrcList = [];
+      $('img').each((index, element) => {
+        const src = $(element).attr('src');
+        if (
+          src.includes('Bg_kapaidi') ||
+          src.includes('Huijilogo-standard.svg') ||
+          src.includes('Career_') ||
+          src.includes('-Fw_') ||
+          src.includes('Dmgtype')
+        ) {
+          return;
+        } else {
+          imageSrcList.push(src);
+        }
+      });
+
+      let foundCharList = false;
+
+      // Find all image elements and extract the src attributes
+      const characterUrls = [];
+      $('a').each((index, element) => {
+        const href = $(element).attr('href');
+        if (foundCharList) {
+          if (href.startsWith('/wiki/')) {
+            characterUrls.push('https://res1999.huijiwiki.com' + href);
+          }
+        }
+        if (href.includes('#simplecollapse-charList')) {
+          foundCharList = true;
+        }
+      });
+      const uniquecharacterUrls = Array.from(new Set(characterUrls));
+      let counter = 0;
+      const groupedUrls = [];
+      for (let i = 0; i < imageSrcList.length; i += 3) {
+        const url = uniquecharacterUrls[counter];
+        const character = imageSrcList[i];
+        const rarity = imageSrcList[i + 1];
+        const element = imageSrcList[i + 2];
+        counter++;
+
+        if (character && rarity && element) {
+          groupedUrls.push({ character, rarity, element, url });
+        }
+      }
+      return groupedUrls;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+export async function fetchR1999GetReso(url, resoLevel) {
+  await fetchWebsiteHtml('url')
+    .then((html) => {
+      const $ = cheerio.load(html);
+
+      const resonateElements = $('.resonate-single');
+
+      const extractedData = [];
+
+      resonateElements.each((index, element) => {
+        const data = {};
+
+        const level = $(element).closest('.resonate-tabber-item').data('level');
+        if (level === parseInt(resoLevel)) {
+          data.level = level;
+          const levelInfo = $(element).find('div:first-child').text().trim();
+          const src = $(element).find('img').attr('src');
+          if (levelInfo) {
+            let from = [];
+            if (src.includes('Fw_000')) {
+              from = [
+                [true, true],
+                [true, true],
+              ];
+            } else if (src.includes('Fw_001')) {
+              from = [[true], [true], [true], [true]];
+            } else if (src.includes('Fw_002')) {
+              from = [
+                [false, true, true],
+                [true, true, false],
+              ];
+            } else if (src.includes('Fw_003')) {
+              from = [
+                [true, true, false],
+                [false, true, true],
+              ];
+            } else if (src.includes('Fw_004')) {
+              from = [
+                [true, false],
+                [true, false],
+                [true, true],
+              ];
+            } else if (src.includes('Fw_005')) {
+              from = [
+                [false, true],
+                [false, true],
+                [true, true],
+              ];
+            } else if (src.includes('Fw_006')) {
+              from = [
+                [false, true, false],
+                [true, true, true],
+              ];
+            } else if (src.includes('Fw_007')) {
+              from = [[true]];
+            } else if (src.includes('Fw_008')) {
+              from = [[true]];
+            } else if (src.includes('Fw_009')) {
+              from = [[true, true]];
+            } else if (src.includes('Fw_010')) {
+              from = [
+                [false, true, false],
+                [true, true, true],
+                [false, true, false],
+              ];
+            }
+            if (src.includes('Fw_011')) {
+              from = [
+                [true, true, false],
+                [false, true, false],
+                [false, true, true],
+              ];
+            } else if (src.includes('Fw_012')) {
+              from = [
+                [true, true],
+                [true, false],
+              ];
+            } else if (src.includes('Fw_013')) {
+              from = [
+                [false, true, false],
+                [false, true, false],
+                [true, true, true],
+              ];
+            } else if (src.includes('Fw_014')) {
+              from = [
+                [true, false, true],
+                [true, true, true],
+              ];
+            }
+            if (from.length > 0) {
+              data.from = from;
+              data.amount = levelInfo.split('Lv')[0];
+              const spans = $(element).find('span');
+              data['HP'] = 0;
+              data['ATK'] = 0;
+              data['Reality DEF'] = 0;
+              data['Mental DEF'] = 0;
+              data['Crit Rate'] = 0;
+              data['Crit DMG'] = 0;
+              data['DMG Bonus'] = 0;
+              data['DMG Reduction'] = 0;
+              data['Crit Resist'] = 0;
+              data['Crit DEF'] = 0;
+              spans.each((index, span) => {
+                const text = $(span).text().trim();
+                let keyName = text;
+                if (text === '生命') {
+                  keyName = 'HP';
+                } else if (text === '攻击') {
+                  keyName = 'ATK';
+                } else if (text === '现实防御') {
+                  keyName = 'Reality DEF';
+                } else if (text === '精神防御') {
+                  keyName = 'Mental DEF';
+                } else if (text === '暴击率') {
+                  keyName = 'Crit Rate';
+                } else if (text === '暴击创伤') {
+                  keyName = 'Crit DMG';
+                } else if (text === '创伤加成') {
+                  keyName = 'DMG Bonus';
+                } else if (text === '受创减免') {
+                  keyName = 'DMG Reduction';
+                } else if (text === '抗暴率') {
+                  keyName = 'Crit Resist';
+                } else if (text === '暴击防御') {
+                  keyName = 'Crit DEF';
+                }
+                const value = $(span).next().text().trim();
+                data[keyName] = value;
+              });
+              extractedData.push(data);
+            }
+          }
+        }
+      });
+
+      return extractedData;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
 // // Function to extract image URLs from HTML

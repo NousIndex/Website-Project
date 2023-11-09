@@ -27,3 +27,4 @@ export const REVERSE_TIMELINE_PATH = '/reverse1999/timeline';
 export const REVERSE_DATABASE_PATH = '/reverse1999/database';
 export const REVERSE_ACHIEVEMENTS_PATH = '/reverse1999/achievements';
 export const REGISTER_PATH_RESONATE_OPTIMIZER = '/reverse1999/resonate_optimizer';
+export const REGISTER_PATH_RESONATE_TESTER = '/reverse1999/resonate_grid_tester';
