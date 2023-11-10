@@ -1637,6 +1637,67 @@ app.get('/api/misc-commands', async (req, res) => {
     });
     const resonance = summary.Resonance;
     return res.json(resonance);
+  } else if (scrapeCommand === 'reverse1999characterList') {
+    // console.log('Starting StarRail Banner API');
+    // Define the URL of the MediaWiki API
+    const apiUrl = 'https://www.prydwen.gg/re1999/characters';
+
+    try {
+      // Construct the API URL with parameters
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      // Log the entire response
+      // console.log(response);
+      const responseData = await response.text();
+
+      // Parse the HTML content using cheerio
+      const $ = cheerio.load(responseData);
+
+      const imageURLSet = new Set();
+      const altTextSet = new Set();
+      // Find all <img> elements with the data-src attribute
+      const charactersList = $('.avatar-card');
+      charactersList.each((index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $(element).find(
+          'div[data-gatsby-image-wrapper] picture img'
+        );
+
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+        let alt = imgElement.attr('alt').trim().toLowerCase();
+        if (alt.includes('6')) {
+          alt = 'six';
+        } else if (alt.includes('37')) {
+          alt = 'thirty-seven';
+        } else if (alt.includes('matilda')) {
+          alt = 'matilda bouanich';
+        }
+        
+        imageURLSet.add(src);
+        altTextSet.add(alt);
+      });
+
+      // Convert the Set back to an array (if needed)
+      const imageURLArray = Array.from(imageURLSet);
+      const altTextArray = Array.from(altTextSet);
+      const imageAltDictionary = {};
+
+      // Iterate over the arrays and create key-value pairs
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray.length, altTextArray.length);
+        i++
+      ) {
+        imageAltDictionary[altTextArray[i]] = imageURLArray[i];
+      }
+
+      res.json(imageAltDictionary);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   } else {
     return res.status(400).json({ error: 'Invalid request' });
   }

@@ -668,7 +668,7 @@ function IdeaPage() {
                   ))} */}
                       <div className="optimized-grid-full-container">
                         {optimizedGrid.reverse().map((optimizedGridz) => {
-                          // console.log(optimizedGridz);
+                          console.log(optimizedGridz);
                           return (
                             <div className="optimized-grid-container">
                               <span

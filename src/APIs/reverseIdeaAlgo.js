@@ -355,6 +355,7 @@ export async function findBestCombinationAPI(gridWidth, gridHeight, shapes) {
       otherValues: combination.otherValues,
     });
   }
+  const sortedArray = grids.sort((a, b) => b.value - a.value);
 
-  return grids;
+  return sortedArray;
 }
