@@ -118,7 +118,7 @@ function IdeaPage() {
     setCurrentGrid(reso);
     for (let i = 0; i < reso.length; i++) {
       availableShapes.push({
-        value: reso[i]['stats'][selectedField],
+        value: reso[i]['stats'][selectedField] + reso[i]['extraValue'],
         form: reso[i]['form'],
         amount: parseInt(reso[i]['amount']),
         symbol: i,
@@ -360,7 +360,7 @@ function IdeaPage() {
                               .replaceAll('"', '')
                               .replaceAll(':', ': ')}
                           >
-                            Total Value: {optimizedGridz.value}
+                            Total Value: {optimizedGridz.value-100}
                           </span>
                           {optimizedGridz.grid.map((row, rowIndex) => (
                             <div

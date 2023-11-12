@@ -355,6 +355,7 @@ export async function fetchR1999GetReso(url, resoLevel) {
         const src = $(element).find('img').attr('src');
         if (levelInfo) {
           let from = [];
+          let extraValue = 0;
           if (src.includes('Fw_000')) {
             from = [
               [true, true],
@@ -401,6 +402,7 @@ export async function fetchR1999GetReso(url, resoLevel) {
               [true, true, true],
               [false, true, false],
             ];
+            extraValue = 100;
           }
           if (src.includes('Fw_011')) {
             from = [
@@ -408,6 +410,7 @@ export async function fetchR1999GetReso(url, resoLevel) {
               [false, true, false],
               [false, true, true],
             ];
+            extraValue = 100;
           } else if (src.includes('Fw_012')) {
             from = [
               [true, true],
@@ -419,14 +422,17 @@ export async function fetchR1999GetReso(url, resoLevel) {
               [false, true, false],
               [true, true, true],
             ];
+            extraValue = 100;
           } else if (src.includes('Fw_014')) {
             from = [
               [true, false, true],
               [true, true, true],
             ];
+            extraValue = 100;
           }
           if (from.length > 0) {
             data.form = from;
+            data.extraValue = extraValue;
             data.amount = levelInfo.split('Lv')[0];
             const spans = $(element).find('span');
             data['stats'] = {};
