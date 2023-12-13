@@ -29,34 +29,39 @@ module.exports = async (req, res) => {
       const $ = cheerio.load(content);
 
       // Find all <img> elements with the data-src attribute
-      const firstTable = $('table').eq(3);
+      const firstTable = $('table').eq(0);
       const imageURLSet = new Set();
 
       firstTable.find('img').each((index, element) => {
         const imageUrl = $(element).attr('data-src');
-        if (imageUrl) {
+        const imageUrl2 = $(element).attr('src');
+        if (imageUrl && imageUrl.includes('png')) {
           if (
             !imageUrl.includes('Stellar') &&
-            !imageUrl.includes('Departure')
+            !imageUrl.includes('Departure') &&
+            !imageUrl.includes('Item_Unknown.png')
           ) {
             const newImageUrl = imageUrl.split('.png')[0] + '.png';
+            imageURLSet.add(newImageUrl);
+          }
+        } else if (imageUrl2 && imageUrl2.includes('png')) {
+          if (
+            !imageUrl2.includes('Stellar') &&
+            !imageUrl2.includes('Departure') &&
+            !imageUrl2.includes('Item_Unknown.png')
+          ) {
+            const newImageUrl = imageUrl2.split('.png')[0] + '.png';
             imageURLSet.add(newImageUrl);
           }
         }
       });
 
       let dateText;
-      firstTable.find('.lightbox-caption').each((index, element) => {
+      firstTable.find('th').each((index, element) => {
         const text = $(element).text();
-        if (text.includes('From') && text.includes('to')) {
+        if (text.includes('—')) {
           const re = new RegExp(String.fromCharCode(160), 'g');
-          dateText = text
-            .split('(')[0]
-            .trim()
-            .replace(re, ' ')
-            .replace('From ', '')
-            .replace('to ', ' - ')
-            .replaceAll(',', '');
+          dateText = text.trim().replace('—', '-');
           return false; // Exit the loop once found
         }
       });
