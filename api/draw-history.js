@@ -86,6 +86,7 @@ module.exports = async (req, res) => {
       if (userGameId.length > 12) {
         // Connect the client to the server
         await client.connect();
+        console.log('Connected to the MongoDB server');
         // Access the database
         const database = client.db('NousIndex');
         // Access the "Games_Users" collection
@@ -94,6 +95,7 @@ module.exports = async (req, res) => {
         const dataUser = await gamesUsersCollection.findOne({
           UID: userGameId,
         });
+        console.log(dataUser);
 
         if (!dataUser) {
           return res.status(400).json({ error: 'Invalid request' });
