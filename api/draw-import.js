@@ -132,12 +132,12 @@ module.exports = async (req, res) => {
                   );
 
                   newDraws.push({
-                    Genshin_UID: item.uid,
-                    DrawID: item.id,
+                    Genshin_UID: String(item.uid),
+                    DrawID: String(item.id),
                     DrawTime: dateTime,
-                    DrawType: item.gacha_type,
-                    Item_Name: item.name,
-                    Rarity: item.rank_type,
+                    DrawType: String(item.gacha_type),
+                    Item_Name: String(item.name),
+                    Rarity: String(item.rank_type),
                   });
                 }
 
@@ -351,12 +351,12 @@ module.exports = async (req, res) => {
                   );
 
                   newDraws.push({
-                    StarRail_UID: item.uid,
-                    DrawID: item.id,
+                    StarRail_UID: String(item.uid),
+                    DrawID: String(item.id),
                     DrawTime: dateTime,
-                    DrawType: item.gacha_type,
-                    Item_Name: item.name,
-                    Rarity: item.rank_type,
+                    DrawType: String(item.gacha_type),
+                    Item_Name: String(item.name),
+                    Rarity: String(item.rank_type),
                   });
                 }
 
@@ -424,7 +424,6 @@ module.exports = async (req, res) => {
       if (newDraws.length > 0) {
         // Access the "StarRail_Draw" collection
         const starRailDrawCollection = database.collection('StarRail_Draw');
-        console.log(newDraws);
 
         // Insert multiple documents into the collection
         await starRailDrawCollection.insertMany(newDraws);
