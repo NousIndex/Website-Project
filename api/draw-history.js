@@ -80,16 +80,14 @@ module.exports = async (req, res) => {
   if (game === 'genshin') {
     try {
       let genshinUID = '';
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
       if (!userGameId) {
         return res.status(400).json({ error: 'Invalid request' });
       }
       if (userGameId.length > 12) {
-        // Connect the client to the server
-        console.log(process.env.MONGODB_URI);
-        await client.connect();
-        console.log('Connected to the MongoDB server');
-        // Access the database
-        const database = client.db('NousIndex');
         // Access the "Games_Users" collection
         const gamesUsersCollection = database.collection('Games_Users');
         // Find the document with the specified UID
@@ -262,6 +260,10 @@ module.exports = async (req, res) => {
     }
   } else if (game === 'starrail') {
     try {
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
       // * Should be done
       // console.log('Starting StarRail Draw API');
       const { userGameId } = req.query;
@@ -270,10 +272,6 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Invalid request' });
       }
       if (userGameId.length > 12) {
-        // Connect the client to the server
-        await client.connect();
-        // Access the database
-        const database = client.db('NousIndex');
         // Access the "Games_Users" collection
         const gamesUsersCollection = database.collection('Games_Users');
         // Find the document with the specified UID
