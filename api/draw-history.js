@@ -2,6 +2,7 @@ require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const { MongoClient } = require('mongodb');
 
+console.log(process.env.SUPABASE_URL);
 // Initialize a Supabase client with your Supabase URL and API key
 const supabase = createClient(
   process.env.SUPABASE_URL,
