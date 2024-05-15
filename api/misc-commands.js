@@ -196,10 +196,7 @@ module.exports = async (req, res) => {
             .eq(3)
             .contents()
             .each(function () {
-              if (this.nodeType === 3) {
-                // Check if it's a text node
-                validText += $(this).text().trim() + '\n';
-              }
+              validText += $(this).text().trim() + ' ';
             });
 
           if (!validText.toLowerCase().includes('expired')) {
@@ -276,10 +273,7 @@ module.exports = async (req, res) => {
             .eq(3)
             .contents()
             .each(function () {
-              if (this.nodeType === 3) {
-                // Check if it's a text node
-                validText += $(this).text().trim() + '\n';
-              }
+              validText += $(this).text().trim() + ' ';
             });
           // console.log(validText);
           if (!validText.toLowerCase().includes('expired')) {
