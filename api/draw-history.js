@@ -74,7 +74,7 @@ async function modifyAndUploadFileContent(fileContent, fileName) {
 }
 
 module.exports = async (req, res) => {
-  console.log('Starting Genshin Draw API');
+  // console.log('Starting Genshin Draw API');
   const game = req.query.game;
   const userGameId = req.query.userGameId;
   if (game === 'genshin') {
@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
         const dataUser = await gamesUsersCollection.findOne({
           UID: userGameId,
         });
-        console.log(dataUser);
+        // console.log(dataUser);
 
         if (!dataUser) {
           return res.status(400).json({ error: 'Invalid request' });

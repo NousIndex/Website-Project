@@ -66,8 +66,9 @@ function WishTracker({ userID }) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
-        setWatchList(data.Genshin_Watch);
-        setWatchListOriginal(data.Genshin_Watch);
+        console.log(data);
+        setWatchList(JSON.parse(data.Genshin_Watch));
+        setWatchListOriginal(JSON.parse(data.Genshin_Watch));
       }
     } catch (error) {
       console.error('Error fetching API usage data:', error);

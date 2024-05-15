@@ -65,8 +65,9 @@ function WishTracker({ userID }) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
-        setWatchList(data.StarRail_Watch);
-        setWatchListOriginal(data.StarRail_Watch);
+        console.log(data);
+        setWatchList(JSON.parse(data.StarRail_Watch));
+        setWatchListOriginal(JSON.parse(data.StarRail_Watch));
       }
     } catch (error) {
       console.error('Error fetching API usage data:', error);
