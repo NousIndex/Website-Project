@@ -3,16 +3,16 @@ const { createClient } = require('@supabase/supabase-js');
 const { MongoClient } = require('mongodb');
 
 // Initialize a Supabase client with your Supabase URL and API key
-const supabaseUrl = 'https://vtmjuwctzebijssijzhq.supabase.co';
-const supabaseKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0bWp1d2N0emViaWpzc2lqemhxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5NjcwOTE3MywiZXhwIjoyMDEyMjg1MTczfQ.wb1hHzf0_D5uaqURxof7VhKF53Bz0jxcwt9vvXkRrFY';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 // Define the name of the bucket you want to read from
 const bucketName = 'draw-cache';
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient("mongodb+srv://nousindex:qeFabeVOTPIs8wGq@nousindex.y41b76q.mongodb.net/?retryWrites=true&w=majority&appName=NousIndex", {
+const client = new MongoClient(process.env.MONGODB_URI, {
   serverApi: {
     version: '1', // Ensure this is a string, not a variable
     strict: true,
@@ -84,6 +84,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Invalid request' });
       }
       if (userGameId.length > 12) {
+        console.log('Using userGameId to find genshinUID');
         // Connect the client to the server
         await client.connect();
         console.log('Connected to the MongoDB server');
