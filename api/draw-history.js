@@ -7,6 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
 );
+console.log(supabase);
 
 // Define the name of the bucket you want to read from
 const bucketName = 'draw-cache';
