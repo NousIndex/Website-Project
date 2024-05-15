@@ -238,6 +238,7 @@ export async function fetchR1999CharacterList() {
       );
       const data = await response.json();
       imageSrcLists.push(data);
+      // console.log(imageSrcLists);
     } catch (error) {
       console.error('Error fetching API usage data:', error);
     }

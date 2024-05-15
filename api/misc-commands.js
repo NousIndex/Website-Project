@@ -400,6 +400,10 @@ module.exports = async (req, res) => {
           alt = 'thirty-seven';
         } else if (alt.includes('matilda')) {
           alt = 'matilda bouanich';
+        } else if (alt.includes('jessica')) {
+          alt = 'changeling';
+        } else if (alt.includes('kaalaa baunaa')) {
+          alt = 'black dwarf';
         }
 
         imageURLSet.add(src);
