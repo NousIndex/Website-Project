@@ -1,6 +1,18 @@
 const cheerio = require('cheerio');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+require('dotenv').config();
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(process.env.MONGODB_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+  ssl: true,
+  tlsAllowInvalidCertificates: true, // Set to false in production
+  tlsAllowInvalidHostnames: true, // Optional, set to true only for testing
+});
 
 module.exports = async (req, res) => {
   const scrapeCommand = req.query.scrapeCommand;
@@ -298,31 +310,65 @@ module.exports = async (req, res) => {
       console.error('Error fetching data:', error);
     }
   } else if (scrapeCommand === 'reverse1999resonancesummary') {
-    const characterFind = req.query.characterFind;
-    const summary = await prisma.Reverse1999_Resonance.findUnique({
-      where: { Character_Resonance: characterFind },
-    });
-    const resonance = summary.Resonance;
-    return res.json(resonance);
-  } else if (scrapeCommand === 'reverse1999resonanceupdate') {
-    const { character_name, updateData, summaryList } = req.body;
-    let summaryList2 = [];
-    if (summaryList) {
-      summaryList2 = summaryList;
+    try {
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
+
+      const characterFind = req.query.characterFind;
+      // Access the "Reverse1999_Resonance" collection
+      const reverse1999ResonanceCollection = database.collection(
+        'Reverse1999_Resonance'
+      );
+
+      // Find the document with the specified Character_Resonance
+      const summary = await reverse1999ResonanceCollection.findOne({
+        Character_Resonance: characterFind,
+      });
+      const resonance = summary.Resonance;
+      return res.json(resonance);
+    } finally {
+      await client.close();
     }
+  } else if (scrapeCommand === 'reverse1999resonanceupdate') {
+    try {
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
 
-    summaryList2.push(character_name);
+      const { character_name, updateData, summaryList } = req.body;
+      let summaryList2 = [];
+      if (summaryList) {
+        summaryList2 = summaryList;
+      }
 
-    await prisma.Reverse1999_Resonance.update({
-      where: { Character_Resonance: 'SummaryList' },
-      data: { Resonance: summaryList2 },
-    });
+      summaryList2.push(character_name);
 
-    await prisma.Reverse1999_Resonance.upsert({
-      where: { Character_Resonance: character_name },
-      update: { Resonance: updateData },
-      create: { Character_Resonance: character_name, Resonance: updateData },
-    });
+      // Access the "Reverse1999_Resonance" collection
+      const reverse1999ResonanceCollection = database.collection(
+        'Reverse1999_Resonance'
+      );
+
+      // Update the document with the specified Character_Resonance
+      await reverse1999ResonanceCollection.updateOne(
+        { Character_Resonance: 'SummaryList' }, // Filter condition
+        { $set: { Resonance: summaryList2 } } // Update operation
+      );
+
+      // Upsert the document with the specified Character_Resonance
+      await reverse1999ResonanceCollection.findOneAndUpdate(
+        { Character_Resonance: character_name }, // Filter condition
+        {
+          $setOnInsert: { Character_Resonance: character_name }, // Set character name on insert
+          $set: { Resonance: updateData }, // Set/update resonance data
+        },
+        { upsert: true, returnDocument: 'after' } // Options: upsert if not found, return the updated document
+      );
+    } finally {
+      await client.close();
+    }
   } else if (scrapeCommand === 'reverse1999characterList') {
     // console.log('Starting StarRail Banner API');
     // Define the URL of the MediaWiki API

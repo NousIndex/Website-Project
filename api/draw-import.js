@@ -1,5 +1,17 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+require('dotenv').config();
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(process.env.MONGODB_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+  ssl: true,
+  tlsAllowInvalidCertificates: true, // Set to false in production
+  tlsAllowInvalidHostnames: true, // Optional, set to true only for testing
+});
 
 module.exports = async (req, res) => {
   const game = req.query.game;
@@ -10,6 +22,10 @@ module.exports = async (req, res) => {
   if (game === 'genshin') {
     // console.log('Starting Genshin Draw Import API');
     try {
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
       let endid = '0';
       let banner = 100;
       const authkey = req.query.authkey;
@@ -58,10 +74,12 @@ module.exports = async (req, res) => {
           for (const item of itemList) {
             try {
               genshin_uid = item.uid;
-              const existingItem = await prisma.Genshin_Draw.findUnique({
-                where: {
-                  DrawID: item.id, // Assuming DrawID uniquely identifies an item
-                },
+              // Access the "Genshin_Draw" collection
+              const genshinDrawCollection = database.collection('Genshin_Draw');
+
+              // Find the document with the specified DrawID
+              const existingItem = await genshinDrawCollection.findOne({
+                DrawID: item.id,
               });
 
               if (existingItem) {
@@ -174,37 +192,37 @@ module.exports = async (req, res) => {
       // console.log(newDraws);
       // console.log(userID);
 
-      // Use Prisma to update the Genshin_User table with the new UID
-      await prisma.Games_Users.upsert({
-        where: { UID: userID },
-        update: { Genshin_UID: genshin_uid },
-        create: { UID: userID, Genshin_UID: genshin_uid },
-      });
+      // Access the "Games_Users" collection
+      const gamesUsersCollection = database.collection('Games_Users');
 
-      // Use Prisma to create a new entry in the Genshin_Draw table
+      // Upsert the document with the specified UID
+      await gamesUsersCollection.findOneAndUpdate(
+        { UID: userID }, // Filter condition
+        { $set: { Genshin_UID: genshin_uid } }, // Update operation
+        { upsert: true} // Options: upsert if not found, return the updated document
+      );
+
       if (newDraws.length > 0) {
-        await prisma.Genshin_Draw.createMany({
-          data: newDraws,
-          skipDuplicates: true,
-        });
-        // Update SummaryTable about the new data
+        // Access the "Genshin_Draw" collection
+        const genshinDrawCollection = database.collection('Genshin_Draw');
+
+        // Insert multiple documents into the collection
+        await genshinDrawCollection.insertMany(newDraws);
 
         // Calculate the total number of items in newDraws
         const totalItems = newDraws.length;
 
-        // Update the SummaryTable with the new total item count
-        await prisma.SummaryTable.upsert({
-          where: { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` },
-          update: {
-            total_items: {
-              increment: totalItems, // Specify the amount to increment by
-            },
+        // Access the "SummaryTable" collection
+        const summaryTableCollection = database.collection('SummaryTable');
+
+        // Upsert the document with the specified Game_UID
+        await summaryTableCollection.findOneAndUpdate(
+          { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` }, // Filter condition
+          {
+            $inc: { total_items: totalItems }, // Update operation to increment total_items
           },
-          create: {
-            Game_UID: `Genshin-${newDraws[0].Genshin_UID}`,
-            total_items: totalItems,
-          },
-        });
+          { upsert: true} // Options: upsert if not found, return the updated document
+        );
 
         console.log('Data inserted successfully');
         return res.json({ message: 'newData' });
@@ -215,11 +233,17 @@ module.exports = async (req, res) => {
     } catch (errors) {
       console.error('Fetch error:', errors);
       return res.json({ message: errors });
+    } finally {
+      await client.close();
     }
   } else if (game === 'starrail') {
     // * should be done
     //console.log('Starting StarRail Draw Import API');
     try {
+      // Connect the client to the server
+      await client.connect();
+      // Access the database
+      const database = client.db('NousIndex');
       let endid = '0';
       let banner = 2;
       const authkey = req.query.authkey;
@@ -268,10 +292,13 @@ module.exports = async (req, res) => {
           for (const item of itemList) {
             try {
               starrail_uid = item.uid;
-              const existingItem = await prisma.StarRail_Draw.findUnique({
-                where: {
-                  DrawID: item.id, // Assuming DrawID uniquely identifies an item
-                },
+              // Access the "StarRail_Draw" collection
+              const starRailDrawCollection =
+                database.collection('StarRail_Draw');
+
+              // Find the document with the specified DrawID
+              const existingItem = await starRailDrawCollection.findOne({
+                DrawID: item.id,
               });
 
               if (existingItem) {
@@ -384,37 +411,37 @@ module.exports = async (req, res) => {
       // console.log(newDraws);
       // console.log(userID);
 
-      // Use Prisma to update the Genshin_User table with the new UID
-      await prisma.Games_Users.upsert({
-        where: { UID: userID },
-        update: { StarRail_UID: starrail_uid },
-        create: { UID: userID, StarRail_UID: starrail_uid },
-      });
+      // Access the "Games_Users" collection
+      const gamesUsersCollection = database.collection('Games_Users');
 
-      // Use Prisma to create a new entry in the Genshin_Draw table
+      // Upsert the document with the specified UID
+      await gamesUsersCollection.findOneAndUpdate(
+        { UID: userID }, // Filter condition
+        { $set: { StarRail_UID: starrail_uid } }, // Update operation
+        { upsert: true} // Options: upsert if not found, return the updated document
+      );
+
       if (newDraws.length > 0) {
-        await prisma.StarRail_Draw.createMany({
-          data: newDraws,
-          skipDuplicates: true,
-        });
-        // Update SummaryTable about the new data
+        // Access the "StarRail_Draw" collection
+        const starRailDrawCollection = database.collection('StarRail_Draw');
+
+        // Insert multiple documents into the collection
+        await starRailDrawCollection.insertMany(newDraws);
 
         // Calculate the total number of items in newDraws
         const totalItems = newDraws.length;
 
-        // Update the SummaryTable with the new total item count
-        await prisma.SummaryTable.upsert({
-          where: { Game_UID: `StarRail-${newDraws[0].StarRail_UID}` },
-          update: {
-            total_items: {
-              increment: totalItems, // Specify the amount to increment by
-            },
+        // Access the "SummaryTable" collection
+        const summaryTableCollection = database.collection('SummaryTable');
+
+        // Upsert the document with the specified Game_UID
+        await summaryTableCollection.findOneAndUpdate(
+          { Game_UID: `StarRail-${newDraws[0].StarRail_UID}` }, // Filter condition
+          {
+            $inc: { total_items: totalItems }, // Update operation to increment total_items
           },
-          create: {
-            Game_UID: `StarRail-${newDraws[0].StarRail_UID}`,
-            total_items: totalItems,
-          },
-        });
+          { upsert: true} // Options: upsert if not found, return the updated document
+        );
 
         console.log('Data inserted successfully');
         return res.json({ message: 'newData' });
@@ -425,6 +452,8 @@ module.exports = async (req, res) => {
     } catch (errors) {
       console.error('Fetch error:', errors);
       return res.json({ message: errors });
+    } finally {
+      await client.close();
     }
   } else {
     return res.status(400).json({ error: 'Invalid request' });
