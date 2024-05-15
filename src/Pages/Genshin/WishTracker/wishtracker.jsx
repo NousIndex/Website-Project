@@ -39,7 +39,7 @@ function WishTracker({ userID }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userGameId: userID, watchList: watchList }),
+        body: JSON.stringify({ userGameId: userID, watchList: JSON.stringify(watchList) }),
       };
       const url = `${API_URL}api/draw-watchlist?game=genshin&command=update`;
 
@@ -66,7 +66,6 @@ function WishTracker({ userID }) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
-        console.log(data);
         setWatchList(JSON.parse(data.Genshin_Watch));
         setWatchListOriginal(JSON.parse(data.Genshin_Watch));
       }

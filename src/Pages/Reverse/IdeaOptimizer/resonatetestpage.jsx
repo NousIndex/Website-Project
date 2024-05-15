@@ -81,7 +81,7 @@ function IdeaPage() {
       );
       const data = await response.json();
       if (characterFind === 'SummaryList') {
-        setResonanceListData(data);
+        setResonanceListData(JSON.parse(data));
         return;
       } else {
         return data;
@@ -344,7 +344,7 @@ function IdeaPage() {
       },
       body: JSON.stringify({
         character_name: character_name,
-        updateData: savedGrid,
+        updateData: JSON.stringify(savedGrid),
         summaryList: resonanceListData,
       }),
     };
