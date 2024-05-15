@@ -424,6 +424,7 @@ module.exports = async (req, res) => {
       if (newDraws.length > 0) {
         // Access the "StarRail_Draw" collection
         const starRailDrawCollection = database.collection('StarRail_Draw');
+        console.log(newDraws);
 
         // Insert multiple documents into the collection
         await starRailDrawCollection.insertMany(newDraws);
