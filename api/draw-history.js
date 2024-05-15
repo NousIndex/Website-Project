@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Initialize a Supabase client with your Supabase URL and API key
 const supabase = createClient(
@@ -14,7 +14,7 @@ const bucketName = 'draw-cache';
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(process.env.MONGODB_URI, {
   serverApi: {
-    version: '1', // Ensure this is a string, not a variable
+    version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   },
@@ -84,8 +84,8 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Invalid request' });
       }
       if (userGameId.length > 12) {
-        console.log('Using userGameId to find genshinUID');
         // Connect the client to the server
+        console.log(process.env.MONGODB_URI);
         await client.connect();
         console.log('Connected to the MongoDB server');
         // Access the database
