@@ -12,7 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const bucketName = 'draw-cache';
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.MONGODB_URI, {
+const client = new MongoClient("mongodb+srv://nousindex:qeFabeVOTPIs8wGq@nousindex.y41b76q.mongodb.net/?retryWrites=true&w=majority&appName=NousIndex", {
   serverApi: {
     version: '1', // Ensure this is a string, not a variable
     strict: true,
