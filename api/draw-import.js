@@ -491,7 +491,7 @@ module.exports = async (req, res) => {
       for (let i = 1; i < 8; i++) {
         const payload = {
           cardPoolId: cardpoolId,
-          cardPoolType: i,
+          cardPoolType: 7,
           languageCode: 'en',
           playerId: wuwa_id,
           recordId: recordId,
@@ -514,7 +514,7 @@ module.exports = async (req, res) => {
             return response.json();
           })
           .then(async (data) => {
-            console.log(data);
+            console.log(data.data);
             for (const oneDraw in data.data) {
               console.log(oneDraw);
               const extractedData = {
@@ -525,8 +525,8 @@ module.exports = async (req, res) => {
                       wuwa_id
                     : null,
                 quality: oneDraw.qualityLevel ? oneDraw.qualityLevel : null,
-                name: oneDraw.name ? oneDraw.name.textContent.trim() : null,
-                date: oneDraw.time ? oneDraw.time.textContent.trim() : null,
+                name: oneDraw.name ? oneDraw.name.trim() : null,
+                date: oneDraw.time ? oneDraw.time.trim() : null,
               };
               // Access the "StarRail_Draw" collection
               const WuwaDrawCollection = database.collection('Wuwa_Draw');
