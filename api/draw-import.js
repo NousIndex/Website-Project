@@ -1,6 +1,4 @@
 require('dotenv').config();
-const { chromium } = require('playwright-chromium');
-const { setTimeout } = require('node:timers/promises');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -459,8 +457,11 @@ module.exports = async (req, res) => {
     }
   } else if (game === 'wuwa') {
     const authkey = decodeURIComponent(req.query.authkey);
-    
+
     const wuwa_id = authkey.match(/player_id=([^&]+)/)[1];
+    const cardpoolId = await urlString.match(/resources_id=([^&]+)/)[1];
+    const recordId = await urlString.match(/record_id=([^&]+)/)[1];
+    const serverId = await urlString.match(/svr_id=([^&]+)/)[1];
     // * should be done
     //console.log('Starting wuwa Draw Import API');
     try {
@@ -469,154 +470,6 @@ module.exports = async (req, res) => {
       // Access the database
       const database = client.db('NousIndex');
 
-      async function get_page_items(dropdown, uid) {
-        // Wait for any necessary page updates after selecting the item
-        await page.evaluate((index) => {
-          document
-            .querySelectorAll('.app-select-list .app-select-list-label')
-            [index].click();
-          // Pass wuwaID to the browser's context
-        }, dropdown);
-
-        await setTimeout(50);
-
-        // Extract the total number of pages
-        const totalPages = await page.evaluate(() => {
-          const paginationElement = document.querySelector(
-            '.app-table-pagination .pagination-content .content-tatal'
-          );
-          if (paginationElement) {
-            const text = paginationElement.textContent;
-            const match = text.match(/\d+/);
-            return match ? parseInt(match[0], 10) : null;
-          }
-          return null;
-        });
-
-        // console.log('Total Pages:', totalPages);
-        if (totalPages !== null) {
-          const pageData = [];
-          let duplicateFound = false;
-          for (let i = 1; i <= totalPages; i++) {
-            // Extract the information you need from the page
-            // Wait for all content-x elements to be available
-            const contentXElements = await page.$$('.content-x');
-            // Extract data from each content-x element
-            for (const contentXElement of contentXElements) {
-              const extractedData = await contentXElement.evaluate(
-                (element, uid) => {
-                  const nameElement = element.querySelector(
-                    '.content-item p[class*=quality]'
-                  );
-
-                  const qualityClasses = Array.from(
-                    element.querySelectorAll('.content-item p')
-                  )
-                    .map((p) =>
-                      Array.from(p.classList).find((className) =>
-                        className.startsWith('quality')
-                      )
-                    )
-                    .filter(Boolean);
-
-                  const dateElement = element.querySelector(
-                    '.content-item:last-child p'
-                  );
-
-                  return {
-                    drawID:
-                      nameElement + dateElement + uid
-                        ? nameElement.textContent
-                            .replace(/[\s:-]/g, '')
-                            .trim() +
-                          dateElement.textContent
-                            .replace(/[\s:-]/g, '')
-                            .trim() +
-                          uid
-                        : null,
-                    quality:
-                      qualityClasses.length > 0
-                        ? qualityClasses.join(', ')[7]
-                        : null,
-                    name: nameElement ? nameElement.textContent.trim() : null,
-                    date: dateElement ? dateElement.textContent.trim() : null,
-                  };
-                },
-                uid
-              );
-
-              // Access the "StarRail_Draw" collection
-              const WuwaDrawCollection = database.collection('Wuwa_Draw');
-
-              // Find the document with the specified DrawID
-              const existingItem = await WuwaDrawCollection.findOne({
-                DrawID: extractedData.drawID,
-              });
-
-              if (existingItem) {
-                duplicateFound = true;
-                break;
-              } else {
-                // console.log(extractedData.drawID);
-                pageData.push(extractedData);
-              }
-            }
-
-            if (duplicateFound) {
-              return pageData;
-            } else {
-              // Click the button
-              await page.click('.arrow-right.default-btn.arrow-right-pc');
-              await setTimeout(5);
-            }
-          }
-          return pageData;
-        }
-      }
-
-      const browser = await chromium.launch({
-        headless: true, // Change to true for headless mode
-      });
-      const page = await browser.newPage();
-
-      await setTimeout(25);
-
-      // Navigate to the URL
-      await page.goto(authkey);
-
-      // Print all the dropdown items
-      const dropdownItems = await page.$$eval(
-        '.app-select-list .app-select-list-label',
-        (items) => {
-          return items.map((item, index) => {
-            return item.textContent.trim();
-          });
-        }
-      );
-
-      const new_Draws = {};
-      let bannerTypeFixer = false;
-      for (let i = 0; i < dropdownItems.length; i++) {
-        let bannerName = dropdownItems[i];
-        if (bannerName.includes('Featured Resonator Convene')) {
-          if (bannerTypeFixer) {
-            bannerName = 'Featured Weapon Convene';
-          } else {
-            bannerName = 'Featured Resonator Convene';
-            bannerTypeFixer = true;
-          }
-        }
-        console.log(bannerName);
-        const data = await get_page_items(i, wuwa_id);
-        if (data.length > 0) {
-          new_Draws[bannerName] = data;
-        }
-        // Wait for any necessary page updates after selecting the item
-        await setTimeout(20);
-      }
-      // Close the browser
-      await browser.close();
-
       // Featured Resonator Convene
       // Featured Weapon Convene
       // Standard Resonator Convene
@@ -624,6 +477,80 @@ module.exports = async (req, res) => {
       // Beginner Convene
       // Beginner's Choice Convene
       // Beginner's Choice Convene（Giveback Custom Convene）
+
+      const new_Draws = {};
+      const wuwaBanners = [
+        'Featured Resonator Convene',
+        'Featured Weapon Convene',
+        'Standard Resonator Convene',
+        'Standard Weapon Convene',
+        'Beginner Convene',
+        "Beginner's Choice Convene",
+        "Beginner's Choice Convene (Giveback Custom Convene)",
+      ];
+      for (let i = 1; i < 8; i++) {
+        const payload = {
+          cardPoolId: cardpoolId,
+          cardPoolType: i,
+          languageCode: 'en',
+          playerId: wuwa_id,
+          recordId: recordId,
+          serverId: serverId,
+        };
+
+        await fetch('https://gmserver-api.aki-game2.net/gacha/record/query', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Origin: 'https://aki-gm-resources-oversea.aki-game.net',
+            // Add any other headers as needed
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Response data:', data);
+          })
+          .catch((error) => {
+            console.error(
+              'There was a problem with the fetch operation:',
+              error
+            );
+          });
+
+        for (const oneDraw in data.data) {
+          const extractedData = {
+            drawID:
+              oneDraw.name + oneDraw.time + wuwa_id
+                ? oneDraw.name.replace(/[\s:-]/g, '').trim() +
+                  oneDraw.time.replace(/[\s:-]/g, '').trim() +
+                  wuwa_id
+                : null,
+            quality: oneDraw.qualityLevel ? oneDraw.qualityLevel : null,
+            name: oneDraw.name ? oneDraw.name.textContent.trim() : null,
+            date: oneDraw.time ? oneDraw.time.textContent.trim() : null,
+          };
+          // Access the "StarRail_Draw" collection
+          const WuwaDrawCollection = database.collection('Wuwa_Draw');
+
+          // Find the document with the specified DrawID
+          const existingItem = await WuwaDrawCollection.findOne({
+            DrawID: extractedData.drawID,
+          });
+          if (existingItem) {
+            duplicateFound = true;
+            break;
+          } else {
+            new_Draws[wuwaBanners[i]] = extractedData;
+          }
+        }
+        await setTimeout(50);
+      }
 
       const userID = req.query.userID;
       const newDraws = [];
