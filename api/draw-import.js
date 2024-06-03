@@ -1,6 +1,5 @@
 require('dotenv').config();
-const chromium = require("@sparticuz/chromium");
-const puppeteer = require('puppeteer-core');
+const { chromium } = require('playwright-chromium');
 const { setTimeout } = require('node:timers/promises');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
@@ -575,11 +574,8 @@ module.exports = async (req, res) => {
         }
       }
 
-      const browser = await puppeteer.launch({
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
-        args: chromium.args,
+      const browser = await chromium.launch({
+        headless: true, // Change to true for headless mode
       });
       const page = await browser.newPage();
 

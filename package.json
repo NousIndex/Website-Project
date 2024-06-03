@@ -17,7 +17,7 @@
     "js-cookie": "^3.0.5",
     "mongodb": "^6.6.1",
     "mongoose": "^8.3.4",
-    "puppeteer-core": "19.4",
+    "playwright-chromium": "^1.44.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
