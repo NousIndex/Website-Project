@@ -18,7 +18,6 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 module.exports = async (req, res) => {
   const game = req.query.game;
-  console.log(game);
   if (!game) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -480,7 +479,7 @@ module.exports = async (req, res) => {
           // Pass wuwaID to the browser's context
         }, dropdown);
 
-        await setTimeout(20);
+        await setTimeout(50);
 
         // Extract the total number of pages
         const totalPages = await page.evaluate(() => {
@@ -586,7 +585,9 @@ module.exports = async (req, res) => {
       const page = await browser.newPage();
 
       // Navigate to the URL
-      await page.goto(authkey, { waitUntil: 'networkidle2' });
+      await page.goto(authkey);
+
+      await setTimeout(25);
 
       // Print all the dropdown items
       const dropdownItems = await page.$$eval(
@@ -616,7 +617,7 @@ module.exports = async (req, res) => {
           new_Draws[bannerName] = data;
         }
         // Wait for any necessary page updates after selecting the item
-        await setTimeout(10);
+        await setTimeout(20);
       }
       // Close the browser
       await browser.close();
