@@ -459,6 +459,7 @@ module.exports = async (req, res) => {
       await client.close();
     }
   } else if (game === 'wuwa') {
+    console.log(req.query.authkey)
     const authkey = decodeURIComponent(req.query.authkey);
     
     const wuwa_id = authkey.match(/player_id=([^&]+)/)[1];
