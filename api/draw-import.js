@@ -1,6 +1,5 @@
 require('dotenv').config();
-const chromium = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const { setTimeout } = require('node:timers/promises');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
@@ -577,11 +576,7 @@ module.exports = async (req, res) => {
       }
 
       // Launch a new browser instance
-      const browser = await puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-      }); // Set to true for headless mode
+      const browser = await puppeteer.launch({ headless: true }); // Set to true for headless mode
       const page = await browser.newPage();
 
       // Navigate to the URL
