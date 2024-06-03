@@ -583,10 +583,10 @@ module.exports = async (req, res) => {
       });
       const page = await browser.newPage();
 
+      await setTimeout(25);
+
       // Navigate to the URL
       await page.goto(authkey);
-
-      await setTimeout(25);
 
       // Print all the dropdown items
       const dropdownItems = await page.$$eval(
