@@ -491,7 +491,7 @@ module.exports = async (req, res) => {
       for (let i = 1; i < 8; i++) {
         const payload = {
           cardPoolId: cardpoolId,
-          cardPoolType: 7,
+          cardPoolType: i,
           languageCode: 'en',
           playerId: wuwa_id,
           recordId: recordId,
@@ -514,8 +514,7 @@ module.exports = async (req, res) => {
             return response.json();
           })
           .then(async (data) => {
-            console.log(data.data);
-            for (const oneDraw in data.data) {
+            for (const oneDraw of data.data) {
               console.log(oneDraw);
               const extractedData = {
                 drawID:
