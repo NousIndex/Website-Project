@@ -459,8 +459,8 @@ module.exports = async (req, res) => {
       await client.close();
     }
   } else if (game === 'wuwa') {
-    const authkey = req.query.authkey;
-    console.log(authkey);
+    const authkey = decodeURIComponent(req.query.authkey);
+    
     const wuwa_id = authkey.match(/player_id=([^&]+)/)[1];
     // * should be done
     //console.log('Starting wuwa Draw Import API');

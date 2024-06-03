@@ -50,8 +50,7 @@ export async function starrailWishImportAPI(wishData, userID) {
 }
 export async function wuwaWishImportAPI(wishData, userID) {
   try {
-    const authkey = encodeURI(wishData);
-    console.log(authkey);
+    const authkey = encodeURIComponent(wishData);
     
     // Define the URL of your API endpoint
     const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=wuwa`;
@@ -66,6 +65,6 @@ export async function wuwaWishImportAPI(wishData, userID) {
     return authkey; // Return the message from the response
   } catch (err) {
     console.log(err);
-    return err;
+    return "Wrong Authentication Key";
   }
 }
