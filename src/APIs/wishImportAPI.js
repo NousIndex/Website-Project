@@ -62,7 +62,7 @@ export async function wuwaWishImportAPI(wishData, userID) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    return authkey; // Return the message from the response
+    return data; // Return the message from the response
   } catch (err) {
     console.log(err);
     return "Wrong Authentication Key";
