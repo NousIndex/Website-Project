@@ -35,7 +35,7 @@
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "node ./backend_server/backend-server.js",
     "start:frontend": "cross-env PORT=25565 react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npx playwright install",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prisma:generate": "npx prisma generate",
