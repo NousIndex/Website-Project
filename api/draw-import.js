@@ -514,6 +514,7 @@ module.exports = async (req, res) => {
             return response.json();
           })
           .then(async (data) => {
+            console.log(data);
             for (const oneDraw in data.data) {
               console.log(oneDraw);
               const extractedData = {
