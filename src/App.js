@@ -28,6 +28,10 @@ import ReverseImportWish from './Pages/Reverse/SummonTracker/importsummon';
 import ReverseIdeaPage from './Pages/Reverse/IdeaOptimizer/resonatepage';
 import ReverseIdeaTestPage from './Pages/Reverse/IdeaOptimizer/resonatetestpage';
 
+import WuwaHomePage from './Pages/Wuwa/HomePage/homepage.jsx';
+import WuwaWishTrackerPage from './Pages/Wuwa/ConveneTracker/convenetracker';
+import WuwaImportWish from './Pages/Wuwa/ConveneTracker/importconvene';
+
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userID, setUserID] = useState('');
@@ -146,6 +150,18 @@ function App() {
               <Route
                 path={routePaths.REGISTER_PATH_RESONATE_TESTER}
                 element={<ReverseIdeaTestPage />}
+              />
+              <Route
+                path={routePaths.WUWA_HOME_PATH}
+                element={<WuwaHomePage />}
+              />
+              <Route
+                path={routePaths.WUWA_WISH_TRACKER_PATH}
+                element={<WuwaWishTrackerPage userID={userID} />}
+              />
+              <Route
+                path={routePaths.WUWA_WISH_TRACKER_IMPORT_PATH}
+                element={<WuwaImportWish userID={userID} />}
               />
             </>
           ) : (

@@ -55,7 +55,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(30%, 1fr));
   grid-gap: 0%;
-  grid-row-gap: 15%;
+  grid-row-gap: 7%;
   margin-left: 6%;
   margin-top: 1%;
   justify-content: center;
@@ -66,8 +66,8 @@ body {
   background: none;
   border: none;
   padding: 0;
-  width: 80%;
-  height: 100%;
+  width: 91%;
+  height: 92%;
   cursor: pointer;
   border-radius: 25px; /* Add rounded corners */
   transition: transform 0.3s ease; /* Add a smooth transition */

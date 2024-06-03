@@ -178,5 +178,105 @@ module.exports = async (req, res) => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  } else if (game === 'wuwa') {
+    const apiUrl = 'https://www.prydwen.gg/wuthering-waves/characters';
+    const apiUrl2 = 'https://www.prydwen.gg/wuthering-waves/weapons';
+
+    try {
+      // Construct the API URL with parameters
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const response2 = await fetch(apiUrl2);
+      if (!response2.ok) {
+        throw new Error(`HTTP error! Status: ${response2.status}`);
+      }
+
+      // Log the entire response
+      // console.log(response);
+      const responseData = await response.text();
+      const responseData2 = await response2.text();
+
+      // Parse the HTML content using cheerio
+      const $ = cheerio.load(responseData);
+
+      const imageURLSet = new Set();
+      const altTextSet = new Set();
+      // Find all <img> elements with the data-src attribute
+      const charactersList = $('.avatar-card');
+      charactersList.each((index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $(element).find('span[class="emp-name"]');
+        const characterName = nameElement.text();
+
+        imageURLSet.add(src);
+        altTextSet.add(characterName);
+      });
+      const $2 = cheerio.load(responseData2);
+      const imageURLSet2 = new Set();
+      const altTextSet2 = new Set();
+      // Find all <img> elements with the data-src attribute
+      const weaponList = $2('.ww-weapon-box');
+      weaponList.each((_index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $2(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $2(element).find('.ww-data h4');
+        const weaponName = nameElement.text();
+
+        imageURLSet2.add(src);
+        altTextSet2.add(weaponName);
+      });
+
+      const rarityClasses = $('span a .avatar')
+        .map((index, p) => {
+          const classList = $(p).attr('class').split(/\s+/);
+          return classList.find((className) => className.startsWith('rarity'));
+        })
+        .get()
+        .filter(Boolean);
+
+      // Convert the Set back to an array (if needed)
+      const imageURLArray = Array.from(imageURLSet);
+      const altTextArray = Array.from(altTextSet);
+      const imageURLArray2 = Array.from(imageURLSet2);
+      const altTextArray2 = Array.from(altTextSet2);
+      const imageAltDictionary = {};
+      const imageAltDictionary2 = {};
+
+      // Iterate over the arrays and create key-value pairs
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray.length, altTextArray.length);
+        i++
+      ) {
+        imageAltDictionary[altTextArray[i].toLowerCase()] = imageURLArray[i];
+      }
+
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray2.length, altTextArray2.length);
+        i++
+      ) {
+        imageAltDictionary2[altTextArray2[i].toLowerCase()] = imageURLArray2[i];
+      }
+        combinedDictionary = {...imageAltDictionary, ...imageAltDictionary2};
+      res.json(combinedDictionary);
+      // console.log(imageAltDictionary);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 };

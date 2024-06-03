@@ -19,6 +19,14 @@ export const STARRAIL_TIMELINE_PATH = '/starrail/timeline';
 export const STARRAIL_DATABASE_PATH = '/starrail/database';
 export const STARRAIL_ACHIEVEMENTS_PATH = '/starrail/achievements';
 
+export const WUWA_HOME_PATH = '/wuwa';
+export const WUWA_WISH_TRACKER_PATH = '/wuwa/convene_tracker';
+export const WUWA_WISH_TRACKER_IMPORT_PATH = '/wuwa/convene_tracker/import';
+export const WUWA_FARM_PATH = '/wuwa/farmable';
+export const WUWA_TIMELINE_PATH = '/wuwa/timeline';
+export const WUWA_DATABASE_PATH = '/wuwa/database';
+export const WUWA_ACHIEVEMENTS_PATH = '/wuwa/achievements';
+
 export const REVERSE_HOME_PATH = '/reverse1999';
 export const REVERSE_WISH_TRACKER_PATH = '/reverse1999/summon_tracker';
 export const REVERSE_WISH_TRACKER_IMPORT_PATH = '/reverse1999/summon_tracker/import';

@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import WarpInventory from './warpinventory';
+import ConveneInventory from './conveneinventory';
 
 const WishStats = ({ wishes, itemIcons, itemsData }) => {
   const [characterdraw4, setCharacterdraw4] = useState(0);
   const [weapondraw4, setWeapondraw4] = useState(0);
   const [standarddraw4, setStandarddraw4] = useState(0);
+  const [standardwepdraw4, setStandardwepdraw4] = useState(0);
   const [characterdraw5, setCharacterdraw5] = useState(0);
   const [weapondraw5, setWeapondraw5] = useState(0);
   const [standarddraw5, setStandarddraw5] = useState(0);
+  const [standardwepdraw5, setStandardwepdraw5] = useState(0);
   const [totalcharacterdraws, setTotalcharacterdraws] = useState(0);
   const [totalweapondraws, setTotalweapondraws] = useState(0);
   const [totalstandarddraws, setTotalstandarddraws] = useState(0);
+  const [totalstandardwepdraws, setTotalstandardwepdraws] = useState(0);
   const [averagepity4, setAveragepity4] = useState(0);
   const [averagepity5, setAveragepity5] = useState(0);
   const [total4stars, setTotal4stars] = useState(0);
@@ -26,21 +29,19 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         let counterc = 0;
         let counterw = 0;
         let counters = 0;
+        let countersw = 0;
         let characterdraw4lock = false;
         let characterdraw5lock = false;
         let weapondraw4lock = false;
         let weapondraw5lock = false;
         let standarddraw4lock = false;
         let standarddraw5lock = false;
+        let standardwepdraw4lock = false;
+        let standardwepdraw5lock = false;
         let averagepity4list = [];
         let averagepity5list = [];
         let itemCounts = {};
-        itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
-        itemCounts['Dan Heng'] = (itemCounts['Dan Heng'] || 0) + 1;
-        itemCounts['Asta'] = (itemCounts['Asta'] || 0) + 1;
-        itemCounts['Serval'] = (itemCounts['Serval'] || 0) + 1;
-        itemCounts['Natasha'] = (itemCounts['Natasha'] || 0) + 1;
-        itemCounts['Herta'] = (itemCounts['Herta'] || 0) + 1;
+        // itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {
@@ -50,68 +51,92 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             count4++;
             if (
               !characterdraw4lock &&
-              (wish.DrawType === 'Character Warp' ||
-                wish.DrawType === 'Character Warp - 2')
+              (wish.DrawType === 'Featured Resonator Convene' ||
+                wish.DrawType === 'Featured Resonator Convene - 2')
             ) {
               characterdraw4lock = true;
               setCharacterdraw4(counterc);
             } else if (
-              (wish.DrawType === 'Light Cone Warp' ||
-                wish.DrawType === 'Light Cone Warp - 2') &&
+              (wish.DrawType === 'Featured Weapon Convene' ||
+                wish.DrawType === 'Featured Weapon Convene - 2') &&
               !weapondraw4lock
             ) {
               weapondraw4lock = true;
               setWeapondraw4(counterw);
             } else if (
-              wish.DrawType === 'Standard Warp' &&
+              wish.DrawType === 'Standard Resonator Convene' &&
               !standarddraw4lock
             ) {
               standarddraw4lock = true;
               setStandarddraw4(counters);
+            } else if (
+              wish.DrawType === 'Standard Weapon Convene' &&
+              !standardwepdraw4lock
+            ) {
+              standardwepdraw4lock = true;
+              setStandardwepdraw4(counters);
             }
           } else if (wish.Rarity === '5') {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity5list.push(parseInt(wish.rarity5Pity));
             count5++;
             if (
-              (wish.DrawType === 'Character Warp' ||
-                wish.DrawType === 'Character Warp - 2') &&
+              (wish.DrawType === 'Featured Resonator Convene' ||
+                wish.DrawType === 'Featured Resonator Convene - 2') &&
               !characterdraw5lock
             ) {
               characterdraw5lock = true;
               setCharacterdraw5(counterc);
             } else if (
-              (wish.DrawType === 'Light Cone Warp' ||
-                wish.DrawType === 'Light Cone Warp - 2') &&
+              (wish.DrawType === 'Featured Weapon Convene' ||
+                wish.DrawType === 'Featured Weapon Convene - 2') &&
               !weapondraw5lock
             ) {
               weapondraw5lock = true;
               setWeapondraw5(counterw);
             } else if (
-              wish.DrawType === 'Standard Warp' &&
+              wish.DrawType === 'Standard Resonator Convene' &&
               !standarddraw5lock
             ) {
               standarddraw5lock = true;
               setStandarddraw5(counters);
+            } else if (
+              wish.DrawType === 'Standard Weapon Convene' &&
+              !standardwepdraw5lock
+            ) {
+              standardwepdraw5lock = true;
+              setStandardwepdraw5(counters);
             }
           }
+
+          // Featured Resonator Convene
+          // Featured Weapon Convene
+          // Standard Resonator Convene
+          // Standard Weapon Convene
+          // Beginner Convene
+          // Beginner's Choice Convene
+          // Beginner's Choice Convene（Giveback Custom Convene）
+
           if (
-            wish.DrawType === 'Character Warp' ||
-            wish.DrawType === 'Character Warp - 2'
+            wish.DrawType === 'Featured Resonator Convene' ||
+            wish.DrawType === 'Featured Resonator Convene - 2'
           ) {
             counterc++;
           } else if (
-            wish.DrawType === 'Light Cone Warp' ||
-            wish.DrawType === 'Light Cone Warp - 2'
+            wish.DrawType === 'Featured Weapon Convene' ||
+            wish.DrawType === 'Featured Weapon Convene - 2'
           ) {
             counterw++;
-          } else if (wish.DrawType === 'Standard Warp') {
+          } else if (wish.DrawType === 'Standard Resonator Convene') {
             counters++;
+          } else if (wish.DrawType === 'Standard Weapon Convene') {
+            countersw++;
           }
         });
         setTotalcharacterdraws(counterc);
         setTotalweapondraws(counterw);
         setTotalstandarddraws(counters);
+        setTotalstandardwepdraws(countersw);
         setTotal4stars(count4);
         setTotal5stars(count5);
         setAveragepity4(
@@ -129,7 +154,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
   return (
     <div>
       <div className="wish-stats-container">
-        <WarpInventory
+        <ConveneInventory
           itemIcons={itemIcons}
           itemsData={itemsData}
           itemCounter={itemCounter}
@@ -137,7 +162,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
             <span>
-              Character Warp
+              Featured Resonator Convene
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalcharacterdraws}
@@ -159,7 +184,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
           </div>
           <div className="wish-stats-pity-table">
             <span>
-              Light Cone Warp
+              Featured Weapon Convene
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalweapondraws}
@@ -181,7 +206,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
           </div>
           <div className="wish-stats-pity-table">
             <span>
-              Standard Warp
+              Standard Resonator Convene
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalstandarddraws}
@@ -197,6 +222,28 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
                 <tr>
                   <td>{standarddraw4}</td>
                   <td>{standarddraw5}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="wish-stats-pity-table">
+            <span>
+              Standard Weapon Convene
+              <br />
+              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              {totalstandardwepdraws}
+            </span>
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ color: '#ebb3ff' }}>4★</th>
+                  <th style={{ color: '#ffc76c' }}>5★</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{standardwepdraw4}</td>
+                  <td>{standardwepdraw5}</td>
                 </tr>
               </tbody>
             </table>
