@@ -515,6 +515,7 @@ module.exports = async (req, res) => {
           })
           .then(async (data) => {
             for (const oneDraw in data.data) {
+              console.log(oneDraw);
               const extractedData = {
                 drawID:
                   oneDraw.name + oneDraw.time + wuwa_id
