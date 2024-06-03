@@ -48,9 +48,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <img
             src={
-              character.rarity === 4
+              character.rarity.includes('4')
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/7/77/Icon_4_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134633'
-                : character.rarity === 5
+                : character.rarity.includes('5')
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134545'
                 : 'default-src-for-other-rarities'
             }
@@ -124,9 +124,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           /> */}
           <img
             src={
-              weapon.rarity === 4
+              weapon.rarity.includes('4')
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/7/77/Icon_4_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134633'
-                : weapon.rarity === 5
+                : weapon.rarity.includes('5')
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134545'
                 : 'default-src-for-other-rarities'
             }
