@@ -585,6 +585,7 @@ module.exports = async (req, res) => {
       const page = await browser.newPage();
 
       // Navigate to the URL
+      console.log(authkey);
       await page.goto(authkey);
 
       await setTimeout(25);
