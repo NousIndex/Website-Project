@@ -53,7 +53,7 @@ export async function wuwaWishImportAPI(wishData, userID) {
     const authkey = encodeURI(wishData);
     
     // Define the URL of your API endpoint
-    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=starrail`;
+    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=wuwa`;
 
     // Use the fetch function to make the GET request
     const response = await fetch(apiUrl);
