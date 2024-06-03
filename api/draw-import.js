@@ -1,5 +1,5 @@
 require('dotenv').config();
-const chromium = require('chrome-aws-lambda');
+const chromium = require("@sparticuz/chromium");
 const puppeteer = require('puppeteer-core');
 const { setTimeout } = require('node:timers/promises');
 const { MongoClient, ServerApiVersion } = require('mongodb');
@@ -576,14 +576,13 @@ module.exports = async (req, res) => {
         }
       }
 
-      // Launch a new browser instance
-      const browser = await chromium.puppeteer.launch({
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: true,
+      const browser = await puppeteer.launch({
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
         ignoreHTTPSErrors: true,
-      }); // Set to true for headless mode
+        defaultViewport: chromium.defaultViewport,
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+      });
       const page = await browser.newPage();
 
       // Navigate to the URL
