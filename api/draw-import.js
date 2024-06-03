@@ -479,7 +479,7 @@ module.exports = async (req, res) => {
       // Beginner's Choice Convene
       // Beginner's Choice Convene（Giveback Custom Convene）
 
-      const new_Draws = {};
+      const newDraws = [];
       const wuwaBanners = [
         'Featured Resonator Convene',
         'Featured Weapon Convene',
@@ -516,30 +516,50 @@ module.exports = async (req, res) => {
           })
           .then(async (data) => {
             for (const oneDraw of data.data) {
-              console.log(oneDraw);
-              const extractedData = {
-                drawID:
-                  oneDraw.name + oneDraw.time + wuwa_id
-                    ? oneDraw.name.replace(/[\s:-]/g, '').trim() +
-                      oneDraw.time.replace(/[\s:-]/g, '').trim() +
-                      wuwa_id
-                    : null,
-                quality: oneDraw.qualityLevel ? oneDraw.qualityLevel : null,
-                name: oneDraw.name ? oneDraw.name.trim() : null,
-                date: oneDraw.time ? oneDraw.time.trim() : null,
-              };
+              const drawID =
+                oneDraw.name.replace(/[\s:-]/g, '').trim() +
+                oneDraw.time.replace(/[\s:-]/g, '').trim() +
+                wuwa_id;
+
               // Access the "StarRail_Draw" collection
               const WuwaDrawCollection = database.collection('Wuwa_Draw');
 
               // Find the document with the specified DrawID
               const existingItem = await WuwaDrawCollection.findOne({
-                DrawID: extractedData.drawID,
+                DrawID: drawID,
               });
               if (existingItem) {
                 duplicateFound = true;
                 break;
               } else {
-                new_Draws[wuwaBanners[i]] = extractedData;
+                // Split the date and time string into its components
+                const [datePart, timePart, ampm] = oneDraw.time.split(' ');
+
+                // Split the date components into year, month, and day
+                const [year, month, day] = datePart.split('-').map(Number);
+
+                // Split the time components into hours, minutes, seconds, and AM/PM
+                const [time] = timePart.split(' ');
+                const [hours, minutes, seconds] = time.split(':').map(Number);
+
+                // Create the Date object
+                const dateTime = new Date(
+                  year,
+                  month - 1,
+                  day,
+                  hours,
+                  minutes,
+                  seconds
+                );
+
+                newDraws.push({
+                  Wuwa_UID: String(wuwa_id),
+                  DrawID: String(drawID),
+                  DrawTime: dateTime,
+                  DrawType: String(wuwaBanners[i - 1]),
+                  Item_Name: String(oneDraw.name),
+                  Rarity: String(oneDraw.qualityLevel),
+                });
               }
             }
           })
@@ -554,45 +574,6 @@ module.exports = async (req, res) => {
       }
 
       const userID = req.query.userID;
-      const newDraws = [];
-      for (const key in new_Draws) {
-        // Log the key
-        // console.log('Key:', key);
-
-        // Log each element in the array corresponding to the current key
-        new_Draws[key].forEach((element) => {
-          // console.log('Value:', element);
-
-          // Split the date and time string into its components
-          const [datePart, timePart, ampm] = element.date.split(' ');
-
-          // Split the date components into year, month, and day
-          const [year, month, day] = datePart.split('-').map(Number);
-
-          // Split the time components into hours, minutes, seconds, and AM/PM
-          const [time] = timePart.split(' ');
-          const [hours, minutes, seconds] = time.split(':').map(Number);
-
-          // Create the Date object
-          const dateTime = new Date(
-            year,
-            month - 1,
-            day,
-            hours,
-            minutes,
-            seconds
-          );
-
-          newDraws.push({
-            Wuwa_UID: String(wuwa_id),
-            DrawID: String(element.drawID),
-            DrawTime: dateTime,
-            DrawType: String(key),
-            Item_Name: String(element.name),
-            Rarity: String(element.quality),
-          });
-        });
-      }
 
       // Access the "Games_Users" collection
       const gamesUsersCollection = database.collection('Games_Users');
