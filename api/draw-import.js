@@ -577,10 +577,12 @@ module.exports = async (req, res) => {
       }
 
       // Launch a new browser instance
-      const browser = await puppeteer.launch({
-        args: chromium.args,
+      const browser = await chromium.puppeteer.launch({
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
-        headless: chromium.headless,
+        headless: true,
+        ignoreHTTPSErrors: true,
       }); // Set to true for headless mode
       const page = await browser.newPage();
 
