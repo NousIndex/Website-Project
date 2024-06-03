@@ -459,9 +459,9 @@ module.exports = async (req, res) => {
     const authkey = decodeURIComponent(req.query.authkey);
 
     const wuwa_id = authkey.match(/player_id=([^&]+)/)[1];
-    const cardpoolId = await urlString.match(/resources_id=([^&]+)/)[1];
-    const recordId = await urlString.match(/record_id=([^&]+)/)[1];
-    const serverId = await urlString.match(/svr_id=([^&]+)/)[1];
+    const cardpoolId = authkey.match(/resources_id=([^&]+)/)[1];
+    const recordId = authkey.match(/record_id=([^&]+)/)[1];
+    const serverId = authkey.match(/svr_id=([^&]+)/)[1];
     // * should be done
     //console.log('Starting wuwa Draw Import API');
     try {
