@@ -321,9 +321,11 @@ module.exports = async (req, res) => {
           elementType = 'https://www.prydwen.gg' + typeElement.attr('data-src');
         }
 
-        imageURLSet.add(src);
-        altTextSet.add(characterName);
-        typeURLArray.push(elementType);
+        if (!characterName.toLowerCase().includes('rover')) {
+          imageURLSet.add(src);
+          altTextSet.add(characterName);
+          typeURLArray.push(elementType);
+        }
       });
       const $2 = cheerio.load(responseData2);
       const imageURLSet2 = new Set();
