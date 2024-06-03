@@ -217,8 +217,10 @@ module.exports = async (req, res) => {
         const nameElement = $(element).find('span[class="emp-name"]');
         const characterName = nameElement.text();
 
-        imageURLSet.add(src);
-        altTextSet.add(characterName);
+        if (!characterName.toLowerCase().includes('rover')) {
+          imageURLSet.add(src);
+          altTextSet.add(characterName);
+        }
       });
       const $2 = cheerio.load(responseData2);
       const imageURLSet2 = new Set();
@@ -239,14 +241,6 @@ module.exports = async (req, res) => {
         imageURLSet2.add(src);
         altTextSet2.add(weaponName);
       });
-
-      const rarityClasses = $('span a .avatar')
-        .map((index, p) => {
-          const classList = $(p).attr('class').split(/\s+/);
-          return classList.find((className) => className.startsWith('rarity'));
-        })
-        .get()
-        .filter(Boolean);
 
       // Convert the Set back to an array (if needed)
       const imageURLArray = Array.from(imageURLSet);
@@ -272,7 +266,7 @@ module.exports = async (req, res) => {
       ) {
         imageAltDictionary2[altTextArray2[i].toLowerCase()] = imageURLArray2[i];
       }
-        combinedDictionary = {...imageAltDictionary, ...imageAltDictionary2};
+      combinedDictionary = { ...imageAltDictionary, ...imageAltDictionary2 };
       res.json(combinedDictionary);
       // console.log(imageAltDictionary);
     } catch (error) {
