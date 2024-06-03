@@ -17,6 +17,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 module.exports = async (req, res) => {
   const game = req.query.game;
+  console.log(game);
   if (!game) {
     return res.status(400).json({ error: 'Invalid request' });
   }

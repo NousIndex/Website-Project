@@ -51,6 +51,7 @@ export async function starrailWishImportAPI(wishData, userID) {
 export async function wuwaWishImportAPI(wishData, userID) {
   try {
     const authkey = encodeURI(wishData);
+    console.log(authkey);
     
     // Define the URL of your API endpoint
     const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=wuwa`;
