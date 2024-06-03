@@ -513,8 +513,33 @@ module.exports = async (req, res) => {
             }
             return response.json();
           })
-          .then((data) => {
-            console.log('Response data:', data);
+          .then(async (data) => {
+            for (const oneDraw in data.data) {
+              const extractedData = {
+                drawID:
+                  oneDraw.name + oneDraw.time + wuwa_id
+                    ? oneDraw.name.replace(/[\s:-]/g, '').trim() +
+                      oneDraw.time.replace(/[\s:-]/g, '').trim() +
+                      wuwa_id
+                    : null,
+                quality: oneDraw.qualityLevel ? oneDraw.qualityLevel : null,
+                name: oneDraw.name ? oneDraw.name.textContent.trim() : null,
+                date: oneDraw.time ? oneDraw.time.textContent.trim() : null,
+              };
+              // Access the "StarRail_Draw" collection
+              const WuwaDrawCollection = database.collection('Wuwa_Draw');
+
+              // Find the document with the specified DrawID
+              const existingItem = await WuwaDrawCollection.findOne({
+                DrawID: extractedData.drawID,
+              });
+              if (existingItem) {
+                duplicateFound = true;
+                break;
+              } else {
+                new_Draws[wuwaBanners[i]] = extractedData;
+              }
+            }
           })
           .catch((error) => {
             console.error(
@@ -523,32 +548,6 @@ module.exports = async (req, res) => {
             );
           });
 
-        for (const oneDraw in data.data) {
-          const extractedData = {
-            drawID:
-              oneDraw.name + oneDraw.time + wuwa_id
-                ? oneDraw.name.replace(/[\s:-]/g, '').trim() +
-                  oneDraw.time.replace(/[\s:-]/g, '').trim() +
-                  wuwa_id
-                : null,
-            quality: oneDraw.qualityLevel ? oneDraw.qualityLevel : null,
-            name: oneDraw.name ? oneDraw.name.textContent.trim() : null,
-            date: oneDraw.time ? oneDraw.time.textContent.trim() : null,
-          };
-          // Access the "StarRail_Draw" collection
-          const WuwaDrawCollection = database.collection('Wuwa_Draw');
-
-          // Find the document with the specified DrawID
-          const existingItem = await WuwaDrawCollection.findOne({
-            DrawID: extractedData.drawID,
-          });
-          if (existingItem) {
-            duplicateFound = true;
-            break;
-          } else {
-            new_Draws[wuwaBanners[i]] = extractedData;
-          }
-        }
         await setTimeout(50);
       }
 
