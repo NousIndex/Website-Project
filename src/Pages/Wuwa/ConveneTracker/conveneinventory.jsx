@@ -41,13 +41,19 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             src={iconUrl}
             className="wish-character-inventory-image no-selection"
             style={{
-              backgroundImage: character.rarity.includes('5_Stars')
+              backgroundImage: character.rarity.includes('5')
                 ? 'linear-gradient(#71433f, #b89574)'
                 : 'linear-gradient(#353455, #8754bf)',
             }}
           />
           <img
-            src={character.rarity}
+            src={
+              character.rarity === 4
+                ? 'https://static.wikia.nocookie.net/wutheringwaves/images/7/77/Icon_4_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134633'
+                : character.rarity === 5
+                ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134545'
+                : 'default-src-for-other-rarities'
+            }
             className="wish-character-inventory-rarity no-selection"
           />
           <img
@@ -104,9 +110,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             src={iconUrl}
             className="wish-weapon-inventory-image no-selection"
             style={{
-              backgroundImage: weapon.rarity.includes('5_Stars')
+              backgroundImage: weapon.rarity.includes('5')
                 ? 'linear-gradient(#71433f, #b89574)'
-                : weapon.rarity.includes('4_Stars')
+                : weapon.rarity.includes('4')
                 ? 'linear-gradient(#353455, #8754bf)'
                 : 'linear-gradient(#003B7D, #207cdd)',
             }}
@@ -117,7 +123,13 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className="warp-weapon-inventory-type no-selection"
           /> */}
           <img
-            src={weapon.rarity}
+            src={
+              weapon.rarity === 4
+                ? 'https://static.wikia.nocookie.net/wutheringwaves/images/7/77/Icon_4_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134633'
+                : weapon.rarity === 5
+                ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png/revision/latest/scale-to-width-down/115?cb=20240429134545'
+                : 'default-src-for-other-rarities'
+            }
             className="wish-weapon-inventory-rarity no-selection"
           />
           <span className="warp-weapon-inventory-atk no-selection">
