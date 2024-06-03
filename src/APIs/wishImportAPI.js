@@ -66,6 +66,6 @@ export async function wuwaWishImportAPI(wishData, userID) {
     return authkey; // Return the message from the response
   } catch (err) {
     console.log(err);
-    return wishData;
+    return err;
   }
 }
