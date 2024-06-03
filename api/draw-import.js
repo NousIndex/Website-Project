@@ -580,8 +580,7 @@ module.exports = async (req, res) => {
         executablePath: await chromium.executablePath(),
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
-        defaultViewport: chromium.defaultViewport,
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        args: chromium.args,
       });
       const page = await browser.newPage();
 
