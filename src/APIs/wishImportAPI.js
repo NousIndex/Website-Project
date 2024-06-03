@@ -63,7 +63,7 @@ export async function wuwaWishImportAPI(wishData, userID) {
     }
     const data = await response.json();
     console.log(data);
-    return data; // Return the message from the response
+    return data.message; // Return the message from the response
   } catch (err) {
     console.log(err);
     return "Wrong Authentication Key";
