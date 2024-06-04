@@ -218,7 +218,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             {' '}
             ATK {weapon.atk}{' '}
           </span>
-          <span className="wish-weapon-inventory-sub no-selection   ">
+          <span className="wish-weapon-inventory-sub no-selection">
             {' '}
             {weapon.sub}{' '}
           </span>

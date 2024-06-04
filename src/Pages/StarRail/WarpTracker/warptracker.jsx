@@ -28,6 +28,7 @@ function WishTracker({ userID }) {
   const [itemsData, setItemsData] = useState({});
   const [isWatchIcon, setIsWatchIcon] = useState(false);
   const [watchList, setWatchList] = useState([]); // Default watchList is empty array
+  const [exploreList, setExploreList] = useState([]);
   const [watchListOriginal, setWatchListOriginal] = useState([]); // Default watchList is empty array
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -57,7 +58,7 @@ function WishTracker({ userID }) {
         `${API_URL}api/draw-watchlist?game=starrail&command=get&userGameId=${userGameId}`
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (data.error) {
         setWatchList([]);
         setWatchListOriginal([]);
@@ -65,7 +66,7 @@ function WishTracker({ userID }) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
-        console.log(data);
+        // console.log(data);
         setWatchList(JSON.parse(data.StarRail_Watch));
         setWatchListOriginal(JSON.parse(data.StarRail_Watch));
       }
@@ -88,15 +89,24 @@ function WishTracker({ userID }) {
     }
   }
 
-  // async function fetchExploreList() {
-  //   try {
-  //     const response = await fetch(`${API_URL}api/genshin-draw-explorer`);
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error('Error fetching API usage data:', error);
-  //   }
-  // }
+  async function fetchExploreList(userGameId) {
+    try {
+      const response = await fetch(
+        `${API_URL}api/draw-watchlist?game=starrail&command=explore&userGameId=${userGameId}`
+      );
+      const data = await response.json();
+      // console.log(data);
+      if (data.error) {
+        setExploreList([]);
+      } else if (data === null) {
+        setExploreList([]);
+      } else {
+        setExploreList(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error('Error fetching API usage data:', error);
+    }
+  }
 
   useEffect(() => {
     async function fetchData2() {
@@ -134,6 +144,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     // Call the fetchData function when the component mounts
     fetchData(userGameId);
+    fetchExploreList(userGameId);
   }, [userGameId]); // Specify an empty dependency array to run only once
 
   // Function to filter items based on type
@@ -361,7 +372,7 @@ function WishTracker({ userID }) {
                 </h2>
                 <div className="watchlist-item-container">
                   {watchList.map((item, index) => (
-                    <div className='watchlist-item-inside-container'>
+                    <div className="watchlist-item-inside-container">
                       <button
                         className="watchlist-item-button"
                         onClick={() => {
@@ -406,6 +417,62 @@ function WishTracker({ userID }) {
             >
               Save Watchlist Changes!
             </button>
+          </div>
+          <div className="genshin-wish-explorer-divider">
+            <button
+              className="genshin-wish-searcher-explorer-button no-selection"
+              onClick={handleWatchListClick}
+              disabled={!exploreList || exploreList.length === 0}
+              title={
+                !exploreList || exploreList.length === 0
+                  ? 'No items in the watchlist'
+                  : ''
+              }
+            >
+              Explore List
+            </button>
+
+            <Modal
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              contentLabel="Watch List Modal"
+              className="watchlist-modal"
+              overlayClassName="watchlist-overlay"
+            >
+              <div className={`watchlist-modal-content`}>
+                <h2 style={{ color: 'white', fontWeight: 'bold' }}>
+                  Explore List
+                </h2>
+                <div className="watchlist-item-container">
+                  {exploreList.map((item, index) => (
+                    <div className="watchlist-item-inside-container">
+                      <button
+                        className="watchlist-item-button"
+                        onClick={() => {
+                          handleModalItemClick(item);
+                          closeModal(); // Call closeModal to close the modal
+                        }}
+                      >
+                        {item}
+                      </button>
+
+                      <img
+                        src={editIcon}
+                        alt="Edit Icon"
+                        className="watchlist-edit-icon"
+                        onClick={() => handleEditWatchListClick(item)}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="watchlist-close-button"
+                  onClick={closeModal}
+                >
+                  x
+                </button>
+              </div>
+            </Modal>
           </div>
         </h1>
         <div class="wish-grid-container">
