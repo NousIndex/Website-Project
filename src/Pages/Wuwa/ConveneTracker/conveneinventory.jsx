@@ -132,7 +132,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             }
             className="wish-weapon-inventory-rarity no-selection"
           />
-          <span className="warp-weapon-inventory-atk no-selection">
+          <span className="wish-weapon-inventory-atk no-selection">
             {' '}
             {weapon.attack}{' '}
           </span>
