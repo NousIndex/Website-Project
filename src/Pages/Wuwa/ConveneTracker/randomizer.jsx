@@ -36,9 +36,7 @@ const RandomiserModal = ({
       itemNameModified = 'Tartaglia';
     }
 
-    const iconUrl =
-      itemIcons.find((url) => url.includes(itemNameModified)) ||
-      'default-image-url';
+    const iconUrl = itemIcons[weapon.name.toLowerCase()] || 'default-image-url';
 
     return (
       <div className={`random-character-inventory-div`}>
@@ -46,7 +44,7 @@ const RandomiserModal = ({
           src={iconUrl}
           className="random-character-inventory-image no-selection"
           style={{
-            backgroundImage: character.rarity.includes('5_Stars')
+            backgroundImage: character.rarity.includes('5')
               ? 'linear-gradient(#71433f, #b89574)'
               : 'linear-gradient(#353455, #8754bf)',
           }}
@@ -56,12 +54,8 @@ const RandomiserModal = ({
           className="random-character-inventory-rarity no-selection"
         />
         <img
-          src={character.element}
+          src={character.type}
           className="random-character-inventory-element no-selection"
-        />
-        <img
-          src={character.weapon}
-          className="random-character-inventory-weapon no-selection"
         />
         <span className="random-character-inventory-name">
           {character.name}
@@ -196,7 +190,7 @@ const RandomiserModal = ({
     }
   };
 
-  const options = Array.from({ length: 8 }, (_, index) => index + 1);
+  const options = Array.from({ length: 9 }, (_, index) => index + 1);
 
   return (
     <div>
