@@ -460,7 +460,7 @@ module.exports = async (req, res) => {
       } else {
         wuwaUID = userGameId;
       }
-      const fileName = `starrail/StarRail-${wuwaUID}.json`;
+      const fileName = `wuwa/Wuwa-${wuwaUID}.json`;
 
       if (!wuwaUID) {
         return res.status(400).json({ error: 'Invalid request' });
@@ -494,10 +494,8 @@ module.exports = async (req, res) => {
       // If the file does not exist or the data is not up to date, fetch the data from the database
       console.log('Fetching data from database');
       try {
-        // Access the "StarRail_Draw" collection
         const wuwaDrawCollection = database.collection('Wuwa_Draw');
 
-        // Find documents with the specified StarRail_UID, sort them by DrawTime in descending order, and select specific fields
         const data = await wuwaDrawCollection
           .find(
             { Wuwa_UID: wuwaUID }, // Filter condition
