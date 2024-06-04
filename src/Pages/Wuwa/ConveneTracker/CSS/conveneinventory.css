@@ -7,7 +7,7 @@
   color: #ffffff;
   font-weight: bold;
   text-align: center;
-  font-size: clamp(2px, 1.5vw, 20px);
+  font-size: clamp(4px, 1.5vw, 30px);
 }
 
 .convene-character-inventory-element {
