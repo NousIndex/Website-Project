@@ -371,6 +371,10 @@ module.exports = async (req, res) => {
       });
 
       const rarityClasses = $('span a .avatar')
+        .filter((index, element) => {
+          const empName = $(element).find('.emp-name').text().toLowerCase();
+          return !empName.includes('rover');
+        })
         .map((index, p) => {
           const classList = $(p).attr('class').split(/\s+/);
           return classList.find((className) => className.startsWith('rarity'));
