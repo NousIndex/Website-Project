@@ -18,3 +18,15 @@
   left: 4%;
   width: 15%;
 }
+.random-wuwa-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  background-color: #080016; /* White background for the modal content */
+  padding: 10px 50px;
+  width: 65%;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(56, 0, 153, 0.6); /* Box shadow for the modal */
+  z-index: 1009;
+}

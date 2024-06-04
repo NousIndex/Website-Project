@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CSS/conveneinventory.css';
 
 const RandomiserModal = ({
   isOpen,
@@ -36,7 +37,8 @@ const RandomiserModal = ({
       itemNameModified = 'Tartaglia';
     }
 
-    const iconUrl = itemIcons[character.name.toLowerCase()] || 'default-image-url';
+    const iconUrl =
+      itemIcons[character.name.toLowerCase()] || 'default-image-url';
 
     return (
       <div className={`random-character-inventory-div`}>
@@ -50,13 +52,22 @@ const RandomiserModal = ({
           }}
         />
         <img
-          src={character.rarity}
+          src={
+            character.rarity.includes('4')
+              ? 'https://static.wikia.nocookie.net/wutheringwaves/images/7/77/Icon_4_Stars.png'
+              : character.rarity.includes('5')
+              ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png'
+              : 'default-src-for-other-rarities'
+          }
+          cla
           className="random-character-inventory-rarity no-selection"
         />
-        <img
-          src={character.type}
-          className="random-character-inventory-element no-selection"
-        />
+        {character.type !== 'undefined' && (
+          <img
+            src={character.type}
+            className="convene-character-inventory-element no-selection"
+          />
+        )}
         <span className="random-character-inventory-name">
           {character.name}
         </span>
@@ -198,7 +209,7 @@ const RandomiserModal = ({
         className="random-modal-overlay"
         onClick={onClose}
       />
-      <div className="random-modal-content">
+      <div className="random-wuwa-modal-content">
         <div className="random-modal-content-container">
           <span
             className="random-close-button no-selection"
