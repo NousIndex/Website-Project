@@ -30,6 +30,7 @@ function WishTracker({ userID }) {
   const [exploreList, setExploreList] = useState([]);
   const [watchListOriginal, setWatchListOriginal] = useState([]); // Default watchList is empty array
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
 
   async function updateWatchList() {
     if (watchListOriginal !== watchList) {
@@ -272,6 +273,13 @@ function WishTracker({ userID }) {
     setIsModalOpen(false);
   };
 
+  const handleWatchListClick2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const closeModal2 = () => {
+    setIsModalOpen2(false);
+  };
   const handleSaveWatchListClick = () => {
     updateWatchList();
   };
@@ -432,7 +440,7 @@ function WishTracker({ userID }) {
           <div className="genshin-wish-explorer-divider">
             <button
               className="genshin-wish-searcher-explorer-button no-selection"
-              onClick={handleWatchListClick}
+              onClick={handleWatchListClick2}
               disabled={!exploreList || exploreList.length === 0}
               title={
                 !exploreList || exploreList.length === 0
@@ -444,9 +452,9 @@ function WishTracker({ userID }) {
             </button>
 
             <Modal
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel="Watch List Modal"
+              isOpen={isModalOpen2}
+              onRequestClose={closeModal2}
+              contentLabel="Explore List Modal"
               className="watchlist-modal"
               overlayClassName="watchlist-overlay"
             >
@@ -461,24 +469,17 @@ function WishTracker({ userID }) {
                         className="watchlist-item-button"
                         onClick={() => {
                           handleModalItemClick(item);
-                          closeModal(); // Call closeModal to close the modal
+                          closeModal2(); // Call closeModal to close the modal
                         }}
                       >
                         {item}
                       </button>
-
-                      <img
-                        src={editIcon}
-                        alt="Edit Icon"
-                        className="watchlist-edit-icon"
-                        onClick={() => handleEditWatchListClick(item)}
-                      />
                     </div>
                   ))}
                 </div>
                 <button
                   className="watchlist-close-button"
-                  onClick={closeModal}
+                  onClick={closeModal2}
                 >
                   x
                 </button>

@@ -79,8 +79,8 @@ module.exports = async (req, res) => {
         }
       } else if (command === 'explore') {
         // console.log('Starting Genshin Draw Watchlist Update API');
-        const { userGameId, watchList } = req.body;
-        if (!userGameId || !watchList) {
+        const userGameId = req.query.userGameId;
+        if (!userGameId) {
           return res.status(400).json({ error: 'Invalid request' });
         }
         try {
@@ -166,8 +166,8 @@ module.exports = async (req, res) => {
         }
       } else if (command === 'explore') {
         // console.log('Starting Genshin Draw Watchlist Update API');
-        const { userGameId, watchList } = req.body;
-        if (!userGameId || !watchList) {
+        const userGameId = req.query.userGameId;
+        if (!userGameId) {
           return res.status(400).json({ error: 'Invalid request' });
         }
         try {
@@ -252,8 +252,8 @@ module.exports = async (req, res) => {
         }
       } else if (command === 'explore') {
         // console.log('Starting Genshin Draw Watchlist Update API');
-        const { userGameId, watchList } = req.body;
-        if (!userGameId || !watchList) {
+        const userGameId = req.query.userGameId;
+        if (!userGameId) {
           return res.status(400).json({ error: 'Invalid request' });
         }
         try {
