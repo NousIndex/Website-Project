@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import * as routePaths from '../../../routePaths.js';
-import './CSS/convenetracker.css';
 import WuwaSidebar from '../../components/WuwaSidebar.jsx';
 import banner1 from '../../../assets/Icons/wuwa-all.webp';
 import banner2 from '../../../assets/Icons/wuwa-character.webp';

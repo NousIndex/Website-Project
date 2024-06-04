@@ -64,7 +64,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             src={character.weapon}
             className="wish-character-inventory-weapon no-selection"
           /> */}
-          <span className="wish-character-inventory-name">
+          <span className="convene-character-inventory-name">
             {character.name}
           </span>
           {isNaN(characterConstallation) ? null : (
@@ -134,7 +134,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <span className="wish-weapon-inventory-atk no-selection">
             {' '}
-            {weapon.attack}{' '}
+            {'ATK' + weapon.attack}{' '}
           </span>
           <span className="wish-weapon-inventory-sub no-selection   ">
             {' '}
