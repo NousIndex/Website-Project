@@ -96,7 +96,7 @@ function WishTracker({ userID }) {
         `${API_URL}api/draw-watchlist?game=starrail&command=explore&userGameId=${userGameId}`
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (data.error) {
         setExploreList([]);
       } else if (data === null) {
