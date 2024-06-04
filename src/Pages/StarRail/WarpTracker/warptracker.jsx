@@ -102,7 +102,7 @@ function WishTracker({ userID }) {
       } else if (data === null) {
         setExploreList([]);
       } else {
-        setExploreList(JSON.parse(data));
+        setExploreList(data);
       }
     } catch (error) {
       console.error('Error fetching API usage data:', error);
