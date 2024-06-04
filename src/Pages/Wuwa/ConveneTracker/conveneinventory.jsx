@@ -58,7 +58,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <img
             src={character.type}
-            className="wish-character-inventory-element no-selection"
+            className="convene-character-inventory-element no-selection"
           />
           {/* <img
             src={character.weapon}
