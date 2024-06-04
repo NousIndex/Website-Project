@@ -68,7 +68,7 @@ const RandomiserModal = ({
             className="convene-character-inventory-element no-selection"
           />
         )}
-        <span className="random-character-inventory-name">
+        <span className="random-wuwa-character-inventory-name">
           {character.name}
         </span>
       </div>
