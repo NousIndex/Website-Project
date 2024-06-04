@@ -44,8 +44,8 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         // itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
 
         wishes.forEach((wish) => {
-          if (wish.Rarity === '3') {
-          } else if (wish.Rarity === '4') {
+          if (wish.Rarity.includes('3')) {
+          } else if (wish.Rarity.includes('4')) {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity4list.push(parseInt(wish.rarity4Pity));
             count4++;
@@ -76,7 +76,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
               standardwepdraw4lock = true;
               setStandardwepdraw4(counters);
             }
-          } else if (wish.Rarity === '5') {
+          } else if (wish.Rarity.includes('5')) {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity5list.push(parseInt(wish.rarity5Pity));
             count5++;
