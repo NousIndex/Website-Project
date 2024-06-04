@@ -209,7 +209,7 @@ const RandomiserModal = ({
         className="random-modal-overlay"
         onClick={onClose}
       />
-      <div className="random-wuwa-modal-content">
+      <div className="random-modal-content">
         <div className="random-modal-content-container">
           <span
             className="random-close-button no-selection"
