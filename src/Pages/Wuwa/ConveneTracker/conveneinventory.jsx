@@ -211,7 +211,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         className="draw-modal-open-button no-selection"
         onClick={openModal}
       >
-        Warp Inventory
+        Convene Inventory
       </button>
       {isModalOpen && (
         <div
@@ -260,7 +260,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   }`}
                   onClick={() => switchTab('Weapon')}
                 >
-                  Light Cone
+                  Weapon
                 </div>
               </div>
             </div>
