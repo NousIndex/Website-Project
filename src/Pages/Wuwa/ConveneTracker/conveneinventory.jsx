@@ -20,9 +20,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
-      // if (character.name === 'Aloy') {
-      //   return;
-      // }
+      if (character.name.toLowerCase().includes('rover')) {
+        return;
+      }
 
       const iconUrl =
         itemIcons[character.name.toLowerCase()] || 'default-image-url';
