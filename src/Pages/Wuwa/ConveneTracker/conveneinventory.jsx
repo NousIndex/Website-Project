@@ -56,7 +56,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             }
             className="wish-character-inventory-rarity no-selection"
           />
-          {character.type && (
+          {character.type !== 'undefined' && (
             <img
               src={character.type}
               className="convene-character-inventory-element no-selection"
