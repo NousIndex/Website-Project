@@ -36,7 +36,7 @@ const RandomiserModal = ({
       itemNameModified = 'Tartaglia';
     }
 
-    const iconUrl = itemIcons[weapon.name.toLowerCase()] || 'default-image-url';
+    const iconUrl = itemIcons[character.name.toLowerCase()] || 'default-image-url';
 
     return (
       <div className={`random-character-inventory-div`}>
