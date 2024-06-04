@@ -56,12 +56,12 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             }
             className="wish-character-inventory-rarity no-selection"
           />
-          <img
-            src={
-              character.type.isNaN() ? 'default-src-for-types' : character.type
-            }
-            className="convene-character-inventory-element no-selection"
-          />
+          {character.type && (
+            <img
+              src={character.type}
+              className="convene-character-inventory-element no-selection"
+            />
+          )}
           {/* <img
             src={character.weapon}
             className="wish-character-inventory-weapon no-selection"
