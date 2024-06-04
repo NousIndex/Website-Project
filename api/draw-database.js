@@ -110,7 +110,7 @@ module.exports = async (req, res) => {
             const data = {
               name: column2Text,
               rarity: column3DataSrc.split('.png')[0] + '.png',
-              element: column4DataSrc.split('.svg')[0] + '.svg',
+              element: column4DataSrc.split('.png')[0] + '.png',
               weapon: column5DataSrc.split('.png')[0] + '.png',
               release: column8Text,
             };

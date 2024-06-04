@@ -57,7 +57,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className="wish-character-inventory-rarity no-selection"
           />
           <img
-            src={character.type}
+            src={
+              character.type.isNaN() ? 'default-src-for-types' : character.type
+            }
             className="convene-character-inventory-element no-selection"
           />
           {/* <img
@@ -134,7 +136,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <span className="wish-weapon-inventory-atk no-selection">
             {' '}
-            {'ATK' + weapon.attack}{' '}
+            {'ATK ' + weapon.attack}{' '}
           </span>
           <span className="wish-weapon-inventory-sub no-selection   ">
             {' '}
