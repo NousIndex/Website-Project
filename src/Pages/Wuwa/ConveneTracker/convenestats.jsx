@@ -133,6 +133,32 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             countersw++;
           }
         });
+
+        if (characterdraw4lock === false) {
+          setCharacterdraw4(counterc);
+        }
+        if (weapondraw4lock === false) {
+          setWeapondraw4(counterw);
+        }
+        if (standarddraw4lock === false) {
+          setStandarddraw4(counters);
+        }
+        if (standardwepdraw4lock === false) {
+          setStandardwepdraw4(countersw);
+        }
+        if (characterdraw5lock === false) {
+          setCharacterdraw5(counterc);
+        }
+        if (weapondraw5lock === false) {
+          setWeapondraw5(counterw);
+        }
+        if (standarddraw5lock === false) {
+          setStandarddraw5(counters);
+        }
+        if (standardwepdraw5lock === false) {
+          setStandardwepdraw5(countersw);
+        }
+
         setTotalcharacterdraws(counterc);
         setTotalweapondraws(counterw);
         setTotalstandarddraws(counters);
