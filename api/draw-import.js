@@ -55,11 +55,11 @@ module.exports = async (req, res) => {
 
         // Parse the response body as JSON
         const responseData = await response.json();
-        //console.log('Response data:', responseData);
+        // console.log('Response data:', responseData);
         if (responseData.retcode === -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 100));
           continue;
         }
         if (!responseData.data) {
@@ -84,9 +84,9 @@ module.exports = async (req, res) => {
               });
 
               if (existingItem) {
-                // console.log(
-                //   `Item with DrawID ${item.id} exists in Genshin_Draw table.`
-                // );
+                console.log(
+                  `Item with DrawID ${item.id} exists in Genshin_Draw table.`
+                );
                 duplicateFound = true;
                 //console.log('Duplicate found');
                 break; // Exit the loop if a duplicate is found
