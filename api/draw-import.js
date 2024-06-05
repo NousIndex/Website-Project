@@ -277,7 +277,7 @@ module.exports = async (req, res) => {
         if (responseData.retcode === -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 100));
           continue;
         }
         if (!responseData.data) {
