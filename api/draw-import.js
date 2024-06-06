@@ -52,6 +52,9 @@ module.exports = async (req, res) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        console.log(banner)
+        var currentdate = new Date(); 
+        console.log(currentdate.getSeconds())
 
         // Parse the response body as JSON
         const responseData = await response.json();
@@ -66,10 +69,7 @@ module.exports = async (req, res) => {
           // console.log(responseData)
           return res.json({ message: responseData.message });
         }
-        var currentdate = new Date(); 
         const itemList = responseData.data.list;
-        console.log(banner)
-        console.log(currentdate.getSeconds())
         if (itemList.length > 0) {
           // No more data
 
