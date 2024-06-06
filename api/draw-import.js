@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
         var currentdate = new Date(); 
         const itemList = responseData.data.list;
         console.log(banner)
-        console.log(currentdate.seconds())
+        console.log(currentdate.getSeconds())
         if (itemList.length > 0) {
           // No more data
 
@@ -85,7 +85,6 @@ module.exports = async (req, res) => {
               const existingItem = await genshinDrawCollection.findOne({
                 DrawID: item.id,
               });
-              console.log(item.id)
 
               if (existingItem) {
                 console.log(
