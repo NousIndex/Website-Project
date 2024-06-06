@@ -52,9 +52,9 @@ module.exports = async (req, res) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log(banner)
-        var currentdate = new Date(); 
-        console.log(currentdate.getSeconds())
+        console.log(banner);
+        var currentdate = new Date();
+        console.log(currentdate.getSeconds());
 
         // Parse the response body as JSON
         const responseData = await response.json();
@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
         if (responseData.retcode == -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
-          await new Promise((resolve) => setTimeout(resolve, 100));
+          await setTimeout(50);
           continue;
         }
         if (!responseData.data) {
