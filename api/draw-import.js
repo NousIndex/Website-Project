@@ -66,8 +66,10 @@ module.exports = async (req, res) => {
           // console.log(responseData)
           return res.json({ message: responseData.message });
         }
+        var currentdate = new Date(); 
         const itemList = responseData.data.list;
         console.log(banner)
+        console.log(currentdate.getMinutes())
         if (itemList.length > 0) {
           // No more data
 
