@@ -82,6 +82,7 @@ module.exports = async (req, res) => {
               const existingItem = await genshinDrawCollection.findOne({
                 DrawID: item.id,
               });
+              console.log(item)
 
               if (existingItem) {
                 // console.log(

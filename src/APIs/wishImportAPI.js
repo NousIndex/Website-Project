@@ -21,6 +21,9 @@ export async function genshinWishImportAPI(wishData, userID) {
     return data.message; // Return the message from the response
   } catch (err) {
     console.log(err);
+    if (err.message === "HTTP error! Status: 504") {
+      return "API Timeout, Please Try Again Later";
+    }
     return "Wrong Authentication Key";
   }
 }
@@ -45,6 +48,9 @@ export async function starrailWishImportAPI(wishData, userID) {
     return data.message; // Return the message from the response
   } catch (err) {
     console.log(err);
+    if (err.message === "HTTP error! Status: 504") {
+      return "API Timeout, Please Try Again Later";
+    }
     return "Wrong Authentication Key";
   }
 }
