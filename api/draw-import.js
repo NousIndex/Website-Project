@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
 
         // Parse the response body as JSON
         const responseData = await response.json();
-        // console.log('Response data:', responseData);
+        console.log('Response data:', responseData);
         if (responseData.retcode == -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
