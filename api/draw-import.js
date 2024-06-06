@@ -67,6 +67,8 @@ module.exports = async (req, res) => {
           return res.json({ message: responseData.message });
         }
         const itemList = responseData.data.list;
+        console.log(banner)
+        console.log(itemList);
         if (itemList.length > 0) {
           // No more data
 
