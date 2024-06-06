@@ -174,7 +174,6 @@ module.exports = async (req, res) => {
           }
         } else {
           if (banner === 100) {
-            // get uid
             banner = 301;
             endid = '0';
           } else if (banner === 301) {
@@ -191,8 +190,8 @@ module.exports = async (req, res) => {
           }
         }
       }
-      // console.log(newDraws);
-      // console.log(userID);
+      console.log(newDraws);
+      console.log(userID);
 
       // Access the "Games_Users" collection
       const gamesUsersCollection = database.collection('Games_Users');
