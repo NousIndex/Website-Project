@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
         // Parse the response body as JSON
         const responseData = await response.json();
         // console.log('Response data:', responseData);
-        if (responseData.retcode === -110) {
+        if (responseData.retcode == -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
           await new Promise((resolve) => setTimeout(resolve, 100));
@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
                     item.gacha_type = 'Unknown';
                 }
 
-                if (item.gacha_type !== 'Unknown') {
+                if (item.gacha_type != 'Unknown') {
                   // Split the date and time string into its components
                   const [datePart, timePart, ampm] = item.time.split(' ');
 
@@ -158,16 +158,16 @@ module.exports = async (req, res) => {
           }
           endid = itemList[itemList.length - 1].id;
           if (duplicateFound) {
-            if (banner === 100) {
+            if (banner == 100) {
               banner = 301;
               endid = '0';
-            } else if (banner === 301) {
+            } else if (banner == 301) {
               banner = 400;
               endid = '0';
-            } else if (banner === 400) {
+            } else if (banner == 400) {
               banner = 302;
               endid = '0';
-            } else if (banner === 302) {
+            } else if (banner == 302) {
               banner = 200;
               endid = '0';
             } else {
@@ -175,16 +175,16 @@ module.exports = async (req, res) => {
             }
           }
         } else {
-          if (banner === 100) {
+          if (banner == 100) {
             banner = 301;
             endid = '0';
-          } else if (banner === 301) {
+          } else if (banner == 301) {
             banner = 400;
             endid = '0';
-          } else if (banner === 400) {
+          } else if (banner == 400) {
             banner = 302;
             endid = '0';
-          } else if (banner === 302) {
+          } else if (banner == 302) {
             banner = 200;
             endid = '0';
           } else {
@@ -237,6 +237,7 @@ module.exports = async (req, res) => {
       console.error('Fetch error:', errors);
       return res.json({ message: errors });
     } finally {
+      console.log('Closing connection');
       await client.close();
     }
   } else if (game === 'starrail') {
