@@ -82,12 +82,12 @@ module.exports = async (req, res) => {
               const existingItem = await genshinDrawCollection.findOne({
                 DrawID: item.id,
               });
-              console.log(item)
+              console.log(item.id)
 
               if (existingItem) {
-                // console.log(
-                //   `Item with DrawID ${item.id} exists in Genshin_Draw table.`
-                // );
+                console.log(
+                  `Item with DrawID ${item.id} exists in Genshin_Draw table.`
+                );
                 duplicateFound = true;
                 //console.log('Duplicate found');
                 break; // Exit the loop if a duplicate is found
