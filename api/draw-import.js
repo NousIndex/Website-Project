@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
       while (loop) {
         const apiUrl =
-          'https://sg-hk4e-api.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
+          'https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
           banner +
           '&lang=en&authkey=' +
           authkey +
