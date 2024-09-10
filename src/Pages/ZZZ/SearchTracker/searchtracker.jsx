@@ -112,7 +112,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData2() {
       try {
-        const response = await fetch(`${API_URL}api/draw-icons?game=zzz`);
+        const response = await fetch(`${API_URL}api/draw-icons?game=starrail`);
         const data = await response.json();
         setItemIcons(data);
       } catch (error) {
