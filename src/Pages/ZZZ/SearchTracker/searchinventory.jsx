@@ -37,8 +37,8 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             }}
           />
           <img
-            src={character.rarity}
-            className="wish-character-inventory-rarity no-selection"
+            src={character.weapon}
+            className="wish-character-inventory-weapon no-selection"
           />
           <img
             src={character.type}
@@ -53,7 +53,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 : 'default-src-for-other-rarities'
             }
             className="wish-character-inventory-rarity no-selection"
-            style={{ width: '35%', height: 'auto' }}
+            style={{ width: '20%', height: 'auto' }}
           />
           <span className="convene-character-inventory-name">
             {character.name}
@@ -126,7 +126,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 : 'default-src-for-other-rarities'
             }
             className="wish-weapon-inventory-rarity no-selection"
-            style={{ width: '35%', height: 'auto' }}
+            style={{ width: '20%', height: 'auto' }}
           />
           <span className="wish-weapon-inventory-atk no-selection">
             {' '}
