@@ -31,7 +31,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             src={iconUrl}
             className="wish-character-inventory-image no-selection"
             style={{
-              backgroundImage: character.rarity.includes('5_Stars')
+              backgroundImage: character.rarity.includes('S')
                 ? 'linear-gradient(#71433f, #b89574)'
                 : 'linear-gradient(#353455, #8754bf)',
             }}
@@ -41,7 +41,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className="wish-character-inventory-rarity no-selection"
           />
           <img
-            src={character.element}
+            src={character.type}
             className="wish-character-inventory-element no-selection"
           />
           <img
@@ -64,9 +64,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   function generateWeaponImages() {
     return itemsData.weapons.map((weapon) => {
       if (
-        weapon.rarity.includes('3_Stars') ||
-        weapon.rarity.includes('2_Stars') ||
-        weapon.rarity.includes('1_Star')
+        weapon.rarity.includes('C') ||
+        weapon.rarity.includes('D') ||
+        weapon.rarity.includes('E')
       ) {
         return;
       }
@@ -98,9 +98,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             src={iconUrl}
             className="wish-weapon-inventory-image no-selection"
             style={{
-              backgroundImage: weapon.rarity.includes('5_Stars')
+              backgroundImage: weapon.rarity.includes('S')
                 ? 'linear-gradient(#71433f, #b89574)'
-                : weapon.rarity.includes('4_Stars')
+                : weapon.rarity.includes('A')
                 ? 'linear-gradient(#353455, #8754bf)'
                 : 'linear-gradient(#003B7D, #207cdd)',
             }}
