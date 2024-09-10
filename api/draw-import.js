@@ -518,8 +518,7 @@ module.exports = async (req, res) => {
             try {
               zzz_uid = item.uid;
               // Access the "ZZZ_Draw" collection
-              const zzzDrawCollection =
-                database.collection('Zzz_Draw');
+              const zzzDrawCollection = database.collection('Zzz_Draw');
 
               // Find the document with the specified DrawID
               const existingItem = await zzzDrawCollection.findOne({
@@ -539,16 +538,16 @@ module.exports = async (req, res) => {
                 // 1001 Standard banner
                 // 5001 Bangboo banner
                 switch (item.gacha_type) {
-                  case '2001':
+                  case '2':
                     item.gacha_type = 'Agent Search';
                     break;
-                  case '1001':
+                  case '1':
                     item.gacha_type = 'Standard Search';
                     break;
-                  case '3001':
+                  case '3':
                     item.gacha_type = 'W-Engine Search';
                     break;
-                  case '5001':
+                  case '5':
                     item.gacha_type = 'Bangboo Search';
                     break;
                   default:

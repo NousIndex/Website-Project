@@ -17,7 +17,6 @@ import { API_URL } from '../../../API_Config.js';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
-// 812517138 CL // 812650839 JY // 802199629 XH // 801235702 Hadi
 
 function WishTracker({ userID }) {
   const [wishAPIData, setWishAPIData] = useState([]);
@@ -43,7 +42,7 @@ function WishTracker({ userID }) {
         },
         body: JSON.stringify({ userGameId: userID, watchList: watchList }),
       };
-      const url = `${API_URL}api/draw-watchlist?game=starrail&command=update`;
+      const url = `${API_URL}api/draw-watchlist?game=zzz&command=update`;
 
       try {
         await fetch(url, requestOptions);
@@ -57,20 +56,20 @@ function WishTracker({ userID }) {
   async function getWatchList() {
     try {
       const response = await fetch(
-        `${API_URL}api/draw-watchlist?game=starrail&command=get&userGameId=${userGameId}`
+        `${API_URL}api/draw-watchlist?game=zzz&command=get&userGameId=${userGameId}`
       );
       const data = await response.json();
       // console.log(data);
       if (data.error) {
         setWatchList([]);
         setWatchListOriginal([]);
-      } else if (data.StarRail_Watch === null) {
+      } else if (data.Zzz_Watch === null) {
         setWatchList([]);
         setWatchListOriginal([]);
       } else {
         // console.log(data);
-        setWatchList(JSON.parse(data.StarRail_Watch));
-        setWatchListOriginal(JSON.parse(data.StarRail_Watch));
+        setWatchList(JSON.parse(data.Zzz_Watch));
+        setWatchListOriginal(JSON.parse(data.Zzz_Watch));
       }
     } catch (error) {
       console.error('Error fetching API usage data:', error);
@@ -80,7 +79,7 @@ function WishTracker({ userID }) {
   async function fetchData(userGameId) {
     try {
       const response = await fetch(
-        `${API_URL}api/draw-history?game=starrail&userGameId=${userGameId}`
+        `${API_URL}api/draw-history?game=zzz&userGameId=${userGameId}`
       );
       const data = await response.json();
       setWishAPIData(data);
@@ -94,7 +93,7 @@ function WishTracker({ userID }) {
   async function fetchExploreList(userGameId) {
     try {
       const response = await fetch(
-        `${API_URL}api/draw-watchlist?game=starrail&command=explore&userGameId=${userGameId}`
+        `${API_URL}api/draw-watchlist?game=zzz&command=explore&userGameId=${userGameId}`
       );
       const data = await response.json();
       // console.log(data);
@@ -113,7 +112,7 @@ function WishTracker({ userID }) {
   useEffect(() => {
     async function fetchData2() {
       try {
-        const response = await fetch(`${API_URL}api/draw-icons?game=starrail`);
+        const response = await fetch(`${API_URL}api/draw-icons?game=zzz`);
         const data = await response.json();
         setItemIcons(data);
       } catch (error) {
@@ -130,7 +129,7 @@ function WishTracker({ userID }) {
     async function fetchData3() {
       try {
         const response = await fetch(
-          `${API_URL}api/draw-database?game=starrail`
+          `${API_URL}api/draw-database?game=zzz`
         );
         const data = await response.json();
         setItemsData(data);
@@ -159,8 +158,8 @@ function WishTracker({ userID }) {
         // Treat 'Character Event Wish - 2' as 'Character Event Wish'
         return (
           item.DrawType === type ||
-          (type === 'Character Event Wish' &&
-            item.DrawType === 'Character Event Wish - 2')
+          (type === 'Agent Event Wish' &&
+            item.DrawType === 'Agent Event Wish - 2')
         );
       });
       setFilteredItems(filtered);
@@ -179,10 +178,10 @@ function WishTracker({ userID }) {
     },
     {
       imageUrl: banner2,
-      text: 'Character',
+      text: 'Agent',
       onClick: () => {
-        setBannerFilter('character');
-        handleFilter('Character Search');
+        setBannerFilter('Agent');
+        handleFilter('Agent Search');
       },
     },
     {
