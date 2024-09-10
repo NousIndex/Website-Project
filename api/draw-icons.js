@@ -178,6 +178,142 @@ module.exports = async (req, res) => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  } else if (game === 'zzz') {
+    const apiUrl = 'https://www.prydwen.gg/zenless/characters';
+    const apiUrl2 = 'https://www.prydwen.gg/zenless/w-engines';
+    const apiUrl3 = 'https://www.prydwen.gg/zenless/bangboo';
+
+    try {
+      // Construct the API URL with parameters
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const response2 = await fetch(apiUrl2);
+      if (!response2.ok) {
+        throw new Error(`HTTP error! Status: ${response2.status}`);
+      }
+
+      const response3 = await fetch(apiUrl3);
+      if (!response3.ok) {
+        throw new Error(`HTTP error! Status: ${response3.status}`);
+      }
+
+      // Log the entire response
+      // console.log(response);
+      const responseData = await response.text();
+      const responseData2 = await response2.text();
+      const responseData3 = await response3.text();
+
+      // Parse the HTML content using cheerio
+      const $ = cheerio.load(responseData);
+
+      const imageURLSet = new Set();
+      const altTextSet = new Set();
+      // Find all <img> elements with the data-src attribute
+      const charactersList = $('.avatar-card');
+      charactersList.each((index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $(element).find('span[class="emp-name"]');
+        const characterName = nameElement.text();
+        if (!characterName.toLowerCase().includes('rover')) {
+          imageURLSet.add(src);
+          altTextSet.add(characterName);
+        }
+      });
+
+      const $2 = cheerio.load(responseData2);
+      const imageURLSet2 = new Set();
+      const altTextSet2 = new Set();
+      // Find all <img> elements with the data-src attribute
+      const weaponList = $2('.zzz-engine');
+      weaponList.each((_index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $2(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $2(element).find('.zzz-info h5');
+        const weaponName = nameElement.text();
+
+        imageURLSet2.add(src);
+        altTextSet2.add(weaponName);
+      });
+
+      const $3 = cheerio.load(responseData3);
+      const imageURLSet3 = new Set();
+      const altTextSet3 = new Set();
+      // Find all <img> elements with the data-src attribute
+      const bangbooList = $3('.avatar-card');
+      bangbooList.each((_index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $3(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $3(element).find('span[class="emp-name"]');
+        const characterName = nameElement.text();
+        if (!characterName.toLowerCase().includes('rover')) {
+          imageURLSet3.add(src);
+          altTextSet3.add(characterName);
+        }
+      });
+
+      // Convert the Set back to an array (if needed)
+      const imageURLArray = Array.from(imageURLSet);
+      const altTextArray = Array.from(altTextSet);
+      const imageURLArray2 = Array.from(imageURLSet2);
+      const altTextArray2 = Array.from(altTextSet2);
+      const imageURLArray3 = Array.from(imageURLSet3);
+      const altTextArray3 = Array.from(altTextSet3);
+      const imageAltDictionary = {};
+      const imageAltDictionary2 = {};
+      const imageAltDictionary3 = {};
+
+      // Iterate over the arrays and create key-value pairs
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray.length, altTextArray.length);
+        i++
+      ) {
+        imageAltDictionary[altTextArray[i].toLowerCase()] = imageURLArray[i];
+      }
+
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray2.length, altTextArray2.length);
+        i++
+      ) {
+        imageAltDictionary2[altTextArray2[i].toLowerCase()] = imageURLArray2[i];
+      }
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray3.length, altTextArray3.length);
+        i++
+      ) {
+        imageAltDictionary3[altTextArray3[i].toLowerCase()] = imageURLArray3[i];
+      }
+      combinedDictionary = {
+        ...imageAltDictionary,
+        ...imageAltDictionary2,
+        ...imageAltDictionary3,
+      };
+      res.json(combinedDictionary);
+      // console.log(imageAltDictionary);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   } else if (game === 'wuwa') {
     const apiUrl = 'https://www.prydwen.gg/wuthering-waves/characters';
     const apiUrl2 = 'https://www.prydwen.gg/wuthering-waves/weapons';

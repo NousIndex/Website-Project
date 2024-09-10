@@ -27,10 +27,6 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
-      if (character.name === 'Aloy') {
-        return;
-      }
-
       let itemNameModified = character.name
         .replace(/\s+/g, '_')
         .replace(/'/g, '%27')
