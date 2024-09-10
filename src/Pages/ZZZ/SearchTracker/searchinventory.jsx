@@ -14,17 +14,8 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
-
-      let itemNameModified = character.name
-        .replace(/\s+/g, '_')
-        .replace(/'/g, '%27')
-        .replace(/!/g, '%21')
-        .replace(/,/g, '%2C')
-        .replace(/•/g, '%E2%80%A2');
-
       const iconUrl =
-        itemIcons.find((url) => url.includes(itemNameModified)) ||
-        'default-image-url';
+        itemIcons[character.name.toLowerCase()] || 'default-image-url';
 
       const characterConstallation = (
         itemCounter[character.name] - 1
@@ -90,8 +81,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         return;
       }
       const iconUrl =
-        itemIcons.find((url) => url.includes(itemNameModified)) ||
-        'default-image-url';
+        itemIcons[weapon.name.toLowerCase()] || 'default-image-url';
 
       if (iconUrl === 'default-image-url') {
         return;
