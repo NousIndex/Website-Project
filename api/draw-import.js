@@ -576,6 +576,21 @@ module.exports = async (req, res) => {
                     seconds
                   );
 
+                  switch (item.rank_type) {
+                    case '2':
+                      item.rank_type = '3';
+                      break;
+                    case '3':
+                      item.rank_type = '4';
+                      break;
+                    case '4':
+                      item.rank_type = '5';
+                      break;
+                    default:
+                      item.gacha_type = '0';
+                      break;
+                  }
+
                   newDraws.push({
                     Zzz_UID: String(item.uid),
                     DrawID: String(item.id),
