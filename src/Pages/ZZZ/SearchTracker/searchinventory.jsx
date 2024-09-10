@@ -119,9 +119,9 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <img
             src={
-              character.rarity.includes('A')
+              weapon.rarity.includes('A')
                 ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/5/5c/Icon_AgentRank_A.png'
-                : character.rarity.includes('S')
+                : weapon.rarity.includes('S')
                 ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/d/d0/Icon_AgentRank_S.png'
                 : 'default-src-for-other-rarities'
             }
