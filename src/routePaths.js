@@ -19,6 +19,14 @@ export const STARRAIL_TIMELINE_PATH = '/starrail/timeline';
 export const STARRAIL_DATABASE_PATH = '/starrail/database';
 export const STARRAIL_ACHIEVEMENTS_PATH = '/starrail/achievements';
 
+export const ZZZ_HOME_PATH = '/zzz';
+export const ZZZ_WISH_TRACKER_PATH = '/zzz/search_tracker';
+export const ZZZ_WISH_TRACKER_IMPORT_PATH = '/zzz/search_tracker/import';
+export const ZZZ_FARM_PATH = '/zzz/farmable';
+export const ZZZ_TIMELINE_PATH = '/zzz/timeline';
+export const ZZZ_DATABASE_PATH = '/zzz/database';
+export const ZZZ_ACHIEVEMENTS_PATH = '/zzz/achievements';
+
 export const WUWA_HOME_PATH = '/wuwa';
 export const WUWA_WISH_TRACKER_PATH = '/wuwa/convene_tracker';
 export const WUWA_WISH_TRACKER_IMPORT_PATH = '/wuwa/convene_tracker/import';

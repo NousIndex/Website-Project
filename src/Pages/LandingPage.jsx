@@ -5,6 +5,7 @@ import '../CSS/LandingPage.css';
 import starrailImage from '../assets/landing_page/starrail.webp';
 import reverse1999Image from '../assets/landing_page/reverse1999.webp';
 import wuwaImage from '../assets/landing_page/wuwa.webp';
+import zzzImage from '../assets/landing_page/ZZZ.webp'
 import { useNavigate } from 'react-router-dom';
 import { extractNewestKeyArt, fetchWebsiteHtml } from '../APIs/webscrapAPI';
 
@@ -54,6 +55,12 @@ const LandingPage = () => {
       imageUrl: starrailImage,
       onClick: () => {
         navigate('/starrail');
+      },
+    },
+    {
+      imageUrl: zzzImage,
+      onClick: () => {
+        navigate('/zzz');
       },
     },
     {

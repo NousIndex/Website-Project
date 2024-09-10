@@ -22,6 +22,10 @@ import StarRailHomePage from './Pages/StarRail/HomePage/homepage.jsx';
 import StarRailWishTrackerPage from './Pages/StarRail/WarpTracker/warptracker';
 import StarRailImportWish from './Pages/StarRail/WarpTracker/importwarp';
 
+import ZZZHomePage from './Pages/ZZZ/HomePage/homepage.jsx';
+import ZZZWishTrackerPage from './Pages/ZZZ/SearchTracker/searchtracker';
+import ZZZImportWish from './Pages/ZZZ/SearchTracker/importsearch';
+
 import ReverseHomePage from './Pages/Reverse/HomePage/homepage.jsx';
 import ReverseWishTrackerPage from './Pages/Reverse/SummonTracker/summontracker';
 import ReverseImportWish from './Pages/Reverse/SummonTracker/importsummon';
@@ -130,6 +134,18 @@ function App() {
               <Route
                 path={routePaths.STARRAIL_WISH_TRACKER_IMPORT_PATH}
                 element={<StarRailImportWish userID={userID} />}
+              />
+              <Route
+                path={routePaths.ZZZ_HOME_PATH}
+                element={<ZZZHomePage />}
+              />
+              <Route
+                path={routePaths.ZZZ_WISH_TRACKER_PATH}
+                element={<ZZZWishTrackerPage userID={userID} />}
+              />
+              <Route
+                path={routePaths.ZZZ_WISH_TRACKER_IMPORT_PATH}
+                element={<ZZZImportWish userID={userID} />}
               />
               <Route
                 path={routePaths.REVERSE_HOME_PATH}

@@ -75,3 +75,30 @@ export async function wuwaWishImportAPI(wishData, userID) {
     return "Wrong Authentication Key";
   }
 }
+
+export async function zzzWishImportAPI(wishData, userID) {
+  try {
+    let res = wishData.split('authkey=');
+    let res2 = res[1].split('&game');
+    let authkey = res2[0];
+    authkey = encodeURI(authkey);
+    
+    // Define the URL of your API endpoint
+    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=zzz`;
+
+    // Use the fetch function to make the GET request
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.message; // Return the message from the response
+  } catch (err) {
+    console.log(err);
+    if (err.message === "HTTP error! Status: 504") {
+      return "API Timeout, Please Try Again Later";
+    }
+    return "Wrong Authentication Key";
+  }
+}

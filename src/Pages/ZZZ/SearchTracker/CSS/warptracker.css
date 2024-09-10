@@ -1,0 +1,149 @@
+.starrail-button-containers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 2%;
+  margin-right: 2%;
+  width: 96%;
+}
+.starrail-wish-image-container {
+  display: flex;
+  width: 25%;
+  align-items: center;
+}
+
+.starrail-wish-image-button {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+  cursor: pointer;
+  transition: transform 0.3s ease; /* Add a smooth transition */
+}
+
+.starrail-wish-image-button.active {
+  transform: scale(1.1);
+}
+
+.starrail-wish-image-button img {
+  height: 90px;
+  margin-left: 10%;
+  margin-right: 20%;
+  object-fit: contain;
+  object-position: center;
+  flex: 1;
+  transition: opacity 0.3s ease;
+}
+
+.starrail-wish-image-button p {
+  font-size: clamp(2px, 1.5vw, 24px);
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.starrail-wish-image-button.active p {
+  text-decoration: underline;
+}
+
+.starrail-wish-image-button:hover {
+  transform: scale(1.1);
+}
+
+.starrail-wish-image-button:active {
+  transform: scale(1);
+}
+
+.starrail-wish-searcher-container {
+  text-decoration: none; /* Remove the underline */
+  display: flex;
+  align-self: center; /* Center the button vertically */
+  margin-left: 2%;
+}
+
+.starrail-wish-searcher-input {
+  padding: 5px;
+  background-color: #dedede;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+.starrail-wish-searcher-text {
+  font-size: 16px;
+  text-align: left;
+  color: #ffffff; /* Text color */
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.starrail-wish-searcher-button {
+  background-color: #008cff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 6px;
+  margin-left: -5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.starrail-wish-searcher-button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+
+.starrail-wish-searcher-reset-button {
+  background-color: #008cff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 6px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.starrail-wish-searcher-reset-button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+
+.starrail-wish-explorer-divider {
+  text-decoration: none; /* Remove the underline */
+  align-self: center; /* Center the button vertically */
+  margin-left: 1.5%;
+  display: flex;
+  flex-direction: column;
+}
+.starrail-wish-searcher-explorer-button {
+  background-color: #008cff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 6px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative; /* Position the button relative to its parent */
+  transition: background-color 0.3s ease, display 0.3s ease, disabled 0.3s ease;
+}
+
+.starrail-wish-searcher-explorer-button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+.starrail-wish-searcher-explorer-button:disabled {
+  background-color: #ccc; /* Change the background color to gray */
+  color: #888; /* Change the text color to a lighter gray */
+  cursor: not-allowed; /* Change the cursor to not-allowed */
+}

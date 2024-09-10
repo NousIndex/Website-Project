@@ -465,7 +465,11 @@ module.exports = async (req, res) => {
       // Access the database
       const database = client.db('NousIndex');
       let endid = '0';
-      let banner = 2;
+      // 2001 Agent banner
+      // 3001 W-Engine banner
+      // 1001 Standard banner
+      // 5001 Bangboo banner
+      let banner = 2001;
       const authkey = req.query.authkey;
       const userID = req.query.userID;
       const newDraws = [];
@@ -474,11 +478,11 @@ module.exports = async (req, res) => {
 
       while (loop) {
         const apiUrl =
-          'https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=' +
+          'https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=' +
           banner +
           '&lang=en&authkey=' +
           authkey +
-          '&game_biz=hkrpg_global&gacha_type=' +
+          '&game_biz=nap_global&gacha_type=' +
           banner +
           '&page=1&size=20&end_id=' +
           endid;
@@ -514,7 +518,7 @@ module.exports = async (req, res) => {
               zzz_uid = item.uid;
               // Access the "ZZZ_Draw" collection
               const zzzDrawCollection =
-                database.collection('ZZZ_Draw');
+                database.collection('Zzz_Draw');
 
               // Find the document with the specified DrawID
               const existingItem = await zzzDrawCollection.findOne({
@@ -529,21 +533,26 @@ module.exports = async (req, res) => {
                 //console.log('Duplicate found');
                 break; // Exit the loop if a duplicate is found
               } else {
+                // 2001 Agent banner
+                // 3001 W-Engine banner
+                // 1001 Standard banner
+                // 5001 Bangboo banner
                 switch (item.gacha_type) {
-                  case '2':
-                    item.gacha_type = 'Departure Warp';
+                  case '2001':
+                    item.gacha_type = 'Agent Search';
                     break;
-                  case '1':
-                    item.gacha_type = 'Standard Warp';
+                  case '1001':
+                    item.gacha_type = 'Standard Search';
                     break;
-                  case '11':
-                    item.gacha_type = 'Character Warp';
+                  case '3001':
+                    item.gacha_type = 'W-Engine Search';
                     break;
-                  case '12':
-                    item.gacha_type = 'Light Cone Warp';
+                  case '5001':
+                    item.gacha_type = 'Bangboo Search';
                     break;
                   default:
                     item.gacha_type = 'Unknown';
+                    break;
                 }
 
                 if (item.gacha_type !== 'Unknown') {
@@ -568,7 +577,7 @@ module.exports = async (req, res) => {
                   );
 
                   newDraws.push({
-                    StarRail_UID: String(item.uid),
+                    Zzz_UID: String(item.uid),
                     DrawID: String(item.id),
                     DrawTime: dateTime,
                     DrawType: String(item.gacha_type),
@@ -590,35 +599,39 @@ module.exports = async (req, res) => {
           }
           endid = itemList[itemList.length - 1].id;
           if (duplicateFound) {
-            if (banner === 2) {
-              banner = 11;
+            // 2001 Agent banner
+            // 3001 W-Engine banner
+            // 1001 Standard banner
+            // 5001 Bangboo banner
+            if (banner === 2001) {
+              banner = 3001;
               endid = '0';
-            } else if (banner === 11) {
-              banner = 12;
+            } else if (banner === 3001) {
+              banner = 5001;
               endid = '0';
               // } else if (banner === 400) {
               //   banner = 302;
               //   endid = '0';
-            } else if (banner === 12) {
-              banner = 1;
+            } else if (banner === 5001) {
+              banner = 1001;
               endid = '0';
             } else {
               loop = false;
             }
           }
         } else {
-          if (banner === 2) {
+          if (banner === 2001) {
             // get uid
-            banner = 11;
+            banner = 3001;
             endid = '0';
-          } else if (banner === 11) {
-            banner = 12;
+          } else if (banner === 3001) {
+            banner = 5001;
             endid = '0';
             // } else if (banner === 400) {
             //   banner = 302;
             //   endid = '0';
-          } else if (banner === 12) {
-            banner = 1;
+          } else if (banner === 5001) {
+            banner = 1001;
             endid = '0';
           } else {
             loop = false;
@@ -634,16 +647,16 @@ module.exports = async (req, res) => {
       // Upsert the document with the specified UID
       await gamesUsersCollection.findOneAndUpdate(
         { UID: userID }, // Filter condition
-        { $set: { StarRail_UID: starrail_uid } }, // Update operation
+        { $set: { Zzz_UID: zzz_uid } }, // Update operation
         { upsert: true } // Options: upsert if not found, return the updated document
       );
 
       if (newDraws.length > 0) {
         // Access the "StarRail_Draw" collection
-        const starRailDrawCollection = database.collection('StarRail_Draw');
+        const zzzDrawCollection = database.collection('Zzz_Draw');
 
         // Insert multiple documents into the collection
-        await starRailDrawCollection.insertMany(newDraws);
+        await zzzDrawCollection.insertMany(newDraws);
 
         // Calculate the total number of items in newDraws
         const totalItems = newDraws.length;
@@ -653,7 +666,7 @@ module.exports = async (req, res) => {
 
         // Upsert the document with the specified Game_UID
         await summaryTableCollection.findOneAndUpdate(
-          { Game_UID: `StarRail-${newDraws[0].StarRail_UID}` }, // Filter condition
+          { Game_UID: `Zzz-${newDraws[0].Zzz_UID}` }, // Filter condition
           {
             $inc: { total_items: totalItems }, // Update operation to increment total_items
           },
