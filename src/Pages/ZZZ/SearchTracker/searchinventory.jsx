@@ -10,26 +10,10 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   const [activeTab, setActiveTab] = useState('Character'); // Initialize with 'Character'
   const [isRandomModalOpen, setIsRandomModalOpen] = useState(false);
 
-  const weaponIgnoreList = [
-    'Before the Tutorial Mission Starts',
-    'On the Fall of an Aeon',
-    'Cruising in the Stellar Sea',
-    'Solitary Healing',
-    'Texture of Memories',
-    'Warmth Shortens Cold Nights',
-    'Return to Darkness',
-    'This Is Me!',
-    'Carve the Moon, Weave the Clouds',
-    'We Will Meet Again',
-    'Nowhere to Run',
-    'Today Is Another Peaceful Day',
-  ];
+  const weaponIgnoreList = [];
 
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
-      if (character.name === 'Aloy') {
-        return;
-      }
 
       let itemNameModified = character.name
         .replace(/\s+/g, '_')
@@ -221,7 +205,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         className="draw-modal-open-button no-selection"
         onClick={openModal}
       >
-        Warp Inventory
+        Search Inventory
       </button>
       {isModalOpen && (
         <div
@@ -240,7 +224,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
               <h3
                 style={{ fontWeight: 'bold', margin: '0', marginTop: '10px' }}
               >
-                Warp Inventory
+                Search Inventory
                 <button
                   className="team-randomiser-button"
                   onClick={openRandomModal}

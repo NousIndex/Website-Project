@@ -5,12 +5,15 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
   const [characterdraw4, setCharacterdraw4] = useState(0);
   const [weapondraw4, setWeapondraw4] = useState(0);
   const [standarddraw4, setStandarddraw4] = useState(0);
+  const [bangboodraw4, setBangboodraw4] = useState(0);
   const [characterdraw5, setCharacterdraw5] = useState(0);
   const [weapondraw5, setWeapondraw5] = useState(0);
   const [standarddraw5, setStandarddraw5] = useState(0);
+  const [bangboodraw5, setBangboodraw5] = useState(0);
   const [totalcharacterdraws, setTotalcharacterdraws] = useState(0);
   const [totalweapondraws, setTotalweapondraws] = useState(0);
   const [totalstandarddraws, setTotalstandarddraws] = useState(0);
+  const [totalbangboodraws, setTotalbangboodraws] = useState(0);
   const [averagepity4, setAveragepity4] = useState(0);
   const [averagepity5, setAveragepity5] = useState(0);
   const [total4stars, setTotal4stars] = useState(0);
@@ -26,21 +29,19 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         let counterc = 0;
         let counterw = 0;
         let counters = 0;
+        let counterb = 0;
         let characterdraw4lock = false;
         let characterdraw5lock = false;
         let weapondraw4lock = false;
         let weapondraw5lock = false;
         let standarddraw4lock = false;
         let standarddraw5lock = false;
+        let bangboodraw4lock = false;
+        let bangboodraw5lock = false;
         let averagepity4list = [];
         let averagepity5list = [];
         let itemCounts = {};
-        itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
-        itemCounts['Dan Heng'] = (itemCounts['Dan Heng'] || 0) + 1;
-        itemCounts['Asta'] = (itemCounts['Asta'] || 0) + 1;
-        itemCounts['Serval'] = (itemCounts['Serval'] || 0) + 1;
-        itemCounts['Natasha'] = (itemCounts['Natasha'] || 0) + 1;
-        itemCounts['Herta'] = (itemCounts['Herta'] || 0) + 1;
+        // itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
 
         wishes.forEach((wish) => {
           if (wish.Rarity === '3') {
@@ -50,68 +51,83 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             count4++;
             if (
               !characterdraw4lock &&
-              (wish.DrawType === 'Character Warp' ||
-                wish.DrawType === 'Character Warp - 2')
+              (wish.DrawType === 'Agent Search' ||
+                wish.DrawType === 'Agent Search - 2')
             ) {
               characterdraw4lock = true;
               setCharacterdraw4(counterc);
             } else if (
-              (wish.DrawType === 'Light Cone Warp' ||
-                wish.DrawType === 'Light Cone Warp - 2') &&
+              (wish.DrawType === 'W-Engine Search' ||
+                wish.DrawType === 'W-Engine Search - 2') &&
               !weapondraw4lock
             ) {
               weapondraw4lock = true;
               setWeapondraw4(counterw);
             } else if (
-              wish.DrawType === 'Standard Warp' &&
+              wish.DrawType === 'Standard Search' &&
               !standarddraw4lock
             ) {
               standarddraw4lock = true;
               setStandarddraw4(counters);
+            } else if (
+              wish.DrawType === 'Bangboo Search' &&
+              !bangboodraw4lock
+            ) {
+              bangboodraw4lock = true;
+              setBangboodraw4(counterb);
             }
           } else if (wish.Rarity === '5') {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity5list.push(parseInt(wish.rarity5Pity));
             count5++;
             if (
-              (wish.DrawType === 'Character Warp' ||
-                wish.DrawType === 'Character Warp - 2') &&
+              (wish.DrawType === 'Agent Search' ||
+                wish.DrawType === 'Agent Search - 2') &&
               !characterdraw5lock
             ) {
               characterdraw5lock = true;
               setCharacterdraw5(counterc);
             } else if (
-              (wish.DrawType === 'Light Cone Warp' ||
-                wish.DrawType === 'Light Cone Warp - 2') &&
+              (wish.DrawType === 'W-Engine Search' ||
+                wish.DrawType === 'W-Engine Search - 2') &&
               !weapondraw5lock
             ) {
               weapondraw5lock = true;
               setWeapondraw5(counterw);
             } else if (
-              wish.DrawType === 'Standard Warp' &&
+              wish.DrawType === 'Standard Search' &&
               !standarddraw5lock
             ) {
               standarddraw5lock = true;
               setStandarddraw5(counters);
+            } else if (
+              wish.DrawType === 'Bangboo Search' &&
+              !bangboodraw5lock
+            ) {
+              bangboodraw5lock = true;
+              setBangboodraw5(counterb);
             }
           }
           if (
-            wish.DrawType === 'Character Warp' ||
-            wish.DrawType === 'Character Warp - 2'
+            wish.DrawType === 'Agent Search' ||
+            wish.DrawType === 'Agent Search - 2'
           ) {
             counterc++;
           } else if (
-            wish.DrawType === 'Light Cone Warp' ||
-            wish.DrawType === 'Light Cone Warp - 2'
+            wish.DrawType === 'W-Engine Search' ||
+            wish.DrawType === 'W-Engine Search - 2'
           ) {
             counterw++;
-          } else if (wish.DrawType === 'Standard Warp') {
+          } else if (wish.DrawType === 'Standard Search') {
             counters++;
+          } else if (wish.DrawType === 'Bangboo Search') {
+            counterb++;
           }
         });
         setTotalcharacterdraws(counterc);
         setTotalweapondraws(counterw);
         setTotalstandarddraws(counters);
+        setTotalbangboodraws(counterb)
         setTotal4stars(count4);
         setTotal5stars(count5);
         setAveragepity4(
@@ -137,7 +153,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
             <span>
-              Character Warp
+            Agent Search
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalcharacterdraws}
@@ -159,7 +175,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
           </div>
           <div className="wish-stats-pity-table">
             <span>
-              Light Cone Warp
+              W-Engine Search
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalweapondraws}
@@ -181,7 +197,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
           </div>
           <div className="wish-stats-pity-table">
             <span>
-              Standard Warp
+              Standard Search
               <br />
               <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
               {totalstandarddraws}
@@ -197,6 +213,28 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
                 <tr>
                   <td>{standarddraw4}</td>
                   <td>{standarddraw5}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="wish-stats-pity-table">
+            <span>
+              Bangboo Search
+              <br />
+              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              {totalbangboodraws}
+            </span>
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ color: '#ebb3ff' }}>4★</th>
+                  <th style={{ color: '#ffc76c' }}>5★</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{bangboodraw4}</td>
+                  <td>{bangboodraw5}</td>
                 </tr>
               </tbody>
             </table>
