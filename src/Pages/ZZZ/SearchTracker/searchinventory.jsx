@@ -53,6 +53,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 : 'default-src-for-other-rarities'
             }
             className="wish-character-inventory-rarity no-selection"
+            style={{ width: '35%', height: 'auto' }}
           />
           <span className="convene-character-inventory-name">
             {character.name}
@@ -125,6 +126,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 : 'default-src-for-other-rarities'
             }
             className="wish-weapon-inventory-rarity no-selection"
+            style={{ width: '35%', height: 'auto' }}
           />
           <span className="wish-weapon-inventory-atk no-selection">
             {' '}
