@@ -500,7 +500,8 @@ module.exports = async (req, res) => {
         if (responseData.retcode === -110) {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
-          await setTimeout(100);
+          console.log('Too Fast');
+          await setTimeout(50);
           continue;
         }
         if (!responseData.data) {
