@@ -222,11 +222,10 @@ module.exports = async (req, res) => {
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
 
         const nameElement = $(element).find('span[class="emp-name"]');
-        const characterName = nameElement.text();
-        if (!characterName.toLowerCase().includes('rover')) {
-          imageURLSet.add(src);
-          altTextSet.add(characterName);
-        }
+        const characterName = nameElement.text().trim();
+
+        imageURLSet.add(src);
+        altTextSet.add(characterName);
       });
 
       const $2 = cheerio.load(responseData2);
@@ -243,7 +242,7 @@ module.exports = async (req, res) => {
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
 
         const nameElement = $2(element).find('.zzz-info h5');
-        const weaponName = nameElement.text();
+        const weaponName = nameElement.text().trim();
 
         imageURLSet2.add(src);
         altTextSet2.add(weaponName);
@@ -263,11 +262,10 @@ module.exports = async (req, res) => {
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
 
         const nameElement = $3(element).find('span[class="emp-name"]');
-        const characterName = nameElement.text();
-        if (!characterName.toLowerCase().includes('rover')) {
-          imageURLSet3.add(src);
-          altTextSet3.add(characterName);
-        }
+        const characterName = nameElement.text().trim();
+
+        imageURLSet3.add(src);
+        altTextSet3.add(characterName);
       });
 
       // Convert the Set back to an array (if needed)
@@ -352,7 +350,7 @@ module.exports = async (req, res) => {
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
 
         const nameElement = $(element).find('span[class="emp-name"]');
-        const characterName = nameElement.text();
+        const characterName = nameElement.text().trim();
 
         if (!characterName.toLowerCase().includes('rover')) {
           imageURLSet.add(src);
@@ -373,7 +371,7 @@ module.exports = async (req, res) => {
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
 
         const nameElement = $2(element).find('.ww-data h4');
-        const weaponName = nameElement.text();
+        const weaponName = nameElement.text().trim();
 
         imageURLSet2.add(src);
         altTextSet2.add(weaponName);
