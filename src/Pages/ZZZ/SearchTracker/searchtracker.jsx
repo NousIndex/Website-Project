@@ -114,7 +114,6 @@ function WishTracker({ userID }) {
       try {
         const response = await fetch(`${API_URL}api/draw-icons?game=zzz`);
         const data = await response.json();
-        console.log(data)
         setItemIcons(data);
       } catch (error) {
         console.error('Error fetching API usage data:', error);

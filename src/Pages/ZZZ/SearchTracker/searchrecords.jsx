@@ -192,23 +192,35 @@ const ItemTable = ({ items, itemIcons }) => {
           <tbody className="table-body">
             {filteredItems.map((item, index) => {
               // Replace spaces with underscores and encoded special characters with %27
-              let itemNameModified = item.Item_Name.replace(
-                /\s+/g,
-                '_'
-              ).replace(/'/g, '%27').replace(/!/g, '%21').replace(/,/g, '%2C').replace(/•/g,'%E2%80%A2');
-              
+              let itemNameModified = item.Item_Name.replace(/\s+/g, '_')
+                .replace(/'/g, '%27')
+                .replace(/!/g, '%21')
+                .replace(/,/g, '%2C')
+                .replace(/•/g, '%E2%80%A2');
+
               // Find the matching URL in itemIcons
               const iconUrl =
-                itemIcons.find((url) => url.includes(itemNameModified)) ||
+                itemIcons[itemNameModified.toLowerCase()] ||
                 'default-image-url';
 
               return (
                 <tr
-                  className={`table-row ${item.Rarity.includes('5') ? 'table-row-5-star' : item.Rarity.includes('4') ? 'table-row-4-star' : 'table-row-3-star'}`}
+                  className={`table-row ${
+                    item.Rarity.includes('5')
+                      ? 'table-row-5-star'
+                      : item.Rarity.includes('4')
+                      ? 'table-row-4-star'
+                      : 'table-row-3-star'
+                  }`}
                   key={index}
                 >
                   <td className="table-cell">
-                    <span className="item-name-sub" title={item.DrawID}>{item.drawNumber}</span>
+                    <span
+                      className="item-name-sub"
+                      title={item.DrawID}
+                    >
+                      {item.drawNumber}
+                    </span>
                   </td>
                   <td className="table-cell-item-name">
                     <img
