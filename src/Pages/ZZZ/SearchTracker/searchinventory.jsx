@@ -45,10 +45,16 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className="wish-character-inventory-element no-selection"
           />
           <img
-            src={character.weapon}
-            className="wish-character-inventory-weapon no-selection"
+            src={
+              character.rarity.includes('A')
+                ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/5/5c/Icon_AgentRank_A.png'
+                : character.rarity.includes('S')
+                ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/d/d0/Icon_AgentRank_S.png'
+                : 'default-src-for-other-rarities'
+            }
+            className="wish-character-inventory-rarity no-selection"
           />
-          <span className="wish-character-inventory-name">
+          <span className="convene-character-inventory-name">
             {character.name}
           </span>
           {isNaN(characterConstallation) ? null : (
