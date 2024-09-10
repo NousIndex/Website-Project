@@ -129,7 +129,7 @@ function WishTracker({ userID }) {
     async function fetchData3() {
       try {
         const response = await fetch(
-          `${API_URL}api/draw-database?game=starrail`
+          `${API_URL}api/draw-database?game=zzz`
         );
         const data = await response.json();
         setItemsData(data);

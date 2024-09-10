@@ -269,6 +269,166 @@ module.exports = async (req, res) => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  } else if (game === 'zzz') {
+    const apiUrl = 'https://www.prydwen.gg/zenless/characters';
+    const apiUrl2 = 'https://www.prydwen.gg/zenless/w-engines';
+
+    try {
+      // Construct the API URL with parameters
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const response2 = await fetch(apiUrl2);
+      if (!response2.ok) {
+        throw new Error(`HTTP error! Status: ${response2.status}`);
+      }
+
+      // Log the entire response
+      // console.log(response);
+      const responseData = await response.text();
+      const responseData2 = await response2.text();
+
+      // Parse the HTML content using cheerio
+      const $ = cheerio.load(responseData);
+
+      const imageURLSet = new Set();
+      const altTextSet = new Set();
+      const typeURLArray = [];
+      // Find all <img> elements with the data-src attribute
+      const charactersList = $('.avatar-card');
+      charactersList.each((index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $(element).find('span[class="emp-name"]');
+        const characterName = nameElement.text().trim();
+
+        // Find the <img> element inside the current character container
+        const typeElement = $(element).find(
+          '.floating-element picture img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        let elementType = '';
+        if (typeElement.attr('data-src') === undefined) {
+          elementType = 'undefined';
+        } else {
+          elementType = 'https://www.prydwen.gg' + typeElement.attr('data-src');
+        }
+
+        imageURLSet.add(src);
+        altTextSet.add(characterName);
+        typeURLArray.push(elementType);
+      });
+      const $2 = cheerio.load(responseData2);
+      const imageURLSet2 = new Set();
+      const altTextSet2 = new Set();
+      const rarityArray = [];
+      const attackStats = [];
+      const otherStatsName = [];
+      const otherStats = [];
+      // Find all <img> elements with the data-src attribute
+      const weaponList = $2('.ww-weapon-box');
+      weaponList.each((_index, element) => {
+        // Find the <img> element inside the current character container
+        const imgElement = $2(element).find(
+          'div[data-gatsby-image-wrapper] img[data-main-image]'
+        );
+        // Extract the src and alt attributes
+        const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
+
+        const nameElement = $2(element).find('.zzz-info h5');
+        const weaponName = nameElement.text().trim();
+
+        const rarElement = $2(element).find('.zzz-info strong');
+        const weaponRar = rarElement.text()[0].trim();
+
+        const statsElement = $2(element).find('.stats p');
+        const weaponStats = statsElement.text().split(': ', 3);
+        const attackStat = weaponStats[1].match(/\d{3}/)[0];
+
+        let otherStatName = 'undefined';
+        try {
+          otherStatName = weaponStats[1].match(/\d+(\w+\s\w+)/)[1];
+        } catch (error) {
+          otherStatName = weaponStats[1].match(/\d+(\w+)/)[1];
+        }
+        const otherStat = weaponStats[2];
+
+        imageURLSet2.add(src);
+        altTextSet2.add(weaponName);
+        rarityArray.push(weaponRar);
+        attackStats.push(attackStat);
+        otherStatsName.push(otherStatName);
+        otherStats.push(otherStat);
+      });
+
+      const rarityClasses = $('span a .avatar')
+        .filter((index, element) => {
+          const empName = $(element).find('.emp-name').text().toLowerCase();
+          return !empName.includes('rover');
+        })
+        .map((index, p) => {
+          const classList = $(p).attr('class').split(/\s+/);
+          return classList.find((className) => className.startsWith('rarity'));
+        })
+        .get()
+        .filter(Boolean);
+
+      // Convert the Set back to an array (if needed)
+      const imageURLArray = Array.from(imageURLSet);
+      const altTextArray = Array.from(altTextSet);
+      const imageURLArray2 = Array.from(imageURLSet2);
+      const altTextArray2 = Array.from(altTextSet2);
+      const imageAltDictionary = [];
+      const imageAltDictionary2 = [];
+
+      // Iterate over the arrays and create key-value pairs
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray.length, altTextArray.length);
+        i++
+      ) {
+        imageAltDictionary[i] = {
+          name: altTextArray[i],
+          url: imageURLArray[i],
+          type: typeURLArray[i],
+          rarity: rarityClasses[i].split('-')[1],
+        };
+      }
+
+      for (
+        let i = 0;
+        i < Math.min(imageURLArray2.length, altTextArray2.length);
+        i++
+      ) {
+        let otherStatsName2 = otherStatsName[i];
+        if (otherStatsName2.toLowerCase().includes('energy reg')) {
+          otherStatsName2 = otherStatsName2.replace('Energy Reg', 'ER');
+        }
+        otherStatsCombined = otherStatsName2 + ' ' + otherStats[i];
+        imageAltDictionary2[i] = {
+          name: altTextArray2[i],
+          url: imageURLArray2[i],
+          rarity: rarityArray[i],
+          attack: attackStats[i],
+          otherStat: otherStatsCombined,
+        };
+      }
+
+      res.json({
+        characters: imageAltDictionary,
+        weapons: imageAltDictionary2,
+      });
+      // console.log(imageAltDictionary);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   } else if (game === 'wuwa') {
     const apiUrl = 'https://www.prydwen.gg/wuthering-waves/characters';
     const apiUrl2 = 'https://www.prydwen.gg/wuthering-waves/weapons';
