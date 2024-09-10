@@ -117,20 +117,22 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
             className="warp-weapon-inventory-type no-selection"
           />
           <img
-            src={weapon.rarity}
+            src={
+              character.rarity.includes('A')
+                ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/5/5c/Icon_AgentRank_A.png'
+                : character.rarity.includes('S')
+                ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/d/d0/Icon_AgentRank_S.png'
+                : 'default-src-for-other-rarities'
+            }
             className="wish-weapon-inventory-rarity no-selection"
           />
-          <span className="warp-weapon-inventory-hp no-selection">
+          <span className="wish-weapon-inventory-atk no-selection">
             {' '}
-            {weapon.hp}{' '}
+            {'ATK ' + weapon.attack}{' '}
           </span>
-          <span className="warp-weapon-inventory-atk no-selection">
+          <span className="wish-weapon-inventory-sub no-selection">
             {' '}
-            {weapon.atk}{' '}
-          </span>
-          <span className="warp-weapon-inventory-df no-selection">
-            {' '}
-            {weapon.df}{' '}
+            {weapon.otherStat}{' '}
           </span>
           <span className="wish-weapon-inventory-name">{weapon.name}</span>
           {isNaN(weaponConstallation) ? null : (
