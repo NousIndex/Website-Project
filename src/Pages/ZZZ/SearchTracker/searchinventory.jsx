@@ -246,7 +246,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   }`}
                   onClick={() => switchTab('Character')}
                 >
-                  Character
+                  Agent
                 </div>
                 <div
                   className={`draw-tab-container-tab ${
@@ -254,7 +254,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   }`}
                   onClick={() => switchTab('Weapon')}
                 >
-                  Light Cone
+                  W-Engine
                 </div>
               </div>
             </div>
