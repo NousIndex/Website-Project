@@ -309,7 +309,10 @@ module.exports = async (req, res) => {
         ...imageAltDictionary2,
         ...imageAltDictionary3,
       };
-      res.json(combinedDictionary);
+      // Convert the Set back to an array (if needed)
+      const filteredDataSrcValues = Array.from(combinedDictionary);
+
+      res.json(filteredDataSrcValues);
       // console.log(imageAltDictionary);
     } catch (error) {
       console.error('Error fetching data:', error);
