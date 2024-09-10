@@ -333,7 +333,7 @@ module.exports = async (req, res) => {
       const otherStatsName = [];
       const otherStats = [];
       // Find all <img> elements with the data-src attribute
-      const weaponList = $2('.ww-weapon-box');
+      const weaponList = $2('.zzz-engine');
       weaponList.each((_index, element) => {
         // Find the <img> element inside the current character container
         const imgElement = $2(element).find(
@@ -341,17 +341,17 @@ module.exports = async (req, res) => {
         );
         // Extract the src and alt attributes
         const src = 'https://www.prydwen.gg' + imgElement.attr('data-src');
-
+  
         const nameElement = $2(element).find('.zzz-info h5');
         const weaponName = nameElement.text().trim();
-
+  
         const rarElement = $2(element).find('.zzz-info strong');
         const weaponRar = rarElement.text()[0].trim();
-
-        const statsElement = $2(element).find('.stats p');
-        const weaponStats = statsElement.text().split(': ', 3);
+  
+        const statsElement = $2(element).find('.stats span');
+        const weaponStats = statsElement.text().split(':', 3);
         const attackStat = weaponStats[1].match(/\d{3}/)[0];
-
+  
         let otherStatName = 'undefined';
         try {
           otherStatName = weaponStats[1].match(/\d+(\w+\s\w+)/)[1];
@@ -359,7 +359,7 @@ module.exports = async (req, res) => {
           otherStatName = weaponStats[1].match(/\d+(\w+)/)[1];
         }
         const otherStat = weaponStats[2];
-
+  
         imageURLSet2.add(src);
         altTextSet2.add(weaponName);
         rarityArray.push(weaponRar);
