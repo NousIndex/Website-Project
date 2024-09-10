@@ -501,7 +501,7 @@ module.exports = async (req, res) => {
           // Visit API too frequently
           // Wait for 1 seconds before trying again
           console.log('Too Fast');
-          await setTimeout(50);
+          await setTimeout(75);
           continue;
         }
         if (!responseData.data) {
