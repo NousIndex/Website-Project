@@ -608,7 +608,7 @@ module.exports = async (req, res) => {
       // Ensures that the client will close when you finish/error
       await client.close();
     }
-  }  else if (game === 'wuwa') {
+  } else if (game === 'wuwa') {
     try {
       // Connect the client to the server
       await client.connect();
@@ -769,6 +769,18 @@ module.exports = async (req, res) => {
       }
     } finally {
       // Ensures that the client will close when you finish/error
+      await client.close();
+    }
+  } else if (game === 'keepalive') {
+    try {
+      filename = `genshin/Genshin-${userGameId}.json`;
+      await viewFileContent(filename);
+      console.log("Keep-ALIVE")
+      return res.status(200).json({ message: 'alive' });
+    } catch {
+      console.error('Error fetching data:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    } finally {
       await client.close();
     }
   } else {
