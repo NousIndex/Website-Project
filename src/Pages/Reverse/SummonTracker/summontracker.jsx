@@ -111,6 +111,7 @@ function WishTracker({ userID }) {
     // Call the fetchData function when the component mounts
     fetchData2();
     getWatchList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Specify an empty dependency array to run only once
 
   useEffect(() => {
