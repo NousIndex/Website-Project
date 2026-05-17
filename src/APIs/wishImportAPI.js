@@ -1,104 +1,61 @@
 import { API_URL } from '../API_Config.js';
 
-export async function genshinWishImportAPI(wishData, userID) {
-  // Beginner Wish = 100, Permanent Wish = 200, Character Event Wish = 301, Weapon Event Wish = 302
-  try {
-    let res = wishData.split('authkey=');
-    let res2 = res[1].split('&game');
-    let authkey = res2[0];
-    authkey = encodeURI(authkey);
-    
-    // Define the URL of your API endpoint
-    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=genshin`;
+const MAX_RESUME_ATTEMPTS = 12;
 
-    // Use the fetch function to make the GET request
-    const response = await fetch(apiUrl);
+async function runResumableImport(baseUrl) {
+  let cursor = null;
 
+  for (let attempt = 0; attempt < MAX_RESUME_ATTEMPTS; attempt++) {
+    const url = cursor
+      ? `${baseUrl}&cursor=${encodeURIComponent(JSON.stringify(cursor))}`
+      : baseUrl;
+
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    return data.message; // Return the message from the response
+
+    if (data.message === 'partial') {
+      cursor = data.cursor;
+      continue;
+    }
+    return data.message;
+  }
+  return 'API Timeout, Please Try Again Later';
+}
+
+function extractHoyoAuthkey(wishData) {
+  const res = wishData.split('authkey=');
+  const res2 = res[1].split('&game');
+  return encodeURI(res2[0]);
+}
+
+async function runImport(game, authkey, userID) {
+  try {
+    const baseUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=${game}`;
+    return await runResumableImport(baseUrl);
   } catch (err) {
     console.log(err);
-    if (err.message === "HTTP error! Status: 504") {
-      return "API Timeout, Please Try Again Later";
+    if (err.message === 'HTTP error! Status: 504') {
+      return 'API Timeout, Please Try Again Later';
     }
-    return "Wrong Authentication Key";
+    return 'Wrong Authentication Key';
   }
+}
+
+export async function genshinWishImportAPI(wishData, userID) {
+  return runImport('genshin', extractHoyoAuthkey(wishData), userID);
 }
 
 export async function starrailWishImportAPI(wishData, userID) {
-  try {
-    let res = wishData.split('authkey=');
-    let res2 = res[1].split('&game');
-    let authkey = res2[0];
-    authkey = encodeURI(authkey);
-    
-    // Define the URL of your API endpoint
-    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=starrail`;
-
-    // Use the fetch function to make the GET request
-    const response = await fetch(apiUrl);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data.message; // Return the message from the response
-  } catch (err) {
-    console.log(err);
-    if (err.message === "HTTP error! Status: 504") {
-      return "API Timeout, Please Try Again Later";
-    }
-    return "Wrong Authentication Key";
-  }
-}
-export async function wuwaWishImportAPI(wishData, userID) {
-  try {
-    const authkey = encodeURIComponent(wishData);
-    
-    // Define the URL of your API endpoint
-    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=wuwa`;
-
-    // Use the fetch function to make the GET request
-    const response = await fetch(apiUrl);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log(data);
-    return data.message; // Return the message from the response
-  } catch (err) {
-    console.log(err);
-    return "Wrong Authentication Key";
-  }
+  return runImport('starrail', extractHoyoAuthkey(wishData), userID);
 }
 
 export async function zzzWishImportAPI(wishData, userID) {
-  try {
-    let res = wishData.split('authkey=');
-    let res2 = res[1].split('&game');
-    let authkey = res2[0];
-    authkey = encodeURI(authkey);
-    
-    // Define the URL of your API endpoint
-    const apiUrl = `${API_URL}api/draw-import?authkey=${authkey}&userID=${userID}&game=zzz`;
+  return runImport('zzz', extractHoyoAuthkey(wishData), userID);
+}
 
-    // Use the fetch function to make the GET request
-    const response = await fetch(apiUrl);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data.message; // Return the message from the response
-  } catch (err) {
-    console.log(err);
-    if (err.message === "HTTP error! Status: 504") {
-      return "API Timeout, Please Try Again Later";
-    }
-    return "Wrong Authentication Key";
-  }
+export async function wuwaWishImportAPI(wishData, userID) {
+  return runImport('wuwa', encodeURIComponent(wishData), userID);
 }

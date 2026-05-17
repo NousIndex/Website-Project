@@ -87,7 +87,11 @@ const HOYO_CONFIGS = {
   },
 };
 
+const MAX_RETRIES = 5;
+const MAX_BACKOFF_MS = 1500;
+
 async function fetchPageWithRetry(url, retryDelay, logOnRetry) {
+  let attempt = 0;
   while (true) {
     const response = await fetch(url);
     if (!response.ok) {
@@ -95,21 +99,37 @@ async function fetchPageWithRetry(url, retryDelay, logOnRetry) {
     }
     const data = await response.json();
     if (data.retcode === -110) {
+      if (attempt >= MAX_RETRIES) {
+        throw new Error('Rate limited too many times');
+      }
       if (logOnRetry) console.log('Too Fast');
-      await setTimeout(retryDelay);
+      const backoff = Math.min(retryDelay * 2 ** attempt, MAX_BACKOFF_MS);
+      await setTimeout(backoff);
+      attempt++;
       continue;
     }
     return data;
   }
 }
 
-async function processBanner(database, config, authkey, banner) {
+async function processBanner(
+  database,
+  config,
+  authkey,
+  banner,
+  startEndid,
+  deadline
+) {
   const drawCollection = database.collection(config.collection);
-  let endid = '0';
+  let endid = startEndid;
   let game_uid = '';
   const collected = [];
 
   while (true) {
+    if (Date.now() > deadline) {
+      return { collected, game_uid, timedOut: true, endid };
+    }
+
     const responseData = await fetchPageWithRetry(
       config.buildUrl(banner, authkey, endid),
       config.retryDelay,
@@ -117,11 +137,11 @@ async function processBanner(database, config, authkey, banner) {
     );
 
     if (!responseData.data) {
-      return { earlyMessage: responseData.message };
+      return { collected, game_uid, earlyMessage: responseData.message };
     }
 
     const itemList = responseData.data.list;
-    if (itemList.length === 0) break;
+    if (itemList.length === 0) return { collected, game_uid };
 
     const ids = itemList.map((i) => i.id);
     const existingDocs = await drawCollection
@@ -152,39 +172,62 @@ async function processBanner(database, config, authkey, banner) {
     }
 
     endid = itemList[itemList.length - 1].id;
-    if (duplicateFound) break;
+    if (duplicateFound) return { collected, game_uid };
   }
-
-  return { collected, game_uid };
 }
 
-async function importHoyoDraws(database, config, authkey) {
-  const results = await Promise.all(
-    config.bannerSequence.map((banner) =>
-      processBanner(database, config, authkey, banner)
-    )
-  );
+async function importHoyoDraws(database, config, authkey, startCursor, deadline) {
+  const allDraws = [];
+  let game_uid = '';
+  const startBannerIdx = startCursor?.b ?? 0;
+  let bannerStartEndid = startCursor?.e ?? '0';
 
-  const early = results.find((r) => r.earlyMessage !== undefined);
-  if (early) return { earlyMessage: early.earlyMessage };
+  for (let i = startBannerIdx; i < config.bannerSequence.length; i++) {
+    const banner = config.bannerSequence[i];
+    const result = await processBanner(
+      database,
+      config,
+      authkey,
+      banner,
+      bannerStartEndid,
+      deadline
+    );
 
-  const newDraws = results.flatMap((r) => r.collected || []);
-  const game_uid = results.map((r) => r.game_uid).find(Boolean) || '';
-  return { newDraws, game_uid };
+    if (result.collected) allDraws.push(...result.collected);
+    if (result.game_uid) game_uid = result.game_uid;
+
+    if (result.earlyMessage !== undefined) {
+      return { newDraws: allDraws, game_uid, earlyMessage: result.earlyMessage };
+    }
+
+    if (result.timedOut) {
+      return {
+        newDraws: allDraws,
+        game_uid,
+        timedOut: true,
+        cursor: { b: i, e: result.endid },
+      };
+    }
+
+    bannerStartEndid = '0';
+  }
+
+  return { newDraws: allDraws, game_uid };
 }
 
-async function persistImport(database, config, userID, newDraws, game_uid) {
-  const gamesUsersCollection = database.collection('Games_Users');
-  await gamesUsersCollection.findOneAndUpdate(
-    { UID: userID },
-    { $set: { [config.uidField]: game_uid } },
-    { upsert: true }
-  );
+const TIME_BUDGET_MS = 7500;
 
-  if (newDraws.length === 0) {
-    console.log('No new data');
-    return { message: 'noNewData' };
+async function persistDraws(database, config, userID, newDraws, game_uid) {
+  if (game_uid) {
+    const gamesUsersCollection = database.collection('Games_Users');
+    await gamesUsersCollection.findOneAndUpdate(
+      { UID: userID },
+      { $set: { [config.uidField]: game_uid } },
+      { upsert: true }
+    );
   }
+
+  if (newDraws.length === 0) return 0;
 
   const drawCollection = database.collection(config.collection);
   await drawCollection.insertMany(newDraws, { ordered: false });
@@ -196,8 +239,7 @@ async function persistImport(database, config, userID, newDraws, game_uid) {
     { upsert: true }
   );
 
-  console.log('Data inserted successfully');
-  return { message: 'newData' };
+  return newDraws.length;
 }
 
 async function handleHoyoImport(req, res, config) {
@@ -206,22 +248,58 @@ async function handleHoyoImport(req, res, config) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
+  const deadline = Date.now() + TIME_BUDGET_MS;
+
   try {
     const database = await getDb();
-    const result = await importHoyoDraws(database, config, authkey);
+    const progressCollection = database.collection('ImportProgress');
+    const progressKey = `${config.summaryPrefix}-${userID}`;
+
+    let startCursor = null;
+    if (req.query.cursor) {
+      try {
+        startCursor = JSON.parse(req.query.cursor);
+      } catch {
+        startCursor = null;
+      }
+    }
+    if (!startCursor) {
+      const saved = await progressCollection.findOne({ _id: progressKey });
+      if (saved?.cursor) startCursor = saved.cursor;
+    }
+
+    const result = await importHoyoDraws(
+      database,
+      config,
+      authkey,
+      startCursor,
+      deadline
+    );
+
+    await persistDraws(database, config, userID, result.newDraws, result.game_uid);
 
     if (result.earlyMessage !== undefined) {
+      await progressCollection.deleteOne({ _id: progressKey });
       return res.json({ message: result.earlyMessage });
     }
 
-    const response = await persistImport(
-      database,
-      config,
-      userID,
-      result.newDraws,
-      result.game_uid
-    );
-    return res.json(response);
+    if (result.timedOut) {
+      await progressCollection.updateOne(
+        { _id: progressKey },
+        { $set: { cursor: result.cursor, updatedAt: new Date() } },
+        { upsert: true }
+      );
+      return res.json({
+        message: 'partial',
+        cursor: result.cursor,
+        added: result.newDraws.length,
+      });
+    }
+
+    await progressCollection.deleteOne({ _id: progressKey });
+    return res.json({
+      message: result.newDraws.length > 0 ? 'newData' : 'noNewData',
+    });
   } catch (errors) {
     console.error('Fetch error:', errors);
     return res.json({ message: errors });
@@ -335,19 +413,51 @@ async function handleWuwaImport(req, res) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const { wuwa_id, cardpoolId, recordId, serverId } = params;
+  const userID = req.query.userID;
+  const deadline = Date.now() + TIME_BUDGET_MS;
 
   try {
     const database = await getDb();
     const wuwaDrawCollection = database.collection('Wuwa_Draw');
+    const progressCollection = database.collection('ImportProgress');
+    const progressKey = `Wuwa-${userID}`;
 
-    const bannerResults = await Promise.all(
-      [1, 2, 3, 4, 5, 6, 7].map((i) =>
-        processWuwaBanner(wuwaDrawCollection, cardpoolId, recordId, serverId, wuwa_id, i)
-      )
-    );
-    const newDraws = bannerResults.flat();
+    let startBanner = 1;
+    if (req.query.cursor) {
+      try {
+        const c = JSON.parse(req.query.cursor);
+        if (typeof c?.b === 'number') startBanner = c.b;
+      } catch {
+        // fall through to saved cursor
+      }
+    }
+    if (startBanner === 1) {
+      const saved = await progressCollection.findOne({ _id: progressKey });
+      if (typeof saved?.cursor?.b === 'number') startBanner = saved.cursor.b;
+    }
 
-    const userID = req.query.userID;
+    const newDraws = [];
+    let lastCompletedBanner = startBanner - 1;
+    let timedOut = false;
+
+    for (let i = startBanner; i <= 7; i++) {
+      if (Date.now() > deadline) {
+        timedOut = true;
+        break;
+      }
+      const collected = await processWuwaBanner(
+        wuwaDrawCollection,
+        cardpoolId,
+        recordId,
+        serverId,
+        wuwa_id,
+        i
+      );
+      newDraws.push(...collected);
+      lastCompletedBanner = i;
+      await setTimeout(50);
+    }
+
     const gamesUsersCollection = database.collection('Games_Users');
     await gamesUsersCollection.findOneAndUpdate(
       { UID: userID },
@@ -355,20 +465,32 @@ async function handleWuwaImport(req, res) {
       { upsert: true }
     );
 
+    if (newDraws.length > 0) {
+      await wuwaDrawCollection.insertMany(newDraws, { ordered: false });
+      const summaryTableCollection = database.collection('SummaryTable');
+      await summaryTableCollection.findOneAndUpdate(
+        { Game_UID: `Wuwa-${wuwa_id}` },
+        { $inc: { total_items: newDraws.length } },
+        { upsert: true }
+      );
+    }
+
+    if (timedOut) {
+      const cursor = { b: lastCompletedBanner + 1 };
+      await progressCollection.updateOne(
+        { _id: progressKey },
+        { $set: { cursor, updatedAt: new Date() } },
+        { upsert: true }
+      );
+      return res.json({ message: 'partial', cursor, added: newDraws.length });
+    }
+
+    await progressCollection.deleteOne({ _id: progressKey });
+
     if (newDraws.length === 0) {
       console.log('No new data');
       return res.json({ message: 'noNewData' });
     }
-
-    await wuwaDrawCollection.insertMany(newDraws, { ordered: false });
-
-    const summaryTableCollection = database.collection('SummaryTable');
-    await summaryTableCollection.findOneAndUpdate(
-      { Game_UID: `Wuwa-${wuwa_id}` },
-      { $inc: { total_items: newDraws.length } },
-      { upsert: true }
-    );
-
     console.log('Data inserted successfully');
     return res.json({ message: 'newData' });
   } catch (errors) {
