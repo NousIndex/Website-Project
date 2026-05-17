@@ -21,7 +21,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
       if (character.name.toLowerCase().includes('rover')) {
-        return;
+        return null;
       }
 
       const iconUrl =
@@ -39,6 +39,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-character-inventory-image no-selection"
             style={{
               backgroundImage: character.rarity.includes('5')
@@ -54,11 +55,13 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png'
                 : 'default-src-for-other-rarities'
             }
+            alt=""
             className="wish-character-inventory-rarity no-selection"
           />
           {character.type !== 'undefined' && (
             <img
               src={character.type}
+              alt=""
               className="convene-character-inventory-element no-selection"
             />
           )}
@@ -86,18 +89,18 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         weapon.rarity.includes('2') ||
         weapon.rarity.includes('1')
       ) {
-        return;
+        return null;
       }
 
       if (weaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       }
 
       const iconUrl =
         itemIcons[weapon.name.toLowerCase()] || 'default-image-url';
 
       if (iconUrl === 'default-image-url') {
-        return;
+        return null;
       }
 
       const weaponConstallation = (itemCounter[weapon.name] - 1).toString();
@@ -110,6 +113,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-weapon-inventory-image no-selection"
             style={{
               backgroundImage: weapon.rarity.includes('5')
@@ -132,6 +136,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png'
                 : 'default-src-for-other-rarities'
             }
+            alt=""
             className="wish-weapon-inventory-rarity no-selection"
           />
           <span className="wish-weapon-inventory-atk no-selection">
@@ -179,6 +184,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
       // Cleanup: remove the event listener when the component unmounts
       document.removeEventListener('click', closeModalOnClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
   const openModal = () => {
@@ -235,7 +241,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   className="team-randomiser-button"
                   onClick={openRandomModal}
                 >
-                  <img src={randomIcon} />
+                  <img src={randomIcon} alt="" />
                 </button>
               </h3>
               <RandomiserModal

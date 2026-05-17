@@ -139,7 +139,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Character Warp
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalcharacterdraws}
             </span>
             <table>
@@ -161,7 +161,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Light Cone Warp
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalweapondraws}
             </span>
             <table>
@@ -183,7 +183,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Standard Warp
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalstandarddraws}
             </span>
             <table>

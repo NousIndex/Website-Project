@@ -45,7 +45,8 @@ const RandomiserModal = ({
       <div className={`random-character-inventory-div`}>
         <img
           src={iconUrl}
-          className="random-character-inventory-image no-selection" 
+          alt=""
+          className="random-character-inventory-image no-selection"
           style={{
             backgroundImage: character.rarity.includes('5_Stars')
               ? 'linear-gradient(#71433f, #b89574)'
@@ -54,14 +55,17 @@ const RandomiserModal = ({
         />
         <img
           src={character.rarity}
+          alt=""
           className="random-character-inventory-rarity no-selection"
         />
         <img
           src={character.element}
+          alt=""
           className="random-character-inventory-element no-selection"
         />
         <img
           src={character.weapon}
+          alt=""
           className="random-character-inventory-weapon no-selection"
         />
         <span className="random-character-inventory-name">

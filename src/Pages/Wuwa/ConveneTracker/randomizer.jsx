@@ -44,6 +44,7 @@ const RandomiserModal = ({
       <div className={`random-character-inventory-div`}>
         <img
           src={iconUrl}
+          alt=""
           className="random-character-inventory-image no-selection"
           style={{
             backgroundImage: character.rarity.includes('5')
@@ -59,12 +60,13 @@ const RandomiserModal = ({
               ? 'https://static.wikia.nocookie.net/wutheringwaves/images/2/2b/Icon_5_Stars.png'
               : 'default-src-for-other-rarities'
           }
-          cla
+          alt=""
           className="random-character-inventory-rarity no-selection"
         />
         {character.type !== 'undefined' && (
           <img
             src={character.type}
+            alt=""
             className="convene-character-inventory-element no-selection"
           />
         )}

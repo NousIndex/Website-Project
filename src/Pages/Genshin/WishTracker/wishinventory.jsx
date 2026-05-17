@@ -94,7 +94,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
   function generateCharacterImages() {
     return itemsData.characters.map((character) => {
       if (character.name === 'Aloy') {
-        return;
+        return null;
       }
 
       let itemNameModified = character.name
@@ -122,6 +122,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-character-inventory-image no-selection"
             style={{
               backgroundImage: character.rarity.includes('5_Stars')
@@ -131,14 +132,17 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <img
             src={character.rarity}
+            alt=""
             className="wish-character-inventory-rarity no-selection"
           />
           <img
             src={character.element}
+            alt=""
             className="wish-character-inventory-element no-selection"
           />
           <img
             src={character.weapon}
+            alt=""
             className="wish-character-inventory-weapon no-selection"
           />
           <span className="wish-character-inventory-name">
@@ -161,7 +165,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         weapon.rarity.includes('2_Stars') ||
         weapon.rarity.includes('1_Star')
       ) {
-        return;
+        return null;
       }
 
       let itemNameModified = weapon.name
@@ -171,17 +175,17 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         .replace(/,/g, '%2C');
 
       if (craftedWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       } else if (bpWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       } else if (paimonShopWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       } else if (fishingWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       } else if (eventWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       } else if (specialWeaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       }
 
       const iconUrl =
@@ -189,7 +193,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         'default-image-url';
 
       if (iconUrl === 'default-image-url') {
-        return;
+        return null;
       }
       const weaponConstallation = (itemCounter[weapon.name] - 1).toString();
       return (
@@ -200,6 +204,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-weapon-inventory-image no-selection"
             style={{
               backgroundImage: weapon.rarity.includes('5_Stars')
@@ -212,6 +217,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
           <img
             src={weapon.rarity}
+            alt=""
             className="wish-weapon-inventory-rarity no-selection"
           />
           <span className="wish-weapon-inventory-atk no-selection">
@@ -259,6 +265,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
       // Cleanup: remove the event listener when the component unmounts
       document.removeEventListener('click', closeModalOnClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
   const openModal = () => {
@@ -321,7 +328,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   className="team-randomiser-button"
                   onClick={openRandomModal}
                 >
-                  <img src={randomIcon} />
+                  <img src={randomIcon} alt="" />
                 </button>
               </h3>
               <RandomiserModal

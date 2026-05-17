@@ -190,7 +190,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Featured Resonator Convene
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalcharacterdraws}
             </span>
             <table>
@@ -212,7 +212,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Featured Weapon Convene
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalweapondraws}
             </span>
             <table>
@@ -234,7 +234,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Standard Resonator Convene
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalstandarddraws}
             </span>
             <table>
@@ -256,7 +256,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Standard Weapon Convene
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalstandardwepdraws}
             </span>
             <table>

@@ -124,7 +124,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         <WarpInventory itemIcons={itemIcons} itemsData={itemsData} itemCounter={itemCounter} />
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
-            <span>Character Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalcharacterdraws}</span>
+            <span>Character Warp<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalcharacterdraws}</span>
             <table>
               <thead>
                 <tr>
@@ -141,7 +141,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Light Cone Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalweapondraws}</span>
+            <span>Light Cone Warp<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalweapondraws}</span>
             <table>
               <thead>
                 <tr>
@@ -158,7 +158,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Standard Warp<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalstandarddraws}</span>
+            <span>Standard Warp<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalstandarddraws}</span>
             <table>
               <thead>
                 <tr>

@@ -155,7 +155,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
             Agent Search
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalcharacterdraws}
             </span>
             <table>
@@ -177,7 +177,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               W-Engine Search
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalweapondraws}
             </span>
             <table>
@@ -199,7 +199,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Standard Search
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalstandarddraws}
             </span>
             <table>
@@ -221,7 +221,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             <span>
               Bangboo Search
               <br />
-              <a style={{ fontWeight: 'normal' }}>Total Draws: </a>
+              <span style={{ fontWeight: 'normal' }}>Total Draws: </span>
               {totalbangboodraws}
             </span>
             <table>

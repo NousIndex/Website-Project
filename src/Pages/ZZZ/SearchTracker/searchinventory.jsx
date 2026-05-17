@@ -29,6 +29,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-character-inventory-image no-selection"
             style={{
               backgroundImage: character.rarity.includes('S')
@@ -38,10 +39,12 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           />
           <img
             src={character.weapon}
+            alt=""
             className="wish-character-inventory-weapon no-selection"
           />
           <img
             src={character.type}
+            alt=""
             className="wish-character-inventory-element no-selection"
           />
           <img
@@ -52,6 +55,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/d/d0/Icon_AgentRank_S.png'
                 : 'default-src-for-other-rarities'
             }
+            alt=""
             className="wish-character-inventory-rarity no-selection"
             style={{ width: '20%', height: 'auto' }}
           />
@@ -75,23 +79,17 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         weapon.rarity.includes('D') ||
         weapon.rarity.includes('E')
       ) {
-        return;
+        return null;
       }
 
-      let itemNameModified = weapon.name
-        .replace(/\s+/g, '_')
-        .replace(/'/g, '%27')
-        .replace(/!/g, '%21')
-        .replace(/,/g, '%2C')
-        .replace(/•/g, '%E2%80%A2');
       if (weaponIgnoreList.includes(weapon.name)) {
-        return;
+        return null;
       }
       const iconUrl =
         itemIcons[weapon.name.toLowerCase()] || 'default-image-url';
 
       if (iconUrl === 'default-image-url') {
-        return;
+        return null;
       }
       const weaponConstallation = (itemCounter[weapon.name] - 1).toString();
       return (
@@ -103,6 +101,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
         >
           <img
             src={iconUrl}
+            alt=""
             className="wish-weapon-inventory-image no-selection"
             style={{
               backgroundImage: weapon.rarity.includes('S')
@@ -115,6 +114,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
           <img
             src={weapon.type}
+            alt=""
             className="warp-weapon-inventory-type no-selection"
           />
           <img
@@ -125,6 +125,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 ? 'https://static.wikia.nocookie.net/zenless-zone-zero/images/d/d0/Icon_AgentRank_S.png'
                 : 'default-src-for-other-rarities'
             }
+            alt=""
             className="wish-weapon-inventory-rarity no-selection"
             style={{ width: '20%', height: 'auto' }}
           />
@@ -173,6 +174,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
       // Cleanup: remove the event listener when the component unmounts
       document.removeEventListener('click', closeModalOnClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
   const openModal = () => {
@@ -229,7 +231,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                   className="team-randomiser-button"
                   onClick={openRandomModal}
                 >
-                  <img src={randomIcon} />
+                  <img src={randomIcon} alt="" />
                 </button>
               </h3>
               <RandomiserModal

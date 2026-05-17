@@ -214,6 +214,7 @@ const ItemTable = ({ items, itemIcons }) => {
                     <img
                       src={iconUrl}
                       loading="lazy"
+                      alt=""
                       className="table-item-icon no-selection"
                     />
                     <span className="item-name">{item.Item_Name}</span>

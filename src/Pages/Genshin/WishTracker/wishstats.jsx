@@ -123,7 +123,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         <WishInventory itemIcons={itemIcons} itemsData={itemsData} itemCounter={itemCounter} />
         <div className="wish-stats-tables">
           <div className="wish-stats-pity-table">
-            <span>Character Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalcharacterdraws}</span>
+            <span>Character Event Wish<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalcharacterdraws}</span>
             <table>
               <thead>
                 <tr>
@@ -140,7 +140,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Weapon Event Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalweapondraws}</span>
+            <span>Weapon Event Wish<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalweapondraws}</span>
             <table>
               <thead>
                 <tr>
@@ -157,7 +157,7 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
             </table>
           </div>
           <div className="wish-stats-pity-table">
-            <span>Permanent Wish<br/><a style={{fontWeight: 'normal'}}>Total Draws: </a>{totalstandarddraws}</span>
+            <span>Permanent Wish<br/><span style={{fontWeight: 'normal'}}>Total Draws: </span>{totalstandarddraws}</span>
             <table>
               <thead>
                 <tr>
