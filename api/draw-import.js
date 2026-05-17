@@ -1,18 +1,381 @@
-require('dotenv').config();
 const { setTimeout } = require('node:timers/promises');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { getDb } = require('./_shared/mongo');
+const { parseGachaTime } = require('./_shared/parseTime');
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.MONGODB_URI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+const GENSHIN_TYPES = {
+  100: 'Beginner Wish',
+  200: 'Permanent Wish',
+  301: 'Character Event Wish',
+  400: 'Character Event Wish - 2',
+  302: 'Weapon Event Wish',
+  500: 'Chronicled Wish',
+};
+
+const STARRAIL_TYPES = {
+  2: 'Departure Warp',
+  1: 'Standard Warp',
+  11: 'Character Warp',
+  12: 'Light Cone Warp',
+  21: 'Character Collaboration Warp',
+  22: 'Light Cone Collaboration Warp',
+};
+
+const ZZZ_TYPES = {
+  2: 'Agent Search',
+  1: 'Standard Search',
+  3: 'W-Engine Search',
+  5: 'Bangboo Search',
+  102: 'Exclusive Rescreening',
+  103: 'W-Engine Reverberation',
+};
+
+const HOYO_CONFIGS = {
+  genshin: {
+    bannerSequence: [100, 301, 400, 302, 500, 200],
+    uidField: 'Genshin_UID',
+    collection: 'Genshin_Draw',
+    summaryPrefix: 'Genshin',
+    retryDelay: 100,
+    logOnRetry: false,
+    buildUrl: (banner, authkey, endid) =>
+      `https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=${banner}&lang=en&authkey=${authkey}&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
+    transformItem(item) {
+      item.gacha_type = GENSHIN_TYPES[item.gacha_type] || 'Unknown';
+    },
   },
-  ssl: true,
-  tlsAllowInvalidCertificates: true, // Set to false in production
-  tlsAllowInvalidHostnames: true, // Optional, set to true only for testing
-});
+  starrail: {
+    bannerSequence: [2, 11, 12, 21, 22, 1],
+    uidField: 'StarRail_UID',
+    collection: 'StarRail_Draw',
+    summaryPrefix: 'StarRail',
+    retryDelay: 100,
+    logOnRetry: false,
+    buildUrl: (banner, authkey, endid) =>
+      `https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=hkrpg_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
+    transformItem(item) {
+      item.gacha_type = STARRAIL_TYPES[item.gacha_type] || 'Unknown';
+    },
+  },
+  zzz: {
+    bannerSequence: [2001, 3001, 102001, 103001, 5001, 1001],
+    uidField: 'Zzz_UID',
+    collection: 'Zzz_Draw',
+    summaryPrefix: 'Zzz',
+    retryDelay: 75,
+    logOnRetry: true,
+    buildUrl: (banner, authkey, endid) =>
+      `https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=nap_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
+    transformItem(item) {
+      item.gacha_type = ZZZ_TYPES[item.gacha_type] || 'Unknown';
+      if (item.gacha_type !== 'Unknown') {
+        switch (item.rank_type) {
+          case '2':
+            item.rank_type = '3';
+            break;
+          case '3':
+            item.rank_type = '4';
+            break;
+          case '4':
+            item.rank_type = '5';
+            break;
+          default:
+            item.gacha_type = '0';
+            break;
+        }
+      }
+    },
+  },
+};
+
+async function fetchPageWithRetry(url, retryDelay, logOnRetry) {
+  while (true) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data.retcode === -110) {
+      if (logOnRetry) console.log('Too Fast');
+      await setTimeout(retryDelay);
+      continue;
+    }
+    return data;
+  }
+}
+
+async function processBanner(database, config, authkey, banner) {
+  const drawCollection = database.collection(config.collection);
+  let endid = '0';
+  let game_uid = '';
+  const collected = [];
+
+  while (true) {
+    const responseData = await fetchPageWithRetry(
+      config.buildUrl(banner, authkey, endid),
+      config.retryDelay,
+      config.logOnRetry
+    );
+
+    if (!responseData.data) {
+      return { earlyMessage: responseData.message };
+    }
+
+    const itemList = responseData.data.list;
+    if (itemList.length === 0) break;
+
+    const ids = itemList.map((i) => i.id);
+    const existingDocs = await drawCollection
+      .find({ DrawID: { $in: ids } }, { projection: { DrawID: 1, _id: 0 } })
+      .toArray();
+    const existingIds = new Set(existingDocs.map((d) => d.DrawID));
+
+    let duplicateFound = false;
+    for (const item of itemList) {
+      game_uid = item.uid;
+      if (existingIds.has(item.id)) {
+        duplicateFound = true;
+        break;
+      }
+
+      config.transformItem(item);
+
+      if (item.gacha_type !== 'Unknown') {
+        collected.push({
+          [config.uidField]: String(item.uid),
+          DrawID: String(item.id),
+          DrawTime: parseGachaTime(item.time),
+          DrawType: String(item.gacha_type),
+          Item_Name: String(item.name),
+          Rarity: String(item.rank_type),
+        });
+      }
+    }
+
+    endid = itemList[itemList.length - 1].id;
+    if (duplicateFound) break;
+  }
+
+  return { collected, game_uid };
+}
+
+async function importHoyoDraws(database, config, authkey) {
+  const results = await Promise.all(
+    config.bannerSequence.map((banner) =>
+      processBanner(database, config, authkey, banner)
+    )
+  );
+
+  const early = results.find((r) => r.earlyMessage !== undefined);
+  if (early) return { earlyMessage: early.earlyMessage };
+
+  const newDraws = results.flatMap((r) => r.collected || []);
+  const game_uid = results.map((r) => r.game_uid).find(Boolean) || '';
+  return { newDraws, game_uid };
+}
+
+async function persistImport(database, config, userID, newDraws, game_uid) {
+  const gamesUsersCollection = database.collection('Games_Users');
+  await gamesUsersCollection.findOneAndUpdate(
+    { UID: userID },
+    { $set: { [config.uidField]: game_uid } },
+    { upsert: true }
+  );
+
+  if (newDraws.length === 0) {
+    console.log('No new data');
+    return { message: 'noNewData' };
+  }
+
+  const drawCollection = database.collection(config.collection);
+  await drawCollection.insertMany(newDraws, { ordered: false });
+
+  const summaryTableCollection = database.collection('SummaryTable');
+  await summaryTableCollection.findOneAndUpdate(
+    { Game_UID: `${config.summaryPrefix}-${newDraws[0][config.uidField]}` },
+    { $inc: { total_items: newDraws.length } },
+    { upsert: true }
+  );
+
+  console.log('Data inserted successfully');
+  return { message: 'newData' };
+}
+
+async function handleHoyoImport(req, res, config) {
+  const { authkey, userID } = req.query;
+  if (!authkey || !userID) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  try {
+    const database = await getDb();
+    const result = await importHoyoDraws(database, config, authkey);
+
+    if (result.earlyMessage !== undefined) {
+      return res.json({ message: result.earlyMessage });
+    }
+
+    const response = await persistImport(
+      database,
+      config,
+      userID,
+      result.newDraws,
+      result.game_uid
+    );
+    return res.json(response);
+  } catch (errors) {
+    console.error('Fetch error:', errors);
+    return res.json({ message: errors });
+  }
+}
+
+const WUWA_BANNERS = [
+  'Featured Resonator Convene',
+  'Featured Weapon Convene',
+  'Standard Resonator Convene',
+  'Standard Weapon Convene',
+  'Beginner Convene',
+  "Beginner's Choice Convene",
+  "Beginner's Choice Convene (Giveback Custom Convene)",
+];
+
+function buildWuwaDrawId(oneDraw, wuwa_id) {
+  return (
+    oneDraw.name.replace(/[\s:-]/g, '').trim() +
+    oneDraw.time.replace(/[\s:-]/g, '').trim() +
+    wuwa_id
+  );
+}
+
+async function processWuwaBanner(
+  drawCollection,
+  cardpoolId,
+  recordId,
+  serverId,
+  wuwa_id,
+  bannerIndex
+) {
+  const payload = {
+    cardPoolId: cardpoolId,
+    cardPoolType: bannerIndex,
+    languageCode: 'en',
+    playerId: wuwa_id,
+    recordId,
+    serverId,
+  };
+
+  let data;
+  try {
+    const response = await fetch(
+      'https://gmserver-api.aki-game2.net/gacha/record/query',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Origin: 'https://aki-gm-resources-oversea.aki-game.net',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+    if (!response.ok) throw new Error('Network response was not ok');
+    data = await response.json();
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    return [];
+  }
+
+  if (!data?.data?.length) return [];
+
+  const drawIds = data.data.map((d) => buildWuwaDrawId(d, wuwa_id));
+  const existingDocs = await drawCollection
+    .find({ DrawID: { $in: drawIds } }, { projection: { DrawID: 1, _id: 0 } })
+    .toArray();
+  const existingIds = new Set(existingDocs.map((d) => d.DrawID));
+
+  const collected = [];
+  for (const oneDraw of data.data) {
+    const drawID = buildWuwaDrawId(oneDraw, wuwa_id);
+    if (existingIds.has(drawID)) break;
+
+    collected.push({
+      Wuwa_UID: String(wuwa_id),
+      DrawID: String(drawID),
+      DrawTime: parseGachaTime(oneDraw.time),
+      DrawType: String(WUWA_BANNERS[bannerIndex - 1]),
+      Item_Name: String(oneDraw.name),
+      Rarity: String(oneDraw.qualityLevel),
+    });
+  }
+  return collected;
+}
+
+function extractWuwaParams(authkey) {
+  const fields = {
+    wuwa_id: /player_id=([^&]+)/,
+    cardpoolId: /resources_id=([^&]+)/,
+    recordId: /record_id=([^&]+)/,
+    serverId: /svr_id=([^&]+)/,
+  };
+  const out = {};
+  for (const [key, regex] of Object.entries(fields)) {
+    const match = authkey.match(regex);
+    if (!match) return null;
+    out[key] = match[1];
+  }
+  return out;
+}
+
+async function handleWuwaImport(req, res) {
+  if (!req.query.authkey || !req.query.userID) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  const authkey = decodeURIComponent(req.query.authkey);
+  const params = extractWuwaParams(authkey);
+  if (!params) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+  const { wuwa_id, cardpoolId, recordId, serverId } = params;
+
+  try {
+    const database = await getDb();
+    const wuwaDrawCollection = database.collection('Wuwa_Draw');
+
+    const bannerResults = await Promise.all(
+      [1, 2, 3, 4, 5, 6, 7].map((i) =>
+        processWuwaBanner(wuwaDrawCollection, cardpoolId, recordId, serverId, wuwa_id, i)
+      )
+    );
+    const newDraws = bannerResults.flat();
+
+    const userID = req.query.userID;
+    const gamesUsersCollection = database.collection('Games_Users');
+    await gamesUsersCollection.findOneAndUpdate(
+      { UID: userID },
+      { $set: { Wuwa_UID: wuwa_id } },
+      { upsert: true }
+    );
+
+    if (newDraws.length === 0) {
+      console.log('No new data');
+      return res.json({ message: 'noNewData' });
+    }
+
+    await wuwaDrawCollection.insertMany(newDraws, { ordered: false });
+
+    const summaryTableCollection = database.collection('SummaryTable');
+    await summaryTableCollection.findOneAndUpdate(
+      { Game_UID: `Wuwa-${wuwa_id}` },
+      { $inc: { total_items: newDraws.length } },
+      { upsert: true }
+    );
+
+    console.log('Data inserted successfully');
+    return res.json({ message: 'newData' });
+  } catch (errors) {
+    console.error('Fetch error:', errors);
+    return res.json({ message: errors });
+  }
+}
 
 module.exports = async (req, res) => {
   const game = req.query.game;
@@ -20,850 +383,14 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  if (game === 'genshin') {
-    // console.log('Starting Genshin Draw Import API');
-    try {
-      // Connect the client to the server
-      await client.connect();
-      // Access the database
-      const database = client.db('NousIndex');
-      let endid = '0';
-      let banner = 100;
-      const authkey = req.query.authkey;
-      const userID = req.query.userID;
-      const newDraws = [];
-      let loop = true;
-      let genshin_uid = '';
-
-      while (loop) {
-        const apiUrl =
-          'https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=' +
-          banner +
-          '&lang=en&authkey=' +
-          authkey +
-          '&gacha_type=' +
-          banner +
-          '&page=1&size=20&end_id=' +
-          endid;
-
-        // Use the built-in fetch to make the request to Mihoyo API
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the response body as JSON
-        const responseData = await response.json();
-        // console.log('Response data:', responseData);
-        if (responseData.retcode == -110) {
-          // Visit API too frequently
-          // Wait for 1 seconds before trying again
-          await setTimeout(100);
-          continue;
-        }
-        if (!responseData.data) {
-          // console.log(responseData)
-          return res.json({ message: responseData.message });
-        }
-        const itemList = responseData.data.list;
-        if (itemList.length > 0) {
-          // No more data
-
-          let duplicateFound = false;
-
-          for (const item of itemList) {
-            try {
-              genshin_uid = item.uid;
-              // Access the "Genshin_Draw" collection
-              const genshinDrawCollection = database.collection('Genshin_Draw');
-
-              // Find the document with the specified DrawID
-              const existingItem = await genshinDrawCollection.findOne({
-                DrawID: item.id,
-              });
-
-              if (existingItem) {
-                // console.log(
-                //   `Item with DrawID ${item.id} exists in Genshin_Draw table.`
-                // );
-                duplicateFound = true;
-                //console.log('Duplicate found');
-                break; // Exit the loop if a duplicate is found
-              } else {
-                switch (item.gacha_type) {
-                  case '100':
-                    item.gacha_type = 'Beginner Wish';
-                    break;
-                  case '200':
-                    item.gacha_type = 'Permanent Wish';
-                    break;
-                  case '301':
-                    item.gacha_type = 'Character Event Wish';
-                    break;
-                  case '400':
-                    item.gacha_type = 'Character Event Wish - 2';
-                    break;
-                  case '302':
-                    item.gacha_type = 'Weapon Event Wish';
-                    break;
-                  default:
-                    item.gacha_type = 'Unknown';
-                }
-
-                if (item.gacha_type != 'Unknown') {
-                  // Split the date and time string into its components
-                  const [datePart, timePart, ampm] = item.time.split(' ');
-
-                  // Split the date components into year, month, and day
-                  const [year, month, day] = datePart.split('-').map(Number);
-
-                  // Split the time components into hours, minutes, seconds, and AM/PM
-                  const [time] = timePart.split(' ');
-                  const [hours, minutes, seconds] = time.split(':').map(Number);
-
-                  // Create the Date object
-                  const dateTime = new Date(
-                    year,
-                    month - 1,
-                    day,
-                    hours,
-                    minutes,
-                    seconds
-                  );
-
-                  newDraws.push({
-                    Genshin_UID: String(item.uid),
-                    DrawID: String(item.id),
-                    DrawTime: dateTime,
-                    DrawType: String(item.gacha_type),
-                    Item_Name: String(item.name),
-                    Rarity: String(item.rank_type),
-                  });
-                }
-
-                // console.log(
-                //   `Item with DrawID ${item.id} does not exist in Genshin_Draw table.`
-                // );
-              }
-            } catch (error) {
-              console.error(
-                `Error checking item with DrawID ${item.id}:`,
-                error
-              );
-            }
-          }
-          endid = itemList[itemList.length - 1].id;
-          if (duplicateFound) {
-            if (banner == 100) {
-              banner = 301;
-              endid = '0';
-            } else if (banner == 301) {
-              banner = 400;
-              endid = '0';
-            } else if (banner == 400) {
-              banner = 302;
-              endid = '0';
-            } else if (banner == 302) {
-              banner = 200;
-              endid = '0';
-            } else {
-              loop = false;
-            }
-          }
-        } else {
-          if (banner == 100) {
-            banner = 301;
-            endid = '0';
-          } else if (banner == 301) {
-            banner = 400;
-            endid = '0';
-          } else if (banner == 400) {
-            banner = 302;
-            endid = '0';
-          } else if (banner == 302) {
-            banner = 200;
-            endid = '0';
-          } else {
-            loop = false;
-          }
-        }
-      }
-      // console.log(newDraws);
-      // console.log(userID);
-
-      // Access the "Games_Users" collection
-      const gamesUsersCollection = database.collection('Games_Users');
-
-      // Upsert the document with the specified UID
-      await gamesUsersCollection.findOneAndUpdate(
-        { UID: userID }, // Filter condition
-        { $set: { Genshin_UID: genshin_uid } }, // Update operation
-        { upsert: true } // Options: upsert if not found, return the updated document
-      );
-
-      if (newDraws.length > 0) {
-        // Access the "Genshin_Draw" collection
-        const genshinDrawCollection = database.collection('Genshin_Draw');
-
-        // Insert multiple documents into the collection
-        await genshinDrawCollection.insertMany(newDraws);
-
-        // Calculate the total number of items in newDraws
-        const totalItems = newDraws.length;
-
-        // Access the "SummaryTable" collection
-        const summaryTableCollection = database.collection('SummaryTable');
-
-        // Upsert the document with the specified Game_UID
-        await summaryTableCollection.findOneAndUpdate(
-          { Game_UID: `Genshin-${newDraws[0].Genshin_UID}` }, // Filter condition
-          {
-            $inc: { total_items: totalItems }, // Update operation to increment total_items
-          },
-          { upsert: true } // Options: upsert if not found, return the updated document
-        );
-
-        console.log('Data inserted successfully');
-        return res.json({ message: 'newData' });
-      } else {
-        console.log('No new data');
-        return res.json({ message: 'noNewData' });
-      }
-    } catch (errors) {
-      console.error('Fetch error:', errors);
-      return res.json({ message: errors });
-    } finally {
-      console.log('Closing connection');
-      await client.close();
-    }
-  } else if (game === 'starrail') {
-    // * should be done
-    //console.log('Starting StarRail Draw Import API');
-    try {
-      // Connect the client to the server
-      await client.connect();
-      // Access the database
-      const database = client.db('NousIndex');
-      let endid = '0';
-      let banner = 2;
-      const authkey = req.query.authkey;
-      const userID = req.query.userID;
-      const newDraws = [];
-      let loop = true;
-      let starrail_uid = '';
-
-      while (loop) {
-        const apiUrl =
-          'https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=' +
-          banner +
-          '&lang=en&authkey=' +
-          authkey +
-          '&game_biz=hkrpg_global&gacha_type=' +
-          banner +
-          '&page=1&size=20&end_id=' +
-          endid;
-
-        // Use the built-in fetch to make the request to Mihoyo API
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the response body as JSON
-        const responseData = await response.json();
-        //console.log('Response data:', responseData);
-        if (responseData.retcode === -110) {
-          // Visit API too frequently
-          // Wait for 1 seconds before trying again
-          await setTimeout(100);
-          continue;
-        }
-        if (!responseData.data) {
-          // console.log(responseData)
-          return res.json({ message: responseData.message });
-        }
-        const itemList = responseData.data.list;
-        if (itemList.length > 0) {
-          // No more data
-
-          let duplicateFound = false;
-
-          for (const item of itemList) {
-            try {
-              starrail_uid = item.uid;
-              // Access the "StarRail_Draw" collection
-              const starRailDrawCollection =
-                database.collection('StarRail_Draw');
-
-              // Find the document with the specified DrawID
-              const existingItem = await starRailDrawCollection.findOne({
-                DrawID: item.id,
-              });
-
-              if (existingItem) {
-                // console.log(
-                //   `Item with DrawID ${item.id} exists in Genshin_Draw table.`
-                // );
-                duplicateFound = true;
-                //console.log('Duplicate found');
-                break; // Exit the loop if a duplicate is found
-              } else {
-                switch (item.gacha_type) {
-                  case '2':
-                    item.gacha_type = 'Departure Warp';
-                    break;
-                  case '1':
-                    item.gacha_type = 'Standard Warp';
-                    break;
-                  case '11':
-                    item.gacha_type = 'Character Warp';
-                    break;
-                  // case '400':
-                  //   item.gacha_type = 'Character Event Wish - 2';
-                  //   break;
-                  case '12':
-                    item.gacha_type = 'Light Cone Warp';
-                    break;
-                  default:
-                    item.gacha_type = 'Unknown';
-                }
-
-                if (item.gacha_type !== 'Unknown') {
-                  // Split the date and time string into its components
-                  const [datePart, timePart, ampm] = item.time.split(' ');
-
-                  // Split the date components into year, month, and day
-                  const [year, month, day] = datePart.split('-').map(Number);
-
-                  // Split the time components into hours, minutes, seconds, and AM/PM
-                  const [time] = timePart.split(' ');
-                  const [hours, minutes, seconds] = time.split(':').map(Number);
-
-                  // Create the Date object
-                  const dateTime = new Date(
-                    year,
-                    month - 1,
-                    day,
-                    hours,
-                    minutes,
-                    seconds
-                  );
-
-                  newDraws.push({
-                    StarRail_UID: String(item.uid),
-                    DrawID: String(item.id),
-                    DrawTime: dateTime,
-                    DrawType: String(item.gacha_type),
-                    Item_Name: String(item.name),
-                    Rarity: String(item.rank_type),
-                  });
-                }
-
-                // console.log(
-                //   `Item with DrawID ${item.id} does not exist in Genshin_Draw table.`
-                // );
-              }
-            } catch (error) {
-              console.error(
-                `Error checking item with DrawID ${item.id}:`,
-                error
-              );
-            }
-          }
-          endid = itemList[itemList.length - 1].id;
-          if (duplicateFound) {
-            if (banner === 2) {
-              banner = 11;
-              endid = '0';
-            } else if (banner === 11) {
-              banner = 12;
-              endid = '0';
-              // } else if (banner === 400) {
-              //   banner = 302;
-              //   endid = '0';
-            } else if (banner === 12) {
-              banner = 1;
-              endid = '0';
-            } else {
-              loop = false;
-            }
-          }
-        } else {
-          if (banner === 2) {
-            // get uid
-            banner = 11;
-            endid = '0';
-          } else if (banner === 11) {
-            banner = 12;
-            endid = '0';
-            // } else if (banner === 400) {
-            //   banner = 302;
-            //   endid = '0';
-          } else if (banner === 12) {
-            banner = 1;
-            endid = '0';
-          } else {
-            loop = false;
-          }
-        }
-      }
-      // console.log(newDraws);
-      // console.log(userID);
-
-      // Access the "Games_Users" collection
-      const gamesUsersCollection = database.collection('Games_Users');
-
-      // Upsert the document with the specified UID
-      await gamesUsersCollection.findOneAndUpdate(
-        { UID: userID }, // Filter condition
-        { $set: { StarRail_UID: starrail_uid } }, // Update operation
-        { upsert: true } // Options: upsert if not found, return the updated document
-      );
-
-      if (newDraws.length > 0) {
-        // Access the "StarRail_Draw" collection
-        const starRailDrawCollection = database.collection('StarRail_Draw');
-
-        // Insert multiple documents into the collection
-        await starRailDrawCollection.insertMany(newDraws);
-
-        // Calculate the total number of items in newDraws
-        const totalItems = newDraws.length;
-
-        // Access the "SummaryTable" collection
-        const summaryTableCollection = database.collection('SummaryTable');
-
-        // Upsert the document with the specified Game_UID
-        await summaryTableCollection.findOneAndUpdate(
-          { Game_UID: `StarRail-${newDraws[0].StarRail_UID}` }, // Filter condition
-          {
-            $inc: { total_items: totalItems }, // Update operation to increment total_items
-          },
-          { upsert: true } // Options: upsert if not found, return the updated document
-        );
-
-        console.log('Data inserted successfully');
-        return res.json({ message: 'newData' });
-      } else {
-        console.log('No new data');
-        return res.json({ message: 'noNewData' });
-      }
-    } catch (errors) {
-      console.error('Fetch error:', errors);
-      return res.json({ message: errors });
-    } finally {
-      await client.close();
-    }
-  } else if (game === 'zzz') {
-    // * should be done
-    //console.log('Starting ZZZ Draw Import API');
-    try {
-      // Connect the client to the server
-      await client.connect();
-      // Access the database
-      const database = client.db('NousIndex');
-      let endid = '0';
-      // 2001 Agent banner
-      // 3001 W-Engine banner
-      // 1001 Standard banner
-      // 5001 Bangboo banner
-      let banner = 2001;
-      const authkey = req.query.authkey;
-      const userID = req.query.userID;
-      const newDraws = [];
-      let loop = true;
-      let zzz_uid = '';
-
-      while (loop) {
-        const apiUrl =
-          'https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=' +
-          banner +
-          '&lang=en&authkey=' +
-          authkey +
-          '&game_biz=nap_global&gacha_type=' +
-          banner +
-          '&page=1&size=20&end_id=' +
-          endid;
-
-        // Use the built-in fetch to make the request to Mihoyo API
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the response body as JSON
-        const responseData = await response.json();
-        //console.log('Response data:', responseData);
-        if (responseData.retcode === -110) {
-          // Visit API too frequently
-          // Wait for 1 seconds before trying again
-          console.log('Too Fast');
-          await setTimeout(75);
-          continue;
-        }
-        if (!responseData.data) {
-          // console.log(responseData)
-          return res.json({ message: responseData.message });
-        }
-        const itemList = responseData.data.list;
-        if (itemList.length > 0) {
-          // No more data
-
-          let duplicateFound = false;
-
-          for (const item of itemList) {
-            try {
-              zzz_uid = item.uid;
-              // Access the "ZZZ_Draw" collection
-              const zzzDrawCollection = database.collection('Zzz_Draw');
-
-              // Find the document with the specified DrawID
-              const existingItem = await zzzDrawCollection.findOne({
-                DrawID: item.id,
-              });
-
-              if (existingItem) {
-                // console.log(
-                //   `Item with DrawID ${item.id} exists in Genshin_Draw table.`
-                // );
-                duplicateFound = true;
-                //console.log('Duplicate found');
-                break; // Exit the loop if a duplicate is found
-              } else {
-                // 2001 Agent banner
-                // 3001 W-Engine banner
-                // 1001 Standard banner
-                // 5001 Bangboo banner
-                switch (item.gacha_type) {
-                  case '2':
-                    item.gacha_type = 'Agent Search';
-                    break;
-                  case '1':
-                    item.gacha_type = 'Standard Search';
-                    break;
-                  case '3':
-                    item.gacha_type = 'W-Engine Search';
-                    break;
-                  case '5':
-                    item.gacha_type = 'Bangboo Search';
-                    break;
-                  default:
-                    item.gacha_type = 'Unknown';
-                    break;
-                }
-
-                if (item.gacha_type !== 'Unknown') {
-                  // Split the date and time string into its components
-                  const [datePart, timePart, ampm] = item.time.split(' ');
-
-                  // Split the date components into year, month, and day
-                  const [year, month, day] = datePart.split('-').map(Number);
-
-                  // Split the time components into hours, minutes, seconds, and AM/PM
-                  const [time] = timePart.split(' ');
-                  const [hours, minutes, seconds] = time.split(':').map(Number);
-
-                  // Create the Date object
-                  const dateTime = new Date(
-                    year,
-                    month - 1,
-                    day,
-                    hours,
-                    minutes,
-                    seconds
-                  );
-
-                  switch (item.rank_type) {
-                    case '2':
-                      item.rank_type = '3';
-                      break;
-                    case '3':
-                      item.rank_type = '4';
-                      break;
-                    case '4':
-                      item.rank_type = '5';
-                      break;
-                    default:
-                      item.gacha_type = '0';
-                      break;
-                  }
-
-                  newDraws.push({
-                    Zzz_UID: String(item.uid),
-                    DrawID: String(item.id),
-                    DrawTime: dateTime,
-                    DrawType: String(item.gacha_type),
-                    Item_Name: String(item.name),
-                    Rarity: String(item.rank_type),
-                  });
-                }
-
-                // console.log(
-                //   `Item with DrawID ${item.id} does not exist in Genshin_Draw table.`
-                // );
-              }
-            } catch (error) {
-              console.error(
-                `Error checking item with DrawID ${item.id}:`,
-                error
-              );
-            }
-          }
-          endid = itemList[itemList.length - 1].id;
-          if (duplicateFound) {
-            // 2001 Agent banner
-            // 3001 W-Engine banner
-            // 1001 Standard banner
-            // 5001 Bangboo banner
-            if (banner === 2001) {
-              banner = 3001;
-              endid = '0';
-            } else if (banner === 3001) {
-              banner = 5001;
-              endid = '0';
-              // } else if (banner === 400) {
-              //   banner = 302;
-              //   endid = '0';
-            } else if (banner === 5001) {
-              banner = 1001;
-              endid = '0';
-            } else {
-              loop = false;
-            }
-          }
-        } else {
-          if (banner === 2001) {
-            // get uid
-            banner = 3001;
-            endid = '0';
-          } else if (banner === 3001) {
-            banner = 5001;
-            endid = '0';
-            // } else if (banner === 400) {
-            //   banner = 302;
-            //   endid = '0';
-          } else if (banner === 5001) {
-            banner = 1001;
-            endid = '0';
-          } else {
-            loop = false;
-          }
-        }
-      }
-      // console.log(newDraws);
-      // console.log(userID);
-
-      // Access the "Games_Users" collection
-      const gamesUsersCollection = database.collection('Games_Users');
-
-      // Upsert the document with the specified UID
-      await gamesUsersCollection.findOneAndUpdate(
-        { UID: userID }, // Filter condition
-        { $set: { Zzz_UID: zzz_uid } }, // Update operation
-        { upsert: true } // Options: upsert if not found, return the updated document
-      );
-
-      if (newDraws.length > 0) {
-        // Access the "StarRail_Draw" collection
-        const zzzDrawCollection = database.collection('Zzz_Draw');
-
-        // Insert multiple documents into the collection
-        await zzzDrawCollection.insertMany(newDraws);
-
-        // Calculate the total number of items in newDraws
-        const totalItems = newDraws.length;
-
-        // Access the "SummaryTable" collection
-        const summaryTableCollection = database.collection('SummaryTable');
-
-        // Upsert the document with the specified Game_UID
-        await summaryTableCollection.findOneAndUpdate(
-          { Game_UID: `Zzz-${newDraws[0].Zzz_UID}` }, // Filter condition
-          {
-            $inc: { total_items: totalItems }, // Update operation to increment total_items
-          },
-          { upsert: true } // Options: upsert if not found, return the updated document
-        );
-
-        console.log('Data inserted successfully');
-        return res.json({ message: 'newData' });
-      } else {
-        console.log('No new data');
-        return res.json({ message: 'noNewData' });
-      }
-    } catch (errors) {
-      console.error('Fetch error:', errors);
-      return res.json({ message: errors });
-    } finally {
-      await client.close();
-    }
-  } else if (game === 'wuwa') {
-    const authkey = decodeURIComponent(req.query.authkey);
-
-    const wuwa_id = authkey.match(/player_id=([^&]+)/)[1];
-    const cardpoolId = authkey.match(/resources_id=([^&]+)/)[1];
-    const recordId = authkey.match(/record_id=([^&]+)/)[1];
-    const serverId = authkey.match(/svr_id=([^&]+)/)[1];
-    // * should be done
-    //console.log('Starting wuwa Draw Import API');
-    try {
-      // Connect the client to the server
-      await client.connect();
-      // Access the database
-      const database = client.db('NousIndex');
-
-      // Featured Resonator Convene
-      // Featured Weapon Convene
-      // Standard Resonator Convene
-      // Standard Weapon Convene
-      // Beginner Convene
-      // Beginner's Choice Convene
-      // Beginner's Choice Convene（Giveback Custom Convene）
-
-      const newDraws = [];
-      const wuwaBanners = [
-        'Featured Resonator Convene',
-        'Featured Weapon Convene',
-        'Standard Resonator Convene',
-        'Standard Weapon Convene',
-        'Beginner Convene',
-        "Beginner's Choice Convene",
-        "Beginner's Choice Convene (Giveback Custom Convene)",
-      ];
-      for (let i = 1; i < 8; i++) {
-        const payload = {
-          cardPoolId: cardpoolId,
-          cardPoolType: i,
-          languageCode: 'en',
-          playerId: wuwa_id,
-          recordId: recordId,
-          serverId: serverId,
-        };
-
-        await fetch('https://gmserver-api.aki-game2.net/gacha/record/query', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Origin: 'https://aki-gm-resources-oversea.aki-game.net',
-            // Add any other headers as needed
-          },
-          body: JSON.stringify(payload),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(async (data) => {
-            for (const oneDraw of data.data) {
-              const drawID =
-                oneDraw.name.replace(/[\s:-]/g, '').trim() +
-                oneDraw.time.replace(/[\s:-]/g, '').trim() +
-                wuwa_id;
-
-              // Access the "StarRail_Draw" collection
-              const WuwaDrawCollection = database.collection('Wuwa_Draw');
-
-              // Find the document with the specified DrawID
-              const existingItem = await WuwaDrawCollection.findOne({
-                DrawID: drawID,
-              });
-              if (existingItem) {
-                duplicateFound = true;
-                break;
-              } else {
-                // Split the date and time string into its components
-                const [datePart, timePart, ampm] = oneDraw.time.split(' ');
-
-                // Split the date components into year, month, and day
-                const [year, month, day] = datePart.split('-').map(Number);
-
-                // Split the time components into hours, minutes, seconds, and AM/PM
-                const [time] = timePart.split(' ');
-                const [hours, minutes, seconds] = time.split(':').map(Number);
-
-                // Create the Date object
-                const dateTime = new Date(
-                  year,
-                  month - 1,
-                  day,
-                  hours,
-                  minutes,
-                  seconds
-                );
-
-                newDraws.push({
-                  Wuwa_UID: String(wuwa_id),
-                  DrawID: String(drawID),
-                  DrawTime: dateTime,
-                  DrawType: String(wuwaBanners[i - 1]),
-                  Item_Name: String(oneDraw.name),
-                  Rarity: String(oneDraw.qualityLevel),
-                });
-              }
-            }
-          })
-          .catch((error) => {
-            console.error(
-              'There was a problem with the fetch operation:',
-              error
-            );
-          });
-
-        await setTimeout(50);
-      }
-
-      const userID = req.query.userID;
-
-      // Access the "Games_Users" collection
-      const gamesUsersCollection = database.collection('Games_Users');
-
-      // Upsert the document with the specified UID
-      await gamesUsersCollection.findOneAndUpdate(
-        { UID: userID }, // Filter condition
-        { $set: { Wuwa_UID: wuwa_id } }, // Update operation
-        { upsert: true } // Options: upsert if not found, return the updated document
-      );
-
-      if (newDraws.length > 0) {
-        // Access the "Wuwa_Draw" collection
-        const WuwaDrawCollection = database.collection('Wuwa_Draw');
-
-        // Insert multiple documents into the collection
-        await WuwaDrawCollection.insertMany(newDraws);
-
-        // Calculate the total number of items in newDraws
-        const totalItems = newDraws.length;
-
-        // Access the "SummaryTable" collection
-        const summaryTableCollection = database.collection('SummaryTable');
-
-        // Upsert the document with the specified Game_UID
-        await summaryTableCollection.findOneAndUpdate(
-          { Game_UID: `Wuwa-${wuwa_id}` }, // Filter condition
-          {
-            $inc: { total_items: totalItems }, // Update operation to increment total_items
-          },
-          { upsert: true } // Options: upsert if not found, return the updated document
-        );
-
-        console.log('Data inserted successfully');
-        return res.json({ message: 'newData' });
-      } else {
-        console.log('No new data');
-        return res.json({ message: 'noNewData' });
-      }
-    } catch (errors) {
-      console.error('Fetch error:', errors);
-      return res.json({ message: errors });
-    } finally {
-      await client.close();
-    }
-  } else {
+  if (game === 'wuwa') {
+    return handleWuwaImport(req, res);
+  }
+
+  const config = HOYO_CONFIGS[game];
+  if (!config) {
     return res.status(400).json({ error: 'Invalid request' });
   }
+
+  return handleHoyoImport(req, res, config);
 };
