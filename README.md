@@ -110,6 +110,35 @@ The script skips collections that do not exist, leaves existing indexes alone,
 and refuses to build the unique `DrawID` index if duplicates are already stored
 (it reports the count and builds a non-unique index instead).
 
+### Keeping Supabase awake
+
+Supabase pauses free projects after 7 days of inactivity, and that clock
+watches **database** activity. The previous keep-alive listed a storage bucket,
+which returned 200 while the project paused anyway, and nothing was scheduled
+to call it in the first place.
+
+`/api/keepalive` now writes a timestamp to a table and pings storage, reporting
+each separately -- `alive` reflects the database alone. `vercel.json` runs it
+daily (Vercel crons only fire on production deployments).
+`draw-history?game=keepalive` still works and does the same thing, for any
+external pinger already pointed at it.
+
+It needs a table, created once in the Supabase SQL editor:
+
+```sql
+create table if not exists public.keepalive (
+  id int primary key default 1,
+  pinged_at timestamptz not null default now()
+);
+insert into public.keepalive (id) values (1) on conflict do nothing;
+alter table public.keepalive enable row level security;
+```
+
+No RLS policy is added on purpose: the anon key then has no access, while the
+service_role key the functions use bypasses RLS. Set
+`SUPABASE_KEEPALIVE_TABLE` if you name it something else. `pinged_at` in the
+dashboard is the proof the cron is really running.
+
 ### Rate limits
 
 `draw-import` is capped at 40 requests per user per 5 minutes (one import can

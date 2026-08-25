@@ -2,10 +2,10 @@ const { getDb } = require('./_shared/mongo');
 const {
   viewFileContent,
   modifyAndUploadFileContent,
-  pingStorage,
 } = require('./_shared/supabase');
 const { fetchAndProcessDraws } = require('./_shared/drawHistory');
 const { enforceRateLimit } = require('./_shared/rateLimit');
+const { runKeepAlive } = require('./keepalive');
 
 const GAME_CONFIG = {
   genshin: {
@@ -140,14 +140,14 @@ async function handleDrawHistory(req, res, config) {
   }
 }
 
+/**
+ * Kept so any external pinger already pointed at this URL keeps working; the
+ * real endpoint is /api/keepalive, and both do the same database write.
+ */
 async function handleKeepAlive(req, res) {
-  try {
-    await pingStorage();
-    return res.status(200).json({ message: 'alive' });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
+  const report = await runKeepAlive();
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(report.alive ? 200 : 500).json(report);
 }
 
 /**

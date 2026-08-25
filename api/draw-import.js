@@ -334,6 +334,59 @@ async function persistDraws(database, config, userID, newDraws, game_uid) {
   return insertedCount;
 }
 
+/**
+ * Reports what HoYo says about each banner, without importing anything.
+ *
+ * For every banner type -- the built-in list plus whatever getConfigList adds
+ * -- this fetches the first page and reports how many records came back. A
+ * banner the account has pulls on but which returns `records: 0` means the id
+ * is wrong; an id that appears only under `discovered` means the built-in list
+ * is out of date.
+ */
+async function inspectBanners(config, authkey) {
+  const { order, names } = await fetchBannerConfig(config, authkey);
+  const known = config.bannerSequence.map(String);
+
+  const banners = [];
+  for (const banner of order) {
+    const entry = {
+      id: String(banner),
+      name: names[String(banner)] || config.types?.[banner] || null,
+      source: known.includes(String(banner)) ? 'built-in' : 'discovered',
+    };
+
+    try {
+      const data = await fetchPageWithRetry(
+        config.buildUrl(banner, authkey, '0'),
+        config.retryDelay
+      );
+      if (!data.data) {
+        entry.records = 0;
+        entry.message = data.message || 'no data field';
+      } else {
+        const list = data.data.list || [];
+        entry.records = list.length;
+        entry.newest = list[0]
+          ? { name: list[0].name, time: list[0].time, gacha_type: list[0].gacha_type }
+          : null;
+      }
+    } catch (error) {
+      entry.records = 0;
+      entry.message = error.message;
+    }
+
+    banners.push(entry);
+    await setTimeout(config.retryDelay);
+  }
+
+  return {
+    game: config.summaryPrefix,
+    bannerCount: banners.length,
+    discovered: banners.filter((b) => b.source === 'discovered').map((b) => b.id),
+    banners,
+  };
+}
+
 async function handleHoyoImport(req, res, config, userID) {
   const authkey = readAuthkey(req);
   if (!authkey) {
@@ -589,7 +642,14 @@ async function handleWuwaImport(req, res, userID) {
  */
 function readAuthkey(req) {
   const authkey = req.body?.authkey;
-  return typeof authkey === 'string' && authkey.length > 0 ? authkey : null;
+  if (typeof authkey !== 'string' || authkey.length === 0) return null;
+
+  // Accept the whole wish-history URL too, so the diagnostic can be run with
+  // the link the game hands you rather than a hand-extracted key.
+  if (authkey.includes('authkey=')) {
+    return authkey.split('authkey=')[1].split('&game')[0];
+  }
+  return authkey;
 }
 
 function readCursor(req) {
@@ -622,6 +682,20 @@ module.exports = withAuth(async (req, res, userID) => {
   const config = HOYO_CONFIGS[game];
   if (!config) {
     return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  // `inspect: true` reports what each banner returns and stores nothing.
+  if (req.body?.inspect === true) {
+    const authkey = readAuthkey(req);
+    if (!authkey) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+    try {
+      return res.json(await inspectBanners(config, authkey));
+    } catch (error) {
+      console.error('Inspect failed:', error);
+      return res.status(500).json({ error: error.message });
+    }
   }
 
   return handleHoyoImport(req, res, config, userID);
