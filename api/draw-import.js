@@ -343,6 +343,33 @@ async function persistDraws(database, config, userID, newDraws, game_uid) {
  * is wrong; an id that appears only under `discovered` means the built-in list
  * is out of date.
  */
+/**
+ * How long a saved resume cursor is trusted.
+ *
+ * The client resumes within seconds, so anything older than this belongs to a
+ * run that was abandoned. Honouring it would make the next import skip every
+ * banner before it -- which is how an account stops seeing new banners at all.
+ */
+const CURSOR_TTL_MS = 10 * 60 * 1000;
+
+/**
+ * Decides whether a stored cursor may still be used.
+ * Exported for the tests: the expiry is the part worth pinning down.
+ */
+function usableSavedCursor(saved, { now = Date.now(), bannerCount = Infinity } = {}) {
+  const cursor = saved?.cursor;
+  if (!cursor) return null;
+
+  const updatedAt = saved.updatedAt ? new Date(saved.updatedAt).getTime() : 0;
+  if (!updatedAt || now - updatedAt > CURSOR_TTL_MS) return null;
+
+  // A list that has changed length since the cursor was written (a new banner
+  // type appeared) can leave the index pointing past the end.
+  if (typeof cursor.b === 'number' && cursor.b >= bannerCount) return null;
+
+  return cursor;
+}
+
 async function inspectBanners(config, authkey) {
   const { order, names } = await fetchBannerConfig(config, authkey);
   const known = config.bannerSequence.map(String);
@@ -403,7 +430,16 @@ async function handleHoyoImport(req, res, config, userID) {
     let startCursor = readCursor(req);
     if (!startCursor) {
       const saved = await progressCollection.findOne({ _id: progressKey });
-      if (saved?.cursor) startCursor = saved.cursor;
+      startCursor = usableSavedCursor(saved, {
+        bannerCount: config.bannerSequence.length,
+      });
+
+      // A leftover cursor would make this run skip everything before it, so it
+      // is cleared rather than left to strand the account again next time.
+      if (saved && !startCursor) {
+        console.warn(`Discarding stale import cursor for ${progressKey}`);
+        await progressCollection.deleteOne({ _id: progressKey });
+      }
     }
 
     const result = await importHoyoDraws(
@@ -565,7 +601,13 @@ async function handleWuwaImport(req, res, userID) {
       startBanner = requestCursor.b;
     } else {
       const saved = await progressCollection.findOne({ _id: progressKey });
-      if (typeof saved?.cursor?.b === 'number') startBanner = saved.cursor.b;
+      const cursor = usableSavedCursor(saved, { bannerCount: WUWA_BANNERS.length + 1 });
+      if (typeof cursor?.b === 'number') {
+        startBanner = cursor.b;
+      } else if (saved) {
+        console.warn(`Discarding stale import cursor for ${progressKey}`);
+        await progressCollection.deleteOne({ _id: progressKey });
+      }
     }
 
     const newDraws = [];
@@ -700,3 +742,5 @@ module.exports = withAuth(async (req, res, userID) => {
 
   return handleHoyoImport(req, res, config, userID);
 });
+
+module.exports.usableSavedCursor = usableSavedCursor;
