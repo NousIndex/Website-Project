@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import './CSS/ExpandableCarousel.css';
 import Modal from 'react-modal';
 import 'animate.css/animate.min.css';
 
+// endtime is absent when the banner source gives no version window, so the
+// countdown line falls back to zeroes rather than throwing on `endtime.days`.
+const EMPTY_COUNTDOWN = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
 const ExpandableCarousel = ({ items, endtime }) => {
+  const countdown = endtime || EMPTY_COUNTDOWN;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedModalIndex, setSelectedModalIndex] = useState(0);
@@ -84,8 +88,8 @@ const ExpandableCarousel = ({ items, endtime }) => {
               {' '}
               <b>
                 {item.legend} <br />
-                Asia - {endtime.days} days, {endtime.hours} hrs,{' '}
-                {endtime.minutes} mins, {endtime.seconds} secs
+                Asia - {countdown.days} days, {countdown.hours} hrs,{' '}
+                {countdown.minutes} mins, {countdown.seconds} secs
               </b>
             </div>
           </div>
@@ -121,8 +125,8 @@ const ExpandableCarousel = ({ items, endtime }) => {
                   {' '}
                   <b>
                     {item.legend} <br />
-                    Asia - {endtime.days} days, {endtime.hours} hrs,{' '}
-                    {endtime.minutes} mins, {endtime.seconds} secs
+                    Asia - {countdown.days} days, {countdown.hours} hrs,{' '}
+                    {countdown.minutes} mins, {countdown.seconds} secs
                   </b>
                 </div>
               </div>

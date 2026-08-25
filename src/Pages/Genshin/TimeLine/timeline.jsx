@@ -1,31 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import {
-  fetchWebsiteHtml,
-  extractDataFromIGNHTMLFirstTwoTable,
-  extractIGNImageUrls,
-} from '../../../APIs/webscrapAPI';
-import { scrapeWebsite } from '../../../APIs/genshinCodeAPI';
-import './CSS/timeline.css';
-import { API_URL } from '../../../API_Config.js';
+import React from 'react';
 
+// Placeholder for the banner timeline. The previous version imported the whole
+// scraping API and fired a request whose result it only logged, so the page
+// paid for a serverless call and a parser it never used. Wire the gallery to
+// api/misc-commands?scrapeCommand=...banner when the feature is built out.
 function ImageGallery() {
-  const [imageUrls, setImageUrls] = useState([]);
-  const [title, setTitle] = useState('');
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          `${API_URL}api/misc-commands?scrapeCommand=starrailbanner`
-        );
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error('Error fetching API usage data:', error);
-      }
-    }
-    fetchData();
-  }, []);
+  const imageUrls = [];
+  const title = '';
 
   return (
     <div>
@@ -36,7 +17,7 @@ function ImageGallery() {
             <img
               key={index}
               src={imageUrl}
-              alt={`Image ${index}`}
+              alt={`Banner ${index}`}
               className="timeline-images"
             />
           ))}

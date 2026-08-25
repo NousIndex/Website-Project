@@ -1,0 +1,51 @@
+/*
+ * Global page stylesheet.
+ *
+ * The page CSS in this project is not scoped per game: every StarRail, ZZZ,
+ * Wuwa and Reverse:1999 page styles itself with class names that only the
+ * Genshin stylesheets define (.genshin-import-*, .random-character-*,
+ * .wish-stats-*, and so on). That worked while the whole app shipped as one
+ * bundle with one stylesheet.
+ *
+ * Now that the routes are code split, a chunk-local stylesheet would leave
+ * those pages unstyled, so every page stylesheet is pulled into the main
+ * bundle from here -- in the exact order the single bundle used to emit them,
+ * which keeps the cascade identical.
+ *
+ * Long term the fix is to scope these rules per game (or move the shared ones
+ * into a real shared stylesheet) and drop this file.
+ */
+
+@import '../Pages/components/CSS/trailtoggleswitch.css';
+@import '../Pages/components/CSS/homebutton.css';
+@import '../fonts/fonts.css';
+@import '../CSS/LandingPage.css';
+
+@import '../Pages/Genshin/HomePage/CSS/homepage.css';
+@import '../Pages/components/CSS/ExpandableCarousel.css';
+@import '../Pages/components/CSS/sidebar.css';
+@import '../Pages/Genshin/HomePage/CSS/abysstimer.css';
+@import '../Pages/Genshin/HomePage/CSS/birthday.css';
+@import '../Pages/Genshin/HomePage/CSS/coderedeem.css';
+@import '../Pages/Genshin/WishTracker/CSS/wishtracker.css';
+@import '../Pages/Genshin/WishTracker/CSS/randomizer.css';
+@import '../Pages/Genshin/WishTracker/CSS/wishinventory.css';
+@import '../Pages/Genshin/WishTracker/CSS/wishstats.css';
+@import '../Pages/Genshin/WishTracker/CSS/wishtable.css';
+@import '../Pages/Genshin/WishTracker/CSS/importwish.css';
+@import '../Pages/Genshin/TimeLine/CSS/timeline.css';
+
+@import '../Pages/StarRail/WarpTracker/CSS/warptracker.css';
+@import '../Pages/StarRail/WarpTracker/CSS/warpinventory.css';
+
+@import '../Pages/ZZZ/SearchTracker/CSS/warptracker.css';
+@import '../Pages/ZZZ/SearchTracker/CSS/warpinventory.css';
+
+@import '../Pages/Reverse/SummonTracker/CSS/warptracker.css';
+@import '../Pages/Reverse/SummonTracker/CSS/warpinventory.css';
+@import '../Pages/Reverse/IdeaOptimizer/CSS/resonatepage.css';
+
+@import '../Pages/Wuwa/ConveneTracker/CSS/conveneinventory.css';
+
+/* Small-screen overrides last, so they win over every page stylesheet above. */
+@import './mobile.css';

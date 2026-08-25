@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CSS/resonatepage.css'; // Assuming your styles are in a file called App.css
 import { findBestCombinationAPI } from '../../../APIs/reverseIdeaAlgo';
-import Reverse1999Sidebar from '../../components/Reverse1999Sidebar';
+import GameSidebar from '../../components/GameSidebar';
 import Modal from 'react-modal';
 import {
   fetchR1999CharacterList,
   fetchR1999GetReso,
 } from '../../../APIs/webscrapAPI.js';
-import { API_URL } from '../../../API_Config.js';
 
 Modal.setAppElement('#root');
 
@@ -204,7 +203,7 @@ function IdeaPage() {
         {/* Left Sidebar Navigation */}
         <div className="ideagrid-sidebar">
           <div className="ideagrid-color-sidebar">
-            <Reverse1999Sidebar activeTab={'Resonate Optimizer'} />
+            <GameSidebar game="reverse1999" activeTab={'Resonate Optimizer'} />
           </div>
         </div>
         <div style={{ position: 'absolute', top: '10vh', left: '15vw' }}>
@@ -348,9 +347,12 @@ function IdeaPage() {
                     className="optimized-grid-full-container"
                     style={{ marginTop: 20 }}
                   >
-                    {optimizedGrid.map((optimizedGridz) => {
+                    {optimizedGrid.map((optimizedGridz, gridIndex) => {
                       return (
-                        <div className="optimized-grid-container">
+                        <div
+                          key={gridIndex}
+                          className="optimized-grid-container"
+                        >
                           <span
                             className="optimized-grid-title"
                             title={JSON.stringify(optimizedGridz.otherValues)

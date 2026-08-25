@@ -1,5 +1,4 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
 import { API_URL } from '../API_Config.js';
 import r1999_1 from '../assets/r1999/1.webp';
 import r1999_2 from '../assets/r1999/2.webp';
@@ -13,6 +12,18 @@ import r1999_r4 from '../assets/r1999/r4.webp';
 import r1999_r5 from '../assets/r1999/r5.webp';
 import r1999_r6 from '../assets/r1999/r6.webp';
 
+/**
+ * Parses an HTML string with the browser's own parser.
+ *
+ * This used to go through cheerio, which pulls a full server-side HTML parser
+ * (~500 kB) into the bundle to do what DOMParser already does natively.
+ */
+function parseHtml(html) {
+  return new DOMParser().parseFromString(html, 'text/html');
+}
+
+const textOf = (el) => (el ? el.textContent : '');
+
 // Function to fetch website HTML content
 export async function fetchWebsiteHtml(url) {
   try {
@@ -25,95 +36,55 @@ export async function fetchWebsiteHtml(url) {
 }
 
 // Function to extract image URLs and text from HTML for first 2 tables
+const IGN_IMAGE_PREFIX =
+  'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/';
+
+function extractTableData(table) {
+  const data = { imageUrls: [], boldText: [] };
+  if (!table) return data;
+
+  table.querySelectorAll('img').forEach((element) => {
+    const imageUrl = element.getAttribute('src');
+    if (imageUrl && imageUrl.startsWith(IGN_IMAGE_PREFIX)) {
+      // Drop the size/quality query IGN adds (?width=200&quality=20&dpr=0.05)
+      // and ask for a full size image instead.
+      data.imageUrls.push(imageUrl.split('?')[0] + '?width=1200');
+    }
+  });
+
+  table.querySelectorAll('b').forEach((element) => {
+    const text = textOf(element);
+    if (text) {
+      data.boldText.push(text);
+    }
+  });
+
+  return data;
+}
+
 export function extractDataFromIGNHTMLFirstTwoTable(html) {
-  const $ = cheerio.load(html);
-  const firstTableData = { imageUrls: [], boldText: [] };
-  const secondTableData = { imageUrls: [], boldText: [] };
+  const tables = parseHtml(html).querySelectorAll('table');
 
-  // Select the first two tables using CSS selectors
-  const firstTable = $('table').eq(0);
-  const secondTable = $('table').eq(1);
-
-  // Extract <img> elements and <b> elements from the first table
-  firstTable.find('img').each((index, element) => {
-    const imageUrl = $(element).attr('src');
-    if (imageUrl) {
-      if (
-        imageUrl.startsWith(
-          'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/'
-        )
-      ) {
-        const imageUrl = $(element).attr('src').split('?')[0] + '?width=1200';
-        firstTableData.imageUrls.push(imageUrl);
-      }
-    }
-  });
-
-  firstTable.find('b').each((index, element) => {
-    const text = $(element).text();
-    if (text) {
-      firstTableData.boldText.push(text);
-    }
-  });
-
-  // Extract <img> elements and <b> elements from the second table
-  secondTable.find('img').each((index, element) => {
-    const imageUrl = $(element).attr('src');
-    if (imageUrl) {
-      if (
-        imageUrl.startsWith(
-          'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/'
-        )
-      ) {
-        // https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/2/24/Key_art_EN.png?width=200&quality=20&dpr=0.05
-        // remove &quality=20&dpr=0.05 from image url
-        const imageUrl = $(element).attr('src').split('?')[0] + '?width=1200';
-        secondTableData.imageUrls.push(imageUrl);
-      }
-    }
-  });
-
-  secondTable.find('b').each((index, element) => {
-    const text = $(element).text();
-    if (text) {
-      secondTableData.boldText.push(text);
-    }
-  });
-
-  // Log the extracted image URLs and bold text for each table
-  // console.log('Data from First Table:');
-  // console.log(firstTableData);
-
-  // console.log('\nData from Second Table:');
-  // console.log(secondTableData);
-
-  return { firstTableData, secondTableData };
+  return {
+    firstTableData: extractTableData(tables[0]),
+    secondTableData: extractTableData(tables[1]),
+  };
 }
 
 // Function to extract the newest Key Art image URL from HTML
 export function extractNewestKeyArt(html) {
-  const $ = cheerio.load(html);
-  let imageUrl = null;
+  const images = parseHtml(html).querySelectorAll('img');
 
-  // Use CSS selectors to find image elements
-  $('img').each((index, element) => {
-    const src = $(element).attr('src');
-    const alt = $(element).attr('alt');
+  for (const element of images) {
+    const src = element.getAttribute('src');
+    const alt = element.getAttribute('alt');
 
-    if (
-      src &&
-      alt === 'Key art EN.png' &&
-      src.startsWith(
-        'https://oyster.ignimgs.com/mediawiki/apis.ign.com/genshin-impact/'
-      )
-    ) {
-      // Modify the image URL to the desired format
-      imageUrl = src.split('?')[0] + '?width=1200';
-      return false; // Exit the loop as soon as an image is found
+    if (src && alt === 'Key art EN.png' && src.startsWith(IGN_IMAGE_PREFIX)) {
+      return src.split('?')[0] + '?width=1200';
     }
-  });
+  }
 
-  return imageUrl;
+  return null;
 }
 
 function IGNGenshinBannerDateFormater(date) {
@@ -183,28 +154,17 @@ function IGNGenshinBannerDateFormater(date) {
 
 // Function to extract image URLs from HTML
 export function extractIGNImageUrls(html) {
-  const $ = cheerio.load(html);
+  const document_ = parseHtml(html);
   let firstTableData = '';
   const bannerDates = [];
 
-  // Select the first two tables using CSS selectors
-  const firstTable = $('table').eq(0);
-  firstTable.find('b').each((index, element) => {
-    const text = $(element).text();
-    if (text) {
-      if (index === 1) {
-        firstTableData = text;
-        return;
-      }
-    }
-  });
+  const firstTable = document_.querySelector('table');
+  const boldElements = firstTable ? firstTable.querySelectorAll('b') : [];
+  if (boldElements[1]) {
+    firstTableData = textOf(boldElements[1]);
+  }
 
-  // Create a temporary div element to parse the HTML content
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-
-  // Find all table elements within the div
-  const tables = tempDiv.querySelectorAll('table');
+  const tables = document_.querySelectorAll('table');
   bannerDates.push(IGNGenshinBannerDateFormater(firstTableData));
 
   // Iterate through all tables
@@ -249,12 +209,12 @@ export async function fetchR1999CharacterList() {
     'https://res1999.huijiwiki.com/wiki/%E8%A7%92%E8%89%B2%E5%88%97%E8%A1%A8'
   )
     .then((html) => {
-      const $ = cheerio.load(html);
+      const document_ = parseHtml(html);
 
       // Find all image elements and extract the src attributes
       const imageSrcList = [];
-      $('img').each((index, element) => {
-        const src = $(element).attr('src');
+      document_.querySelectorAll('img').forEach((element) => {
+        const src = element.getAttribute('src') || '';
         if (
           src.includes('Bg_kapaidi') ||
           src.includes('Huijilogo-standard.svg') ||
@@ -263,34 +223,32 @@ export async function fetchR1999CharacterList() {
           src.includes('Dmgtype')
         ) {
           return;
-        } else {
-          imageSrcList.push(src);
         }
+        imageSrcList.push(src);
       });
 
       let foundCharList = false;
 
-      // Find all image elements and extract the src attributes
       const characterUrls = [];
       const characterNames = [];
-      $('a').each((index, element) => {
-        const href = $(element).attr('href');
-        if (foundCharList) {
-          if (href.startsWith('/wiki/')) {
-            characterUrls.push('https://res1999.huijiwiki.com' + href);
-          }
+      document_.querySelectorAll('a').forEach((element) => {
+        const href = element.getAttribute('href') || '';
+        if (foundCharList && href.startsWith('/wiki/')) {
+          characterUrls.push('https://res1999.huijiwiki.com' + href);
         }
         if (href.includes('#simplecollapse-charList')) {
           foundCharList = true;
         }
       });
 
-      $('.character-list-text-en').each((index, element) => {
-        const names = $(element).text();
-        if (names) {
-          characterNames.push(names);
-        }
-      });
+      document_
+        .querySelectorAll('.character-list-text-en')
+        .forEach((element) => {
+          const names = textOf(element);
+          if (names) {
+            characterNames.push(names);
+          }
+        });
       const uniquecharacterUrls = Array.from(new Set(characterUrls));
       const uniquecharacterNames = Array.from(new Set(characterNames));
       let counter = 0;
@@ -343,17 +301,20 @@ export async function fetchR1999CharacterList() {
 export async function fetchR1999GetReso(url, resoLevel) {
   const extractedData = [];
   await fetchWebsiteHtml(url).then((html) => {
-    const $ = cheerio.load(html);
+    const document_ = parseHtml(html);
 
-    const resonateElements = $('.resonate-single');
+    const resonateElements = document_.querySelectorAll('.resonate-single');
 
-    resonateElements.each((index, element) => {
+    resonateElements.forEach((element) => {
       const data = {};
 
-      const level = $(element).closest('.resonate-tabber-item').data('level');
+      const tab = element.closest('.resonate-tabber-item');
+      const level = tab ? Number(tab.dataset.level) : NaN;
       if (level === parseInt(resoLevel)) {
-        const levelInfo = $(element).find('div:first-child').text().trim();
-        const src = $(element).find('img').attr('src');
+        const levelInfo = textOf(element.querySelector('div')).trim();
+        const src = element.querySelector('img')
+          ? element.querySelector('img').getAttribute('src')
+          : '';
         if (levelInfo) {
           let from = [];
           let extraValue = 0;
@@ -435,7 +396,7 @@ export async function fetchR1999GetReso(url, resoLevel) {
             data.form = from;
             data.extraValue = extraValue;
             data.amount = levelInfo.split('Lv')[0];
-            const spans = $(element).find('span');
+            const spans = element.querySelectorAll('span');
             data['stats'] = {};
             data['stats']['HP'] = 0;
             data['stats']['ATK'] = 0;
@@ -447,8 +408,8 @@ export async function fetchR1999GetReso(url, resoLevel) {
             data['stats']['DMG Reduction'] = 0;
             data['stats']['Crit Resist'] = 0;
             data['stats']['Crit DEF'] = 0;
-            spans.each((index, span) => {
-              const text = $(span).text().trim();
+            spans.forEach((span) => {
+              const text = textOf(span).trim();
               let keyName = text;
               if (text === '生命') {
                 keyName = 'HP';
@@ -471,7 +432,7 @@ export async function fetchR1999GetReso(url, resoLevel) {
               } else if (text === '暴击防御') {
                 keyName = 'Crit DEF';
               }
-              let value = $(span).next().text().trim().replace('+', '');
+              let value = textOf(span.nextElementSibling).trim().replace('+', '');
               if (value.includes('%')) {
                 value = parseFloat(value.replace('%', ''));
                 if (

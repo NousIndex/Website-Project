@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import Reverse1999Sidebar from '../../components/Reverse1999Sidebar';
+import GameSidebar from '../../components/GameSidebar';
 import { starrailWishImportAPI } from '../../../APIs/wishImportAPI';
 
-const ImportWish = ({ userID }) => {
+const ImportWish = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
@@ -30,11 +30,10 @@ const ImportWish = ({ userID }) => {
         allowOutsideClick: false,
       });
 
-      const response = await starrailWishImportAPI(inputValue, userID);
+      const response = await starrailWishImportAPI(inputValue);
       let responseMessage = '';
       if (response === 'newData' || response === 'noNewData') {
         setButtonDisabled(true);
-        // alert('Wish imported successfully!');
       } else if (response === 'authkey error') {
         responseMessage = 'Authkey Error!';
       } else {
@@ -83,7 +82,7 @@ const ImportWish = ({ userID }) => {
 
   return (
     <div className="genshin-import-container">
-      <Reverse1999Sidebar />
+      <GameSidebar game="reverse1999" />
       <div className="import-wish-container">
         <h2 className="genshin-import-text-title">Steps to Import Warps:</h2>
         <ol className="genshin-import-instructions-container">

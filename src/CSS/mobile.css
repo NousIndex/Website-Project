@@ -1,0 +1,215 @@
+/*
+ * Small-screen layout.
+ *
+ * The app used to refuse to render below 768px entirely. The desktop layout is
+ * a fixed two-column grid inside a 100vh page with `overflow: hidden` on the
+ * body, so on a phone it needs the page to scroll, the columns to stack, and
+ * the sidebar to become a horizontal bar.
+ *
+ * Everything here lives inside media queries, so the desktop layout is
+ * untouched. Loaded last (see CSS/pages.css) so these rules win.
+ */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    /* the desktop layout locks scrolling; a phone needs it back */
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ---------------------------------------------------------------- shell */
+  .wishpage-container,
+  .homepage-container,
+  .genshin-import-container {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .content {
+    padding: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* -------------------------------------------------------------- sidebar */
+  .sidebar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .sidebar .navigation-title {
+    display: none;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .sidebar ul li {
+    margin-bottom: 0;
+  }
+
+  .navigation-items {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .sidebar-small-title {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+  }
+
+  /* --------------------------------------------------------- page heading */
+  .wishpage-main-title,
+  .page-main-title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  .genshin-wish-searcher-container,
+  .genshin-wish-explorer-divider {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .genshin-wish-searcher-input {
+    min-width: 0;
+    flex: 1 1 8rem;
+  }
+
+  /* Anything tapped needs to be big enough to hit. */
+  .genshin-wish-searcher-button,
+  .genshin-wish-searcher-reset-button,
+  .genshin-wish-searcher-explorer-button,
+  .genshin-checkin-button-link,
+  .genshin-import-copy-button,
+  .watchlist-item-button {
+    min-height: 40px;
+    font-size: 0.95rem;
+  }
+
+  /* --------------------------------------------------------- tracker grid */
+  .wish-grid-container,
+  .wish-left-grid-container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .wish-right-content {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .wish-top-left,
+  .wish-bottom-left {
+    width: 100%;
+  }
+
+  /* Banner buttons wrap instead of sitting on one row. */
+  .starrail-button-containers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .genshin-wish-image-button,
+  .starrail-wish-image-button {
+    width: 30%;
+    margin-left: 0;
+  }
+
+  /* --------------------------------------------------------------- tables */
+  .table-scroll-container {
+    max-height: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .genshin-draw-table {
+    min-width: 34rem;
+  }
+
+  .genshin-draw-table-filter-buttons {
+    min-height: 40px;
+  }
+
+  /* Wide stats tables scroll rather than squeezing the page. */
+  .wish-stats-container,
+  .wish-stats-pity-table {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* --------------------------------------------------------------- modals */
+  .watchlist-modal {
+    width: 92vw;
+    max-width: 92vw;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* --------------------------------------------------------- landing page */
+  .container {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .buttons-container {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+    margin-left: 0;
+    padding: 0 1rem 2rem;
+  }
+
+  .image-button {
+    width: 100%;
+    height: auto;
+  }
+
+  .image-button img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* ------------------------------------------------------------ home page */
+  .homepage-content {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 0.75rem;
+  }
+
+  .code-table,
+  .code-table table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Phones in portrait: three banner buttons per row is too tight. */
+@media (max-width: 480px) {
+  .genshin-wish-image-button,
+  .starrail-wish-image-button {
+    width: 45%;
+  }
+
+  .wishpage-main-title,
+  .page-main-title {
+    font-size: 1.25rem;
+  }
+}

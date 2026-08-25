@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import randomIcon from '../../../assets/Icons/random_icon.webp';
-import RandomiserModal from './randomizer';
-import './CSS/warpinventory.css';
+import RandomiserModal from '../../components/DrawRandomizerModal';
 import 'animate.css/animate.min.css';
 
 const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
@@ -44,6 +43,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
 
       return (
         <div
+          key={character.name}
           className={`wish-character-inventory-div ${
             isNaN(characterConstallation) ? 'wish-not-owned' : ''
           }`}
@@ -115,6 +115,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
       const weaponConstallation = (itemCounter[weapon.name] - 1).toString();
       return (
         <div
+          key={weapon.name}
           className={`wish-weapon-inventory-div ${
             isNaN(weaponConstallation) ? 'wish-not-owned' : ''
           }`}
@@ -253,6 +254,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
                 </button>
               </h3>
               <RandomiserModal
+                game="starrail"
                 isOpen={isRandomModalOpen}
                 onClose={closeRandomModal}
                 charaSet={itemsData.characters}

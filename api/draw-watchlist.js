@@ -1,4 +1,5 @@
 const { getDb } = require('./_shared/mongo');
+const { getAuthenticatedUserId } = require('./_shared/auth');
 
 const GAME_CONFIG = {
   genshin: { watchField: 'Genshin_Watch', summaryPrefix: 'Genshin' },
@@ -7,99 +8,100 @@ const GAME_CONFIG = {
   wuwa: { watchField: 'Wuwa_Watch', summaryPrefix: 'Wuwa' },
 };
 
-async function handleGet(database, userGameId, watchField, res) {
-  if (!userGameId) {
-    return res.status(400).json({ error: 'Invalid request' });
-  }
+async function handleGet(database, userId, watchField, res) {
   try {
     const gamesUsersCollection = database.collection('Games_Users');
     const data = await gamesUsersCollection.findOne(
-      { UID: userGameId },
+      { UID: userId },
       { projection: { [watchField]: true, _id: false } }
     );
     if (!data) {
-      return res.status(400).json({ error: 'Invalid request' });
+      // No row yet simply means the user has never saved a watchlist.
+      return res.json({ [watchField]: null });
     }
     return res.json(data);
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching watchlist:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
-async function handleUpdate(database, body, watchField, res) {
-  const { userGameId, watchList } = body;
-  if (!userGameId || !watchList) {
+async function handleUpdate(database, userId, body, watchField, res) {
+  const watchList = body?.watchList;
+  if (!Array.isArray(watchList)) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   try {
     const gamesUsersCollection = database.collection('Games_Users');
-    const data = await gamesUsersCollection.updateOne(
-      { UID: userGameId },
-      { $set: { [watchField]: JSON.stringify(watchList) } }
+    await gamesUsersCollection.updateOne(
+      { UID: userId },
+      { $set: { [watchField]: JSON.stringify(watchList) } },
+      { upsert: true }
     );
-    if (!data) {
-      return res.status(400).json({ error: 'Invalid request' });
-    }
     return res.json({ message: 'success' });
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error updating watchlist:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
-async function handleExplore(database, userGameId, summaryPrefix, res) {
-  if (!userGameId) {
-    return res.status(400).json({ error: 'Invalid request' });
-  }
+async function handleExplore(database, summaryPrefix, res) {
   try {
     const sumCollection = database.collection('SummaryTable');
     const result = await sumCollection
       .find(
-        { Game_UID: { $regex: summaryPrefix } },
+        { Game_UID: { $regex: `^${summaryPrefix}-` } },
         { projection: { Game_UID: 1, _id: 0 } }
       )
       .toArray();
     const gameUIDs = result.map((doc) =>
       doc.Game_UID.replace(`${summaryPrefix}-`, '')
     );
-    if (!gameUIDs) {
-      return res.status(400).json({ error: 'Invalid request' });
-    }
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
     return res.json(gameUIDs);
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching explore list:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
 module.exports = async (req, res) => {
-  const game = req.query.game;
-  const command = req.query.command;
-
-  if (!game) {
-    return res.status(400).json({ error: 'Invalid request' });
-  }
+  const { game, command } = req.query;
 
   const config = GAME_CONFIG[game];
   if (!config) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const database = await getDb();
+  if (command !== 'explore' && command !== 'get' && command !== 'update') {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
 
-  if (command === 'get') {
-    return handleGet(database, req.query.userGameId, config.watchField, res);
+  // `get` and `update` both act on the caller's own account, so the account is
+  // taken from the verified token rather than from client input. Authenticate
+  // before touching the database, so an unauthenticated caller cannot make the
+  // function open a connection.
+  let userId = null;
+  if (command !== 'explore') {
+    const auth = await getAuthenticatedUserId(req);
+    if (auth.error) {
+      return res.status(auth.status).json({ error: auth.error });
+    }
+    userId = auth.userId;
   }
-  if (command === 'update') {
-    return handleUpdate(database, req.body, config.watchField, res);
-  }
-  if (command === 'explore') {
-    return handleExplore(
-      database,
-      req.query.userGameId,
-      config.summaryPrefix,
-      res
-    );
+
+  try {
+    const database = await getDb();
+
+    if (command === 'explore') {
+      return handleExplore(database, config.summaryPrefix, res);
+    }
+
+    return command === 'get'
+      ? handleGet(database, userId, config.watchField, res)
+      : handleUpdate(database, userId, req.body, config.watchField, res);
+  } catch (error) {
+    console.error('Error handling watchlist request:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };

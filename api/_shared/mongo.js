@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const MONGO_OPTIONS = {
@@ -8,14 +7,16 @@ const MONGO_OPTIONS = {
     deprecationErrors: true,
   },
   ssl: true,
-  tlsAllowInvalidCertificates: true,
-  tlsAllowInvalidHostnames: true,
 };
 
 const DATABASE_NAME = 'NousIndex';
 
-const createMongoClient = () =>
-  new MongoClient(process.env.MONGODB_URI, MONGO_OPTIONS);
+const createMongoClient = () => {
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not configured');
+  }
+  return new MongoClient(process.env.MONGODB_URI, MONGO_OPTIONS);
+};
 
 let dbPromise = null;
 

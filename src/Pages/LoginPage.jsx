@@ -4,24 +4,41 @@ import { Link, useNavigate } from 'react-router-dom';
 import supabase from './Supabase';
 import '../CSS/Auth.css'; // Import your CSS file for styling
 
+// Every sign-in path used to fail into console.error only, so a wrong password
+// looked like a dead button. Surface the reason the way the rest of the app does.
+//
+// SweetAlert is imported on demand: the login screen is in the entry bundle, and
+// an alert library is only needed once something has actually gone wrong.
+async function showAlert(options) {
+  const { default: Swal } = await import('sweetalert2');
+  return Swal.fire(options);
+}
+
+function showAuthError(error, fallback = 'Please try again.') {
+  return showAlert({
+    icon: 'error',
+    title: 'Sign in failed',
+    text: error?.message || fallback,
+  });
+}
+
 const Login = ({ setAuthenticated, setUserID }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   async function handleSignInWithGoogle(response) {
-    console.log(response);
     const { data, error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
       token: response.credential,
     });
     if (error) {
-      console.error('Error logging in:', error);
-    } else {
-      setAuthenticated(true); // Set authenticated to true
-      checkUser(); // Check the logged in user
-      navigate('/'); // Redirect to the main page
+      console.error('Error logging in with Google:', error);
+      showAuthError(error);
+      return;
     }
+    await completeSignIn(data);
   }
 
   useEffect(() => {
@@ -59,37 +76,65 @@ const Login = ({ setAuthenticated, setUserID }) => {
   }, []);
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      showAlert({
+        icon: 'warning',
+        title: 'Missing details',
+        text: 'Enter both your email and password.',
+      });
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      const { user, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
 
       if (error) {
         console.error('Error logging in:', error);
-      } else {
-        setAuthenticated(true); // Set authenticated to true
-        checkUser(); // Check the logged in user
-        navigate('/'); // Redirect to the main page
+        showAuthError(error, 'Check your email and password.');
+        return;
       }
+      await completeSignIn(data);
     } catch (error) {
       console.error('Error logging in:', error);
+      showAuthError(error, 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   async function signInWithDiscord() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
     });
-    console.log(data, error);
     if (error) {
       console.error('Authentication Failed:', error.message);
+      showAuthError(error);
     }
   }
 
-  const checkUser = async () => {
-    const currentUser = await supabase.auth.getUser();
-    setUserID(currentUser.data.user.id);
+  /**
+   * Publishes the signed-in user before navigating. The id comes from the
+   * sign-in response itself; the previous version fired a second getUser()
+   * request and navigated without waiting for it, so the app could land on the
+   * home page with an empty user id.
+   */
+  const completeSignIn = async (data) => {
+    let userId = data?.user?.id;
+    if (!userId) {
+      const { data: current } = await supabase.auth.getUser();
+      userId = current?.user?.id;
+    }
+    if (!userId) {
+      showAuthError(null, 'Signed in, but the session could not be read.');
+      return;
+    }
+    setUserID(userId);
+    setAuthenticated(true);
+    navigate('/');
   };
 
   return (
@@ -109,13 +154,17 @@ const Login = ({ setAuthenticated, setUserID }) => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleLogin();
+          }}
           className="auth-input"
         />
         <button
           onClick={handleLogin}
           className="auth-button"
+          disabled={submitting}
         >
-          Login
+          {submitting ? 'Signing in...' : 'Login'}
         </button>
         <Link
           to="/register"

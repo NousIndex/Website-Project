@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import GenshinSidebar from '../../components/GenshinSidebar';
-import './CSS/importwish.css';
+import GameSidebar from '../../components/GameSidebar';
 import { genshinWishImportAPI } from '../../../APIs/wishImportAPI';
 
-const ImportWish = ({ userID }) => {
+const ImportWish = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
@@ -31,11 +30,10 @@ const ImportWish = ({ userID }) => {
         allowOutsideClick: false,
       });
 
-      const response = await genshinWishImportAPI(inputValue, userID);
+      const response = await genshinWishImportAPI(inputValue);
       let responseMessage = '';
       if (response === 'newData' || response === 'noNewData') {
         setButtonDisabled(true);
-        // alert('Wish imported successfully!');
       } else if (response === 'authkey error') {
         responseMessage = 'Authkey Error!';
       } else {
@@ -84,7 +82,7 @@ const ImportWish = ({ userID }) => {
 
   return (
     <div className="genshin-import-container">
-      <GenshinSidebar />
+      <GameSidebar game="genshin" />
       <div className="import-wish-container">
         <h2 className="genshin-import-text-title">Steps to Import Wishes:</h2>
         <ol className="genshin-import-instructions-container">

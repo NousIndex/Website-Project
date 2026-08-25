@@ -1,5 +1,7 @@
 const { setTimeout } = require('node:timers/promises');
 const { getDb } = require('./_shared/mongo');
+const { withAuth } = require('./_shared/auth');
+const { enforceRateLimit } = require('./_shared/rateLimit');
 const { parseGachaTime } = require('./_shared/parseTime');
 
 const GENSHIN_TYPES = {
@@ -36,7 +38,6 @@ const HOYO_CONFIGS = {
     collection: 'Genshin_Draw',
     summaryPrefix: 'Genshin',
     retryDelay: 100,
-    logOnRetry: false,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=${banner}&lang=en&authkey=${authkey}&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
     transformItem(item) {
@@ -49,7 +50,6 @@ const HOYO_CONFIGS = {
     collection: 'StarRail_Draw',
     summaryPrefix: 'StarRail',
     retryDelay: 100,
-    logOnRetry: false,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=hkrpg_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
     transformItem(item) {
@@ -62,7 +62,6 @@ const HOYO_CONFIGS = {
     collection: 'Zzz_Draw',
     summaryPrefix: 'Zzz',
     retryDelay: 75,
-    logOnRetry: true,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=nap_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
     transformItem(item) {
@@ -90,7 +89,7 @@ const HOYO_CONFIGS = {
 const MAX_RETRIES = 5;
 const MAX_BACKOFF_MS = 1500;
 
-async function fetchPageWithRetry(url, retryDelay, logOnRetry) {
+async function fetchPageWithRetry(url, retryDelay) {
   let attempt = 0;
   while (true) {
     const response = await fetch(url);
@@ -102,7 +101,6 @@ async function fetchPageWithRetry(url, retryDelay, logOnRetry) {
       if (attempt >= MAX_RETRIES) {
         throw new Error('Rate limited too many times');
       }
-      if (logOnRetry) console.log('Too Fast');
       const backoff = Math.min(retryDelay * 2 ** attempt, MAX_BACKOFF_MS);
       await setTimeout(backoff);
       attempt++;
@@ -132,8 +130,7 @@ async function processBanner(
 
     const responseData = await fetchPageWithRetry(
       config.buildUrl(banner, authkey, endid),
-      config.retryDelay,
-      config.logOnRetry
+      config.retryDelay
     );
 
     if (!responseData.data) {
@@ -217,6 +214,27 @@ async function importHoyoDraws(database, config, authkey, startCursor, deadline)
 
 const TIME_BUDGET_MS = 7500;
 
+/**
+ * Inserts draws, tolerating duplicate-key errors from a retried import, and
+ * reports how many documents actually landed. The caller increments
+ * SummaryTable.total_items by this number -- incrementing by the attempted
+ * count instead would desync the counter that draw-history uses to decide
+ * whether its cached file is still fresh.
+ */
+async function insertDrawsIgnoringDuplicates(drawCollection, draws) {
+  try {
+    const result = await drawCollection.insertMany(draws, { ordered: false });
+    return result.insertedCount;
+  } catch (error) {
+    if (error?.code === 11000 || error?.writeErrors) {
+      const duplicates = (error.writeErrors || []).length;
+      console.warn(`Skipped ${duplicates} duplicate draw(s) during import`);
+      return error.result?.nInserted ?? draws.length - duplicates;
+    }
+    throw error;
+  }
+}
+
 async function persistDraws(database, config, userID, newDraws, game_uid) {
   if (game_uid) {
     const gamesUsersCollection = database.collection('Games_Users');
@@ -230,21 +248,26 @@ async function persistDraws(database, config, userID, newDraws, game_uid) {
   if (newDraws.length === 0) return 0;
 
   const drawCollection = database.collection(config.collection);
-  await drawCollection.insertMany(newDraws, { ordered: false });
+  const insertedCount = await insertDrawsIgnoringDuplicates(
+    drawCollection,
+    newDraws
+  );
+
+  if (insertedCount === 0) return 0;
 
   const summaryTableCollection = database.collection('SummaryTable');
   await summaryTableCollection.findOneAndUpdate(
     { Game_UID: `${config.summaryPrefix}-${newDraws[0][config.uidField]}` },
-    { $inc: { total_items: newDraws.length } },
+    { $inc: { total_items: insertedCount } },
     { upsert: true }
   );
 
-  return newDraws.length;
+  return insertedCount;
 }
 
-async function handleHoyoImport(req, res, config) {
-  const { authkey, userID } = req.query;
-  if (!authkey || !userID) {
+async function handleHoyoImport(req, res, config, userID) {
+  const authkey = readAuthkey(req);
+  if (!authkey) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
@@ -255,14 +278,7 @@ async function handleHoyoImport(req, res, config) {
     const progressCollection = database.collection('ImportProgress');
     const progressKey = `${config.summaryPrefix}-${userID}`;
 
-    let startCursor = null;
-    if (req.query.cursor) {
-      try {
-        startCursor = JSON.parse(req.query.cursor);
-      } catch {
-        startCursor = null;
-      }
-    }
+    let startCursor = readCursor(req);
     if (!startCursor) {
       const saved = await progressCollection.findOne({ _id: progressKey });
       if (saved?.cursor) startCursor = saved.cursor;
@@ -300,9 +316,9 @@ async function handleHoyoImport(req, res, config) {
     return res.json({
       message: result.newDraws.length > 0 ? 'newData' : 'noNewData',
     });
-  } catch (errors) {
-    console.error('Fetch error:', errors);
-    return res.json({ message: errors });
+  } catch (error) {
+    console.error('Import error:', error);
+    return res.status(500).json({ error: 'Import failed, please try again' });
   }
 }
 
@@ -402,18 +418,17 @@ function extractWuwaParams(authkey) {
   return out;
 }
 
-async function handleWuwaImport(req, res) {
-  if (!req.query.authkey || !req.query.userID) {
+async function handleWuwaImport(req, res, userID) {
+  const authkey = readAuthkey(req);
+  if (!authkey) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const authkey = decodeURIComponent(req.query.authkey);
   const params = extractWuwaParams(authkey);
   if (!params) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const { wuwa_id, cardpoolId, recordId, serverId } = params;
-  const userID = req.query.userID;
   const deadline = Date.now() + TIME_BUDGET_MS;
 
   try {
@@ -423,15 +438,10 @@ async function handleWuwaImport(req, res) {
     const progressKey = `Wuwa-${userID}`;
 
     let startBanner = 1;
-    if (req.query.cursor) {
-      try {
-        const c = JSON.parse(req.query.cursor);
-        if (typeof c?.b === 'number') startBanner = c.b;
-      } catch {
-        // fall through to saved cursor
-      }
-    }
-    if (startBanner === 1) {
+    const requestCursor = readCursor(req);
+    if (typeof requestCursor?.b === 'number') {
+      startBanner = requestCursor.b;
+    } else {
       const saved = await progressCollection.findOne({ _id: progressKey });
       if (typeof saved?.cursor?.b === 'number') startBanner = saved.cursor.b;
     }
@@ -465,14 +475,20 @@ async function handleWuwaImport(req, res) {
       { upsert: true }
     );
 
+    let insertedCount = 0;
     if (newDraws.length > 0) {
-      await wuwaDrawCollection.insertMany(newDraws, { ordered: false });
-      const summaryTableCollection = database.collection('SummaryTable');
-      await summaryTableCollection.findOneAndUpdate(
-        { Game_UID: `Wuwa-${wuwa_id}` },
-        { $inc: { total_items: newDraws.length } },
-        { upsert: true }
+      insertedCount = await insertDrawsIgnoringDuplicates(
+        wuwaDrawCollection,
+        newDraws
       );
+      if (insertedCount > 0) {
+        const summaryTableCollection = database.collection('SummaryTable');
+        await summaryTableCollection.findOneAndUpdate(
+          { Game_UID: `Wuwa-${wuwa_id}` },
+          { $inc: { total_items: insertedCount } },
+          { upsert: true }
+        );
+      }
     }
 
     if (timedOut) {
@@ -482,31 +498,56 @@ async function handleWuwaImport(req, res) {
         { $set: { cursor, updatedAt: new Date() } },
         { upsert: true }
       );
-      return res.json({ message: 'partial', cursor, added: newDraws.length });
+      return res.json({ message: 'partial', cursor, added: insertedCount });
     }
 
     await progressCollection.deleteOne({ _id: progressKey });
 
     if (newDraws.length === 0) {
-      console.log('No new data');
       return res.json({ message: 'noNewData' });
     }
-    console.log('Data inserted successfully');
     return res.json({ message: 'newData' });
-  } catch (errors) {
-    console.error('Fetch error:', errors);
-    return res.json({ message: errors });
+  } catch (error) {
+    console.error('Import error:', error);
+    return res.status(500).json({ error: 'Import failed, please try again' });
   }
 }
 
-module.exports = async (req, res) => {
-  const game = req.query.game;
+/**
+ * The gacha authkey is a bearer credential for the player's HoYo account, so
+ * it travels in the POST body -- a query string would land in access logs and
+ * browser history.
+ */
+function readAuthkey(req) {
+  const authkey = req.body?.authkey;
+  return typeof authkey === 'string' && authkey.length > 0 ? authkey : null;
+}
+
+function readCursor(req) {
+  const cursor = req.body?.cursor;
+  return cursor && typeof cursor === 'object' ? cursor : null;
+}
+
+// One import walks every banner and can need a dozen resumed calls, so the cap
+// is well above a normal run while still stopping a loop from hammering HoYo.
+const IMPORT_LIMIT = { limit: 40, windowMs: 5 * 60 * 1000 };
+
+module.exports = withAuth(async (req, res, userID) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  if (!(await enforceRateLimit(res, `import:${userID}`, IMPORT_LIMIT))) {
+    return undefined;
+  }
+
+  const game = req.body?.game;
   if (!game) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
   if (game === 'wuwa') {
-    return handleWuwaImport(req, res);
+    return handleWuwaImport(req, res, userID);
   }
 
   const config = HOYO_CONFIGS[game];
@@ -514,5 +555,5 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  return handleHoyoImport(req, res, config);
-};
+  return handleHoyoImport(req, res, config, userID);
+});

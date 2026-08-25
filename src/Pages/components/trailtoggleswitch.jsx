@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './CSS/trailtoggleswitch.css';
 
 const TrailToggleButton = ({ isEnabled, onToggle }) => {
   const [initialLoad, setInitialLoad] = useState(true);

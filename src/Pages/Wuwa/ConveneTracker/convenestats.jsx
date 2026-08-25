@@ -44,8 +44,8 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         // itemCounts['March 7th'] = (itemCounts['March 7th'] || 0) + 1;
 
         wishes.forEach((wish) => {
-          if (wish.Rarity.includes('3')) {
-          } else if (wish.Rarity.includes('4')) {
+          // three-stars do not count toward pity or the inventory
+          if (wish.Rarity.includes('4')) {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity4list.push(parseInt(wish.rarity4Pity));
             count4++;

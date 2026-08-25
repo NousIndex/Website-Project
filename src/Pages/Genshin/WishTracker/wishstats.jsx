@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import WishInventory from './wishinventory';
-import './CSS/wishstats.css';
 
 const WishStats = ({ wishes, itemIcons, itemsData }) => {
   const [characterdraw4, setCharacterdraw4] = useState(0);
@@ -43,8 +42,8 @@ const WishStats = ({ wishes, itemIcons, itemsData }) => {
         itemCounts['Barbara'] = (itemCounts['Barbara'] || 0) + 1;
 
         wishes.forEach((wish) => {
-          if (wish.Rarity === '3') {
-          } else if (wish.Rarity === '4') {
+          // three-stars do not count toward pity or the inventory
+          if (wish.Rarity === '4') {
             itemCounts[wish.Item_Name] = (itemCounts[wish.Item_Name] || 0) + 1;
             averagepity4list.push(parseInt(wish.rarity4Pity));
             count4++;

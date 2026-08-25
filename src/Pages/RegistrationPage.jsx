@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from './Supabase';
 import '../CSS/Auth.css'; // Import your CSS file for styling
-import Swal from 'sweetalert2'; // Import SweetAlert2
+
+// Loaded on demand -- see the note in LoginPage.jsx.
+async function showAlert(options) {
+  const { default: Swal } = await import('sweetalert2');
+  return Swal.fire(options);
+}
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -19,14 +24,14 @@ const Register = () => {
 
       if (error) {
         // Use Swal to display an error message
-        Swal.fire({
+        showAlert({
           icon: 'error',
           title: 'Registration Failed',
           text: error.message,
         });
       } else {
         // Use Swal to display a success message with email verification instructions
-        Swal.fire({
+        showAlert({
           icon: 'success',
           title: 'Registration Successful',
           html: `Registered as ${email}.<br>Please check your email for a verification link.`,

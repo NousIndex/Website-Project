@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CSS/resonatepage.css'; // Assuming your styles are in a file called App.css
 import { findBestCombinationAPI } from '../../../APIs/reverseIdeaAlgo';
-import Reverse1999Sidebar from '../../components/Reverse1999Sidebar';
+import GameSidebar from '../../components/GameSidebar';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { API_URL } from '../../../API_Config.js';
+import { apiFetch, apiFetchOr } from '../../../APIs/client';
 
 Modal.setAppElement('#root');
 
@@ -75,20 +75,23 @@ function IdeaPage() {
 
   async function fetchResonanceData(characterFind) {
     // console.log(characterFind);
-    try {
-      const response = await fetch(
-        `${API_URL}api/misc-commands?scrapeCommand=reverse1999resonancesummary&characterFind=${characterFind}`
-      );
-      const data = await response.json();
-      if (characterFind === 'SummaryList') {
+    const data = await apiFetchOr(
+      null,
+      `api/misc-commands?scrapeCommand=reverse1999resonancesummary&characterFind=${encodeURIComponent(
+        characterFind
+      )}`
+    );
+    if (data === null) return;
+
+    if (characterFind === 'SummaryList') {
+      try {
         setResonanceListData(JSON.parse(data));
-        return;
-      } else {
-        return data;
+      } catch (error) {
+        console.error('Malformed resonance summary list:', error);
       }
-    } catch (error) {
-      console.error('Error fetching API usage data:', error);
+      return;
     }
+    return data;
   }
 
   const handleSelectChange = (e) => {
@@ -194,7 +197,7 @@ function IdeaPage() {
     ];
 
     for (const prop of expectedProperties) {
-      if (!inputValues.hasOwnProperty(prop)) {
+      if (!Object.prototype.hasOwnProperty.call(inputValues, prop)) {
         if (prop === 'Amount') {
           alert('Amount is required!');
           return;
@@ -213,8 +216,6 @@ function IdeaPage() {
     });
     matrixString += ']';
     matrixString = matrixString.replace(',[', '[[');
-      
-    console.log(matrixString);
     clearGrid();
   };
   const closeModalOnClickOutside = (e) => {
@@ -337,23 +338,18 @@ function IdeaPage() {
   };
 
   async function updateResonanceData(character_name) {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        character_name: character_name,
-        updateData: JSON.stringify(savedGrid),
-        summaryList: resonanceListData,
-      }),
-    };
-    const url = `${API_URL}api/misc-commands?scrapeCommand=reverse1999resonanceupdate`;
-
     try {
-      await fetch(url, requestOptions);
+      await apiFetch('api/misc-commands?scrapeCommand=reverse1999resonanceupdate', {
+        method: 'POST',
+        auth: true,
+        body: {
+          character_name: character_name,
+          updateData: JSON.stringify(savedGrid),
+          summaryList: resonanceListData,
+        },
+      });
     } catch (error) {
-      console.error('Error fetching API usage data:', error);
+      console.error('Error saving resonance grid:', error);
     }
   }
 
@@ -397,7 +393,7 @@ function IdeaPage() {
         {/* Left Sidebar Navigation */}
         <div className="ideagrid-sidebar">
           <div className="ideagrid-color-sidebar">
-            <Reverse1999Sidebar activeTab={'Resonate Optimizer'} />
+            <GameSidebar game="reverse1999" activeTab={'Resonate Optimizer'} />
           </div>
         </div>
         <div style={{position:'absolute', top:'15vh', left:'28vw'}}>
@@ -667,10 +663,14 @@ function IdeaPage() {
                     </div>
                   ))} */}
                       <div className="optimized-grid-full-container">
-                        {optimizedGrid.reverse().map((optimizedGridz) => {
-                          console.log(optimizedGridz);
+                        {[...optimizedGrid]
+                          .reverse()
+                          .map((optimizedGridz, gridIndex) => {
                           return (
-                            <div className="optimized-grid-container">
+                            <div
+                              key={gridIndex}
+                              className="optimized-grid-container"
+                            >
                               <span
                                 className="optimized-grid-title"
                                 title={JSON.stringify(

@@ -114,3 +114,21 @@ h1.page-title {
 .image-button:hover {
   transform: scale(1.05);
 }
+
+/* Shown when a card has no art yet (Genshin, whose cover is the live banner). */
+.image-button-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background: linear-gradient(140deg, #1b1030, #34206b);
+  box-shadow: inset 0 0 24px rgba(129, 0, 184, 0.45);
+  color: #fff;
+  font-size: clamp(14px, 1.6vw, 28px);
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
