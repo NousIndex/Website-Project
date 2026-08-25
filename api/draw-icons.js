@@ -29,10 +29,17 @@ async function scrapeWikiIcons(config) {
 
   const filteredDataSrcSet = new Set();
 
+  // Item art is named "<Name>_Icon.png"; files named "Icon_<something>" are
+  // the rarity pips and element badges that share these tables. They were
+  // being collected as if they were items, which pads the list and lets a
+  // name match land on a star icon.
+  const isItemIcon = (url) =>
+    /_Icon\.png$/.test(url) && !/\/Icon_[^/]*$/.test(url);
+
   $characters('img[data-src]').each((_index, element) => {
     const dataSrc = $characters(element).attr('data-src');
     const filtered = dataSrc.split('.png')[0] + '.png';
-    if (!filteredDataSrcSet.has(filtered) && filtered.includes('Icon')) {
+    if (!filteredDataSrcSet.has(filtered) && isItemIcon(filtered)) {
       filteredDataSrcSet.add(filtered);
     }
   });

@@ -94,22 +94,35 @@
   background-color: #260068; /* Change to your desired active tab color */
 }
 
+/*
+ * Inventory grid.
+ *
+ * This was a flex-wrap row whose cards were `max-width: 60%` holding an image
+ * at `width: 100%` -- with nothing fixing a size, every card came out at the
+ * intrinsic size of its source PNG, so characters rendered at wildly different
+ * sizes. A grid with one track size makes every card identical regardless of
+ * the art behind it.
+ */
 .draw-modal-content-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 14px;
   max-width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  justify-items: center;
+  align-content: start;
+  padding: 4px 2px 12px;
 }
 
 .wish-character-inventory-div {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 60%;
-  margin-top: 0.5%;
-  margin-bottom: 1%;
   position: relative;
-  transition: opacity 0.5s ease;
+  width: 100%;
+  max-width: 112px;
+  margin: 0;
+  transition: opacity 0.5s ease, transform 0.2s ease;
+}
+
+.wish-character-inventory-div:hover {
+  transform: translateY(-2px);
 }
 
 .wish-not-owned {
@@ -121,12 +134,17 @@
 }
 
 .wish-character-inventory-image {
+  display: block;
   width: 100%;
-  margin: 10px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top center;
+  margin: 0;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 2px solid #080016;
-  transition: border 0.5s ease;
+  transition: border 0.3s ease;
+  background-size: cover;
 }
 
 .wish-character-inventory-image:hover {
@@ -181,13 +199,15 @@
 }
 
 .wish-weapon-inventory-div {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 60%;
-  margin-top: 0.5%;
-  margin-bottom: 1%;
   position: relative;
-  transition: opacity 0.5s ease;
+  width: 100%;
+  max-width: 112px;
+  margin: 0;
+  transition: opacity 0.5s ease, transform 0.2s ease;
+}
+
+.wish-weapon-inventory-div:hover {
+  transform: translateY(-2px);
 }
 
 .wish-weapon-inventory-div:hover {
@@ -195,14 +215,16 @@
 }
 
 .wish-weapon-inventory-image {
-  width: 200px;
-  height: 200px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  margin: 10px;
+  object-position: top center;
+  margin: 0;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 2px solid #080016;
-  transition: border 0.5s ease;
+  transition: border 0.3s ease;
 }
 
 .wish-weapon-inventory-rarity {

@@ -47,5 +47,8 @@
 
 @import '../Pages/Wuwa/ConveneTracker/CSS/conveneinventory.css';
 
+/* Shared visual language, after the page styles it harmonises. */
+@import './theme.css';
+
 /* Small-screen overrides last, so they win over every page stylesheet above. */
 @import './mobile.css';

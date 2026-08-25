@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { resolveItemIcon } from '../../games/config';
+import { resolveItemIcon, thumbnailUrl } from '../../games/config';
 
 // Function to format a timestamp into a more human-readable format
 const formatTimestamp = (timestamp) => {
@@ -198,7 +198,10 @@ const ItemTable = ({ game, items, itemIcons }) => {
           </thead>
           <tbody className="table-body">
             {filteredItems.map((item, index) => {
-              const iconUrl = resolveItemIcon(game, itemIcons, item.Item_Name);
+              const iconUrl = thumbnailUrl(
+                resolveItemIcon(game, itemIcons, item.Item_Name),
+                64
+              );
 
               return (
                 <tr

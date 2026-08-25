@@ -1,3 +1,4 @@
+import { thumbnailUrl } from '../../../games/config';
 import React, { useState, useEffect } from 'react';
 import randomIcon from '../../../assets/Icons/random_icon.webp';
 import RandomiserModal from '../../components/DrawRandomizerModal';
@@ -53,7 +54,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           }`}
         >
           <img
-            src={iconUrl}
+            src={thumbnailUrl(iconUrl, 128)}
             alt=""
             className="wish-character-inventory-image no-selection"
             style={{
@@ -126,7 +127,7 @@ const WishInventory = ({ itemIcons, itemsData, itemCounter }) => {
           title={weapon.passive}
         >
           <img
-            src={iconUrl}
+            src={thumbnailUrl(iconUrl, 128)}
             alt=""
             className="wish-weapon-inventory-image no-selection"
             style={{

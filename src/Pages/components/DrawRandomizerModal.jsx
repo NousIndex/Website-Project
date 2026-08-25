@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { resolveItemIcon } from '../../games/config';
+import { resolveItemIcon, thumbnailUrl } from '../../games/config';
 
 /**
  * Character randomiser, shared by the Genshin, StarRail, ZZZ and
@@ -34,7 +34,10 @@ const RandomiserModal = ({
     const character = charaSet.find(
       (character) => character.name === characterName
     );
-    const iconUrl = resolveItemIcon(game, itemIcons, character.name);
+    const iconUrl = thumbnailUrl(
+      resolveItemIcon(game, itemIcons, character.name),
+      160
+    );
 
     return (
       <div className={`random-character-inventory-div`}>

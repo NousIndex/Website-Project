@@ -40,8 +40,11 @@ const HOYO_CONFIGS = {
     retryDelay: 100,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&init_type=${banner}&lang=en&authkey=${authkey}&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
-    transformItem(item) {
-      item.gacha_type = GENSHIN_TYPES[item.gacha_type] || 'Unknown';
+    buildConfigUrl: (authkey) =>
+      `https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getConfigList?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&lang=en&authkey=${authkey}`,
+    types: GENSHIN_TYPES,
+    transformItem(item, names) {
+      item.gacha_type = resolveBannerName(GENSHIN_TYPES, names, item.gacha_type);
     },
   },
   starrail: {
@@ -52,8 +55,11 @@ const HOYO_CONFIGS = {
     retryDelay: 100,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=hkrpg_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
-    transformItem(item) {
-      item.gacha_type = STARRAIL_TYPES[item.gacha_type] || 'Unknown';
+    buildConfigUrl: (authkey) =>
+      `https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getConfigList?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&lang=en&authkey=${authkey}&game_biz=hkrpg_global`,
+    types: STARRAIL_TYPES,
+    transformItem(item, names) {
+      item.gacha_type = resolveBannerName(STARRAIL_TYPES, names, item.gacha_type);
     },
   },
   zzz: {
@@ -64,27 +70,86 @@ const HOYO_CONFIGS = {
     retryDelay: 75,
     buildUrl: (banner, authkey, endid) =>
       `https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&default_gacha_type=${banner}&lang=en&authkey=${authkey}&game_biz=nap_global&gacha_type=${banner}&page=1&size=20&end_id=${endid}`,
-    transformItem(item) {
-      item.gacha_type = ZZZ_TYPES[item.gacha_type] || 'Unknown';
-      if (item.gacha_type !== 'Unknown') {
-        switch (item.rank_type) {
-          case '2':
-            item.rank_type = '3';
-            break;
-          case '3':
-            item.rank_type = '4';
-            break;
-          case '4':
-            item.rank_type = '5';
-            break;
-          default:
-            item.gacha_type = '0';
-            break;
-        }
-      }
+    buildConfigUrl: (authkey) =>
+      `https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getConfigList?authkey_ver=1&sign_type=2&auth_appid=webview_gacha&lang=en&authkey=${authkey}&game_biz=nap_global`,
+    types: ZZZ_TYPES,
+    transformItem(item, names) {
+      item.gacha_type = resolveBannerName(ZZZ_TYPES, names, item.gacha_type);
+      // ZZZ reports rarity one step lower than every other game.
+      const shifted = { 2: '3', 3: '4', 4: '5' }[item.rank_type];
+      if (shifted) item.rank_type = shifted;
     },
   },
 };
+
+const reportedUnknownTypes = new Set();
+
+/**
+ * Names a banner from its numeric type.
+ *
+ * Anything missing from the hardcoded map used to be labelled "Unknown" and
+ * then dropped, so a banner type added by the game -- a new collaboration, say
+ * -- silently vanished from the user's history and skewed their pity counts.
+ * The live name from getConfigList is used when we have it, and an unrecognised
+ * id is kept under a generated label rather than thrown away.
+ */
+function resolveBannerName(knownTypes, liveNames, gachaType) {
+  const known = knownTypes[gachaType];
+  if (known) return known;
+
+  const live = liveNames && liveNames[String(gachaType)];
+  if (live) return live;
+
+  if (!reportedUnknownTypes.has(gachaType)) {
+    reportedUnknownTypes.add(gachaType);
+    console.warn(`Unmapped banner type ${gachaType}; keeping draws under a generated name`);
+  }
+  return `Banner ${gachaType}`;
+}
+
+/**
+ * The banner types this account can actually see, straight from HoYo.
+ *
+ * Returns `{ order, names }`: the ids to walk, and their display names. Known
+ * ids keep their existing order so pity grouping is unchanged, and anything new
+ * is appended. A failure here is not fatal -- the import falls back to the
+ * hardcoded list.
+ */
+async function fetchBannerConfig(config, authkey) {
+  if (!config.buildConfigUrl) {
+    return { order: config.bannerSequence, names: {} };
+  }
+
+  try {
+    const response = await fetch(config.buildConfigUrl(authkey));
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    const list = data?.data?.gacha_type_list;
+    if (!Array.isArray(list) || list.length === 0) {
+      return { order: config.bannerSequence, names: {} };
+    }
+
+    const names = {};
+    for (const entry of list) {
+      if (entry?.key) names[String(entry.key)] = entry.name || undefined;
+    }
+
+    const known = config.bannerSequence.map(String);
+    const discovered = Object.keys(names).filter((key) => !known.includes(key));
+    if (discovered.length > 0) {
+      console.info(`Found banner types not in the built-in list: ${discovered.join(', ')}`);
+    }
+
+    return {
+      order: [...config.bannerSequence, ...discovered],
+      names,
+    };
+  } catch (error) {
+    console.warn('Could not read the banner list, using the built-in one:', error.message);
+    return { order: config.bannerSequence, names: {} };
+  }
+}
 
 const MAX_RETRIES = 5;
 const MAX_BACKOFF_MS = 1500;
@@ -116,7 +181,8 @@ async function processBanner(
   authkey,
   banner,
   startEndid,
-  deadline
+  deadline,
+  bannerNames
 ) {
   const drawCollection = database.collection(config.collection);
   let endid = startEndid;
@@ -154,18 +220,18 @@ async function processBanner(
         break;
       }
 
-      config.transformItem(item);
+      config.transformItem(item, bannerNames);
 
-      if (item.gacha_type !== 'Unknown') {
-        collected.push({
-          [config.uidField]: String(item.uid),
-          DrawID: String(item.id),
-          DrawTime: parseGachaTime(item.time),
-          DrawType: String(item.gacha_type),
-          Item_Name: String(item.name),
-          Rarity: String(item.rank_type),
-        });
-      }
+      // Every draw is kept, including banner types this build has never seen:
+      // dropping them loses history and corrupts the pity counts around them.
+      collected.push({
+        [config.uidField]: String(item.uid),
+        DrawID: String(item.id),
+        DrawTime: parseGachaTime(item.time),
+        DrawType: String(item.gacha_type),
+        Item_Name: String(item.name),
+        Rarity: String(item.rank_type),
+      });
     }
 
     endid = itemList[itemList.length - 1].id;
@@ -179,15 +245,18 @@ async function importHoyoDraws(database, config, authkey, startCursor, deadline)
   const startBannerIdx = startCursor?.b ?? 0;
   let bannerStartEndid = startCursor?.e ?? '0';
 
-  for (let i = startBannerIdx; i < config.bannerSequence.length; i++) {
-    const banner = config.bannerSequence[i];
+  const { order, names } = await fetchBannerConfig(config, authkey);
+
+  for (let i = startBannerIdx; i < order.length; i++) {
+    const banner = order[i];
     const result = await processBanner(
       database,
       config,
       authkey,
       banner,
       bannerStartEndid,
-      deadline
+      deadline,
+      names
     );
 
     if (result.collected) allDraws.push(...result.collected);

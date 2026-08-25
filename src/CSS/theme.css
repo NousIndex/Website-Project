@@ -1,0 +1,316 @@
+/*
+ * Shared visual language: frosted glass over the particle field.
+ *
+ * The page stylesheets grew one screen at a time, so spacing, radii, borders
+ * and hover states were decided per component. This file pins them in one
+ * place and gives every panel the same treatment: a translucent pane that
+ * blurs whatever is behind it, a hairline highlight along its edge, and a soft
+ * shadow to lift it off the background.
+ *
+ * The palette is unchanged (deep purple ground, cyan accent). What changes is
+ * that panels now let the animated background through instead of sitting on
+ * flat blocks of colour.
+ *
+ * Blur is applied to panels only, never to rows or list items -- a hundred
+ * blurred elements on the draw table would cost far more than it is worth.
+ *
+ * Loaded after the page stylesheets and before mobile.css -- see pages.css.
+ */
+
+:root {
+  /* ground */
+  --nx-bg: #080016;
+
+  /* glass */
+  --nx-glass: rgba(146, 118, 214, 0.1);
+  --nx-glass-strong: rgba(150, 120, 220, 0.16);
+  --nx-glass-edge: rgba(255, 255, 255, 0.14);
+  --nx-glass-edge-soft: rgba(255, 255, 255, 0.07);
+  --nx-blur: blur(16px) saturate(150%);
+  --nx-blur-strong: blur(26px) saturate(160%);
+
+  /* text */
+  --nx-text: #f2ecff;
+  --nx-text-muted: #b9a8dd;
+
+  /* accents */
+  --nx-accent: #8ce2ff;
+  --nx-accent-strong: #b388ff;
+
+  /* rarity */
+  --nx-five-star: #ddac5e;
+  --nx-four-star: #c093d1;
+  --nx-three-star: #69acc2;
+
+  /* scale */
+  --nx-radius-sm: 8px;
+  --nx-radius: 14px;
+  --nx-radius-lg: 20px;
+  --nx-gap-sm: 8px;
+  --nx-gap: 14px;
+  --nx-gap-lg: 24px;
+
+  --nx-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  --nx-shadow-raised: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --nx-ring: 0 0 0 2px rgba(140, 226, 255, 0.7);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * The panes.
+ *
+ * `backdrop-filter` only frosts what is painted behind the element, so these
+ * panels must stay translucent -- the existing box-shadow-only look is replaced
+ * rather than layered over.
+ */
+.sidebar,
+.wish-top-left,
+.wish-bottom-left,
+.wish-right-content,
+.home-top-left-first,
+.home-top-left-second,
+.home-bottom-left,
+.home-bottom-right,
+.code-table,
+.watchlist-modal-content,
+.random-modal-content,
+.abyss-timer-container {
+  background-color: var(--nx-glass);
+  backdrop-filter: var(--nx-blur);
+  -webkit-backdrop-filter: var(--nx-blur);
+  border: 1px solid var(--nx-glass-edge-soft);
+  border-radius: var(--nx-radius);
+  box-shadow: var(--nx-shadow);
+}
+
+/* A brighter top edge is what reads as "glass" rather than "grey box". */
+.wish-top-left,
+.wish-bottom-left,
+.wish-right-content,
+.home-bottom-left,
+.home-bottom-right,
+.watchlist-modal-content,
+.random-modal-content {
+  border-top-color: var(--nx-glass-edge);
+}
+
+.sidebar {
+  border-radius: 0 var(--nx-radius-lg) var(--nx-radius-lg) 0;
+  border-left: none;
+}
+
+/* Modals sit above everything, so they get the heavier frost. */
+.watchlist-modal-content,
+.random-modal-content {
+  background-color: var(--nx-glass-strong);
+  backdrop-filter: var(--nx-blur-strong);
+  -webkit-backdrop-filter: var(--nx-blur-strong);
+  border-radius: var(--nx-radius-lg);
+  box-shadow: var(--nx-shadow-raised);
+}
+
+.watchlist-overlay {
+  background-color: rgba(8, 0, 22, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* Browsers without backdrop-filter would show barely-there panels, so they get
+   an opaque surface instead. */
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  .sidebar,
+  .wish-top-left,
+  .wish-bottom-left,
+  .wish-right-content,
+  .home-top-left-first,
+  .home-top-left-second,
+  .home-bottom-left,
+  .home-bottom-right,
+  .code-table,
+  .watchlist-modal-content,
+  .random-modal-content,
+  .abyss-timer-container {
+    background-color: #150c2b;
+  }
+}
+
+/* Keyboard users could not see where they were: nothing defined a focus style,
+   and several components removed the default outline. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--nx-ring);
+  border-radius: var(--nx-radius-sm);
+}
+
+/* ------------------------------------------------------------------ buttons */
+.genshin-wish-searcher-button,
+.genshin-wish-searcher-reset-button,
+.genshin-wish-searcher-explorer-button,
+.genshin-checkin-button-link,
+.genshin-import-copy-button,
+.watchlist-item-button {
+  background-color: var(--nx-glass-strong);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--nx-glass-edge-soft);
+  border-radius: var(--nx-radius-sm);
+  color: var(--nx-text);
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.genshin-wish-searcher-button:hover,
+.genshin-wish-searcher-reset-button:hover,
+.genshin-wish-searcher-explorer-button:hover,
+.genshin-checkin-button-link:hover,
+.genshin-import-copy-button:hover,
+.watchlist-item-button:hover {
+  background-color: rgba(140, 226, 255, 0.16);
+  border-color: rgba(140, 226, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: var(--nx-shadow);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Filter chips read as flat text until selected; give the selected one a shape
+   so the current filter is obvious at a glance. */
+.genshin-draw-table-filter-buttons {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 12px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.genshin-draw-table-filter-buttons:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.genshin-draw-table-filter-selected {
+  border-color: currentColor;
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+/* ------------------------------------------------------------------- tables */
+.genshin-draw-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-header th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  /* opaque enough to hide rows scrolling underneath, still tinted like glass */
+  background-color: rgba(27, 16, 52, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 -1px 0 var(--nx-glass-edge-soft);
+}
+
+.table-header-selectable {
+  cursor: pointer;
+}
+
+.table-header-selectable:hover {
+  color: var(--nx-accent);
+}
+
+.table-body .table-row {
+  transition: background-color 0.15s ease;
+}
+
+.table-body .table-row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.table-body .table-row:hover {
+  background-color: rgba(140, 226, 255, 0.08);
+}
+
+.table-item-icon {
+  border-radius: var(--nx-radius-sm);
+}
+
+/* ------------------------------------------------------------------ sidebar */
+.navigation-items {
+  border-radius: var(--nx-radius-sm);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.navigation-items:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  transform: translateX(2px);
+}
+
+.navigation-items.active {
+  background-color: rgba(140, 226, 255, 0.14);
+  box-shadow: inset 2px 0 0 var(--nx-accent);
+}
+
+/* ------------------------------------------------------------------- modals */
+.watchlist-item-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nx-gap-sm);
+  justify-content: center;
+}
+
+.watchlist-close-button {
+  border-radius: 50%;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------- scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(179, 136, 255, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(179, 136, 255, 0.45);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(179, 136, 255, 0.75);
+  background-clip: content-box;
+}
+
+/* ------------------------------------------------------------------- images */
+/* Wiki art arrives at whatever size it was uploaded at; a shared placeholder
+   tint stops the layout flashing while it loads. */
+.table-item-icon,
+.wish-character-inventory-image,
+.wish-weapon-inventory-image,
+.random-character-inventory-image {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

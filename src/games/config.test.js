@@ -43,6 +43,33 @@ describe('resolveItemIcon', () => {
     );
   });
 
+  test('matches ZZZ W-Engines despite the wiki bracket style', () => {
+    // the wiki writes "(Cinder) Cobalt", the draw log "[Cinder] Cobalt"
+    const zzzIcons = {
+      '(cinder) cobalt': 'https://wiki.test/cinder_cobalt.png',
+      'anby demara': 'https://wiki.test/anby.png',
+    };
+
+    expect(resolveItemIcon('zzz', zzzIcons, '[Cinder] Cobalt')).toBe(
+      'https://wiki.test/cinder_cobalt.png'
+    );
+  });
+
+  test('matches when one side uses a shorter form of the name', () => {
+    const zzzIcons = { 'anby demara': 'https://wiki.test/anby.png' };
+    expect(resolveItemIcon('zzz', zzzIcons, 'Anby Demara')).toBe(
+      'https://wiki.test/anby.png'
+    );
+    expect(resolveItemIcon('zzz', zzzIcons, 'Anby  Demara ')).toBe(
+      'https://wiki.test/anby.png'
+    );
+  });
+
+  test('does not match a short name against unrelated entries', () => {
+    const zzzIcons = { 'anby demara': 'https://wiki.test/anby.png' };
+    expect(resolveItemIcon('zzz', zzzIcons, 'Ben')).toBe(DEFAULT_ICON);
+  });
+
   test('falls back instead of throwing when the icon payload is the wrong shape', () => {
     expect(resolveItemIcon('zzz', wikiIcons, 'Ellen Joe')).toBe(DEFAULT_ICON);
     expect(resolveItemIcon('genshin', dictIcons, 'Childe')).toBe(DEFAULT_ICON);
